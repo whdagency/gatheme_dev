@@ -4,14 +4,25 @@ import './tab.css';
 import { useTranslation } from 'react-i18next';
 
 function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, tabel_id, customization }) {
-  const [filteredCategories, setFilteredCategories] = useState([]);
-
+    const [filteredCategories, setFilteredCategories] = useState([]);
   useEffect(() => {
-    const filtered = categories.filter(category => category.orderCategorie !== undefined);
-    filtered.sort((a, b) => a.orderCategorie - b.orderCategorie);
-    setFilteredCategories(filtered);
-  }, [categories]);
-
+    // Step 1: Filter categories with defined orderCategorie
+    const categoriesWithOrder = categories.filter(category => category.orderCategorie !== undefined);
+    
+    // Step 2: Further filter categories based on dishes
+    const filteredCategories = categoriesWithOrder.filter(category => {
+        return dishes.some(item => {
+            const categoryName = item.categorie ? item.categorie.name : item.category;
+            return categoryName === category.name && !item.isCustomizable; // Exclude customizable dishes
+        });
+    });
+    
+    // Step 3: Sort the filtered categories by orderCategorie
+    filteredCategories.sort((a, b) => a.orderCategorie - b.orderCategorie);
+    
+    // Step 4: Set the state with the sorted, filtered categories
+    setFilteredCategories(filteredCategories);
+}, [categories, dishes]);
   const [t, i18n] = useTranslation('global');
 
   return (

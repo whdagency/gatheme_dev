@@ -43,6 +43,7 @@ import {
   CarouselThumbsContainer,
   SliderThumbItem,
 } from "@/components/extension/carousel";
+import VideoThumbnail from 'react-video-thumbnail';
 
 
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
@@ -185,7 +186,20 @@ const handleShowAlert = () => {
       console.error('Failed to submit order:', error.message);
     }
   }
-
+  const generateThumbnail = async (videoPath) => {
+    console.log("done");
+    try {
+      const thumbnailUrl = await VideoThumbnail.getThumbnail(videoPath, {
+        width: 300,
+        height: 200,
+        quality: 1,
+      });
+      console.log("thumbnailUrl", thumbnailUrl);
+      return thumbnailUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const searchInputRef = useRef(null);
   const [t, i18n] = useTranslation("global")
 
@@ -354,7 +368,7 @@ const handleShowAlert = () => {
       <CarouselPrevious className="top-1/3 -translate-y-1/3" /> */}
       <CarouselMainContainer className="h-60">
       {selectedItem.video && (
-      <SliderMainItem className="bg-transparent">
+      <SliderMainItem className="bg-transparent !p-0">
         <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
           <video
             src={`${APIURL}/storage/${selectedItem.video}`}
@@ -370,7 +384,7 @@ const handleShowAlert = () => {
       </SliderMainItem>
     )}
       {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
-          <SliderMainItem key={index + (selectedItem.video ? 1 : 0)}  className="bg-transparent">
+          <SliderMainItem key={index + (selectedItem.video ? 1 : 0)}  className="bg-transparent !p-0">
             <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
               <img
                 src={`${APIURL}/storage/${item}`}
@@ -384,12 +398,12 @@ const handleShowAlert = () => {
       </CarouselMainContainer>
       <CarouselThumbsContainer className='justify-center'>
       {selectedItem.video && (
-      <SliderThumbItem index={0} className="bg-transparent">
-        <div className="outline outline-1 outline-border overflow-hidden size-full flex items-center justify-center rounded-md bg-background">
+      <SliderThumbItem index={0} className="bg-transparent ">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
           <img
-            src={`${APIURL}/storage/${selectedItem.video}`}  // Using the video thumbnail
-            className="w-full md:h-auto rounded-md object-contain"
-            style={{ height: '300px', width: '100%' }}
+        src={`https://w7.pngwing.com/pngs/244/695/png-transparent-play-icon-video-player-information-play-icon-miscellaneous-angle-text.png`} // Using the video thumbnail
+        className="w-full md:h-auto rounded-md object-cover"
+            style={{ height: '100%', width: '100%' }}
             alt="Video thumbnail"
           />
         </div>
@@ -397,11 +411,11 @@ const handleShowAlert = () => {
     )}
         {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
           <SliderThumbItem key={index + (selectedItem.video ? 1 : 0)} index={index + (selectedItem.video ? 1 : 0)} className="bg-transparent">
-            <div className="outline outline-1 outline-border overflow-hidden size-full flex items-center justify-center rounded-md bg-background">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
               <img
                 src={`${APIURL}/storage/${item}`}
-                className="w-full md:h-auto rounded-md object-contain"
-                style={{ height: '300px', width: '100%' }}
+                className="w-full md:h-auto rounded-md object-cover"
+                style={{ height: '100%', width: '100%' }}
                 alt={`Slide ${index + (selectedItem.video ? 1 : 0)}`}
               />
             </div>
@@ -434,7 +448,7 @@ const handleShowAlert = () => {
                 </div>
                 <div className='px-3'>
                 <Textarea
-                  className={`min-h-[38px]  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
+                  className={`min-h-[150px]  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
                   dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}
                   placeholder={t("menuAddItem.commentPlaceholder")}
                   onChange={(e) => {
