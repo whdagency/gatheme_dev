@@ -1,0 +1,73 @@
+{
+  "menu": {
+    "all": "Todos",
+    "search": "Buscar",
+    "search_for_your_desired_food": "Busca tu comida favorita...",
+    "home": "Inicio",
+    "rating": "Calificación",
+    "claims": "Reclamaciones",
+    "cart": "Carrito",
+    "info": "Información",
+    "callWaiter": "¿Llamar al camarero?",
+    "error": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu cuenta y borrará tus datos de nuestros servidores.",
+    "bringBill": "Traer la cuenta",
+    "cancel": "Cancelar",
+    "addToSelected": "Añadir a la selección: ",
+    "ok": "Ok"
+  },
+  "rating": {
+    "leaveReview": "¡Déjanos una reseña!",
+    "btnReview": "Toca el botón de abajo para compartir tu experiencia.",
+    "trustPilot": "Opiniones de Trustpilot",
+    "desc": "Estamos trabajando para agregar la funcionalidad de revisión pronto. ¡Mantente atento!"
+  },
+  "claims": {
+    "makeClaim": "Hacer una",
+    "claim": "Reclamación",
+    "tellUs": "Cuéntanos sobre tu experiencia reciente en nuestro restaurante.",
+    "name": "Nombre ",
+    "email": "Correo electrónico o teléfono ",
+    "emailPlaceholder": "(opcional)",
+    "namePlaceholder": "(opcional)",
+    "thoughts": "Escribe tus comentarios aquí...",
+    "anonymous": "Enviar comentarios de forma anónima",
+    "submit": "Enviar comentarios",
+    "successClaim": "Tu reclamación se ha enviado con éxito",
+    "thankYou": "¡Gracias por tu reclamación!"
+  },
+  "waiter": {
+    "CallWaiter": "Llamar al camarero",
+    "BringTheBill": "Traer la cuenta",
+    "Cancel": "Cancelar"
+  },
+  "not": {
+    "title": "¡Añadido al carrito con éxito!",
+    "desc": "Puedes confirmar tu pedido en la caja"
+  },
+  "achat": {
+    "shoppingCart": "Carrito de compras",
+    "empty": "Tu carrito está vacío.",
+    "clearBtn": "Vaciar carrito",
+    "checkoutBtn": "Pagar",
+    "total": "Total",
+    "successOrder": "Tu pedido se ha enviado con éxito",
+    "thankYou": "¡Gracias por tu pedido! Tus artículos serán entregados en breve.",
+    "emptycart": "Tu carrito está vacío",
+    "checkout": "Descubre lo más destacado",
+    "addmoreitems": "Agregar más artículos",
+    "OrderProcess": "Proceso de pedido",
+    "complete": "Completado",
+    "Order": "Pedido",
+    "Preparing": "Preparando",
+    "OrderCanceled": "Pedido cancelado",
+    "final": "100% Completado"
+  },
+  "info": {
+    "WiFiPassword": "Contraseña de WiFi",
+    "Address": "Dirección"
+  },
+  "menuAddItem": {
+    "commentPlaceholder": "Añadir un comentario...",
+    "addToSelected": "Añadir a la selección"
+  }
+}

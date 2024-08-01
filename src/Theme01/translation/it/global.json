@@ -1,0 +1,89 @@
+{
+    "menu": {
+      "all": "Tutto",
+      "search": "Ricerca",
+      "search_for_your_desired_food": "Cerca il tuo cibo preferito",
+      "home": "Home",
+      "rating": "Valutazione",
+      "claims": "Reclamo",
+      "cart": "Carrello",
+      "info": "Info",
+      "callWaiter": "Chiama il cameriere",
+      "error": "Questa azione non piò essere annullata. Il tuo account verrà eliminato definitivamente e i tuoi dati verranno rimossi dai nostri server.",
+      "bringBill": "Chiedere il conto",
+      "cancel": "annulla",
+      "addToSelected": "Aggiungi alla selezione :",
+      "or":"O",
+      "ok": "Ok"
+    },
+    "rating": {
+      "leaveReview": "Lascia una recensione!",
+      "btnReview": "Tocca il pulsante qui sotto per condividere la tua esperienza",
+      "trustPilot": "Fidati delle recensioni dei clienti",
+      "googlereview": "recensioni di Google",
+      "or": "o",
+      "desc": "Stiamo lavorando per aggiungere presto la funzionalità di recensione. Rimani sintonizato!"
+    },
+    "claims": {
+      "makeClaim": "Invia",
+      "claim": "Reclamo",
+      "tellUs": " Ci racconti la sua recente esperienza nel nostro ristorante.",
+      "name": "Nome ",
+      "email": " Email o telefono ",
+      "emailPlaceholder": "(facoltativo)",
+      "namePlaceholder": "(facoltativo)",
+      "thoughts": "Scrivi I tuoi pensieri qui...",
+      "anonymous": "Invia un'opinione in modo anonimo",
+      "submit": "Invia un'opinione",
+      "successClaim": "Il tuo reclamo è stato inviato con successo",
+      "thankYou": "Grazie per il tuo riscontro!",
+      "Reset":"Ripristina"
+    },
+    "waiter": {
+      "CallWaiter": "Chiama il cameriere",
+      "BringTheBill": "Porta il conto",
+      "Cancel": "Cancella",
+      "WaiterRequested":"Cameriere richiesto!",
+      "msgwaiter":"Il cameriere sarà da te a breve.",
+      "BillRequested":"Conto richiesto!",
+      "msgbill":"Il conto ti sarà inviato a breve."
+    },
+    "not": {
+      "title": "Aggiunto al carrello con successo!",
+      "desc": "Puoi confermare il tuo ordine al pagamento"
+    },
+    "achat": {
+      "shoppingCart": "Carrello",
+      "empty": "Il tuo carrello é vuoto.",
+      "clearBtn": "Svuota carello",
+      "checkoutBtn": "Pagamento",
+      "total": "Totale",
+      "successOrder": "Il tuo ordine è stato inviato con successo",
+      "thankYou": "Grazie per il tuo ordine! I tuoi articoli saranno consegnati a breve.",
+      "emptycart":"Il tuo carrello é vuoto",
+      "checkout":"Scopri cosa é di tendenza",
+      "addmoreitems":"Aggiungi altri articoli",
+      "Order Process":"Processo d'ordine",
+      "complete":"Completo",
+      "Order":"Ordine",
+      "Preparing":"Preparazione",
+      "item":"Articolo",
+      "items":"Articoli",
+      "preparedorder":"Il tuo ordine é in preparazione!",
+      "thanksalert":"Grazie per il tuo ordine. I tuoi articoli saranno consegnati a breve."
+
+    },
+    "info": {
+      "WiFiPassword": "Password WiFi ",
+      "Address": "Indirizzo: ",
+      "phone":"Telefono: ",
+      "FollowUs":"Seguici: "
+    
+    },
+    "menuAddItem": {
+      "commentPlaceholder": "Aggiungi un commento...",
+      "addToSelected": "Aggiungi alla selezione",
+      "addnote":"Aggiungi nota:",
+      "close":"Chiudi"
+    }
+  }
