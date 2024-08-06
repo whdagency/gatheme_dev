@@ -43,8 +43,8 @@ import {
   CarouselThumbsContainer,
   SliderThumbItem,
 } from "@/components/extension/carousel";
-import VideoThumbnail from 'react-video-thumbnail';
-
+// import VideoThumbnail from 'react-video-thumbnail';
+import Thumbnail from "./Video-Thumbnail.webp"
 
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
   const { toast } = useToast()
@@ -236,14 +236,9 @@ const handleShowAlert = () => {
                  
               {filteredCategories.length > 0 && filteredCategories.map((item, index) => 
               {
-                let images = [];
-                try {
-                  images = JSON.parse(item?.images) || [];
-                } catch (error) {
-                  console.error("Error parsing images: ", error);
-                }
+                  const image = item?.image1;
+                  const imageUrl = `${APIURL}/storage/${image}`; 
 
-                const imageUrl = images.length > 0 ? `${APIURL}/storage/${images[0]}` : 'path/to/default/image.png'; // Add a default image path if necessary
 
                 return(
                 <div className="tabs-container overflow-x-auto" key={index}>
@@ -291,15 +286,8 @@ const handleShowAlert = () => {
                 
               {filteredCategories.length > 0 && filteredCategories.map((item, index) =>
               {
-                let images = [];
-                try {
-                  images = JSON.parse(item?.images) || [];
-                } catch (error) {
-                  console.error("Error parsing images: ", error);
-                }
-
-                const imageUrl = images.length > 0 ? `${APIURL}/storage/${images[0]}` : 'path/to/default/image.png'; // Add a default image path if necessary
-
+                const image = item?.image1;
+                const imageUrl = `${APIURL}/storage/${image}`; 
                 return(
                 <div className="tabs-container overflow-x-auto" key={index}>
                   <div className="flex gap-4">
@@ -368,22 +356,75 @@ const handleShowAlert = () => {
       <CarouselPrevious className="top-1/3 -translate-y-1/3" /> */}
       <CarouselMainContainer className="h-60">
       {selectedItem.video && (
-      <SliderMainItem className="bg-transparent !p-0">
-        <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-          <video
-            src={`${APIURL}/storage/${selectedItem.video}`}
-            className="w-full md:h-auto rounded-md object-cover"
-            style={{ height: '300px', width: '100%' }}
-            autoPlay
-            muted
-            playsInline
-            loop
-            alt="Video slide"
-          />
-        </div>
-      </SliderMainItem>
-    )}
-      {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
+  <SliderMainItem className="bg-transparent !p-0">
+    <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
+      <video
+        src={`${APIURL}/storage/${selectedItem.video}`}
+        className="w-full md:h-auto rounded-md object-cover"
+        style={{ height: '300px', width: '100%' }}
+        autoPlay
+        muted
+        playsInline
+        loop
+        alt="Video slide"
+      />
+    </div>
+  </SliderMainItem>
+)}
+
+{selectedItem.image1 && (
+  <SliderMainItem key={selectedItem.video ? 1 : 2} index={selectedItem.video ? 1 : 2} className="bg-transparent !p-0">
+    <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
+      <img
+        src={`${APIURL}/storage/${selectedItem.image1}`}
+        className="w-full md:h-auto rounded-md object-cover"
+        style={{ height: '300px', width: '100%' }}
+        alt="Slide 1"
+      />
+    </div>
+  </SliderMainItem>
+)}
+
+{selectedItem.image2 && (
+  <SliderMainItem key={selectedItem.video ? 2 : 3} index={selectedItem.video ? 2 : 3} className="bg-transparent !p-0">
+    <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
+      <img
+        src={`${APIURL}/storage/${selectedItem.image2}`}
+        className="w-full md:h-auto rounded-md object-cover"
+        style={{ height: '300px', width: '100%' }}
+        alt="Slide 2"
+      />
+    </div>
+  </SliderMainItem>
+)}
+
+{selectedItem.image3 && (
+  <SliderMainItem key={selectedItem.video ? 3 : 4} index={selectedItem.video ? 3 : 4} className="bg-transparent !p-0">
+    <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
+      <img
+        src={`${APIURL}/storage/${selectedItem.image3}`}
+        className="w-full md:h-auto rounded-md object-cover"
+        style={{ height: '300px', width: '100%' }}
+        alt="Slide 3"
+      />
+    </div>
+  </SliderMainItem>
+)}
+
+{selectedItem.image4 && (
+  <SliderMainItem key={selectedItem.video ? 4 : 5} index={selectedItem.video ? 4 : 5} className="bg-transparent !p-0">
+    <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
+      <img
+        src={`${APIURL}/storage/${selectedItem.image4}`}
+        className="w-full md:h-auto rounded-md object-cover"
+        style={{ height: '300px', width: '100%' }}
+        alt="Slide 4"
+      />
+    </div>
+  </SliderMainItem>
+)}
+
+      {/* {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
           <SliderMainItem key={index + (selectedItem.video ? 1 : 0)}  className="bg-transparent !p-0">
             <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
               <img
@@ -394,14 +435,15 @@ const handleShowAlert = () => {
               />
             </div>
           </SliderMainItem>
-        ))}
+        ))} */}
+        
       </CarouselMainContainer>
       <CarouselThumbsContainer className='justify-center'>
       {selectedItem.video && (
       <SliderThumbItem index={0} className="bg-transparent ">
             <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
           <img
-        src={`https://w7.pngwing.com/pngs/244/695/png-transparent-play-icon-video-player-information-play-icon-miscellaneous-angle-text.png`} // Using the video thumbnail
+        src={Thumbnail} // Using the video thumbnail
         className="w-full md:h-auto rounded-md object-cover"
             style={{ height: '100%', width: '100%' }}
             alt="Video thumbnail"
@@ -409,7 +451,55 @@ const handleShowAlert = () => {
         </div>
       </SliderThumbItem>
     )}
-        {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
+    {selectedItem.image1 && (
+      <SliderThumbItem key={ (selectedItem.video ? 1 : 0)} index={  (selectedItem.video ? 1 : 0)} className="bg-transparent ">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
+          <img
+        src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
+        className="w-full md:h-auto rounded-md object-cover"
+            style={{ height: '100%', width: '100%' }}
+            alt="Video thumbnail"
+          />
+        </div>
+      </SliderThumbItem>
+    )}
+    {selectedItem.image2 && (
+      <SliderThumbItem key={ (selectedItem.video ? 2 : 1)} index={  (selectedItem.video ? 2 : 1)} className="bg-transparent ">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
+          <img
+        src={`${APIURL}/storage/${selectedItem.image2}`} // Using the video thumbnail
+        className="w-full md:h-auto rounded-md object-cover"
+            style={{ height: '100%', width: '100%' }}
+            alt="Video thumbnail"
+          />
+        </div>
+      </SliderThumbItem>
+    )}
+    {selectedItem.image3 && (
+      <SliderThumbItem key={ (selectedItem.video ? 3 : 2)} index={  (selectedItem.video ? 3 : 2)} className="bg-transparent ">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
+          <img
+        src={`${APIURL}/storage/${selectedItem.image3}`} // Using the video thumbnail
+        className="w-full md:h-auto rounded-md object-cover"
+            style={{ height: '100%', width: '100%' }}
+            alt="Video thumbnail"
+          />
+        </div>
+      </SliderThumbItem>
+    )}
+    {selectedItem.image4 && (
+      <SliderThumbItem key={ (selectedItem.video ? 4 : 3)} index={  (selectedItem.video ? 4 : 3)} className="bg-transparent ">
+            <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
+          <img
+        src={`${APIURL}/storage/${selectedItem.image4}`} // Using the video thumbnail
+        className="w-full md:h-auto rounded-md object-cover"
+            style={{ height: '100%', width: '100%' }}
+            alt="Video thumbnail"
+          />
+        </div>
+      </SliderThumbItem>
+    )}
+        {/* {selectedItem.images && JSON.parse(selectedItem.images).map((item, index) => (
           <SliderThumbItem key={index + (selectedItem.video ? 1 : 0)} index={index + (selectedItem.video ? 1 : 0)} className="bg-transparent">
             <div className="outline outline-1 outline-border overflow-hidden size-full h-[70%] flex items-center justify-center rounded-md bg-background">
               <img
@@ -420,7 +510,7 @@ const handleShowAlert = () => {
               />
             </div>
           </SliderThumbItem>
-        ))}
+        ))} */}
       </CarouselThumbsContainer>
     </Carousel>
               </CredenzaHeader>
