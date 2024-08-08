@@ -347,14 +347,14 @@ export default function Achat({  resto_id, infoRes, customization, slug }) {
 
 function CartItem({ item, infoRes }) {
   const dispatch = useDispatch();
-  let images = [];
-  try {
-    images = JSON.parse(item?.images) || [];
-  } catch (error) {
-    console.error("Error parsing images: ", error);
-  }
+  // let images = [];
+  // try {
+  //   images = JSON.parse(item?.images) || [];
+  // } catch (error) {
+  //   console.error("Error parsing images: ", error);
+  // }
 
-  const imageUrl = images.length > 0 ? `${APIURL}/storage/${images[0]}` : 'path/to/default/image.png'; // Add a default image path if necessary
+  const imageUrl =  `${APIURL}/storage/${item.image1}` // Add a default image path if necessary
 
   return (
     <div className="grid gap-4">

@@ -300,7 +300,7 @@ const handleShowAlert = () => {
                               <img src={imageUrl} alt="Menu Icon" className="w-full object-cover rounded-[10px] h-32" />
                               <div className='text-black flex justify-between items-center py-2 px-3'>
                                 <div>
-                                  <h2 className="text-[12px] mb-0 text-left" style={{color: customization?.selectedTextColor}}>{item.name.slice(0, 12)}</h2>
+                                  <h2 className="text-[14px] mb-0 text-left" style={{color: customization?.selectedTextColor}}>{item.name.slice(0, 12)}</h2>
                                   <p className='text-[12px] text-left' style={{color: customization?.selectedTextColor}}>{item.price + " " +infoRes?.currency}</p>
                                 </div> 
                                 <button
