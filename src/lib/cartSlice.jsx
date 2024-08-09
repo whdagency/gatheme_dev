@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
+const transformIngredients = (ingredients) => {
+  return Object.values(ingredients).flat().map(name => ({ name }));
+};
 const initialState = {
   items: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
@@ -17,19 +19,23 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { product, quantity, resto_id, comment } = action.payload;
+      const { product, quantity, resto_id, comment, toppings , ingredients, extravariants } = action.payload;
       const existingIndex = state.items.findIndex(item => item.id === product.id);
+      const transformedIngredients = transformIngredients(ingredients);
 
       if (existingIndex >= 0) {
         if(comment != "")
         {
-          state.items.push({ ...product, quantity, resto_id, comment });
+          state.items.push({ ...product, quantity, resto_id, comment, toppings, ingredients: transformedIngredients , extravariants});
         }
         else{
           state.items[existingIndex].quantity += quantity;
+          state.items[existingIndex].toppings = toppings;
+          state.items[existingIndex].extravariants = extravariants;
+          state.items[existingIndex].ingredients = transformedIngredients;
         }
       } else {
-        state.items.push({ ...product, quantity, resto_id, comment });
+        state.items.push({ ...product, quantity, resto_id, comment, toppings, ingredients: transformedIngredients, extravariants});
       }
 
       updateLocalStorage(state.items);

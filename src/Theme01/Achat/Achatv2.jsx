@@ -46,6 +46,9 @@ export default function Achat({  resto_id, infoRes, customization, slug }) {
       id: item.id,
       quantity: item.quantity, 
       comment: item.comment ? item.comment : null,  
+      toppings: [],
+      ingrediants: [],
+      extraVariant: item.extravariants
     })
 
   );
@@ -345,6 +348,70 @@ export default function Achat({  resto_id, infoRes, customization, slug }) {
   );
 }
 
+const ToppingOptions = ({ item }) => {
+  // Flatten all options into a single array
+  const options = item?.toppings?.length > 0 && item?.toppings?.flatMap(topping =>
+    topping.option.map(opt => ({
+      name: opt.name,
+      price: opt.price,
+    }))
+  );
+  return (
+    <div>
+      {options?.length > 0 && (
+        <div className="text-md mt-4">
+          {options.map((opt, index) => (
+            <span key={opt.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {opt.name}
+              {index < options.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+const ExtraOptions = ({ item }) => {
+  // Flatten all options into a single array
+  const options = item?.extravariants?.length > 0 && item?.extravariants?.flatMap(topping =>
+    topping.option.map(opt => ({
+      name: opt.name,
+      price: opt.price,
+    }))
+  );
+  return (
+    <div>
+      {options?.length > 0 && (
+        <div className="text-md">
+          {options.map((opt, index) => (
+            <span key={opt.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {opt.name}
+              {index < options.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+const IngredientsOption = ({ item }) => {
+  // Directly use the ingredients array
+  const ingredients = item?.ingredients ?? [];
+  return (
+    <div>
+      {ingredients.length > 0 && (
+        <div className="text-md">
+          {ingredients.map((ingredient, index) => (
+            <span key={ingredient.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {ingredient.name}
+              {index < ingredients.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 function CartItem({ item, infoRes }) {
   const dispatch = useDispatch();
   // let images = [];
@@ -358,43 +425,49 @@ function CartItem({ item, infoRes }) {
 
   return (
     <div className="grid gap-4">
-      <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-        <div className="w-16 h-16 rounded-md overflow-hidden">
-          <img
-            alt={item.name}
-            className="w-full h-full object-cover"
-            height={64}
-            src={imageUrl}
-            style={{
-              aspectRatio: '64/64',
-              objectFit: 'cover',
-            }}
-            width={64}
-          />
-        </div>
-        <div className="flex-1">
-          <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">{item.price + " " + infoRes.currency }</p>
-          <span className="text-[12px] font-medium text-gray-900 dark:text-gray-50">{item?.comment?.length > 15 ? item?.comment?.slice(0, 10) + '...' : item?.comment }</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline">
-            <MinusIcon className="w-4 h-4" />
-          </Button>
-          <span className="text-base font-medium text-gray-900 dark:text-gray-50">{item.quantity}</span>
-          <Button onClick={() => dispatch(incrementQuantity(item.id))} size="icon" variant="outline">
-            <PlusIcon className="w-4 h-4" />
-          </Button>
+      <div className=" bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+        <div className='flex items-center gap-2'>
+            <div className="w-16 h-16 rounded-md overflow-hidden">
+              <img
+                alt={item.name}
+                className="w-full h-full object-cover"
+                height={64}
+                src={imageUrl}
+                style={{
+                  aspectRatio: '64/64',
+                  objectFit: 'cover',
+                }}
+                width={64}
+              />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">{item.price + " " + infoRes.currency }</p>
+              <span className="text-[12px] font-medium text-gray-900 dark:text-gray-50">{item?.comment?.length > 15 ? item?.comment?.slice(0, 10) + '...' : item?.comment }</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline">
+                <MinusIcon className="w-4 h-4" />
+              </Button>
+              <span className="text-base font-medium text-gray-900 dark:text-gray-50">{item.quantity}</span>
+              <Button onClick={() => dispatch(incrementQuantity(item.id))} size="icon" variant="outline">
+                <PlusIcon className="w-4 h-4" />
+              </Button>
 
+            </div>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => dispatch(removeItem(item.id))}
+              className="text-red-500"
+            >
+              <TrashIcon className="w-4 h-4" />
+            </Button>
         </div>
-        <Button
-          size="icon"
-          variant="outline"
-          onClick={() => dispatch(removeItem(item.id))}
-          className="text-red-500"
-        >
-          <TrashIcon className="w-4 h-4" />
-        </Button>
+
+        <ToppingOptions item={item}/>
+        <ExtraOptions item={item}/>
+        <IngredientsOption item={item}/>
       </div>
     </div>
   );

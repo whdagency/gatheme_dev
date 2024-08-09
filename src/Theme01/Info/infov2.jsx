@@ -74,7 +74,7 @@ export default function Info({ items, infoRes, customization }) {
                         <p className="text-gray-500 dark:text-gray-400 px-2">{infoRes.description}</p>
                     </div>
                 </div>            
-                        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> ©2024<a href="https://www.garista.com/" class="hover:underline"> powered by Garista.</a> </span>
+                        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> © {new Date().getFullYear()} <a href="https://www.garista.com/" class="hover:underline"> powered by Garista.</a> </span>
 
             </div>
 
