@@ -52,6 +52,13 @@ function Theme01() {
   const [message, setMessage] = useState('');
   const [customization, setCustomization] = useState(defaultColor);
   const restoSlug = window.location.pathname.split("/")[2];
+  const incrementVisitorCount = async (id) => {
+    try {
+      await axiosInstance.post(`/api/resto/incrementVisitorCount/${id}`);
+    } catch (error) {
+      console.error('Error incrementing visitor count:', error);
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       // setLoading(true);
@@ -66,7 +73,8 @@ function Theme01() {
             fetch(`${APIURL}/api/getdishes/${resto.id}${selectedTab !== "All" ? `?category=${selectedTab}` : ""}`),
             fetch(`${APIURL}/api/getdrinks/${resto.id}${selectedTab !== "All" ? `?category=${selectedTab}` : ""}`),
             axiosInstance.get(`/api/infos/${resto.id}`),
-            fetch(`${APIURL}/api/customizations/${resto.id}`)
+            fetch(`${APIURL}/api/customizations/${resto.id}`),
+            incrementVisitorCount(resto.id)
           ]);
           const categoryData = await categoryResponse.json();
           const visibleCategories = categoryData.filter(cat => cat.visibility === 1);
