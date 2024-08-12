@@ -22,8 +22,20 @@ import { Helmet } from "react-helmet";
 import { useMenu } from '../hooks/useMenu';
 import Footer from '../Theme01/Footer/Footerv2';
 import Rate from '../Theme01/Rating/Rate';
-
+import { axiosInstance } from '../../axiosInstance';
 const Theme02 = () => {
+  const incrementVisitorCount = async (id) => {
+    console.log(`Requesting URL: ${axiosInstance.defaults.baseURL}/api/resto/incrementVisitorCount/${id}`);
+    try {
+      await axiosInstance.post(`/api/resto/incrementVisitorCount/${id}`);
+
+    } catch (error) {
+      console.error('Error incrementing visitor count:', error);
+    }
+  };
+  useEffect(() => {
+      incrementVisitorCount(restos.id);
+  }, []);
     const {
         customization,
         restos,
@@ -55,7 +67,7 @@ const Theme02 = () => {
           }
         }
       })
-      console.log("The Resto Infos02 => ",resInfo);
+      console.log("The Resto Infos02 => ",restos);
   return (
 
         <div className="h-screen " style={{backgroundColor: customization?.selectedBgColor}}>

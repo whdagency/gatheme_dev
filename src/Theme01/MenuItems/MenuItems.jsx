@@ -46,7 +46,7 @@ import {
 // import VideoThumbnail from 'react-video-thumbnail';
 import Thumbnail from "./Video-Thumbnail.webp"
 import { FaCheck } from 'react-icons/fa';
-
+import { IoCloseOutline } from "react-icons/io5";
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
   const { toast } = useToast()
   const [selectedProp, setSelectedProp] = useState(0); // initialisation de l'état avec 0
@@ -68,196 +68,63 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   // Initial quantity
   const getQuantity = (itemId) => quantities[itemId] || 1; 
 
-  const handleToppingSelect = (topping, option) => {
-    const existingTopping = selectedToppings.find(item => item.id === topping.id);
-    if (existingTopping) {
-      const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
-      if (isAlreadySelected) {
-        // Remove the option if it is already selected
-        const updatedOptions = existingTopping.option.filter(opt => opt.name !== option.name);
-        const updatedTopping = { ...existingTopping, option: updatedOptions };
-        setSelectedToppings(
-          updatedOptions.length > 0
-            ? selectedToppings.map(item =>
-                item.id === topping.id ? updatedTopping : item
-              )
-            : selectedToppings.filter(item => item.id !== topping.id)
-        );
-      } else {
-        // Add the option if it is not selected
-        if (topping.multiple_selection) {
-          const updatedOptions = [...existingTopping.option, option];
+  const handleToppingSelect = (topping, option, dishId) => {
+    setSelectedToppings(prevSelected => {
+      const dishToppings = prevSelected[dishId] || [];
+      const existingTopping = dishToppings.find(item => item.id === topping.id);
+      if (existingTopping) {
+        const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
+        if (isAlreadySelected) {
+          // Remove the option if it is already selected
+          const updatedOptions = existingTopping.option.filter(opt => opt.name !== option.name);
           const updatedTopping = { ...existingTopping, option: updatedOptions };
-          setSelectedToppings(
-            selectedToppings.map(item =>
-              item.id === topping.id ? updatedTopping : item
-            )
-          );
-        } else {
-          // For single selection, replace the existing option
-          const newTopping = {
-            id: topping.id,
-            name: topping.name,
-            option: [option]
+          const updatedDishToppings = updatedOptions.length > 0
+            ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
+            : dishToppings.filter(item => item.id !== topping.id);
+          return {
+            ...prevSelected,
+            [dishId]: updatedDishToppings
           };
-          setSelectedToppings(
-            selectedToppings.map(item =>
+        } else {
+          // Add the option if it is not selected
+          if (topping.multiple_selection) {
+            const updatedOptions = [...existingTopping.option, option];
+            const updatedTopping = { ...existingTopping, option: updatedOptions };
+            const updatedDishToppings = dishToppings.map(item =>
+              item.id === topping.id ? updatedTopping : item
+            );
+            return {
+              ...prevSelected,
+              [dishId]: updatedDishToppings
+            };
+          } else {
+            // For single selection, replace the existing option
+            const newTopping = {
+              id: topping.id,
+              name: topping.name,
+              option: [option]
+            };
+            const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
-            )
-          );
+            );
+            return {
+              ...prevSelected,
+              [dishId]: updatedDishToppings
+            };
+          }
         }
-      }
-    } else {
-      // Add new topping with the selected option
-      const newTopping = {
-        id: topping.id,
-        name: topping.name,
-        option: [option]
-      };
-      setSelectedToppings([...selectedToppings, newTopping]);
-    }
-  };
-
-  const handleExtraToppingSelect = (topping, option) => {
-    const existingTopping = selectedExtraToppings.find(item => item.id === topping.id);
-    if (existingTopping) {
-      const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
-      if (isAlreadySelected) {
-        // Remove the option if it is already selected
-        const updatedOptions = existingTopping.option.filter(opt => opt.name !== option.name);
-        const updatedTopping = { ...existingTopping, option: updatedOptions };
-        setSelectedExtraToppings(
-          updatedOptions.length > 0
-            ? selectedExtraToppings.map(item =>
-                item.id === topping.id ? updatedTopping : item
-              )
-            : selectedExtraToppings.filter(item => item.id !== topping.id)
-        );
       } else {
-        // Add the option if it is not selected
-        if (topping.multiple_selection) {
-          const updatedOptions = [...existingTopping.option, option];
-          const updatedTopping = { ...existingTopping, option: updatedOptions };
-          setSelectedExtraToppings(
-            selectedExtraToppings.map(item =>
-              item.id === topping.id ? updatedTopping : item
-            )
-          );
-        } else {
-          // For single selection, replace the existing option
-          const newTopping = {
-            id: topping.id,
-            name: topping.name,
-            option: [option]
-          };
-          setSelectedExtraToppings(
-            selectedExtraToppings.map(item =>
-              item.id === topping.id ? newTopping : item
-            )
-          );
-        }
+        // Add new topping with the selected option
+        const newTopping = {
+          id: topping.id,
+          name: topping.name,
+          option: [option]
+        };
+        return {
+          ...prevSelected,
+          [dishId]: [...dishToppings, newTopping]
+        };
       }
-    } else {
-      // Add new topping with the selected option
-      const newTopping = {
-        id: topping.id,
-        name: topping.name,
-        option: [option]
-      };
-      setSelectedExtraToppings([...selectedExtraToppings, newTopping]);
-    }
-  };
-  const renderToppings = (toppings) => {
-    return toppings.map(topping => {
-      const options = JSON.parse(topping.options);
-      const existingTopping = selectedToppings.find(item => item.id === topping.id);
-      // const isDisabled = existingTopping && !topping.multiple_selection;
-      return (
-        <div key={topping.id} className="topping-section">
-          <div className='flex items-center gap-2'>
-            <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
-            {topping.required && (
-              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
-            )}
-          </div>
-          {options.map(option => {
-            const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
-            return (
-              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
-                <div className="flex items-center justify-between w-full">
-                  <label
-                    htmlFor={option.name}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
-                  >
-                    {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
-                  </label>
-                  <button
-                    type="button"
-                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
-                    onClick={() => handleToppingSelect(topping, option)}
-                    // disabled={isDisabled}
-                  >
-                    {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
-                    {!isOptionSelected
-                    ?
-                    <PlusIcon className={`w-4 h-4 `} />
-                    :
-                    <FaCheck className={`w-4 h-4 text-white`}/>
-                    }
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      );
-    });
-  };
-
-  const renderExtraToppings = (toppings) => {
-    return toppings.map(topping => {
-      const options = JSON.parse(topping.options);
-      const existingTopping = selectedExtraToppings.find(item => item.id === topping.id);
-      // const isDisabled = existingTopping && !topping.multiple_selection;
-      return (
-        <div key={topping.id} className="topping-section">
-          <div className='flex items-center gap-2'>
-            <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
-            {topping.required && (
-              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
-            )}
-          </div>
-          {options.map(option => {
-            const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
-            return (
-              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
-                <div className="flex items-center justify-between w-full">
-                  <label
-                    htmlFor={option.name}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
-                  >
-                    {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
-                  </label>
-                  <button
-                    type="button"
-                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
-                    onClick={() => handleExtraToppingSelect(topping, option)}
-                    // disabled={isDisabled}
-                  >
-                    {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
-                    {!isOptionSelected
-                    ?
-                    <PlusIcon className={`w-4 h-4 `} />
-                    :
-                    <FaCheck className={`w-4 h-4 text-white`}/>
-                    }
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      );
     });
   };
   const handleIngrediantSelect = (topping, dishId) => {
@@ -280,21 +147,181 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       }
     });
   };
-useEffect(() => {
-    // Clear selected ingredients when the selected item changes
-    setSelectedIngrediant({});
-  }, [selectedItem]);
 
+  const handleExtraToppingSelect = (topping, option, dishId) => {
+    setSelectedExtraToppings(prevSelected => {
+      const dishToppings = prevSelected[dishId] || [];
+      const existingTopping = dishToppings.find(item => item.id === topping.id);
+      if (existingTopping) {
+        const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
+        if (isAlreadySelected) {
+          // Remove the option if it is already selected
+          const updatedOptions = existingTopping.option.filter(opt => opt.name !== option.name);
+          const updatedTopping = { ...existingTopping, option: updatedOptions };
+          const updatedDishToppings = updatedOptions.length > 0
+            ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
+            : dishToppings.filter(item => item.id !== topping.id);
+          return {
+            ...prevSelected,
+            [dishId]: updatedDishToppings
+          };
+        } else {
+          // Add the option if it is not selected
+          if (topping.multiple_selection) {
+            const updatedOptions = [...existingTopping.option, option];
+            const updatedTopping = { ...existingTopping, option: updatedOptions };
+            const updatedDishToppings = dishToppings.map(item =>
+              item.id === topping.id ? updatedTopping : item
+            );
+            return {
+              ...prevSelected,
+              [dishId]: updatedDishToppings
+            };
+          } else {
+            // For single selection, replace the existing option
+            const newTopping = {
+              id: topping.id,
+              name: topping.name,
+              option: [option]
+            };
+            const updatedDishToppings = dishToppings.map(item =>
+              item.id === topping.id ? newTopping : item
+            );
+            return {
+              ...prevSelected,
+              [dishId]: updatedDishToppings
+            };
+          }
+        }
+      } else {
+        // Add new topping with the selected option
+        const newTopping = {
+          id: topping.id,
+          name: topping.name,
+          option: [option]
+        };
+        return {
+          ...prevSelected,
+          [dishId]: [...dishToppings, newTopping]
+        };
+      }
+    });
+  };
+  const renderToppings = (toppings, dishId) => {
+    const dishIngrediants = selectedToppings[dishId] || [];
+
+
+
+    return toppings.map(topping => {
+      const options = JSON.parse(topping.options);
+      // const isDisabled = existingTopping && !topping.multiple_selection;
+      return (
+        <div key={topping.id} className="topping-section">
+          <div className='flex items-center gap-2'>
+            <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
+            {topping.required && (
+              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
+            )}
+          </div>
+          {options.map(option => {
+            // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
+            let toppingKey = `${topping.name}`;
+            const isOptionSelected = dishIngrediants?.some(ingredient => 
+              ingredient?.option?.some(opt => opt.name === option.name)
+            );
+
+            // const isOptionSelected = dishIngrediants.includes(toppingKey);
+            return (
+              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
+                <div className="flex items-center justify-between w-full">
+                  <label
+                    htmlFor={option.name}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
+                  >
+                    {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
+                  </label>
+                  <button
+                    type="button"
+                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
+                    onClick={() => handleToppingSelect(topping, option, dishId)}
+                    // disabled={isDisabled}
+                  >
+                    {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
+                    {!isOptionSelected
+                    ?
+                    <PlusIcon className={`w-4 h-4 `} />
+                    :
+                    <FaCheck className={`w-4 h-4 text-white`}/>
+                    }
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    });
+  };
+  const renderExtraToppings = (toppings, dishId) => {
+    const dishIngrediants = selectedExtraToppings[dishId] || [];
+
+    // console.log('The DisheIngrediants => ', dishIngrediants);
+    return toppings.map(topping => {
+      const options = JSON.parse(topping.options);
+      // const isDisabled = existingTopping && !topping.multiple_selection;
+      return (
+        <div key={topping.id} className="topping-section">
+          <div className='flex items-center gap-2'>
+            <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
+            {topping.required && (
+              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
+            )}
+          </div>
+          {options.map(option => {
+            // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
+            const toppingKey = `${option.name}`;
+            const isOptionSelected = dishIngrediants?.some(ingredient => 
+              ingredient?.option?.some(opt => opt.name === option.name)
+            );
+            return (
+              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
+                <div className="flex items-center justify-between w-full">
+                  <label
+                    htmlFor={option.name}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
+                  >
+                    {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
+                  </label>
+                  <button
+                    type="button"
+                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
+                    onClick={() => handleExtraToppingSelect(topping, option, dishId)}
+                    // disabled={isDisabled}
+                  >
+                    {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
+                    {!isOptionSelected
+                    ?
+                    <PlusIcon className={`w-4 h-4 `} />
+                    :
+                    // <FaX className={`w-4 h-4 text-white`}/>
+                    <FaCheck className={`w-4 h-4 text-white`}/>
+                    }
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    });
+  };
   const renderIngrediant = (toppings, dishId) => {
     const dishIngrediants = selectedIngrediant[dishId] || [];
-
-    console.log("The Selected Tab => ", toppings);
-
     return (
       <>
       <h3 className="text-left font-bold capitalize text-[18px]">Ingrediants</h3>
         {
-            toppings.map((topping, index) => {
+          toppings != "null" && toppings.map((topping, index) => {
               // const isOptionSelected = selectedToppings.includes(topping.name);
               const toppingKey = `${topping.name}`;
               const isOptionSelected = dishIngrediants.includes(toppingKey);
@@ -304,9 +331,9 @@ useEffect(() => {
                         <div className="flex items-center justify-between w-full">
                           <label
                             htmlFor={topping.name}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
+                            className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-500  ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70" }`}
                           >
-                            {topping.name + ' ' + dishId}
+                            {topping.name }
                           </label>
                           <button
                             type="button"
@@ -318,7 +345,8 @@ useEffect(() => {
                             ?
                             <MinusIcon className={`w-4 h-4 `} />
                             :
-                            <FaCheck className={`w-4 h-4 text-white`}/>
+                            // <FaCheck className={`w-4 h-4 text-white`}/>
+                            <IoCloseOutline size={35} className={`w-4 h-4 text-white`}/>
                             }
                           </button>
                         </div>
@@ -330,6 +358,13 @@ useEffect(() => {
       </>
     )
   };
+useEffect(() => {
+    // Clear selected ingredients when the selected item changes
+    setSelectedIngrediant({});
+    setSelectedExtraToppings({});
+    setSelectedToppings({});
+  }, [selectedItem]);
+
 
   const setQuantity = (itemId, value) => {
     setQuantities((prevQuantities) => ({
@@ -788,8 +823,8 @@ const handleShowAlert = () => {
                 </div>
                <div className='px-5'>
                 {/* renderExtraToppings */}
-                {selectedItem.toppings && renderToppings(selectedItem.toppings)}
-                {selectedItem.extravariants && renderExtraToppings(selectedItem.extravariants)}
+                {selectedItem.toppings && renderToppings(selectedItem.toppings, selectedItem.id)}
+                {selectedItem.extravariants && renderExtraToppings(selectedItem.extravariants, selectedItem.id)}
                 {(selectedItem?.ingredients?.length > 0 && selectedItem?.ingredients != "null")  && renderIngrediant(selectedItem.ingredients, selectedItem.id)}
                </div>
                 

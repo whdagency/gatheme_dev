@@ -2,6 +2,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const transformIngredients = (ingredients) => {
   return Object.values(ingredients).flat().map(name => ({ name }));
 };
+const transformtoppings = (toppings) => {
+  return Object.values(toppings).flat().map(topping => ({
+    id: topping.id,
+    name: topping.name,
+    option: topping.option.map(opt => ({
+      name: opt.name,
+      price: opt.price
+    }))
+  }));
+};
 const initialState = {
   items: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
@@ -9,35 +19,27 @@ const initialState = {
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null
 };
-
 const updateLocalStorage = (items) => {
   localStorage.setItem("cartItems", JSON.stringify(items));
 };
-
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { product, quantity, resto_id, comment, toppings , ingredients, extravariants } = action.payload;
+      const { product, quantity, resto_id, toppings , ingredients, extravariants  } = action.payload;
       const existingIndex = state.items.findIndex(item => item.id === product.id);
       const transformedIngredients = transformIngredients(ingredients);
-
+      const transformedToppings = transformtoppings(toppings);
+      const transformedExtraToppings = transformtoppings(extravariants);
       if (existingIndex >= 0) {
-        if(comment != "")
-        {
-          state.items.push({ ...product, quantity, resto_id, comment, toppings, ingredients: transformedIngredients , extravariants});
-        }
-        else{
-          state.items[existingIndex].quantity += quantity;
-          state.items[existingIndex].toppings = toppings;
-          state.items[existingIndex].extravariants = extravariants;
-          state.items[existingIndex].ingredients = transformedIngredients;
-        }
+        state.items[existingIndex].quantity += quantity;
+        state.items[existingIndex].toppings = transformedToppings;
+        state.items[existingIndex].ingredients = transformedIngredients;
+        state.items[existingIndex].extravariants = transformedExtraToppings;
       } else {
-        state.items.push({ ...product, quantity, resto_id, comment, toppings, ingredients: transformedIngredients, extravariants});
+        state.items.push({ ...product, quantity, resto_id, toppings: transformedToppings, ingredients: transformedIngredients,extravariants:  transformedExtraToppings});
       }
-
       updateLocalStorage(state.items);
     },
     incrementQuantity: (state, action) => {
@@ -83,7 +85,5 @@ export const cartSlice = createSlice({
     //   });
   }
 });
-
 export const { addItem, incrementQuantity, decrementQuantity, removeItem, removeAll } = cartSlice.actions;
-
 export default cartSlice.reducer;
