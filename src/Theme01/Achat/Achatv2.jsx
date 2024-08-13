@@ -24,8 +24,10 @@ import { axiosInstance } from '../../axiosInstance';
 import { database, onValue, ref } from '../../firebaseConfig';
 export default function Achat({  resto_id, infoRes, customization, slug }) {
   const cartItems = useSelector(state => state.cart.items);
-
-  const totalCost = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const totalCost = cartItems.reduce(
+    (total, item) => total + (item.price * item.quantity) + item.selectedPrices,
+    0
+  );
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -46,8 +48,8 @@ export default function Achat({  resto_id, infoRes, customization, slug }) {
       id: item.id,
       quantity: item.quantity, 
       comment: item.comment ? item.comment : null,  
-      toppings: [],
-      ingrediants: [],
+      toppings: item.toppings,
+      ingrediants: item.ingredients,
       extraVariant: item.extravariants
     })
 
@@ -442,7 +444,7 @@ function CartItem({ item, infoRes }) {
             </div>
             <div className="flex-1">
               <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm">{item.price + " " + infoRes.currency }</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">{((item.price * item.quantity )+ item.selectedPrices)+ " " + infoRes.currency }</p>
               <span className="text-[12px] font-medium text-gray-900 dark:text-gray-50">{item?.comment?.length > 15 ? item?.comment?.slice(0, 10) + '...' : item?.comment }</span>
             </div>
             <div className="flex items-center gap-2">

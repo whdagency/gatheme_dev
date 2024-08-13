@@ -62,16 +62,22 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   const [selectedToppings, setSelectedToppings] = useState([]);
   const [selectedExtraToppings, setSelectedExtraToppings] = useState([]);
   const [selectedIngrediant, setSelectedIngrediant] = useState([]);
+  const [selectedPrices, setSelectedPrices] = useState(0);
   const isArabic = infoRes.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
   console.log("The RestoInfosss => ", selectedToppings, selectedExtraToppings);
   // Initial quantity
   const getQuantity = (itemId) => quantities[itemId] || 1; 
-
+  const updateSelectedPrices = (price) => {
+    const floatPrice = parseFloat(price);
+    
+    setSelectedPrices(prevTotal => prevTotal + floatPrice);
+};
   const handleToppingSelect = (topping, option, dishId) => {
     setSelectedToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
+      const price = option?.price; // Assuming `option` has a `price` property
       if (existingTopping) {
         const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
         if (isAlreadySelected) {
@@ -81,6 +87,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
+            // Update the selected prices
+            updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -93,6 +101,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? updatedTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -107,6 +117,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
+
+          // Update the selected prices
+          updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -120,6 +133,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           name: topping.name,
           option: [option]
         };
+        // Update the selected prices
+        updateSelectedPrices(price, dishId);
         return {
           ...prevSelected,
           [dishId]: [...dishToppings, newTopping]
@@ -148,10 +163,12 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     });
   };
 
+  
   const handleExtraToppingSelect = (topping, option, dishId) => {
     setSelectedExtraToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
+      const price = option?.price; // Assuming `option` has a `price` property
       if (existingTopping) {
         const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
         if (isAlreadySelected) {
@@ -161,6 +178,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
+            // Update the selected prices
+            updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -173,6 +192,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? updatedTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -187,6 +208,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -200,6 +223,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           name: topping.name,
           option: [option]
         };
+
+        // Update the selected prices
+        updateSelectedPrices(price, dishId);
         return {
           ...prevSelected,
           [dishId]: [...dishToppings, newTopping]
@@ -363,6 +389,7 @@ useEffect(() => {
     setSelectedIngrediant({});
     setSelectedExtraToppings({});
     setSelectedToppings({});
+    setSelectedPrices(0)
   }, [selectedItem]);
 
 
@@ -422,8 +449,8 @@ useEffect(() => {
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
-  const handleAddItem = (product, quantity, toppings, ingredients, extravariants) => {
-    dispatch(addItem({ product, quantity: quantity, resto_id: restoId, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants}));
+  const handleAddItem = (product, quantity, toppings, ingredients, extravariants,selectedPrices) => {
+    dispatch(addItem({ product, quantity: quantity, resto_id: restoId, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices}));
   setIsModalOpen(false);
   };
   const [showAlert, setShowAlert] = useState(false);
@@ -563,7 +590,7 @@ const handleShowAlert = () => {
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation(); 
-                                        handleAddItem(item, 1, {}, {}, {});
+                                        handleAddItem(item, 1, {}, {}, {},0);
                                         toast({
                                           title: `${item.name} ${t("not.title")}`,
                                           description: `${t("not.title")}`
@@ -613,7 +640,7 @@ const handleShowAlert = () => {
                                         console.log(item);
                                         if (!hasRequiredTopping && !hasRequiredExtraTopping) {
                                           e.stopPropagation(); 
-                                          handleAddItem(item, 1, {}, {}, {});
+                                          handleAddItem(item, 1, {}, {}, {},0);
                                           toast({
                                             // title: `${item.name} ${t("not.title")}`,
                                             description: (<div className="flex  items-center">
@@ -849,13 +876,13 @@ const handleShowAlert = () => {
               <CredenzaFooter className='grid md:justify-center items-center'>
                 <button
                   type="button"
-                  onClick={() => handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings)}
+                  onClick={() => handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings,selectedPrices)}
                   className={`rounded-[1rem] p-2 transition-all duration-300 border font-medium text-xs md:text-sm flex items-center justify-center gap-1 md:w-[300px]`}
                   style={{ backgroundColor: customization?.selectedPrimaryColor }}
                 >
                   <div className={`text-lg font-semibold text-white flex-nowrap ${infoRes.language === "ar" ? "flex-row-reverse" : "flex-row"} gap-1 ${isClicked ? "text-[#28509E]" : "text-white"} `}>
                     {t("menu.addToSelected")}
-                    {(selectedItem.price * getQuantity(selectedItem.id)).toFixed(2) + " " + infoRes?.currency}
+                    {(selectedItem.price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + infoRes?.currency}
                   </div>
                 </button>
                 <CredenzaClose asChild>

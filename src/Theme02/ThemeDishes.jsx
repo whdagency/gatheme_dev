@@ -115,7 +115,6 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
   };
   const updateSelectedPrices = (price) => {
     const floatPrice = parseFloat(price);
-    console.log("sent", floatPrice);
     
     setSelectedPrices(prevTotal => prevTotal + floatPrice);
 };
