@@ -98,6 +98,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
 
   const [comment, setComment] = useState("")
   const [selectedToppings, setSelectedToppings] = useState([]);
+  const [selectedPrices, setSelectedPrices] = useState(0);
   const [selectedExtraToppings, setSelectedExtraToppings] = useState([]);
   const [selectedIngrediant, setSelectedIngrediant] = useState([]);
   const dispatch = useDispatch();
@@ -112,10 +113,18 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
       [itemId]: value > 0 ? value : 1,
     }));
   };
+  const updateSelectedPrices = (price) => {
+    const floatPrice = parseFloat(price);
+    console.log("sent", floatPrice);
+    
+    setSelectedPrices(prevTotal => prevTotal + floatPrice);
+};
+  
   const handleToppingSelect = (topping, option, dishId) => {
     setSelectedToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
+      const price = option?.price; // Assuming `option` has a `price` property
       if (existingTopping) {
         const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
         if (isAlreadySelected) {
@@ -125,6 +134,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
+            // Update the selected prices
+            updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -137,6 +148,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? updatedTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -151,6 +164,9 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
+
+          // Update the selected prices
+          updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -164,6 +180,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           name: topping.name,
           option: [option]
         };
+        // Update the selected prices
+        updateSelectedPrices(price, dishId);
         return {
           ...prevSelected,
           [dishId]: [...dishToppings, newTopping]
@@ -196,6 +214,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
     setSelectedExtraToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
+      const price = option?.price; // Assuming `option` has a `price` property
       if (existingTopping) {
         const isAlreadySelected = existingTopping.option.some(opt => opt.name === option.name);
         if (isAlreadySelected) {
@@ -205,6 +224,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
+            // Update the selected prices
+            updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -217,6 +238,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? updatedTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -231,6 +254,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -244,6 +269,9 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           name: topping.name,
           option: [option]
         };
+
+        // Update the selected prices
+        updateSelectedPrices(price, dishId);
         return {
           ...prevSelected,
           [dishId]: [...dishToppings, newTopping]
@@ -402,11 +430,15 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
       </>
     )
   };
+  
+  console.log("selectedPrices", selectedPrices);
+  
 useEffect(() => {
     // Clear selected ingredients when the selected item changes
     setSelectedIngrediant({});
     setSelectedExtraToppings({});
     setSelectedToppings({});
+    setSelectedPrices(0)
   }, [selectedItem]);
   // Add item to cart
   // const handleAddItem = (product, quantity) => {
@@ -423,8 +455,8 @@ useEffect(() => {
 
   //   setIsModalOpen(false);
   // };
-  const handleAddItem = (product, quantity, toppings, ingredients, extravariants) => {
-    dispatch(addItem({ product, quantity: quantity, resto_id: resto_id, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants}));
+  const handleAddItem = (product, quantity, toppings, ingredients, extravariants,selectedPrices) => {
+    dispatch(addItem({ product, quantity: quantity, resto_id: resto_id, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices}));
   setIsModalOpen(false);
   };
   return (
@@ -562,7 +594,7 @@ useEffect(() => {
                 // onClick={() => handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings)}
 
                 onClick={() => {
-                  handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings)
+                  handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings,selectedPrices)
                   setAddToCartClicked(true);
                   setTimeout(() => {
                     setAddToCartClicked(false);
@@ -584,7 +616,7 @@ useEffect(() => {
                     : `${t('menuAddItem.addToSelected')}
 : ${
                         (
-                          selectedItem.price * getQuantity(selectedItem.id)
+                          selectedItem.price * getQuantity(selectedItem.id) + selectedPrices
                         ).toFixed(2) +
                         " " +
                         `${resInfo?.currency ?? "MAD"}`

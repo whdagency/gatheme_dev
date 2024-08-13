@@ -19,26 +19,32 @@ const initialState = {
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null
 };
+const transformPrices = (selectedPrices) => {
+  return Object.values(selectedPrices).map(price => parseFloat(price));
+};
 const updateLocalStorage = (items) => {
   localStorage.setItem("cartItems", JSON.stringify(items));
 };
+
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { product, quantity, resto_id, toppings , ingredients, extravariants  } = action.payload;
+      const { product, quantity, resto_id, toppings , ingredients, extravariants,selectedPrices  } = action.payload;
       const existingIndex = state.items.findIndex(item => item.id === product.id);
       const transformedIngredients = transformIngredients(ingredients);
       const transformedToppings = transformtoppings(toppings);
       const transformedExtraToppings = transformtoppings(extravariants);
+      const transformedPrices = transformPrices(selectedPrices);
       if (existingIndex >= 0) {
         state.items[existingIndex].quantity += quantity;
         state.items[existingIndex].toppings = transformedToppings;
         state.items[existingIndex].ingredients = transformedIngredients;
         state.items[existingIndex].extravariants = transformedExtraToppings;
+        state.items[existingIndex].selectedPrices = transformedPrices;
       } else {
-        state.items.push({ ...product, quantity, resto_id, toppings: transformedToppings, ingredients: transformedIngredients,extravariants:  transformedExtraToppings});
+        state.items.push({ ...product, quantity, resto_id, toppings: transformedToppings, ingredients: transformedIngredients,extravariants:  transformedExtraToppings, selectedPrices: selectedPrices});
       }
       updateLocalStorage(state.items);
     },

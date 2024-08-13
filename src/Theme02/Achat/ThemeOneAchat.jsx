@@ -48,7 +48,7 @@ const ThemeOneAchat = ({ activeLink }) => {
 
   // order functions
   const totalCost = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + (item.price * item.quantity) + item.selectedPrices,
     0
   );
 
@@ -442,7 +442,8 @@ const IngredientsOption = ({ item }) => {
 const CartItem = ({ item, infoRes }) => {
   const dispatch = useDispatch();
   const { customization } = useMenu();
-
+  console.log("itemsitems", item);
+  
   return (
     <div className="last:border-b-0 grid gap-4 border-b border-[#C2C2C2] pb-3">
       <div className="flex flex-col">
@@ -478,7 +479,7 @@ const CartItem = ({ item, infoRes }) => {
 
           <div className="flex items-center justify-end w-1/2 col-span-1 gap-2">
             <p className="text-xs font-semibold text-black font-[Inter]">
-              {parseFloat(item.price * item.quantity).toFixed(2)}{" "}
+              {parseFloat(item.price * item.quantity + item.selectedPrices).toFixed(2)}{" "}
               {infoRes?.currency}
             </p>
 

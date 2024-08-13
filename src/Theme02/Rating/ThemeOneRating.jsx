@@ -40,7 +40,7 @@ const ThemeOneRating = () => {
         <span className="text-xs font-medium text-white">{t('menu.rating')}</span>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className='flex justify-center items-center w-[95%] rounded-lg'>
         <main className="flex flex-col items-center justify-center h-[80vh] px-4 w-[20rem]">
        
           <div className="space-y-6 text-center">
@@ -60,7 +60,7 @@ const ThemeOneRating = () => {
         <img
           src="/assets/close.svg"
           alt="close button"
-          className="absolute top-0 right-0 w-8 h-8"
+          className="absolute top-4 right-4 w-8 h-8"
         />
       </DialogClose>
             <div className="grid w-full grid-cols-1 gap-2">
