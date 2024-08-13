@@ -36,6 +36,8 @@ const ThemeOneAchat = ({ activeLink }) => {
   const { customization, restos, resInfo, table_id } = useMenu();
   const resto_id = restos.id;
 
+  const queryParams = new URLSearchParams(location.search);
+  const extraInfo = queryParams.get('table_id');
   // use state
   const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   const [pending, setPending] = useState(false);
@@ -50,33 +52,109 @@ const ThemeOneAchat = ({ activeLink }) => {
     0
   );
 
-  const submitOrder = async (cartItems, totalCost) => {
-    setPending(true);
+  
+  // const submitOrder = async (cartItems, totalCost) => {
+  //   setPending(true);
 
-    let cartItemProduct = cartItems.map((item) => ({
-      type: item.type, // Assuming all items are dishes
+  //   let cartItemProduct = cartItems.map((item) => ({
+  //     type: item.type, // Assuming all items are dishes
+  //     id: item.id,
+  //     quantity: item.quantity,
+  //     comment: item.comment || "",
+  //   }));
+
+  //   const order = {
+  //     total: totalCost,
+  //     status: "New",
+  //     table_id: table_id,
+  //     resto_id: resto_id,
+  //     cartItems: cartItemProduct,
+  //   };
+
+  //   console.log("The order is ", order);
+
+  //   try {
+  //     const response = await fetch(`${APIURL}/api/order`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(order),
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorResponse = await response.text();
+  //       throw new Error(`HTTP error ${response.status}: ${errorResponse}`);
+  //     }
+
+  //     const responseData = await response.json();
+  //     console.log("Order submitted:", order, cartItemProduct, responseData);
+  //     if (response) {
+  //       const notification = {
+  //         title: "New Order",
+  //         status: "Order",
+  //         resto_id: resto_id,
+  //         table_id: table_id,
+  //       };
+
+  //       const formData = new FormData();
+  //       formData.append("title", "New Order");
+  //       formData.append("status", "Order");
+  //       formData.append("resto_id", resto_id);
+
+  //       const responseNotification = await fetch(
+  //         `${APIURL}/api/notifications`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify(notification),
+  //         }
+  //       );
+
+  //       console.log("Nice => ", responseNotification);
+  //       setPending(false);
+  //       setOrderSuccessModalOpen(true);
+  //       dispatch(removeAll());
+  //     }
+  //     // Handle post-order submission logic here, like clearing the cart or redirecting the user
+  //   } catch (error) {
+  //     setPending(false);
+  //     console.error("Failed to submit order:", error.message);
+  //   }
+  // };
+  const submitOrder = async (cartItems, totalCost) => {
+    
+    console.log("CartItems: ", cartItems);
+    setPending(true);
+    let cartItemProduct = cartItems.map(item => ({
+      type: item.type,  // Assuming all items are dishes
       id: item.id,
-      quantity: item.quantity,
-      comment: item.comment || "",
-    }));
+      quantity: item.quantity, 
+      comment: item.comment ? item.comment : null,  
+      toppings: item.toppings,
+      ingrediants: item.ingredients,
+      extraVariant: item.extravariants
+    })
+
+  );
 
     const order = {
       total: totalCost,
-      status: "New",
-      table_id: table_id,
-      resto_id: resto_id,
-      cartItems: cartItemProduct,
+      status: 'New',
+      table_id: extraInfo,  // Assuming static for now, you may need to adjust this based on your app's logic
+      resto_id: resto_id,   // Assuming static as well, adjust accordingly
+      cartItems: cartItemProduct
     };
-
-    console.log("The order is ", order);
-
+    console.log("The orde is ",order);
     try {
-      const response = await fetch(`${APIURL}/api/order`, {
-        method: "POST",
+      const response = await fetch(`https://backend.garista.com/api/order`, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(order),
+        body: JSON.stringify(order)
       });
 
       if (!response.ok) {
@@ -85,43 +163,45 @@ const ThemeOneAchat = ({ activeLink }) => {
       }
 
       const responseData = await response.json();
-      console.log("Order submitted:", order, cartItemProduct, responseData);
-      if (response) {
+      console.log('Order submitted:',  responseData?.order?.id);
+      localStorage.setItem('orderID', JSON.stringify(responseData?.order?.id))
+      const id = JSON.stringify(responseData?.order?.id)
+      
+      if(response)
+      {
         const notification = {
           title: "New Order",
           status: "Order",
           resto_id: resto_id,
-          table_id: table_id,
+          table_id: extraInfo,
         };
-
         const formData = new FormData();
         formData.append("title", "New Order");
         formData.append("status", "Order");
         formData.append("resto_id", resto_id);
-
-        const responseNotification = await fetch(
-          `${APIURL}/api/notifications`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(notification),
-          }
-        );
-
-        console.log("Nice => ", responseNotification);
-        setPending(false);
-        setOrderSuccessModalOpen(true);
-        dispatch(removeAll());
+        const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(notification)
+        });
+        
+          console.log("Nice => ",responseNotification);
+          setPending(false);
+          setOrderSuccessModalOpen(true);
+          setOrderID(id)
+          dispatch(removeAll())
       }
-      // Handle post-order submission logic here, like clearing the cart or redirecting the user
+      
     } catch (error) {
       setPending(false);
-      console.error("Failed to submit order:", error.message);
+      console.error('Failed to submit order:', error.message);
     }
-  };
+    setOrderSubmitted(true);
+  }
   const { t, i18n } = useTranslation("global");
+  const [orderID, setOrderID] = useState("");
   const isArabic = i18n.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
   const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -221,7 +301,10 @@ const ThemeOneAchat = ({ activeLink }) => {
               <>
                 <div className="gap-7 flex flex-col w-full pt-5 mb-auto">
                   {cartItems.map((item) => (
+                    <>
                     <CartItem key={item.id} item={item} infoRes={resInfo} />
+          
+        </>
                   ))}
 
                   <SheetClose>
@@ -290,6 +373,71 @@ const ThemeOneAchat = ({ activeLink }) => {
 
 export default ThemeOneAchat;
 
+
+const ToppingOptions = ({ item }) => {
+  // Flatten all options into a single array
+  const options = item?.toppings?.length > 0 && item?.toppings?.flatMap(topping =>
+    topping.option.map(opt => ({
+      name: opt.name,
+      price: opt.price,
+    }))
+  );
+  return (
+    <div>
+      {options?.length > 0 && (
+        <div className="text-md mt-4">
+          {options.map((opt, index) => (
+            <span key={opt.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {opt.name}
+              {index < options.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+const ExtraOptions = ({ item }) => {
+  // Flatten all options into a single array
+  const options = item?.extravariants?.length > 0 && item?.extravariants?.flatMap(topping =>
+    topping.option.map(opt => ({
+      name: opt.name,
+      price: opt.price,
+    }))
+  );
+  return (
+    <div>
+      {options?.length > 0 && (
+        <div className="text-md">
+          {options.map((opt, index) => (
+            <span key={opt.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {opt.name}
+              {index < options.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+const IngredientsOption = ({ item }) => {
+  // Directly use the ingredients array
+  const ingredients = item?.ingredients ?? [];
+  return (
+    <div>
+      {ingredients.length > 0 && (
+        <div className="text-md">
+          {ingredients.map((ingredient, index) => (
+            <span key={ingredient.name} className='text-gray-400 !font-[300] text-[14px]'>
+              {ingredient.name}
+              {index < ingredients.length - 1 && ', '}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 // cart item render component
 const CartItem = ({ item, infoRes }) => {
   const dispatch = useDispatch();
@@ -297,7 +445,7 @@ const CartItem = ({ item, infoRes }) => {
 
   return (
     <div className="last:border-b-0 grid gap-4 border-b border-[#C2C2C2] pb-3">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col">
         <div className="flex flex-row items-start justify-between gap-4">
           <p className="text-start flex items-center w-1/2 col-span-1 gap-2 font-medium">
             <span className="text-primary-text text-[15px] font-bold">
@@ -337,9 +485,16 @@ const CartItem = ({ item, infoRes }) => {
             <button onClick={() => dispatch(removeItem(item.id))}>
               <FiTrash size={12} className="text-red-500" />
             </button>
+            
           </div>
+          
         </div>
+        
+        <ToppingOptions item={item}/>
+        <ExtraOptions item={item}/>
+        <IngredientsOption item={item}/>
       </div>
+      
     </div>
   );
 };
