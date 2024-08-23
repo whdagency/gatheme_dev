@@ -144,7 +144,6 @@ function Theme01() {
       }
     }
   })
-  console.log("The Resto Infos => ",resInfo);
   return (
     <PrimeReactProvider>
     <I18nextProvider i18n={i18next}>

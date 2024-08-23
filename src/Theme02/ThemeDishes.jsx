@@ -31,7 +31,7 @@ const ThemeDishes = ({ category, dishes }) => {
   const { t, i18n } = useTranslation("global");
   const isArabic = i18n.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
- 
+
   return (
     <>
       <AccordionItem value={category.id} className="border-0">
@@ -115,10 +115,10 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
   };
   const updateSelectedPrices = (price) => {
     const floatPrice = parseFloat(price);
-    
+
     setSelectedPrices(prevTotal => prevTotal + floatPrice);
-};
-  
+  };
+
   const handleToppingSelect = (topping, option, dishId) => {
     setSelectedToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
@@ -133,8 +133,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
-            // Update the selected prices
-            updateSelectedPrices(-price, dishId);
+          // Update the selected prices
+          updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -164,8 +164,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
               item.id === topping.id ? newTopping : item
             );
 
-          // Update the selected prices
-          updateSelectedPrices(price, dishId);
+            // Update the selected prices
+            updateSelectedPrices(price, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -223,8 +223,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           const updatedDishToppings = updatedOptions.length > 0
             ? dishToppings.map(item => item.id === topping.id ? updatedTopping : item)
             : dishToppings.filter(item => item.id !== topping.id);
-            // Update the selected prices
-            updateSelectedPrices(-price, dishId);
+          // Update the selected prices
+          updateSelectedPrices(-price, dishId);
           return {
             ...prevSelected,
             [dishId]: updatedDishToppings
@@ -297,7 +297,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           {options?.length > 0 ? options?.map(option => {
             // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
             let toppingKey = `${topping.name}`;
-            const isOptionSelected = dishIngrediants?.some(ingredient => 
+            const isOptionSelected = dishIngrediants?.some(ingredient =>
               ingredient?.option?.some(opt => opt.name === option.name)
             );
 
@@ -315,14 +315,14 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                     type="button"
                     className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
                     onClick={() => handleToppingSelect(topping, option, dishId)}
-                    // disabled={isDisabled}
+                  // disabled={isDisabled}
                   >
                     {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
                     {!isOptionSelected
-                    ?
-                    <PlusIcon className={`w-4 h-4 `} />
-                    :
-                    <FaCheck className={`w-4 h-4 text-white`}/>
+                      ?
+                      <PlusIcon className={`w-4 h-4 `} />
+                      :
+                      <FaCheck className={`w-4 h-4 text-white`} />
                     }
                   </button>
                 </div>
@@ -337,7 +337,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
     const dishIngrediants = selectedExtraToppings[dishId] || [];
 
     // console.log('The DisheIngrediants => ', dishIngrediants);
-    return toppings.map(topping => {
+    return toppings?.map(topping => {
       const options = JSON.parse(topping.options);
       // const isDisabled = existingTopping && !topping.multiple_selection;
       return (
@@ -351,7 +351,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
           {options.map(option => {
             // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
             const toppingKey = `${option.name}`;
-            const isOptionSelected = dishIngrediants?.some(ingredient => 
+            const isOptionSelected = dishIngrediants?.some(ingredient =>
               ingredient?.option?.some(opt => opt.name === option.name)
             );
             return (
@@ -367,15 +367,15 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                     type="button"
                     className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
                     onClick={() => handleExtraToppingSelect(topping, option, dishId)}
-                    // disabled={isDisabled}
+                  // disabled={isDisabled}
                   >
                     {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
                     {!isOptionSelected
-                    ?
-                    <PlusIcon className={`w-4 h-4 `} />
-                    :
-                    // <FaX className={`w-4 h-4 text-white`}/>
-                    <FaCheck className={`w-4 h-4 text-white`}/>
+                      ?
+                      <PlusIcon className={`w-4 h-4 `} />
+                      :
+                      // <FaX className={`w-4 h-4 text-white`}/>
+                      <FaCheck className={`w-4 h-4 text-white`} />
                     }
                   </button>
                 </div>
@@ -390,49 +390,49 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
     const dishIngrediants = selectedIngrediant[dishId] || [];
     return (
       <>
-      <h3 className="text-left font-bold capitalize text-[18px]">Ingrediants</h3>
+        <h3 className="text-left font-bold capitalize text-[18px]">Ingrediants</h3>
         {
-          toppings != "null" && toppings.map((topping, index) => {
-              // const isOptionSelected = selectedToppings.includes(topping.name);
-              const toppingKey = `${topping.name}`;
-              const isOptionSelected = dishIngrediants.includes(toppingKey);
-              return (
-                <div key={index} className="topping-section">
-                      <div className="flex items-center justify-start mx-3 mt-2 gap-3">
-                        <div className="flex items-center justify-between w-full">
-                          <label
-                            htmlFor={topping.name}
-                            className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-500  ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70" }`}
-                          >
-                            {topping.name }
-                          </label>
-                          <button
-                            type="button"
-                            className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-red-600' : 'border-gray-300'}`}
-                            onClick={() => handleIngrediantSelect(topping, dishId)}
-                            // disabled={isDisabled}
-                          >
-                            {!isOptionSelected
-                            ?
-                            <MinusIcon className={`w-4 h-4 `} />
-                            :
-                            // <FaCheck className={`w-4 h-4 text-white`}/>
-                            <IoCloseOutline size={35} className={`w-4 h-4 text-white`}/>
-                            }
-                          </button>
-                        </div>
-                      </div>
+          toppings != "null" && toppings?.map((topping, index) => {
+            // const isOptionSelected = selectedToppings.includes(topping.name);
+            const toppingKey = `${topping.name}`;
+            const isOptionSelected = dishIngrediants.includes(toppingKey);
+            return (
+              <div key={index} className="topping-section">
+                <div className="flex items-center justify-start mx-3 mt-2 gap-3">
+                  <div className="flex items-center justify-between w-full">
+                    <label
+                      htmlFor={topping.name}
+                      className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-500  ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70"}`}
+                    >
+                      {topping.name}
+                    </label>
+                    <button
+                      type="button"
+                      className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-red-600' : 'border-gray-300'}`}
+                      onClick={() => handleIngrediantSelect(topping, dishId)}
+                    // disabled={isDisabled}
+                    >
+                      {!isOptionSelected
+                        ?
+                        <MinusIcon className={`w-4 h-4 `} />
+                        :
+                        // <FaCheck className={`w-4 h-4 text-white`}/>
+                        <IoCloseOutline size={35} className={`w-4 h-4 text-white`} />
+                      }
+                    </button>
+                  </div>
                 </div>
-              );
-            })
+              </div>
+            );
+          })
         }
       </>
     )
   };
-  
+
   console.log("selectedPrices", selectedPrices);
-  
-useEffect(() => {
+
+  useEffect(() => {
     // Clear selected ingredients when the selected item changes
     setSelectedIngrediant({});
     setSelectedExtraToppings({});
@@ -454,9 +454,9 @@ useEffect(() => {
 
   //   setIsModalOpen(false);
   // };
-  const handleAddItem = (product, quantity, toppings, ingredients, extravariants,selectedPrices) => {
-    dispatch(addItem({ product, quantity: quantity, resto_id: resto_id, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices}));
-  setIsModalOpen(false);
+  const handleAddItem = (product, quantity, toppings, ingredients, extravariants, selectedPrices) => {
+    dispatch(addItem({ product, quantity: quantity, resto_id: resto_id, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices }));
+    setIsModalOpen(false);
   };
   return (
     <Credenza
@@ -487,40 +487,40 @@ useEffect(() => {
 
 
               <div className="flex flex-col w-full gap-2 px-5">
-              <div className='px-5'>
-                {/* renderExtraToppings */}
-                {selectedItem.toppings && renderToppings(selectedItem.toppings, selectedItem.id)}
-                {selectedItem.extravariants && renderExtraToppings(selectedItem.extravariants, selectedItem.id)}
-                {(selectedItem?.ingredients?.length > 0 && selectedItem?.ingredients != "null")  && renderIngrediant(selectedItem.ingredients, selectedItem.id)}
-               </div>
-                
+                <div className='px-5'>
+                  {/* renderExtraToppings */}
+                  {selectedItem.toppings && renderToppings(selectedItem.toppings, selectedItem.id)}
+                  {selectedItem.extravariants && renderExtraToppings(selectedItem.extravariants, selectedItem.id)}
+                  {(selectedItem?.ingredients?.length > 0 && selectedItem?.ingredients != "null") && renderIngrediant(selectedItem.ingredients, selectedItem.id)}
+                </div>
+
                 {
-                    selectedItem.isComment == 1
+                  selectedItem.isComment == 1
                     ?
                     <>
-                    <h3 className="text-start px-2 text-lg font-bold text-black">
-                {t('menuAddItem.addnote')}
+                      <h3 className="text-start px-2 text-lg font-bold text-black">
+                        {t('menuAddItem.addnote')}
 
-                </h3>
-                    <Textarea
-                    
-                  name="note"
-                  id="now"
-                      // className={`min-h-[150px]  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
-                  className="border-[#E5E7EB] focus:outline-none focus:border-[#E5E7EB] text-black/90 w-full h-24 px-2 py-1  border rounded-md font-[Inter] shadow font-light"
-                      // dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}
-                      placeholder={t("menuAddItem.commentPlaceholder")}
-                      onChange={(e) => {
-                        setComment(e.target.value);
-                      }}
-                      onPointerDown={(e) => {
-                        e.stopPropagation();
-                      }}
-                    ></Textarea>
+                      </h3>
+                      <Textarea
+
+                        name="note"
+                        id="now"
+                        // className={`min-h-[150px]  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
+                        className="border-[#E5E7EB] focus:outline-none focus:border-[#E5E7EB] text-black/90 w-full h-24 px-2 py-1  border rounded-md font-[Inter] shadow font-light"
+                        // dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}
+                        placeholder={t("menuAddItem.commentPlaceholder")}
+                        onChange={(e) => {
+                          setComment(e.target.value);
+                        }}
+                        onPointerDown={(e) => {
+                          e.stopPropagation();
+                        }}
+                      ></Textarea>
                     </>
                     :
                     <></>
-                  }
+                }
                 {/* <textarea
                   name="note"
                   id="now"
@@ -550,7 +550,7 @@ useEffect(() => {
                     <MinusIcon
                       size={15}
                       className="text-[#37392C]  w-4 h-4"
-                      // color={customization?.selectedPrimaryColor}
+                    // color={customization?.selectedPrimaryColor}
                     />
                   </button>
 
@@ -573,7 +573,7 @@ useEffect(() => {
                     <PlusIcon
                       size={15}
                       className="text-[#37392C] w-4 h-4"
-                      // color={customization?.selectedPrimaryColor}
+                    // color={customization?.selectedPrimaryColor}
                     />
                   </button>
                 </div>
@@ -593,7 +593,7 @@ useEffect(() => {
                 // onClick={() => handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings)}
 
                 onClick={() => {
-                  handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings,selectedPrices)
+                  handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings, selectedPrices)
                   setAddToCartClicked(true);
                   setTimeout(() => {
                     setAddToCartClicked(false);
@@ -606,20 +606,18 @@ useEffect(() => {
                 }}
               >
                 <div
-                  className={`text-lg font-normal ${
-                    addToCartClicked ? "text-primary-blue" : "text-white"
-                  } `}
+                  className={`text-lg font-normal ${addToCartClicked ? "text-primary-blue" : "text-white"
+                    } `}
                 >
                   {addToCartClicked
                     ? "Added To Your Cart"
                     : `${t('menuAddItem.addToSelected')}
-: ${
-                        (
-                          selectedItem.price * getQuantity(selectedItem.id) + selectedPrices
-                        ).toFixed(2) +
-                        " " +
-                        `${resInfo?.currency ?? "MAD"}`
-                      }`}
+: ${(
+                      selectedItem.price * getQuantity(selectedItem.id) + selectedPrices
+                    ).toFixed(2) +
+                    " " +
+                    `${resInfo?.currency ?? "MAD"}`
+                    }`}
                 </div>
               </button>
 
