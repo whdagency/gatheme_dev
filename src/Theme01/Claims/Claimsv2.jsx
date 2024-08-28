@@ -114,14 +114,14 @@ export default function Claims({ items, table_id }) {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="w-full max-w-md p-6 rounded-lg h-full" dir={direction}>
-        <div  className={cn(
-                            "space-y-4",
-                            isArabic && 'text-right'
-                          )}>
+        <div className={cn(
+          "space-y-4",
+          isArabic && 'text-right'
+        )}>
           <div className={`flex items-center justify-between ${isArabic === 'ar' ? 'text-right ml-auto justify-items-end' : 'text-left'}`} dir={isArabic === 'ar' ? 'rtl' : 'ltr'}>
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
               {t("claims.makeClaim")} <span className="underline underline-offset-3 decoration-8 decoration-[#28509E] dark:decoration-blue-600">{t("claims.claim")}</span>
-            </h1> 
+            </h1>
             <div className="flex items-center space-x-2">
               <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                 <SmileIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
@@ -129,7 +129,7 @@ export default function Claims({ items, table_id }) {
             </div>
           </div>
           <p className="text-gray-600 dark:text-gray-400">{t("claims.tellUs")}</p>
-          <Form {...form} className={` flex flex-row ${isArabic === 'ar'? '  flex-row-reverse ' : ''}`}>
+          <Form {...form} className={` flex flex-row ${isArabic === 'ar' ? '  flex-row-reverse ' : ''}`}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid grid-cols-2 gap-4" >
                 <div className="space-y-2">
@@ -140,17 +140,17 @@ export default function Claims({ items, table_id }) {
                       <FormItem>
                         <FormLabel>{t("claims.name")}</FormLabel>
                         <FormControl >
-                        <input
-                          className={cn(
-                            "flex h-10 w-full rounded-[.5rem] border border-input bg-background px-3 placeholder:text-sm py-2 ring-offset-background file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                            isArabic && 'text-right'
-                          )}
-                          ref={searchInputRef}
-                          disabled={disabled}
-                          placeholder={t("claims.namePlaceholder")}
-                          dir={inputDirection} 
-                          {...field}
-                        />
+                          <input
+                            className={cn(
+                              "flex h-10 w-full rounded-[.5rem] border border-input bg-background px-3 placeholder:text-sm py-2 ring-offset-background file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                              isArabic && 'text-right'
+                            )}
+                            ref={searchInputRef}
+                            disabled={disabled}
+                            placeholder={t("claims.namePlaceholder")}
+                            dir={inputDirection}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -165,17 +165,17 @@ export default function Claims({ items, table_id }) {
                       <FormItem>
                         <FormLabel className='text-nowrap'>{t("claims.email")}</FormLabel>
                         <FormControl>
-                        <input
-                          className={cn(
-                            "flex h-10 w-full rounded-[.5rem] border border-input bg-background px-3 placeholder:text-sm py-2 ring-offset-background file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-                            isArabic && 'text-right'
-                          )}
-                          ref={searchInputRef}
-                          disabled={disabled}
-                          placeholder={t("claims.emailPlaceholder")}
-                          dir={inputDirection}
-                          {...field}
-                        />
+                          <input
+                            className={cn(
+                              "flex h-10 w-full rounded-[.5rem] border border-input bg-background px-3 placeholder:text-sm py-2 ring-offset-background file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+                              isArabic && 'text-right'
+                            )}
+                            ref={searchInputRef}
+                            disabled={disabled}
+                            placeholder={t("claims.emailPlaceholder")}
+                            dir={inputDirection}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -192,7 +192,7 @@ export default function Claims({ items, table_id }) {
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={(value) => { field.onChange(value); toggleDisabled(); }}
-                            className={`${isArabic === 'ar'? ' text-right' : ''}`}
+                            className={`${isArabic === 'ar' ? ' text-right' : ''}`}
                           />
                         </FormControl>
 
@@ -230,7 +230,7 @@ export default function Claims({ items, table_id }) {
               />
               <div className={`flex items-center justify-between ${isArabic ? ' flex justify-end' : ''}`}>
                 <Button
-                  className={`px-4 py-2 my-4 font-medium text-white bg-gray-900 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-offset-gray-800 ${isArabic === 'ar' ? 'justify-end' : ''}`}
+                  className={`px-4 py-2 my-4 font-medium text-white rounded-md bg-blue-800 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-offset-gray-800 ${isArabic === 'ar' ? 'justify-end' : ''}`}
                   dir={isArabic === 'ar' ? 'rtl' : 'ltr'}
                   type="submit"
                   disabled={isSubmitting}

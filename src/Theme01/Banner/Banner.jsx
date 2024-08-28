@@ -1,12 +1,15 @@
-import React from 'react';
-import { FaFacebook, FaInstagram, FaSnapchat, FaTiktok,FaYoutube, } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { FaFacebook, FaInstagram, FaSnapchat, FaTiktok, FaYoutube, } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import { APIURL } from '../../lib/ApiKey';
+import { axiosInstance } from '../../../axiosInstance';
+import { useMenu } from '../../hooks/useMenu';
 
 function Banner({ items, infoRes }) {
-    const blue = "#28509E";
+    const {
+        tableName
+    } = useMenu();
 
-    console.log("The Items => ", items);
 
     return (
         <div className='p-4'>
@@ -46,7 +49,11 @@ function Banner({ items, infoRes }) {
                             </Link>
                         )}
                     </div>
+                    <div>
+                        <p className='text-white'>Table : {tableName}</p>
+                    </div>
                 </div>
+
             </div>
         </div>
     );

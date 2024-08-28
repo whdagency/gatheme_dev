@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { APIURL } from "../../lib/ApiKey";
 import { useMenu } from "../../hooks/useMenu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FaFacebook,
   FaInstagram,
@@ -10,11 +10,14 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { MapPin, Phone, PhoneCall } from "lucide-react";
+import { axiosInstance } from "../../axiosInstance";
 
 const ThemeOneBanner = () => {
-  const { restos, resInfo, customization } = useMenu();
+  const { restos, tableName, resInfo, customization } = useMenu();
+
   const addressAvailable =
     resInfo.address && resInfo.address !== "" ? true : false;
+
 
   return (
     <div className="w-full  md:h-[40vh] h-[40vh] relative">
@@ -34,7 +37,7 @@ const ThemeOneBanner = () => {
         {restos.name}
       </h2>
 
-      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-between p-4 text-center">
+      <div className="absolute inset-x-0 bottom-0 items-center z-20 flex justify-between p-4 text-center">
         {/* Social Icons */}
         <div className="md:gap-5 flex items-center gap-3">
           {resInfo.facebook && (
@@ -66,7 +69,9 @@ const ThemeOneBanner = () => {
             </Link>
           )}
         </div>
-
+        <div className="">
+          <p className="text-white">Table : {tableName}</p>
+        </div>
         {/* About Restaurant  */}
         <div className={`flex-row items-center md:gap-5 flex gap-3`}>
           {resInfo.phone && (

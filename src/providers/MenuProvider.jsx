@@ -3,6 +3,9 @@ import { APIURL } from "../lib/ApiKey";
 import { defaultColor, tabAchat } from "../constant/page";
 import { axiosInstance } from "../axiosInstance";
 import Spinner from "react-spinner-material";
+import loaderAnimation from "@/components/loader.json";
+import Lottie from "lottie-react";
+import SplashScreen from "../components/ui/splash-screen";
 
 export const MenuContext = createContext();
 
@@ -18,6 +21,8 @@ const MenuProvider = ({ children }) => {
   const [customization, setCustomization] = useState(defaultColor);
   const restoSlug = window.location.pathname.split("/")[2];
   const table_id = window.location.search.split("=")[1] || null;
+  const [qrCode, setQrCode] = useState([]);
+  const [tableName, setTableName] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,13 +45,11 @@ const MenuProvider = ({ children }) => {
           ] = await Promise.all([
             fetch(`${APIURL}/api/getCategorieByResto/${resto.id}`),
             fetch(
-              `${APIURL}/api/getdishes/${resto.id}${
-                selectedTab !== "All" ? `?category=${selectedTab}` : ""
+              `${APIURL}/api/getdishes/${resto.id}${selectedTab !== "All" ? `?category=${selectedTab}` : ""
               }`
             ),
             fetch(
-              `${APIURL}/api/getdrinks/${resto.id}${
-                selectedTab !== "All" ? `?category=${selectedTab}` : ""
+              `${APIURL}/api/getdrinks/${resto.id}${selectedTab !== "All" ? `?category=${selectedTab}` : ""
               }`
             ),
             axiosInstance.get(`/api/infos/${resto.id}`),
@@ -84,6 +87,10 @@ const MenuProvider = ({ children }) => {
           setResInfo(infoResponse.data[0]);
           const customizationData = await customizationResponse.json();
           setCustomization(customizationData[0] || defaultColor);
+          const qrCodeRes = await axiosInstance.get(`/api/qrcodes/${resto.id}`);
+          if (qrCodeRes) {
+            setQrCode(qrCodeRes.data);
+          }
         } else {
           setMessage("No restaurant found with the provided slug.");
         }
@@ -97,11 +104,20 @@ const MenuProvider = ({ children }) => {
 
     fetchData();
   }, [restoSlug, selectedTab]);
-
+  useEffect(() => {
+    if (qrCode.length > 0 && table_id) {
+      const getTableName = (tableId) => {
+        const table = qrCode.find(qr => qr.table_id === parseInt(tableId));
+        return table ? table.table.name : 'Default';
+      };
+      setTableName(getTableName(table_id));
+    }
+  }, [qrCode, table_id]);
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Spinner size={100} color={"#28509E"} spinnerWidth={1} visible={true} />
+        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 500, height: 500 }} />
+        {/* <SplashScreen />; */}
       </div>
     );
   }
@@ -109,6 +125,7 @@ const MenuProvider = ({ children }) => {
   const values = {
     table_id,
     restoSlug,
+    tableName,
     cartCount,
     setCartCount,
     restos,

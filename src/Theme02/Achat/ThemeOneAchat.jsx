@@ -33,7 +33,7 @@ import {
 
 const ThemeOneAchat = ({ activeLink }) => {
   // restaurant menu data
-  const { customization, restos, resInfo, table_id } = useMenu();
+  const { customization, restos, resInfo, table_id, tableName } = useMenu();
   const resto_id = restos.id;
 
   const queryParams = new URLSearchParams(location.search);
@@ -52,7 +52,7 @@ const ThemeOneAchat = ({ activeLink }) => {
     0
   );
 
-  
+
   // const submitOrder = async (cartItems, totalCost) => {
   //   setPending(true);
 
@@ -125,20 +125,20 @@ const ThemeOneAchat = ({ activeLink }) => {
   //   }
   // };
   const submitOrder = async (cartItems, totalCost) => {
-    
+
     console.log("CartItems: ", cartItems);
     setPending(true);
     let cartItemProduct = cartItems.map(item => ({
       type: item.type,  // Assuming all items are dishes
       id: item.id,
-      quantity: item.quantity, 
-      comment: item.comment ? item.comment : null,  
+      quantity: item.quantity,
+      comment: item.comment ? item.comment : null,
       toppings: item.toppings,
       ingrediants: item.ingredients,
       extraVariant: item.extravariants
     })
 
-  );
+    );
 
     const order = {
       total: totalCost,
@@ -147,7 +147,7 @@ const ThemeOneAchat = ({ activeLink }) => {
       resto_id: resto_id,   // Assuming static as well, adjust accordingly
       cartItems: cartItemProduct
     };
-    console.log("The orde is ",order);
+    console.log("The orde is ", order);
     try {
       const response = await fetch(`https://backend.garista.com/api/order`, {
         method: 'POST',
@@ -163,12 +163,11 @@ const ThemeOneAchat = ({ activeLink }) => {
       }
 
       const responseData = await response.json();
-      console.log('Order submitted:',  responseData?.order?.id);
+      console.log('Order submitted:', responseData?.order?.id);
       localStorage.setItem('orderID', JSON.stringify(responseData?.order?.id))
       const id = JSON.stringify(responseData?.order?.id)
-      
-      if(response)
-      {
+
+      if (response) {
         const notification = {
           title: "New Order",
           status: "Order",
@@ -183,17 +182,17 @@ const ThemeOneAchat = ({ activeLink }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-        },
+          },
           body: JSON.stringify(notification)
         });
-        
-          console.log("Nice => ",responseNotification);
-          setPending(false);
-          setOrderSuccessModalOpen(true);
-          setOrderID(id)
-          dispatch(removeAll())
+
+        console.log("Nice => ", responseNotification);
+        setPending(false);
+        setOrderSuccessModalOpen(true);
+        setOrderID(id)
+        dispatch(removeAll())
       }
-      
+
     } catch (error) {
       setPending(false);
       console.error('Failed to submit order:', error.message);
@@ -208,21 +207,21 @@ const ThemeOneAchat = ({ activeLink }) => {
   return (
     <Sheet>
       <SheetTrigger>
-      <p className="relative">
-  <FiShoppingBag
-    size={25}
-    color={customization?.selectedPrimaryColor}
-  />
-  <span
-    style={{
-      backgroundColor: customization?.selectedPrimaryColor,
-      color: customization?.selectedBgColor,
-    }}
-    className="absolute -right-1.5 -top-1 size-5 grid place-content-center rounded-full text-[10px] leading-3"
-  >
-    {totalItems}
-  </span>
-</p>
+        <p className="relative">
+          <FiShoppingBag
+            size={25}
+            color={customization?.selectedPrimaryColor}
+          />
+          <span
+            style={{
+              backgroundColor: customization?.selectedPrimaryColor,
+              color: customization?.selectedBgColor,
+            }}
+            className="absolute -right-1.5 -top-1 size-5 grid place-content-center rounded-full text-[10px] leading-3"
+          >
+            {totalItems}
+          </span>
+        </p>
       </SheetTrigger>
 
       <SheetContent
@@ -232,7 +231,7 @@ const ThemeOneAchat = ({ activeLink }) => {
         <div className="dark:bg-gray-950 bg-white">
           <div className="relative flex items-center justify-between">
             <h1 className="text-lg font-bold text-black uppercase">
-              {restos.name || "Garista"}
+              {restos.name || "Garista"} <span className="text-xs text-muted-foreground capitalize font-normal"> Table: {tableName}</span>
             </h1>
 
             <SheetClose>
@@ -302,9 +301,9 @@ const ThemeOneAchat = ({ activeLink }) => {
                 <div className="gap-7 flex flex-col w-full pt-5 mb-auto">
                   {cartItems.map((item) => (
                     <>
-                    <CartItem key={item.id} item={item} infoRes={resInfo} />
-          
-        </>
+                      <CartItem key={item.id} item={item} infoRes={resInfo} />
+
+                    </>
                   ))}
 
                   <SheetClose>
@@ -443,7 +442,7 @@ const CartItem = ({ item, infoRes }) => {
   const dispatch = useDispatch();
   const { customization } = useMenu();
   console.log("itemsitems", item);
-  
+
   return (
     <div className="last:border-b-0 grid gap-4 border-b border-[#C2C2C2] pb-3">
       <div className="flex flex-col">
@@ -486,16 +485,16 @@ const CartItem = ({ item, infoRes }) => {
             <button onClick={() => dispatch(removeItem(item.id))}>
               <FiTrash size={12} className="text-red-500" />
             </button>
-            
+
           </div>
-          
+
         </div>
-        
-        <ToppingOptions item={item}/>
-        <ExtraOptions item={item}/>
-        <IngredientsOption item={item}/>
+
+        <ToppingOptions item={item} />
+        <ExtraOptions item={item} />
+        <IngredientsOption item={item} />
       </div>
-      
+
     </div>
   );
 };
@@ -522,11 +521,11 @@ export const CartSuccessModal = ({ open, setOpen }) => {
               style={{ color: customization?.selectedPrimaryColor }}
               className="text-2xl font-bold text-center text-black"
             >
-             {t('achat.preparedorder')}
+              {t('achat.preparedorder')}
             </h2>
 
             <span className="text-sm font-normal text-gray-500">
-             {t('achat.thanksalert')}
+              {t('achat.thanksalert')}
             </span>
           </AlertDialogDescription>
         </AlertDialogHeader>

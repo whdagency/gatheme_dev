@@ -47,6 +47,7 @@ import {
 import Thumbnail from "./Video-Thumbnail.webp"
 import { FaCheck } from 'react-icons/fa';
 import { IoCloseOutline } from "react-icons/io5";
+import callWaiterSvg from "./callWaiter.svg"
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
   const { toast } = useToast()
   const [selectedProp, setSelectedProp] = useState(0); // initialisation de l'état avec 0
@@ -65,7 +66,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   const [selectedPrices, setSelectedPrices] = useState(0);
   const isArabic = infoRes.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
-  console.log("The RestoInfosss => ", selectedToppings, selectedExtraToppings);
   // Initial quantity
   const getQuantity = (itemId) => quantities[itemId] || 1;
   const updateSelectedPrices = (price) => {
@@ -109,6 +109,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             };
           } else {
             // For single selection, replace the existing option
+            const previousOption = existingTopping.option[0]; // Assuming there is always one option for single selection
             const newTopping = {
               id: topping.id,
               name: topping.name,
@@ -117,9 +118,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
-
-            // Update the selected prices
-            updateSelectedPrices(price, dishId);
+            // Update the selected prices: subtract previous option's price and add new option's price
+            const previousPrice = previousOption?.price || 0;
+            updateSelectedPrices(price - previousPrice, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -200,6 +201,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             };
           } else {
             // For single selection, replace the existing option
+            const previousOption = existingTopping.option[0]; // Assuming there is always one option for single selection
             const newTopping = {
               id: topping.id,
               name: topping.name,
@@ -208,8 +210,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const updatedDishToppings = dishToppings.map(item =>
               item.id === topping.id ? newTopping : item
             );
-            // Update the selected prices
-            updateSelectedPrices(price, dishId);
+            // Update the selected prices: subtract previous option's price and add new option's price
+            const previousPrice = previousOption?.price || 0;
+            updateSelectedPrices(price - previousPrice, dishId);
             return {
               ...prevSelected,
               [dishId]: updatedDishToppings
@@ -399,34 +402,34 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       [itemId]: value > 0 ? value : 1,
     }));
   };
-  const spanStyle = {
-    padding: '20px',
-    background: '#efefef',
-    color: '#000000'
-  }
+  // const spanStyle = {
+  //   padding: '20px',
+  //   background: '#efefef',
+  //   color: '#000000'
+  // }
 
-  const divStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundSize: 'cover',
-    height: '400px'
-  }
-  const slideImages = [
-    {
-      url: 'https://images.otstatic.com/prod/26203459/3/large.jpg',
-      caption: 'Luxury Dish 1'
-    },
-    {
-      url: 'https://i.pinimg.com/564x/d1/57/db/d157dbde841b3fa8f7e5d59344469f5f.jpg',
-      caption: 'Luxury Dish 2'
-    },
-    {
-      url: 'https://i.pinimg.com/564x/25/46/f9/2546f9c337c92e940b7cbb45854020ef.jpg',
-      caption: 'Luxury Dish 3'
-    },
+  // const divStyle = {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   backgroundSize: 'cover',
+  //   height: '400px'
+  // }
+  // const slideImages = [
+  //   {
+  //     url: 'https://images.otstatic.com/prod/26203459/3/large.jpg',
+  //     caption: 'Luxury Dish 1'
+  //   },
+  //   {
+  //     url: 'https://i.pinimg.com/564x/d1/57/db/d157dbde841b3fa8f7e5d59344469f5f.jpg',
+  //     caption: 'Luxury Dish 2'
+  //   },
+  //   {
+  //     url: 'https://i.pinimg.com/564x/25/46/f9/2546f9c337c92e940b7cbb45854020ef.jpg',
+  //     caption: 'Luxury Dish 3'
+  //   },
 
-  ];
+  // ];
 
 
   // Filtrer les éléments en fonction du terme de recherche
@@ -453,6 +456,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     dispatch(addItem({ product, quantity: quantity, resto_id: restoId, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices }));
     setIsModalOpen(false);
   };
+
   const [showAlert, setShowAlert] = useState(false);
   // Fonction pour afficher l'alerte
   const handleShowAlert = () => {
@@ -587,7 +591,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleAddItem(item, 1, {}, {}, {}, 0);
+                                  handleAddItem(item, 1, [], [], [], 0);
                                   toast({
                                     title: `${item.name} ${t("not.title")}`,
                                     description: `${t("not.title")}`
@@ -672,8 +676,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       </div>
       <Credenza className={"!bg-white !py-0"} open={isModalOpen} onOpenChange={setIsModalOpen}>
         <CredenzaContent className="flex flex-col max-h-full md:w-[50rem] bg-white md:justify-center">
-          <ScrollArea className="h-full w-full rounded-md p-0 overflow-y-auto">
-            {console.log("helllos", selectedItem)}
+          <ScrollArea className="h-[38rem] w-full rounded-md p-0 overflow-y-auto">
             {selectedItem != null && (
               <>
                 <CredenzaHeader>
@@ -897,14 +900,36 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
+
           <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
+            <img src={callWaiterSvg} alt="Call Waiter" />
+            {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
             <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+            <AlertDialogDescription>Please select an option below</AlertDialogDescription>
+
           </AlertDialogHeader>
           <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
 
-            <AlertDialogAction className="w-full !px-0" onClick={submitOrder}>{t("waiter.CallWaiter")}</AlertDialogAction>
-            <AlertDialogAction className="w-full !ml-0" onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
-            <AlertDialogCancel>{t("waiter.Cancel")}</AlertDialogCancel>
+            <AlertDialogAction className="w-full !px-0 bg-[#28509E]" onClick={submitOrder}>{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full border-[#28509E] bg-white text-black !ml-0" onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+            <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-x"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

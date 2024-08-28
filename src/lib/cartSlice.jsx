@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const transformIngredients = (ingredients) => {
-  return Object.values(ingredients).flat().map(name => ({ name }));
+  return Object.values(ingredients || {}).flat().map(name => ({ name }));
 };
 const transformtoppings = (toppings) => {
-  return Object.values(toppings).flat().map(topping => ({
+  return Object.values(toppings || {}).flat().map(topping => ({
     id: topping.id,
     name: topping.name,
     option: topping.option.map(opt => ({
@@ -20,7 +20,7 @@ const initialState = {
   error: null
 };
 const transformPrices = (selectedPrices) => {
-  return Object.values(selectedPrices).map(price => parseFloat(price));
+  return Object.values(selectedPrices || {}).map(price => parseFloat(price));
 };
 const updateLocalStorage = (items) => {
   localStorage.setItem("cartItems", JSON.stringify(items));
