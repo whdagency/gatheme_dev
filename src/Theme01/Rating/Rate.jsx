@@ -4,6 +4,22 @@ import Google from './icons8-google.svg';
 import Spinner from 'react-spinner-material';
 import { useTranslation } from "react-i18next";
 
+import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
+
+import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogCancel
+} from "@/components/ui/alert-dialog";
+import { useMenu } from "../../hooks/useMenu";
+import { Button } from '@/components/ui/button';
 export default function Rate({ infoRes }) {
   if (!infoRes) {
     return (
@@ -14,7 +30,7 @@ export default function Rate({ infoRes }) {
   }
 
   const { google_buss, trustpilot_link } = infoRes;
-  console.log('gg ', google_buss , 'pilot', trustpilot_link);
+  const { submitBille, customization, callWaiter } = useMenu();
   const hasGoogle = google_buss !== null && google_buss !== "";
   const hasTrustpilot = trustpilot_link !== null && trustpilot_link !== "";
   const [t, i18n] = useTranslation("global")
@@ -23,8 +39,8 @@ export default function Rate({ infoRes }) {
       <div className="space-y-6 text-center">
         <h1 className="text-2xl font-bold text-[#333] dark:text-[#f8f8f8]">{t("rating.leaveReview")}</h1>
         {
-          (hasGoogle || hasTrustpilot) &&  
-            <p className="text-[#666] dark:text-[#ccc]">{t("rating.btnReview")}</p>
+          (hasGoogle || hasTrustpilot) &&
+          <p className="text-[#666] dark:text-[#ccc]">{t("rating.btnReview")}</p>
         }
         <div className="grid grid-cols-1 gap-4 w-full">
           {hasGoogle && (
@@ -53,6 +69,46 @@ export default function Rate({ infoRes }) {
           )}
         </div>
       </div>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
+          <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+            <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
+
+          <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
+            <img src={callWaiterSvg} alt="Call Waiter" />
+            {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
+            <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
+
+          </AlertDialogHeader>
+          <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
+
+            <AlertDialogAction className="w-full !px-0 bg-[#28509E]" onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full border-[#28509E] bg-white text-black !ml-0" onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+            <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-x"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 }

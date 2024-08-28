@@ -16,9 +16,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogCancel
 } from "@/components/ui/alert-dialog";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
+import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
+
+import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
+import { useMenu } from "../../hooks/useMenu";
 
 const formSchema = z.object({
   clamer_name: z.string().optional(),
@@ -27,6 +33,7 @@ const formSchema = z.object({
 });
 
 export default function Claims({ items, table_id }) {
+  const { submitBille, customization, callWaiter, resInfo } = useMenu();
   const searchInputRef = useRef(null);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -120,7 +127,7 @@ export default function Claims({ items, table_id }) {
         )}>
           <div className={`flex items-center justify-between ${isArabic === 'ar' ? 'text-right ml-auto justify-items-end' : 'text-left'}`} dir={isArabic === 'ar' ? 'rtl' : 'ltr'}>
             <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-              {t("claims.makeClaim")} <span className="underline underline-offset-3 decoration-8 decoration-[#28509E] dark:decoration-blue-600">{t("claims.claim")}</span>
+              {t("claims.makeClaim")} <span className="underline underline-offset-3 decoration-8  dark:decoration-blue-600" style={{ textDecorationColor: customization?.selectedPrimaryColor }}>{t("claims.claim")}</span>
             </h1>
             <div className="flex items-center space-x-2">
               <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
@@ -230,9 +237,10 @@ export default function Claims({ items, table_id }) {
               />
               <div className={`flex items-center justify-between ${isArabic ? ' flex justify-end' : ''}`}>
                 <Button
-                  className={`px-4 py-2 my-4 font-medium text-white rounded-md bg-blue-800 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-offset-gray-800 ${isArabic === 'ar' ? 'justify-end' : ''}`}
+                  className={`px-4 py-2 my-4 font-medium text-white rounded-md  hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:bg-gray-600 dark:hover:bg-gray-500 dark:focus:ring-offset-gray-800 ${isArabic === 'ar' ? 'justify-end' : ''}`}
                   dir={isArabic === 'ar' ? 'rtl' : 'ltr'}
                   type="submit"
+                  style={{ backgroundColor: customization?.selectedPrimaryColor }}
                   disabled={isSubmitting}
                 >
                   {isSubmitting && <Loader className={'mx-2 my-2 animate-spin'} />} {t("claims.submit")}
@@ -259,6 +267,46 @@ export default function Claims({ items, table_id }) {
           </AlertDialog>
         </div>
       </div>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
+          <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+            <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
+
+          <AlertDialogHeader className={`${resInfo.language === 'ar' ? ' ml-auto' : ''}`} dir={resInfo.language === 'ar' ? 'rtl' : 'ltr'}>
+            <img src={callWaiterSvg} alt="Call Waiter" />
+            {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
+            <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
+
+          </AlertDialogHeader>
+          <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
+
+            <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+            <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-x"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

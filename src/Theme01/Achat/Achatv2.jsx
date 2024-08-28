@@ -18,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  AlertDialogCancel
 } from "@/components/ui/alert-dialog";
 import { useTranslation } from 'react-i18next';
 import {
@@ -29,10 +30,15 @@ import { database, onValue, ref } from '../../firebaseConfig';
 import { useMenu } from '../../hooks/useMenu';
 import orderSvg from "./orderSvg.svg"
 import { CheckIcon } from 'lucide-react';
+
+import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
+
+import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
 export default function Achat({ resto_id, infoRes, customization, slug, selectedDishes }) {
   const cartItems = useSelector(state => state.cart.items);
 
-  const { tableName } = useMenu();
+  const { tableName,
+    submitBille, callWaiter } = useMenu();
   const totalCost = cartItems.reduce((total, item) => {
     // Convert item.price to a number, defaulting to 0 if it's not a valid number
     const itemPrice = parseFloat(item.price) || 0;
@@ -293,7 +299,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
 
         <div className="flex flex-col gap-4  snap-y  scrollbar-hide">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >{t("achat.shoppingCart")}<span className="text-xs text-muted-foreground capitalize font-normal"> Of Table: {tableName}</span></h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >{t("achat.shoppingCart")}<span className="text-xs text-muted-foreground capitalize font-normal"> {t("achat.ofTable")}: {tableName}</span></h2>
             {/* <button style={{backgroundColor: customization?.selectedPrimaryColor,color: customization?.selectedTextColor}} onClick={() => dispatch(removeAll())} className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
               <h1 className='mix-blend-difference' style={{color: customization?.selectedTextColor}}>
               {t("achat.clearBtn")}
@@ -337,7 +343,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
                     {t("achat.checkout")}
                   </p>
                   <Link to={`/menu/${slug}?table_id=${table_id}`}>
-                    <p className=" text-center mt-2 text-lg dark:text-gray-400 text-blue-600">
+                    <p className=" text-center mt-2 text-lg dark:text-gray-400 " style={{ color: customization?.selectedPrimaryColor }}>
                       <FaPlus size={15} className="inline-block mr-1" />  {t("achat.addmoreitems")}
                     </p>
                   </Link>
@@ -425,10 +431,10 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
               <AlertDialogDescription>{t("achat.thankYou")}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="flex flex-row gap-4 justify-center">
-              <AlertDialogAction className="bg-[#28509E]" autoFocus onClick={() => submitOrder(cartItems, totalCost)}>
+              <AlertDialogAction style={{ backgroundColor: customization?.selectedPrimaryColor }} autoFocus onClick={() => submitOrder(cartItems, totalCost)}>
                 {t("menu.ok")}
               </AlertDialogAction>
-              <Button className="border-[#28509E]" autoFocus onClick={() => setOrderSuccessModalOpen(false)} variant="outline" >
+              <Button style={{ borderColor: customization?.selectedPrimaryColor }} autoFocus onClick={() => setOrderSuccessModalOpen(false)} variant="outline" >
                 {t("menu.cancel")}
               </Button>
 
@@ -454,7 +460,46 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
           </div>
         </CredenzaContent>
       </Credenza>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
+          <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+            <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
 
+          <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
+            <img src={callWaiterSvg} alt="Call Waiter" />
+            {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
+            <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
+
+          </AlertDialogHeader>
+          <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
+
+            <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+            <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="feather feather-x"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
@@ -613,11 +658,11 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
     <div className="grid gap-4">
       <div className="bg-gray-100/50 dark:bg-gray-800 p-4 rounded-lg">
         <div className='flex items-center flex-col gap-2'>
-          <div className="w-16 h-16 rounded-md overflow-hidden">
+          <div className="w-16 flex flex-col h-16 rounded-md overflow-hidden">
             <img
               alt={item.name}
               className="w-full h-full object-cover"
-              height={64}
+              height={84}
               src={`${APIURL}/storage/${item.image1}`}
               style={{
                 aspectRatio: '64/64',
@@ -625,26 +670,16 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
               }}
               width={64}
             />
+
           </div>
+
+
           <div className="flex flex-col justify-center items-center">
 
             <div className='text-center'>
               <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
               <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">{item.price + " " + infoRes.currency}</p>
             </div>
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={handleClick}
-              style={{ backgroundColor: customization?.selectedPrimaryColor }}
-              className={`transition-transform duration-300 ${isAdded ? 'scale-105 !bg-muted/50' : ''}`}
-            >
-              {isAdded ? (
-                <CheckIcon className="w-4 h-4 text-black" />
-              ) : (
-                <PlusIcon className="w-4 h-4 text-white" />
-              )}
-            </Button>
           </div>
           {/* <div className="flex items-center gap-2">
             <Button onClick={() => setQuantities(quantities > 1 ? quantities - 1 : quantities)} size="icon" variant="outline">
@@ -656,6 +691,19 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
             </Button>
           </div> */}
 
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={handleClick}
+            style={{ backgroundColor: customization?.selectedPrimaryColor }}
+            className={`transition-transform duration-300 ${isAdded ? 'scale-105 !bg-muted/50' : ''}`}
+          >
+            {isAdded ? (
+              <CheckIcon className="w-4 h-4 text-black" />
+            ) : (
+              <PlusIcon className="w-4 h-4 text-white" />
+            )}
+          </Button>
 
         </div>
       </div>

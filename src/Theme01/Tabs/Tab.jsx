@@ -4,26 +4,26 @@ import './tab.css';
 import { useTranslation } from 'react-i18next';
 import PromoItem from '../MenuItems/PromoItems';
 
-function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, tabel_id, customization,  promo}) {
-    const [filteredCategories, setFilteredCategories] = useState([]);
+function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, tabel_id, customization, promo }) {
+  const [filteredCategories, setFilteredCategories] = useState([]);
   useEffect(() => {
     // Step 1: Filter categories with defined orderCategorie
     const categoriesWithOrder = categories.filter(category => category.orderCategorie !== undefined);
-    
+
     // Step 2: Further filter categories based on dishes
     const filteredCategories = categoriesWithOrder.filter(category => {
-        return dishes.some(item => {
-            const categoryName = item.categorie ? item.categorie.name : item.category;
-            return categoryName === category.name && !item.isCustomizable; // Exclude customizable dishes
-        });
+      return dishes.some(item => {
+        const categoryName = item.categorie ? item.categorie.name : item.category;
+        return categoryName === category.name && !item.isCustomizable; // Exclude customizable dishes
+      });
     });
-    
+
     // Step 3: Sort the filtered categories by orderCategorie
     filteredCategories.sort((a, b) => a.orderCategorie - b.orderCategorie);
-    
+
     // Step 4: Set the state with the sorted, filtered categories
     setFilteredCategories(filteredCategories);
-}, [categories, dishes]);
+  }, [categories, dishes]);
   const [t, i18n] = useTranslation('global');
 
   return (
@@ -46,7 +46,7 @@ function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, 
             </div>
           </div>
           {promo && promo.length > 0 && (
-            <div className="relative shadow-md rounded-xl border-gray-300 border inline-block ">
+            <div className="relative  rounded-xl border-gray-300 border inline-block ">
               <div
                 onClick={() => setSelectedTab('Promo')}
                 className={`tab flex items-center px-[35px] w-full justify-center h-9 font-semibold rounded-[8px] cursor-pointer transition-colors`}
@@ -57,13 +57,13 @@ function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, 
                 <h2 className="text-[14px] mb-0 whitespace-nowrap" style={{
                   color: selectedTab === 'Promo' ? customization?.selectedBgColor : customization?.selectedTextColor
                 }}>
-                  Promo
+                  Promo !
                 </h2>
               </div>
             </div>
           )}
           {filteredCategories.map((item) => (
-            <div key={item.id} className="relative shadow-md rounded-xl border-gray-300 border inline-block">
+            <div key={item.id} className="relative  rounded-xl border-gray-300 border inline-block">
               <div
                 onClick={() => setSelectedTab(item.name)}
                 className={`tab flex items-center px-[35px] w-full justify-center h-9 font-semibold rounded-[8px] cursor-pointer transition-colors`}
@@ -82,9 +82,9 @@ function Tab({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, 
       </div>
       {selectedTab === 'Promo' ? (
         <PromoItem
-        customization={customization}
-        selectedTab={selectedTab}
-        promo={promo}
+          customization={customization}
+          selectedTab={selectedTab}
+          promo={promo}
         />
       ) : (
         <MenuItems

@@ -23,6 +23,7 @@ const MenuProvider = ({ children }) => {
   const table_id = window.location.search.split("=")[1] || null;
   const [qrCode, setQrCode] = useState([]);
   const [tableName, setTableName] = useState("")
+  console.log("hello here ", resInfo);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,12 +117,59 @@ const MenuProvider = ({ children }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 500, height: 500 }} />
+        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
         {/* <SplashScreen />; */}
       </div>
     );
   }
+  async function callWaiter() {
+    try {
+      const notification = {
+        title: "New Call For Waiter",
+        status: "Waiter",
+        resto_id: resInfo.resto_id,
+        table_id: table_id,
+      };
+      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(notification)
+      });
 
+      if (responseNotification) {
+        console.log("Nice => ", responseNotification);
+      }
+      // Handle post-order submission logic here, like clearing the cart or redirecting the user
+    } catch (error) {
+      console.error('Failed to submit order:', error.message);
+    }
+  }
+  async function submitBille() {
+    try {
+      const notification = {
+        title: "Asking For Bill",
+        status: "Bill",
+        resto_id: resInfo.resto_id,
+        table_id: table_id,
+      };
+      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(notification)
+      });
+
+      if (responseNotification) {
+        console.log("Nice => ", responseNotification);
+      }
+      // Handle post-order submission logic here, like clearing the cart or redirecting the user
+    } catch (error) {
+      console.error('Failed to submit order:', error.message);
+    }
+  }
   const values = {
     table_id,
     restoSlug,
@@ -138,6 +186,8 @@ const MenuProvider = ({ children }) => {
     setSelectedTab,
     resInfo,
     setResInfo,
+    submitBille,
+    callWaiter,
     message,
     setMessage,
     customization,

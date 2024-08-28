@@ -1,41 +1,43 @@
-import { FaCheckCircle } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import ViewOrder from "./view-order";
-import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import ViewOrder from './view-order';
+import { Separator } from '@/components/ui/separator';
+import { useMenu } from '../../hooks/useMenu';
 
 export default function StepsBar({ status, complete, orderID }) {
-    console.log("comlevel", orderID);
+    const { customization } = useMenu();
+    const [showCompleteMessage, setShowCompleteMessage] = useState(false);
+
+    useEffect(() => {
+        if (status === 'Completed' && complete) {
+            // Show the completion message after a 3-second delay
+            const timer = setTimeout(() => setShowCompleteMessage(true), 3000);
+            return () => clearTimeout(timer);
+        } else {
+            setShowCompleteMessage(false);
+        }
+    }, [status, complete]);
 
     // Define the base steps
-    const baseSteps = ["Preparing", "Ready", "Completed"];
+    const baseSteps = ['Preparing', 'Ready', 'Completed'];
 
     // Determine which steps to display based on the status
     const getSteps = () => {
         switch (status) {
-            case "Accepted":
-                return ["Accepted", ...baseSteps];
-            case "Rejected":
-                return ["Rejected", ...baseSteps];
-            case "Completed":
-                return ["Accepted", ...baseSteps];
-            case "Ready":
-                return ["Accepted", ...baseSteps];
-            case "Preparing":
-                return ["Accepted", ...baseSteps];
-            case "New":
+            case 'Accepted':
+                return ['Accepted', ...baseSteps];
+            case 'Rejected':
+                return ['Rejected', ...baseSteps];
+            case 'Completed':
+                return ['Accepted', ...baseSteps];
+            case 'Ready':
+                return ['Accepted', ...baseSteps];
+            case 'Preparing':
+                return ['Accepted', ...baseSteps];
+            case 'New':
             default:
-                return ["New", ...baseSteps];
+                return ['New', ...baseSteps];
         }
     };
 
@@ -44,7 +46,7 @@ export default function StepsBar({ status, complete, orderID }) {
     // Compute the index of the current step
     const currentStep = steps.indexOf(status) !== -1 ? steps.indexOf(status) : 0;
 
-    if (complete) {
+    if (complete && showCompleteMessage) {
         return (
             <>
                 <motion.div
@@ -75,32 +77,31 @@ export default function StepsBar({ status, complete, orderID }) {
 
     return (
         <div className="flex flex-col gap-1">
-
             <ol className="flex w-full max-w-lg mx-auto px-5 mb-9 mt-4 items-center justify-center">
                 {steps.map((step, index) => (
                     <motion.li
                         key={index}
-                        className={`flex items-center ${index < steps.length - 1 ? "w-full" : ""}`}
+                        className={`flex items-center ${index < steps.length - 1 ? 'w-full' : ''}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
                         <div className="relative flex flex-col items-center">
                             <motion.span
-                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ease-in-out ${step === "Rejected"
-                                    ? "bg-red-500"
-                                    : step === "New"
-                                        ? "bg-white border-2 border-gray-300"
+                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ease-in-out ${step === 'Rejected'
+                                    ? 'bg-red-500'
+                                    : step === 'New'
+                                        ? 'bg-white border-2 border-gray-300'
                                         : index <= currentStep
-                                            ? "bg-[#0162DD]"
-                                            : "bg-white border-2 border-gray-300"
-                                    } dark:bg-[#3C48FC] dark:text-[#fff] ${index === currentStep ? "dark:bg-[#E2E9F0] dark:text-[#A0B1C0]" : ""
+                                            ? 'bg-[#0162DD]'
+                                            : 'bg-white border-2 border-gray-300'
+                                    } dark:bg-[#3C48FC] dark:text-[#fff] ${index === currentStep ? 'dark:bg-[#E2E9F0] dark:text-[#A0B1C0]' : ''
                                     }`}
                                 initial={{ scale: 0.8 }}
                                 animate={{ scale: 1 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                {step === "New" ? (
+                                {step === 'New' ? (
                                     <span className="text-xs">0{index + 1}</span>
                                 ) : index <= currentStep ? (
                                     <svg
@@ -121,7 +122,7 @@ export default function StepsBar({ status, complete, orderID }) {
                                 )}
                             </motion.span>
                             <div
-                                className={`absolute top-0 mt-10 text-xs font-sans text-center ${step === "New" ? "text-black" : step === "Rejected" ? "text-red-500" : index <= currentStep ? "text-[#0162DD] font-bold" : ""}`}
+                                className={`absolute top-0 mt-10 text-xs font-sans text-center ${step === 'New' ? 'text-black' : step === 'Rejected' ? 'text-red-500' : index <= currentStep ? 'text-[#0162DD] font-bold' : ''}`}
                             >
                                 {step}
                             </div>
@@ -129,7 +130,7 @@ export default function StepsBar({ status, complete, orderID }) {
 
                         {index < steps.length - 1 && (
                             <div
-                                className={`flex-auto mx-2 border-t-2 ${index < currentStep ? "border-[#0162DD]" : "border-[#E2E9F0]"
+                                className={`flex-auto mx-2 border-t-2 ${index < currentStep ? 'border-[#0162DD]' : 'border-[#E2E9F0]'
                                     } dark:border-[#A0B1C0]`}
                             ></div>
                         )}

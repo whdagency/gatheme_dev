@@ -20,7 +20,7 @@ export default function SplashScreen() {
                     <img
                         src={`${APIURL}/storage/${restaurantLogo}`}
                         loading='lazy'
-                        className="w-56 object-cover bg-[#999] h-56"
+                        className="w-48 object-cover bg-[#999] h-48"
                         alt={"Restaurant Logo"}
                     />
                 </motion.div>

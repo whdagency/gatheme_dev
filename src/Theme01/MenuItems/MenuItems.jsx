@@ -46,7 +46,8 @@ import {
 // import VideoThumbnail from 'react-video-thumbnail';
 import Thumbnail from "./Video-Thumbnail.webp"
 import { FaCheck } from 'react-icons/fa';
-import { IoCloseOutline } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+
 import callWaiterSvg from "./callWaiter.svg"
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
   const { toast } = useToast()
@@ -74,6 +75,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     setSelectedPrices(prevTotal => prevTotal + floatPrice);
   };
   const handleToppingSelect = (topping, option, dishId) => {
+    setToppingError(false)
     setSelectedToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
@@ -143,29 +145,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       }
     });
   };
-  const handleIngrediantSelect = (topping, dishId) => {
-    setSelectedIngrediant(prevSelected => {
-      const dishIngrediants = prevSelected[dishId] || [];
-      const toppingKey = `${topping.name}`;
-      const isSelected = dishIngrediants.includes(toppingKey);
-      if (isSelected) {
-        // Remove topping from selected list
-        return {
-          ...prevSelected,
-          [dishId]: dishIngrediants.filter(name => name !== toppingKey)
-        };
-      } else {
-        // Add topping to selected list
-        return {
-          ...prevSelected,
-          [dishId]: [...dishIngrediants, toppingKey]
-        };
-      }
-    });
-  };
-
-
   const handleExtraToppingSelect = (topping, option, dishId) => {
+    setToppingErrorExtra(false)
     setSelectedExtraToppings(prevSelected => {
       const dishToppings = prevSelected[dishId] || [];
       const existingTopping = dishToppings.find(item => item.id === topping.id);
@@ -236,20 +217,41 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       }
     });
   };
+  const handleIngrediantSelect = (topping, dishId) => {
+    setSelectedIngrediant(prevSelected => {
+      const dishIngrediants = prevSelected[dishId] || [];
+      const toppingKey = `${topping.name}`;
+      const isSelected = dishIngrediants.includes(toppingKey);
+      if (isSelected) {
+        // Remove topping from selected list
+        return {
+          ...prevSelected,
+          [dishId]: dishIngrediants.filter(name => name !== toppingKey)
+        };
+      } else {
+        // Add topping to selected list
+        return {
+          ...prevSelected,
+          [dishId]: [...dishIngrediants, toppingKey]
+        };
+      }
+    });
+  };
+
+
+
   const renderToppings = (toppings, dishId) => {
     const dishIngrediants = selectedToppings[dishId] || [];
-
-
-
     return toppings?.map(topping => {
       const options = JSON.parse(topping.options);
       // const isDisabled = existingTopping && !topping.multiple_selection;
+      const isRequired = topping.required;
       return (
-        <div key={topping.id} className="topping-section">
-          <div className='flex items-center gap-2'>
+        <div key={topping.id} className="topping-section mb-5 mt-7">
+          <div className={`flex items-center gap-2 `}>
             <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
             {topping.required && (
-              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
+              <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white ${toppingError ? "bg-red-600" : "bg-[#28509E]"}`}>Required</span>
             )}
           </div>
           {options.map(option => {
@@ -258,10 +260,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const isOptionSelected = dishIngrediants?.some(ingredient =>
               ingredient?.option?.some(opt => opt.name === option.name)
             );
-
             // const isOptionSelected = dishIngrediants.includes(toppingKey);
             return (
-              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
+              <div key={option.name} className="flex items-center justify-start mx-3 mt-[7px] gap-3">
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
@@ -299,11 +300,11 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       const options = JSON.parse(topping.options);
       // const isDisabled = existingTopping && !topping.multiple_selection;
       return (
-        <div key={topping.id} className="topping-section">
+        <div key={topping.id} className="topping-section mb-5">
           <div className='flex items-center gap-2'>
             <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
             {topping.required && (
-              <span className='bg-[#28509E] px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white'>required</span>
+              <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white ${toppingErrorExtra ? "bg-red-600" : "bg-[#28509E]"}`}>Required</span>
             )}
           </div>
           {options.map(option => {
@@ -313,7 +314,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
               ingredient?.option?.some(opt => opt.name === option.name)
             );
             return (
-              <div key={option.name} className="flex items-center justify-start mx-3 mt-2 gap-3">
+              <div key={option.name} className="flex items-center justify-start mx-3 mt-1 gap-3">
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
@@ -355,8 +356,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             const toppingKey = `${topping.name}`;
             const isOptionSelected = dishIngrediants.includes(toppingKey);
             return (
-              <div key={index} className="topping-section">
-                <div className="flex items-center justify-start mx-3 mt-2 gap-3">
+              <div key={index} className="topping-section ">
+                <div className="flex items-center justify-start mx-3 mt-[7px] gap-3">
                   <div className="flex items-center justify-between w-full">
                     <label
                       htmlFor={topping.name}
@@ -375,7 +376,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <MinusIcon className={`w-4 h-4 `} />
                         :
                         // <FaCheck className={`w-4 h-4 text-white`}/>
-                        <IoCloseOutline size={35} className={`w-4 h-4 text-white`} />
+                        <IoClose size={35} className={`w-4 h-4 text-white`} />
                       }
                     </button>
                   </div>
@@ -451,12 +452,33 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
+  const [toppingError, setToppingError] = useState(false);
+  const [toppingErrorExtra, setToppingErrorExtra] = useState(false);
 
   const handleAddItem = (product, quantity, toppings, ingredients, extravariants, selectedPrices) => {
+
+    const requiredToppings = product.toppings.filter(topping => topping.required);
+    const requiredExtraToppings = product.extravariants.filter(topping => topping.required)
+    const allRequiredSelected = requiredToppings.every(topping => {
+      const dishToppings = toppings[product.id] || [];
+      const selectedTopping = dishToppings.find(item => item.id === topping.id);
+      return selectedTopping && selectedTopping.option.length > 0;
+    });
+    const allRequiredSelectedExtra = requiredExtraToppings.every(topping => {
+      const dishToppings = toppings[product.id] || [];
+      const selectedTopping = dishToppings.find(item => item.id === topping.id);
+      return selectedTopping && selectedTopping.option.length > 0;
+    });
+    console.log(allRequiredSelected);
+
+    if (!allRequiredSelected && !allRequiredSelectedExtra) {
+      setToppingError(true);
+      setToppingErrorExtra(true)
+      return;
+    }
     dispatch(addItem({ product, quantity: quantity, resto_id: restoId, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices }));
     setIsModalOpen(false);
   };
-
   const [showAlert, setShowAlert] = useState(false);
   // Fonction pour afficher l'alerte
   const handleShowAlert = () => {
@@ -518,20 +540,19 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       console.error('Failed to submit order:', error.message);
     }
   }
-  const generateThumbnail = async (videoPath) => {
-    console.log("done");
-    try {
-      const thumbnailUrl = await VideoThumbnail.getThumbnail(videoPath, {
-        width: 300,
-        height: 200,
-        quality: 1,
-      });
-      console.log("thumbnailUrl", thumbnailUrl);
-      return thumbnailUrl;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const generateThumbnail = async (videoPath) => {
+  //   try {
+  //     const thumbnailUrl = await VideoThumbnail.getThumbnail(videoPath, {
+  //       width: 300,
+  //       height: 200,
+  //       quality: 1,
+  //     });
+  //     console.log("thumbnailUrl", thumbnailUrl);
+  //     return thumbnailUrl;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const searchInputRef = useRef(null);
   const [t, i18n] = useTranslation("global")
 
@@ -539,8 +560,19 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
   const [showCarousel, setShowCarousel] = useState(false);
 
-  const handleVideoEnded = () => {
-    setShowCarousel(true);
+  // const handleVideoEnded = () => {
+  //   setShowCarousel(true);
+  // };
+  function calculateFontSize(length) {
+    if (length < 15) return 16; // Larger font size for shorter text
+    if (length < 20) return 14; // Medium font size
+    if (length < 30) return 12; // Medium font size
+    return 14; // Smaller font size for longer text
+  }
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
   };
   return (
     <>
@@ -577,7 +609,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div key={item.id} className="relative shadow-md rounded-[10px] w-full border-gray-300 border inline-block">
                             <div
                               onClick={() => setSelectedItem(item)}
-                              className="tab items-center justify-between flex flex-row h-full w-full overflow-hidden p-1.5 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
+                              className="tab items-center justify-between flex flex-row h-full w-full overflow-hidden  pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
                             >
                               <img src={imageUrl} alt="Menu Icon" className="w-full object-cover rounded-[10px] h-28 max-w-28" />
                               <div className={`text-black flex justify-between items-center py-2 px-3  ${infoRes.language === 'ar' ? 'text-right ml-auto' : 'text-left mr-auto'}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
@@ -621,16 +653,24 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                     <div className="tabs-container overflow-x-auto" key={index}>
                       <div className="flex gap-4">
                         <Button onClick={() => setIsModalOpen(!isModalOpen)} style={{ backgroundColor: !customization?.selectedBgColor, }} className="h-auto w-full !py-0 px-0 bg-transparent hover:bg-transparent">
-                          <div key={item.id} className="relative shadow-md rounded-[10px] w-full border-gray-300 border inline-block">
+                          <div key={item.id} className="relative rounded-[10px] w-full border-gray-300 border inline-block">
                             <div
                               onClick={() => setSelectedItem(item)}
-                              className="tab items-center justify-center h-full w-full overflow-hidden p-1.5 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
+                              className="tab items-center justify-center h-full w-full overflow-hidden p-1.5 pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
                             >
                               <img src={imageUrl} alt="Menu Icon" className="w-full object-cover rounded-[10px] h-32" />
                               <div className='text-black flex justify-between items-center py-2 px-3'>
                                 <div>
-                                  <h2 className="text-[14px] mb-0 text-left" style={{ color: customization?.selectedTextColor }}>{item.name.slice(0, 12)}</h2>
-                                  <p className='text-[12px] text-left' style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency}</p>
+                                  <h2
+                                    className="text-base mb-0 text-left"
+                                    style={{
+                                      color: customization?.selectedTextColor,
+                                      fontSize: `${calculateFontSize(item.name.length)}px`, // Assuming calculateFontSize is a function you define
+                                    }}
+                                  >
+                                    {item.name.slice(0, 20)}
+                                  </h2>
+                                  <p className='text-xs text-left' style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency}</p>
                                 </div>
                                 <button
                                   type="button"
@@ -657,7 +697,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                                     }
                                   }}
                                   style={{ backgroundColor: customization?.selectedPrimaryColor }}
-                                  className="text-white leading-0 w-[30px] h-[30px] flex items-center justify-center rounded-[8px]">
+                                  className="text-white self-end leading-0 w-[30px] h-[30px] flex items-center justify-center rounded-[8px]">
                                   <AiOutlinePlus style={{ color: "#ffffff" }} />
                                 </button>
                               </div>
@@ -676,7 +716,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       </div>
       <Credenza className={"!bg-white !py-0"} open={isModalOpen} onOpenChange={setIsModalOpen}>
         <CredenzaContent className="flex flex-col max-h-full md:w-[50rem] bg-white md:justify-center">
-          <ScrollArea className="h-[38rem] w-full rounded-md p-0 overflow-y-auto">
+          <ScrollArea className="h-[568px] w-full rounded-md p-0 overflow-y-auto">
             {selectedItem != null && (
               <>
                 <CredenzaHeader>
@@ -687,7 +727,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   >
                     {/* <CarouselNext className="top-1/3 -translate-y-1/3" />
       <CarouselPrevious className="top-1/3 -translate-y-1/3" /> */}
-                    <CarouselMainContainer className="h-60">
+                    <CarouselMainContainer className="h-60 !p-0">
                       {selectedItem.video && (
                         <SliderMainItem className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
@@ -826,10 +866,20 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                 </CredenzaHeader>
                 <CredenzaBody className="space-y-4 text-center mt-2 sm:pb-0">
                   <CredenzaTitle>{selectedItem.name}</CredenzaTitle>
-                  <p className="m-0 text-neutral-400 w-full text-center flex justify-center items-center !mt-1">
-                    {selectedItem?.desc?.length > 20 ? selectedItem?.desc?.slice(0, 100) + '...' : selectedItem?.desc}
-                  </p>
-                  <div className='flex items-center justify-center'>
+                  <span className="m-0 text-neutral-400 w-full !px-2 text-center flex justify-center items-center !mt-1">
+                    {selectedItem?.desc.length > 50 && !isExpanded
+                      ? selectedItem?.desc.slice(0, 50) + '...'
+                      : selectedItem?.desc}
+                  </span>
+                  {selectedItem?.desc.length > 50 && (
+                    <span
+                      onClick={handleToggle}
+                      className="text-muted-foreground  text-xs hover:underline "
+                    >
+                      {isExpanded ? 'View Less' : 'View More'}
+                    </span>
+                  )}
+                  <div className='flex items-center mb-6 justify-center'>
                     <div className="flex items-center gap-2">
                       <Button size="icon" variant="outline" onClick={() => setQuantity(selectedItem.id, getQuantity(selectedItem.id) - 1)}>
                         <MinusIcon className="w-4 h-4" />
@@ -859,7 +909,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                       selectedItem.isComment == 1
                         ?
                         <Textarea
-                          className={`min-h-[150px]  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
+                          className={`min-h-[90px] mb-3 ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
                           dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}
                           placeholder={t("menuAddItem.commentPlaceholder")}
                           onChange={(e) => {
@@ -905,7 +955,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             <img src={callWaiterSvg} alt="Call Waiter" />
             {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
             <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
-            <AlertDialogDescription>Please select an option below</AlertDialogDescription>
+            <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
 
           </AlertDialogHeader>
           <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>

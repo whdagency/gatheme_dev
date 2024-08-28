@@ -4,73 +4,80 @@
     "search": "بحث",
     "search_for_your_desired_food": "ابحث عن طعامك المفضل...",
     "home": "الرئيسية",
-    "rating": "التقييم",
-    "claims": "الملاحظات",
-    "cart": "السلة",
-    "info": "المعلومات",
-    "callWaiter": "استدعاء النادل",
-    "error": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف حسابك نهائيًا وستتم إزالة بياناتك من خوادمنا.",
-    "bringBill": "إحضار الفاتورة",
+    "rating": "تقييم",
+    "claims": "شكاوى",
+    "cart": "سلة المشتريات",
+    "info": "معلومات",
+    "callWaiter": "اتصل بالنادل",
+    "error": "لا يمكن التراجع عن هذا الإجراء. ستحذف حسابك وبياناتك من خوادمنا بشكل دائم.",
+    "bringBill": "احضر الفاتورة",
     "cancel": "إلغاء",
-    "addToSelected": " : أضف إلى القائمة",
-    "ok": "موافق",
-    "or": "أو"
+    "addToSelected": "أضف إلى التحديد: ",
+    "or": "أو",
+    "ok": "تأكيد"
   },
   "rating": {
-    "leaveReview": "اترك لنا تقييمًا",
-    "btnReview": "اضغط على الزر أدناه لمشاركة تجربتك",
-    "trustPilot": "تقييمات تراست بايلوت",
-    "googlereview": "تقييمات جوجل",
+    "leaveReview": "اترك لنا مراجعة!",
+    "btnReview": "اضغط على الزر أدناه لمشاركة تجربتك.",
+    "trustPilot": "مراجعات Trustpilot",
+    "googlereview": "مراجعات Google",
     "or": "أو",
-    "desc": "نعمل على إضافة وظيفة المراجعة قريبًا "
+    "desc": "نحن نعمل على إضافة وظيفة المراجعات قريباً. ترقبوا!"
   },
   "claims": {
-    "makeClaim": "تقديم ",
-    "claim": "ملاحظات",
-    "tellUs": "أخبرنا عن تجربتك الأخيرة في مطعمنا",
+    "makeClaim": "قدّم",
+    "claim": "شكوى",
+    "tellUs": "حدثنا عن تجربتك الأخيرة في مطعمنا.",
     "name": "الاسم ",
+    "optional": "(اختياري)",
     "email": "البريد الإلكتروني أو الهاتف ",
     "emailPlaceholder": "(اختياري)",
     "namePlaceholder": "(اختياري)",
-    "thoughts": "اكتب ملاحظاتك هنا...",
-    "anonymous": "إرسال الملاحظات بشكل مجهول",
+    "thoughts": "اكتب أفكارك هنا...",
+    "anonymous": "قدّم الملاحظات بشكل مجهول",
     "submit": "إرسال الملاحظات",
-    "successClaim": "تم إرسال شكواك بنجاح",
-    "thankYou": "شكرًا لملاحظاتك!"
+    "successClaim": "تم تقديم شكواك بنجاح",
+    "thankYou": "شكراً لملاحظاتك!"
   },
   "waiter": {
-    "CallWaiter": "استدعاء النادل",
-    "BringTheBill": "إحضار الفاتورة",
-    "Cancel": "إلغاء"
+    "CallWaiter": "تحتاج إلى مساعدة؟",
+    "BringTheBill": "احضر الفاتورة",
+    "Cancel": "إلغاء",
+    "please": "يرجى اختيار خيار أدناه"
   },
   "not": {
-    "title": "تمت الإضافة إلى عربة التسوق بنجاح!",
+    "title": "تمت الإضافة إلى السلة بنجاح!",
     "desc": "يمكنك تأكيد طلبك عند الدفع"
   },
   "achat": {
-    "shoppingCart": "السلة",
+    "shoppingCart": "عربة التسوق",
     "empty": "سلتك فارغة.",
-    "clearBtn": "تفريغ السلة",
-    "checkoutBtn": "الطلب",
+    "clearBtn": "مسح السلة",
+    "checkoutBtn": "الدفع",
     "total": "المجموع",
-    "successOrder": "تم إرسال طلبك بنجاح",
-    "thankYou": "شكرًا لطلبك!",
-    "emptycart": "عربة التسوق فارغة",
-    "checkout": "تحقق من الاتجاهات",
-    "addmoreitems": "إضافة المزيد من العناصر",
+    "successOrder": "هل أنت متأكد أنك تريد إتمام هذا الطلب؟",
+    "thankYou": "بمجرد التأكيد، لا يمكن إلغاؤه.",
+    "emptycart": "سلتك فارغة",
+    "checkout": "اكتشف أحدث الاتجاهات",
+    "addmoreitems": "أضف المزيد من العناصر",
     "OrderProcess": "عملية الطلب",
-    "complete": "اكتمل",
-    "Order": "طلب",
-    "Preparing": "تحضير",
+    "complete": "مكتمل",
+    "Order": "اطلب",
+    "Preparing": "قيد التحضير",
     "OrderCanceled": "تم إلغاء الطلب",
-    "final": "اكتمل 100%"
+    "final": "مكتمل بنسبة 100%",
+    "see": "عرض طلبك ",
+    "table": "طاولة",
+    "ofTable": "من الطاولة"
   },
   "info": {
     "WiFiPassword": "كلمة مرور WiFi",
-    "Address": "العنوان"
+    "Address": "العنوان",
+    "changeLanguage": "تغيير اللغة",
+    "powered": "مدعوم من Garista."
   },
   "menuAddItem": {
-    "commentPlaceholder": "أضف تعليقًا...",
-    "addToSelected": ": أضف إلى المختار"
+    "commentPlaceholder": "أضف تعليقاً...",
+    "addToSelected": "أضف إلى التحديد"
   }
 }

@@ -42,7 +42,8 @@
   "waiter": {
     "CallWaiter": "Need Assistance?",
     "BringTheBill": "Bring the bill",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "please": "Please select an option below"
   },
   "not": {
     "title": "Added to cart successfully!",
@@ -64,11 +65,16 @@
     "Order": "Order",
     "Preparing": "Preparing",
     "OrderCanceled": "Order Canceled",
-    "final": "100% Completed"
+    "final": "100% Completed",
+    "see": "See Your Order ",
+    "table": "Table",
+    "ofTable": "Of Table"
   },
   "info": {
     "WiFiPassword": "WiFi Password",
-    "Address": "Address"
+    "Address": "Address",
+    "changeLanguage": "Change Language",
+    "powered": "powered by Garista."
   },
   "menuAddItem": {
     "commentPlaceholder": "Add a comment...",

@@ -16,7 +16,27 @@ import {
 } from "@/components/ui/dialog"
 import { ChevronRight } from "lucide-react"
 import { Card } from "@/components/ui/card"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
+import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
+
+import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
+import { useMenu } from '../../hooks/useMenu';
 export default function Info({ items, infoRes, customization }) {
+    const {
+        submitBille,
+        callWaiter,
+    } = useMenu();
     const { t, i18n } = useTranslation("global");
     const [selectedLanguageCode, setSelectedLanguageCode] = useState(infoRes.language);
     const [isOpen, setIsOpen] = useState(false)
@@ -96,14 +116,14 @@ export default function Info({ items, infoRes, customization }) {
                                         <HiLanguage className='w-6 h-6' />
 
                                     </div>
-                                    <h2 className="text-md flex-1 font-normal ">Change Language</h2>
+                                    <h2 className="text-md flex-1 font-normal ">{t("info.changeLanguage")}</h2>
                                     <FaChevronRight className='' />
 
                                 </div>
                             </DialogTrigger>
                             <DialogContent className="max-w-[80%] gap-0 px-[20px] py-[23px] rounded-lg">
                                 <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <DialogTitle className="text-2xl tracking-wide	 font-bold text-gray-700">Select Language</DialogTitle>
+                                    <DialogTitle className="text-lg tracking-wide font-bold text-gray-700">Select Language</DialogTitle>
                                 </DialogHeader>
 
                                 <Card className="w-full max-w-md border-none mx-auto">
@@ -111,7 +131,7 @@ export default function Info({ items, infoRes, customization }) {
                                         {Object.keys(languageMap).map((code) => (
                                             <li key={code}>
                                                 <button
-                                                    className={`flex items-center justify-between w-full px-4 py-4 text-md font-medium text-left hover:bg-muted/50 transition-colors ${selectedLanguageCode === code ? 'text-blue-500' : 'text-muted-foreground'}`}
+                                                    className={`flex items-center justify-between w-full px-4 py-4 text-md font-medium text-left hover:bg-muted/50 transition-colors ${selectedLanguageCode === code ? 'text-[' + customization?.selectedPrimaryColor + ']' : 'text-muted-foreground'}`}
                                                     onClick={() => handleLanguageChange(code)}
                                                 >
                                                     {languageMap[code]}
@@ -130,18 +150,58 @@ export default function Info({ items, infoRes, customization }) {
                             <PhoneIcon className="w-5 h-5" />
                             <span>+ {infoRes.phone}</span>
                         </div>
-                        <div className={`flex items-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center text-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
                             <span>{t("info.Address")}: {infoRes.address}</span>
                         </div>
                         <div className="mt-4">
                             <p className="text-gray-500 dark:text-gray-400 px-2">{infoRes.description}</p>
                         </div>
                     </div>
-                    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> © {new Date().getFullYear()} <a href="https://www.garista.com/" class="hover:underline"> powered by Garista.</a> </span>
+                    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> © {new Date().getFullYear()} <a href="https://www.garista.com/" class="hover:underline"> {t("info.powered")}</a> </span>
 
                 </div>
 
             </div>
+            <AlertDialog>
+                <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
+                    <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+                        <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
+                    </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
+
+                    <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
+                        <img src={callWaiterSvg} alt="Call Waiter" />
+                        {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
+                        <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+                        <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
+
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
+
+                        <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+                        <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+                        <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
+
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="feather feather-x"
+                            >
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </AlertDialogCancel>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </>
     );
 }

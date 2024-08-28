@@ -162,7 +162,7 @@ function Theme01() {
   if (loading) {
     return (
       <div className='justify-center items-center flex h-screen'>
-        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 500, height: 500 }} />
+        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
       </div>
     );
   }
