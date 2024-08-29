@@ -23,8 +23,6 @@ const MenuProvider = ({ children }) => {
   const table_id = window.location.search.split("=")[1] || null;
   const [qrCode, setQrCode] = useState([]);
   const [tableName, setTableName] = useState("")
-  console.log("hello here ", resInfo);
-
   useEffect(() => {
     const fetchData = async () => {
       // setLoading(true);

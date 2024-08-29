@@ -34,49 +34,48 @@ const Theme02 = () => {
     }
   };
   useEffect(() => {
-      incrementVisitorCount(restos.id);
+    incrementVisitorCount(restos.id);
   }, []);
-    const {
-        customization,
-        restos,
-        resInfo,
-        dishes,
-        categories,
-        selectedTab,
-        setSelectedTab,
-        restoSlug,
-      } = useMenu();    
-      i18next.init({
-        interpolation: {escapeValue: false},
-        lng:resInfo.language,
-        resources: {
-          en:{
-            global: global_en,
-          },
-          fr:{  
-            global: global_fr
-          },
-          es:{
-            global: global_es,
-          },
-          it:{
-            global: global_it
-          },
-          ar:{
-            global: global_ar
-          }
-        }
-      })
-      console.log("The Resto Infos02 => ",restos);
+  const {
+    customization,
+    restos,
+    resInfo,
+    dishes,
+    categories,
+    selectedTab,
+    setSelectedTab,
+    restoSlug,
+  } = useMenu();
+  i18next.init({
+    interpolation: { escapeValue: false },
+    lng: resInfo.language,
+    resources: {
+      en: {
+        global: global_en,
+      },
+      fr: {
+        global: global_fr
+      },
+      es: {
+        global: global_es,
+      },
+      it: {
+        global: global_it
+      },
+      ar: {
+        global: global_ar
+      }
+    }
+  })
   return (
 
-        <div className="h-screen " style={{backgroundColor: customization?.selectedBgColor}}>
-          <I18nextProvider i18n={i18next}>
-             <Helmet>
-                <title>{restos?.name}</title>
-                <meta name="description" content={resInfo?.description} />
-                <script>
-                {`
+    <div className="h-screen " style={{ backgroundColor: customization?.selectedBgColor }}>
+      <I18nextProvider i18n={i18next}>
+        <Helmet>
+          <title>{restos?.name}</title>
+          <meta name="description" content={resInfo?.description} />
+          <script>
+            {`
                 !function(f,b,e,v,n,t,s)
                 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
                 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -88,8 +87,8 @@ const Theme02 = () => {
                 fbq('init', ${resInfo.facebook_pixel});
                 fbq('track', 'PageView');
                 `}
-            </script>
-            {/* <noscript>
+          </script>
+          {/* <noscript>
                 <img
                 height="1"
                 width="1"
@@ -98,15 +97,15 @@ const Theme02 = () => {
                 alt="Facebook Pixel"
                 />
             </noscript> */}
-                {/* {console.log(resInfo.facebook_pixel)}
+          {/* {console.log(resInfo.facebook_pixel)}
                 {console.log(resInfo.tiktok_pixel)}
                 {console.log(resInfo.ads_pixel)}
                 {console.log(resInfo.anylytics)} */}
-                <link rel="icon" type="image/svg+xml" href={`${APIURL}/storage/${resInfo?.logo}`} />
-            </Helmet>
-              <Toaster />
+          <link rel="icon" type="image/svg+xml" href={`${APIURL}/storage/${resInfo?.logo}`} />
+        </Helmet>
+        <Toaster />
         <Router>
-        <div className="h-screen  ">
+          <div className="h-screen  ">
 
             <Routes>
               <Route
@@ -119,73 +118,73 @@ const Theme02 = () => {
               />
               <Route path="/menu/:restoSlug/Rating" element={
                 <>
-                <Rate infoRes={resInfo}/>
+                  <Rate infoRes={resInfo} />
                   <Footer slug={restoSlug} customization={customization} />
                 </>
               } />
               <Route path={`/menu/:restoSlug/info`} element={
                 <>
-                <Info items={restos} customization={customization} infoRes={resInfo}/>
+                  <Info items={restos} customization={customization} infoRes={resInfo} />
                   <Footer slug={restoSlug} customization={customization} />
                 </>
               } />
               <Route path="/menu/:restoSlug/Achat" element={
                 <>
-                <Achat infoRes={resInfo} resto_id={restos?.id}  restoId={restos?.id} customization={customization}/>
+                  <Achat infoRes={resInfo} resto_id={restos?.id} restoId={restos?.id} customization={customization} />
                   {/* <Footer slug={restoSlug} customization={customization} /> */}
                 </>
               } />
               <Route path="/menu/:restoSlug/Claims" element={
                 <>
-                  <Claims items={restos}/>
+                  <Claims items={restos} />
                   <Footer slug={restoSlug} customization={customization} />
                 </>
               } />
             </Routes>
-        </div>
+          </div>
         </Router>
-        </I18nextProvider>
-        </div>
+      </I18nextProvider>
+    </div>
   )
 }
-    // <div
-    //   style={{ backgroundColor: customization.selectedBgColor }}
-    //   className="max-w-2xl md:shadow md:h-[95vh] w-full md:overflow-y-scroll oveflow-x-hidden scrollbar-hide pb-20 relative"
-    // >
-    //   <ThemeOneHeader />
+// <div
+//   style={{ backgroundColor: customization.selectedBgColor }}
+//   className="max-w-2xl md:shadow md:h-[95vh] w-full md:overflow-y-scroll oveflow-x-hidden scrollbar-hide pb-20 relative"
+// >
+//   <ThemeOneHeader />
 
-    //   <ThemeOneBanner />
+//   <ThemeOneBanner />
 
-    //   {/* Dishes Sorted By Category */}
-    //   <div className="flex flex-col gap-3 px-5">
-    //     {categories.map((category) => {
-    //       const filteredDishes = dishesByCategory(category.id);
+//   {/* Dishes Sorted By Category */}
+//   <div className="flex flex-col gap-3 px-5">
+//     {categories.map((category) => {
+//       const filteredDishes = dishesByCategory(category.id);
 
-    //       if (filteredDishes.length === 0) {
-    //         return null;
-    //       }
+//       if (filteredDishes.length === 0) {
+//         return null;
+//       }
 
-    //       return (
-    //         <div
-    //           key={category.id}
-    //           className="flex flex-col justify-center gap-4 pt-5"
-    //         >
-    //           <Accordion
-    //             type="multiple"
-    //             defaultValue={[...categories.map((cat) => cat.id)]}
-    //             collapsible
-    //             className="flex flex-col gap-3"
-    //           >
-    //             <ThemeDishes category={category} dishes={filteredDishes} />
-    //           </Accordion>
-    //         </div>
-    //       );
-    //     })}
-    //   </div>
+//       return (
+//         <div
+//           key={category.id}
+//           className="flex flex-col justify-center gap-4 pt-5"
+//         >
+//           <Accordion
+//             type="multiple"
+//             defaultValue={[...categories.map((cat) => cat.id)]}
+//             collapsible
+//             className="flex flex-col gap-3"
+//           >
+//             <ThemeDishes category={category} dishes={filteredDishes} />
+//           </Accordion>
+//         </div>
+//       );
+//     })}
+//   </div>
 
-    //   <div className="flex flex-col items-center w-full">
-    //     <ThemeOneFooter />
-    //   </div>
-    // </div>
+//   <div className="flex flex-col items-center w-full">
+//     <ThemeOneFooter />
+//   </div>
+// </div>
 
 export default Theme02;

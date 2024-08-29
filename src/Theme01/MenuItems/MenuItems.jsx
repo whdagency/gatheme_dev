@@ -45,8 +45,9 @@ import {
 } from "@/components/extension/carousel";
 // import VideoThumbnail from 'react-video-thumbnail';
 import Thumbnail from "./Video-Thumbnail.webp"
-import { FaCheck } from 'react-icons/fa';
+import { FaCheck } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { FaCircleCheck } from "react-icons/fa6";
 
 import callWaiterSvg from "./callWaiter.svg"
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
@@ -266,20 +267,27 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
+                    className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70 
+                ${isOptionSelected ? 'transition-transform scale-105 !font-extrabold text-black' : ''}`}
                   >
-                    {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
+                    {option.name} {option.price > 0 && `(+${option.price} ${infoRes?.currency})`}
                   </label>
                   <button
                     type="button"
-                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
+                    className={`rounded-full border h-7 w-7 p-0 flex items-center justify-center ${isOptionSelected ? 'bg-[#63aa08]' : 'border-gray-300'}`}
                     onClick={() => handleToppingSelect(topping, option, dishId)}
+                    style={{
+                      color: customization?.selectedTextColor,
+                      backgroundColor: customization?.backgroundColor
+
+                    }}
                   // disabled={isDisabled}
                   >
                     {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
                     {!isOptionSelected
                       ?
-                      <PlusIcon className={`w-4 h-4 `} />
+                      <PlusIcon className={`w-4 h-4 `}
+                      />
                       :
                       <FaCheck className={`w-4 h-4 text-white`} />
                     }
@@ -318,22 +326,23 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70"
+                    className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70 
+                      ${isOptionSelected ? 'transition-transform scale-105 !font-extrabold text-black' : ''}`}
                   >
                     {option.name} {option.price > 0 && (`(+${option.price} ${infoRes?.currency})`)}
                   </label>
                   <button
                     type="button"
-                    className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-green-600' : 'border-gray-300'}`}
+                    className={`rounded-full border h-7 w-7 p-0 flex items-center justify-center ${isOptionSelected ? 'bg-[#63aa08]' : 'border-gray-300'}`}
                     onClick={() => handleExtraToppingSelect(topping, option, dishId)}
                   // disabled={isDisabled}
                   >
                     {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
                     {!isOptionSelected
                       ?
-                      <PlusIcon className={`w-4 h-4 `} />
+                      <PlusIcon className={`w-4 h-4 `}
+                      />
                       :
-                      // <FaX className={`w-4 h-4 text-white`}/>
                       <FaCheck className={`w-4 h-4 text-white`} />
                     }
                   </button>
@@ -361,13 +370,15 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   <div className="flex items-center justify-between w-full">
                     <label
                       htmlFor={topping.name}
-                      className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-500  ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70"}`}
+                      className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-300 
+        ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70 hover:text-black/90"} 
+        transform ${isOptionSelected ? "scale-105" : "scale-100"}`}
                     >
                       {topping.name}
                     </label>
                     <button
                       type="button"
-                      className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-red-600' : 'border-gray-300'}`}
+                      className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-[#db281c]' : 'border-gray-300'}`}
                       onClick={() => handleIngrediantSelect(topping, dishId)}
                     // disabled={isDisabled}
                     >
@@ -376,7 +387,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <MinusIcon className={`w-4 h-4 `} />
                         :
                         // <FaCheck className={`w-4 h-4 text-white`}/>
-                        <IoClose size={35} className={`w-4 h-4 text-white`} />
+                        <IoClose size={35} className={`w-4 h-4  text-white`} />
                       }
                     </button>
                   </div>
@@ -393,6 +404,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     setSelectedIngrediant({});
     setSelectedExtraToppings({});
     setSelectedToppings({});
+    setToppingErrorExtra(false);
+    setToppingError(false);
     setSelectedPrices(0)
   }, [selectedItem]);
 
@@ -456,24 +469,24 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   const [toppingErrorExtra, setToppingErrorExtra] = useState(false);
 
   const handleAddItem = (product, quantity, toppings, ingredients, extravariants, selectedPrices) => {
-
     const requiredToppings = product.toppings.filter(topping => topping.required);
-    const requiredExtraToppings = product.extravariants.filter(topping => topping.required)
+    const requiredExtraToppings = product.extravariants.filter(topping => topping.required);
+
     const allRequiredSelected = requiredToppings.every(topping => {
       const dishToppings = toppings[product.id] || [];
       const selectedTopping = dishToppings.find(item => item.id === topping.id);
       return selectedTopping && selectedTopping.option.length > 0;
     });
+
     const allRequiredSelectedExtra = requiredExtraToppings.every(topping => {
-      const dishToppings = toppings[product.id] || [];
+      const dishToppings = extravariants[product.id] || [];
       const selectedTopping = dishToppings.find(item => item.id === topping.id);
       return selectedTopping && selectedTopping.option.length > 0;
     });
-    console.log(allRequiredSelected);
 
-    if (!allRequiredSelected && !allRequiredSelectedExtra) {
-      setToppingError(true);
-      setToppingErrorExtra(true)
+    if (!allRequiredSelected || !allRequiredSelectedExtra) {
+      setToppingError(!allRequiredSelected); // Set error state based on missing required toppings
+      setToppingErrorExtra(!allRequiredSelectedExtra); // Set error state based on missing extra toppings
       return;
     }
     dispatch(addItem({ product, quantity: quantity, resto_id: restoId, comment: comment, toppings: toppings, ingredients: ingredients, extravariants: extravariants, selectedPrices: selectedPrices }));
@@ -563,12 +576,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   // const handleVideoEnded = () => {
   //   setShowCarousel(true);
   // };
-  function calculateFontSize(length) {
-    if (length < 15) return 16; // Larger font size for shorter text
-    if (length < 20) return 14; // Medium font size
-    if (length < 30) return 12; // Medium font size
-    return 14; // Smaller font size for longer text
-  }
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => {
@@ -659,47 +666,48 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                               className="tab items-center justify-center h-full w-full overflow-hidden p-1.5 pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
                             >
                               <img src={imageUrl} alt="Menu Icon" className="w-full object-cover rounded-[10px] h-32" />
-                              <div className='text-black flex justify-between items-center py-2 px-3'>
-                                <div>
-                                  <h2
-                                    className="text-base mb-0 text-left"
-                                    style={{
-                                      color: customization?.selectedTextColor,
-                                      fontSize: `${calculateFontSize(item.name.length)}px`, // Assuming calculateFontSize is a function you define
-                                    }}
-                                  >
-                                    {item.name.slice(0, 20)}
-                                  </h2>
-                                  <p className='text-xs text-left' style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency}</p>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    const hasRequiredTopping = item.toppings.some(topping => topping.required === true);
-                                    const hasRequiredExtraTopping = item.extravariants.some(extravariant => extravariant.required === true);
-                                    console.log(item);
-                                    if (!hasRequiredTopping && !hasRequiredExtraTopping) {
-                                      e.stopPropagation();
-                                      handleAddItem(item, 1, {}, {}, {}, {});
-                                      toast({
-                                        // title: `${item.name} ${t("not.title")}`,
-                                        description: (<div className="flex  items-center">
+                              <div className='text-black flex flex-col  items-start py-1 px-1'>
 
-                                          <img src={imageUrl} alt="Alert Image" className="w-[3.5rem] h-[3.5rem] mr-2 object-cover rounded-lg" />
-                                          <div className='flex flex-col'>
-                                            <h1>{item.name} {t("not.title")}</h1>
-                                            <span>{t("not.desc")}</span>
-                                          </div>
-
-                                        </div>),
-
-                                      })
-                                    }
+                                <h2
+                                  className="text-sm mb-0 mt-1 text-left"
+                                  style={{
+                                    color: customization?.selectedTextColor, // Assuming calculateFontSize is a function you define
                                   }}
-                                  style={{ backgroundColor: customization?.selectedPrimaryColor }}
-                                  className="text-white self-end leading-0 w-[30px] h-[30px] flex items-center justify-center rounded-[8px]">
-                                  <AiOutlinePlus style={{ color: "#ffffff" }} />
-                                </button>
+                                >
+                                  {item.name.slice(0, 20)}
+                                </h2>
+                                <div className='flex w-full justify-between items-center'>
+                                  <p className='text-xs text-left' style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency}</p>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      const hasRequiredTopping = item.toppings.some(topping => topping.required === true);
+                                      const hasRequiredExtraTopping = item.extravariants.some(extravariant => extravariant.required === true);
+                                      console.log(item);
+                                      if (!hasRequiredTopping && !hasRequiredExtraTopping) {
+                                        e.stopPropagation();
+                                        handleAddItem(item, 1, {}, {}, {}, {});
+                                        toast({
+                                          // title: `${item.name} ${t("not.title")}`,
+                                          description: (<div className="flex  items-center">
+
+                                            <img src={imageUrl} alt="Alert Image" className="w-[3.5rem] h-[3.5rem] mr-2 object-cover rounded-lg" />
+                                            <div className='flex flex-col'>
+                                              <h1>{item.name} {t("not.title")}</h1>
+                                              <span>{t("not.desc")}</span>
+                                            </div>
+
+                                          </div>),
+
+                                        })
+                                      }
+                                    }}
+                                    style={{ backgroundColor: customization?.selectedPrimaryColor }}
+                                    className="text-white self-end leading-0 w-[30px] h-[30px] flex items-center justify-center rounded-[8px]">
+                                    <AiOutlinePlus style={{ color: "#ffffff" }} />
+                                  </button>
+                                </div>
+
                               </div>
                             </div>
                           </div>
@@ -1071,6 +1079,29 @@ function PlusIcon(props) {
       <path d="M5 12h14" />
       <path d="M12 5v14" />
     </svg>
+  );
+}
+
+function CancelIcon(props) {
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g filter="url(#filter0_d_1014_4547)">
+        <circle cx="18" cy="18" r="11" fill="#DB281C" />
+      </g>
+      <defs>
+        <filter id="filter0_d_1014_4547" x="0.125" y="0.125" width="35.75" height="35.75" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+          <feOffset />
+          <feGaussianBlur stdDeviation="3.4375" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.94902 0 0 0 0 0.6 0 0 0 0 0.290196 0 0 0 0.15 0" />
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1014_4547" />
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1014_4547" result="shape" />
+        </filter>
+      </defs>
+    </svg>
+
   );
 }
 export default MenuItems;

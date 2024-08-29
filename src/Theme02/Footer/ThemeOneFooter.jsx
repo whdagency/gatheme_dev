@@ -111,7 +111,7 @@ const ClaimsTrigger = ({ open, setOpen }) => {
   return (
     <button
       onClick={() => setOpen((prev) => !prev)}
-      className="flex items-center justify-center gap-1.5 bg-transparent hover:bg-transparent"
+      className="flex items-center w-1/3 justify-center gap-1.5 bg-transparent hover:bg-transparent"
     >
       {open ? (
         <ClaimsFilledIcon
@@ -190,11 +190,10 @@ const CallWaiter = ({ customization, submitNotification }) => {
 
       <div
         style={{ backgroundColor: customization?.selectedPrimaryColor }}
-        className={`flex flex-col ${
-          openWaiterModal
+        className={`flex flex-col ${openWaiterModal
             ? "transition-transform scale-100 translate-y-0 duration-500"
             : "transition-transform scale-0 duration-500 translate-y-20"
-        } md:shadow-sm items-center justify-center gap-3 py-5 px-10 w-[304px] mx-auto bg-black/70 absolute bottom-[46.3px] md:bottom-14 left-1/2 transform -translate-x-1/2 rounded-t-full h-[119px] -z-10`}
+          } md:shadow-sm items-center justify-center gap-3 py-5 px-10 w-[304px] mx-auto bg-black/70 absolute bottom-[46.3px] md:bottom-14 left-1/2 transform -translate-x-1/2 rounded-t-full h-[119px] -z-10`}
       >
         <div className="flex items-center justify-center w-full gap-1 mt-8">
           <div className="flex flex-row items-center justify-center gap-[30px]">

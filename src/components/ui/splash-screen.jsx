@@ -10,7 +10,7 @@ export default function SplashScreen() {
     return (
         <motion.div initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }} className="flex flex-col items-center justify-center h-screen bg-[#f8f9fa]">
+            transition={{ duration: 1 }} className="flex flex-col items-center justify-center h-dvh bg-[#f8f9fa]">
             <div className="flex flex-col items-center justify-center space-y-6">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -20,7 +20,7 @@ export default function SplashScreen() {
                     <img
                         src={`${APIURL}/storage/${restaurantLogo}`}
                         loading='lazy'
-                        className="w-48 object-cover bg-[#999] h-48"
+                        className="w-48 object-cover rounded-full bg-[#999] h-48"
                         alt={"Restaurant Logo"}
                     />
                 </motion.div>

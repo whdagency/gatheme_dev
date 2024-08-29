@@ -47,10 +47,37 @@ const ThemeOneAchat = ({ activeLink }) => {
   const cartItems = useSelector((state) => state.cart.items);
 
   // order functions
-  const totalCost = cartItems.reduce(
-    (total, item) => total + (item.price * item.quantity) + item.selectedPrices,
-    0
-  );
+  const totalCost = cartItems.reduce((total, item) => {
+    // Convert item.price to a number, defaulting to 0 if it's not a valid number
+    const itemPrice = parseFloat(item.price) || 0;
+
+    // Check the type and value of item.selectedPrices
+    let selectedPrices = 0;
+    if (Array.isArray(item.selectedPrices)) {
+      // If it's an array, sum up all the prices
+      selectedPrices = item.selectedPrices.reduce((sum, price) => {
+        const parsedPrice = parseFloat(price);
+        return sum + (isNaN(parsedPrice) ? 0 : parsedPrice);
+      }, 0);
+    } else if (typeof item.selectedPrices === 'string') {
+      // If it's a string, convert it to a number
+      selectedPrices = parseFloat(item.selectedPrices) || 0;
+    } else {
+      // Handle other cases (e.g., object, null, etc.)
+      console.warn('Unexpected value for selectedPrices:', item.selectedPrices);
+    }
+
+    // Calculate the total cost for this item
+    const itemTotal = (itemPrice + selectedPrices) * (item.quantity || 0);
+
+    // Log the calculated total for debugging
+    console.log("Item price:", itemPrice);
+    console.log("Selected prices:", selectedPrices);
+    console.log("Item total:", itemTotal);
+
+    // Accumulate the total cost
+    return total + itemTotal;
+  }, 0);
 
 
   // const submitOrder = async (cartItems, totalCost) => {
@@ -125,9 +152,7 @@ const ThemeOneAchat = ({ activeLink }) => {
   //   }
   // };
   const submitOrder = async (cartItems, totalCost) => {
-
-    console.log("CartItems: ", cartItems);
-    setPending(true);
+    sessionStorage.setItem('modalOpened', '');
     let cartItemProduct = cartItems.map(item => ({
       type: item.type,  // Assuming all items are dishes
       id: item.id,
@@ -187,18 +212,18 @@ const ThemeOneAchat = ({ activeLink }) => {
         });
 
         console.log("Nice => ", responseNotification);
-        setPending(false);
-        setOrderSuccessModalOpen(true);
+        setOrderSuccessModalOpen(false);
+        setIsModalOpen(false)
         setOrderID(id)
         dispatch(removeAll())
       }
 
     } catch (error) {
-      setPending(false);
       console.error('Failed to submit order:', error.message);
     }
     setOrderSubmitted(true);
-  }
+  };
+
   const { t, i18n } = useTranslation("global");
   const [orderID, setOrderID] = useState("");
   const isArabic = i18n.language === 'ar';
@@ -248,13 +273,13 @@ const ThemeOneAchat = ({ activeLink }) => {
             {/* Added padding-bottom */}
             <div className="flex items-center justify-between pb-2 border-b border-gray-400">
               <div className="flex items-center gap-2">
-                <h2 className="dark:text-gray-50 text-primary-text text-2xl font-bold">
+                <h2 className="dark:text-gray-50 text-primary-text text-lg font-bold">
                   {t('achat.shoppingCart')}
                 </h2>
 
                 <div className="w-[1px] h-7 bg-gray-500" />
 
-                <span className="text-lg font-normal">
+                <span className="text-base text-muted-foreground font-normal">
                   {cartItems.length} {cartItems.length === 1 ? <>{t('achat.item')}</> : <>{t('achat.items')}</>}
                 </span>
               </div>
@@ -264,8 +289,8 @@ const ThemeOneAchat = ({ activeLink }) => {
                 disabled={pending || cartItems.length === 0}
                 className={
                   pending
-                    ? "text-black cursor-not-allowed"
-                    : "text-primary-text"
+                    ? "text-black cursor-not-allowed px-0"
+                    : "text-primary-text px-0"
                 }
                 onClick={() => dispatch(removeAll())}
               >
@@ -273,23 +298,25 @@ const ThemeOneAchat = ({ activeLink }) => {
               </Button>
             </div>
             {cartItems.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-5">
+              <div className="flex flex-col items-center my-auto justify-center gap-5">
                 <img
                   src="/assets/empty-cart.png"
                   alt="empty-cart"
                   className="object-contain w-[234px] h-[233px] mx-auto"
                 />
+                <div>
+                  <p className="mt-2 text-3xl font-bold capitalize text-center text-gray-900">
+                    {t('achat.empty')}
+                  </p>
 
-                <p className="mt-2 text-2xl font-bold text-center text-gray-900">
-                  {t('achat.empty')}
-                </p>
+                  <p className="text-black/50 mt-2 text-lg text-center">
+                    {/* Looks like you haven&apos;t made your choice yet... */}
+                    {t('achat.checkout')}
+                  </p>
+                </div>
 
-                <p className="text-black/50 mt-2 text-lg text-center">
-                  {/* Looks like you haven&apos;t made your choice yet... */}
-                  {t('achat.checkout')}
-                </p>
 
-                <SheetClose className="flex items-center justify-center mt-2 text-center">
+                <SheetClose className="flex capitalize items-center justify-center mt-2 text-center">
                   <p className="text-sm flex item-center gap-2 font-bold text-[#875F45]">
                     <Plus size={18} className="text-[#875F45]" />
                     <span>{t('achat.addmoreitems')}</span>
@@ -298,7 +325,7 @@ const ThemeOneAchat = ({ activeLink }) => {
               </div>
             ) : (
               <>
-                <div className="gap-7 flex flex-col w-full pt-5 mb-auto">
+                <div className="gap-4 flex flex-col w-full pt-2 mb-auto">
                   {cartItems.map((item) => (
                     <>
                       <CartItem key={item.id} item={item} infoRes={resInfo} />
@@ -317,7 +344,7 @@ const ThemeOneAchat = ({ activeLink }) => {
             )}
           </section>
 
-          <div className="md:max-w-sm md:ms-auto md:pb-5 fixed bottom-0 left-0 right-0 z-10 w-full px-6 pt-5 pb-8 bg-white">
+          <div className="md:max-w-sm md:ms-auto md:pb-5 fixed bottom-0 left-0 right-0 z-10 w-full px-4 pt-5 pb-5 bg-white">
             {" "}
             <form
               method="post"
@@ -325,13 +352,13 @@ const ThemeOneAchat = ({ activeLink }) => {
                 e.preventDefault();
                 submitOrder(cartItems, totalCost);
               }}
-              className="flex flex-col w-full gap-8 mx-auto"
+              className="flex flex-col w-full gap-4 mx-auto"
             >
               {/* Total & Checkout */}
               {cartItems.length > 0 && (
                 <div className="border-t-gray-400 flex flex-col gap-3 pt-4 border-t">
-                  <div className="flex items-center justify-between text-xl font-bold text-black">
-                    <p className="uppercase">{t('achat.total')}</p>
+                  <div className="flex items-center justify-between text-base px-1 font-bold text-black">
+                    <p className="capitalize">{t('achat.total')}</p>
                     <p>{`${totalCost.toFixed(2)} ${resInfo?.currency}`}</p>
                   </div>
                 </div>
@@ -384,7 +411,7 @@ const ToppingOptions = ({ item }) => {
   return (
     <div>
       {options?.length > 0 && (
-        <div className="text-md mt-4">
+        <div className="text-md mt-3">
           {options.map((opt, index) => (
             <span key={opt.name} className='text-gray-400 !font-[300] text-[14px]'>
               {opt.name}
@@ -441,24 +468,26 @@ const IngredientsOption = ({ item }) => {
 const CartItem = ({ item, infoRes }) => {
   const dispatch = useDispatch();
   const { customization } = useMenu();
-  console.log("itemsitems", item);
-
+  const price = parseFloat(item.price);
+  const selectedPrices = parseFloat(item.selectedPrices) || 0;
+  const quantity = parseInt(item.quantity, 10);
+  const subtotal = (price + selectedPrices) * quantity;
   return (
     <div className="last:border-b-0 grid gap-4 border-b border-[#C2C2C2] pb-3">
       <div className="flex flex-col">
-        <div className="flex flex-row items-start justify-between gap-4">
-          <p className="text-start flex items-center w-1/2 col-span-1 gap-2 font-medium">
-            <span className="text-primary-text text-[15px] font-bold">
+        <div className="flex  items-center justify-between gap-4">
+          <p className="text-start w-1/3 flex items-center  col-span-1 gap-2 font-medium">
+            <span className="text-primary-text text-[15px] text-nowrap font-bold">
               {item.name}
             </span>
           </p>
 
-          <div className="flex items-center justify-between w-1/3 col-span-1 gap-2">
+          <div className="flex items-center justify-between col-span-1 gap-2">
             <button
               onClick={() => dispatch(decrementQuantity(item.id))}
               className="hover:bg-gray-200 flex items-center justify-between p-1 bg-gray-100 rounded"
             >
-              <FiMinus size={12} className="text-gray-700" />
+              <FiMinus size={20} className="text-gray-700" />
             </button>
 
             <p
@@ -472,18 +501,17 @@ const CartItem = ({ item, infoRes }) => {
               onClick={() => dispatch(incrementQuantity(item.id))}
               className="hover:bg-gray-200 flex items-center justify-center p-1 bg-gray-100 rounded"
             >
-              <FiPlus size={12} className="text-gray-700" />
+              <FiPlus size={20} className="text-gray-700" />
             </button>
           </div>
 
-          <div className="flex items-center justify-end w-1/2 col-span-1 gap-2">
-            <p className="text-xs font-semibold text-black font-[Inter]">
-              {parseFloat(item.price * item.quantity + item.selectedPrices).toFixed(2)}{" "}
-              {infoRes?.currency}
+          <div className="flex items-center w-1/3 justify-end col-span-1 gap-2">
+            <p className="text-xs font-semibold text-black text-nowrap font-[Inter]">
+              {subtotal.toFixed(2) + " " + infoRes.currency}
             </p>
 
             <button onClick={() => dispatch(removeItem(item.id))}>
-              <FiTrash size={12} className="text-red-500" />
+              <FiTrash size={20} className="text-red-500" />
             </button>
 
           </div>

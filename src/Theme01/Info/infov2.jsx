@@ -154,7 +154,7 @@ export default function Info({ items, infoRes, customization }) {
                             <span>{t("info.Address")}: {infoRes.address}</span>
                         </div>
                         <div className="mt-4">
-                            <p className="text-gray-500 dark:text-gray-400 px-2">{infoRes.description}</p>
+                            <p className="text-gray-500 text-center dark:text-gray-400 px-2">{infoRes.description}</p>
                         </div>
                     </div>
                     <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> © {new Date().getFullYear()} <a href="https://www.garista.com/" class="hover:underline"> {t("info.powered")}</a> </span>

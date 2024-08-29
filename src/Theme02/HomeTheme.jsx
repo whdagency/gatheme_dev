@@ -31,7 +31,7 @@ const ThemeOne = () => {
         <ThemeOneBanner />
 
         {/* Dishes Sorted By Category */}
-        <div className="flex flex-col gap-3 px-5">
+        <div className="flex flex-col gap-0 px-5">
           {categories.map((category) => {
             const filteredDishes = dishesByCategory(category.id);
 
@@ -56,7 +56,6 @@ const ThemeOne = () => {
             );
           })}
         </div>
-
         <div className="flex flex-col items-center w-full">
           <ThemeOneFooter />
         </div>

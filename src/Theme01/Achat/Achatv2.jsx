@@ -259,7 +259,6 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
     OpenModel()
   }, [cartItems])
 
-  console.log("The Resulat of The Status ", localStorage.getItem('orderID'));
 
   const itemRenderer = (item, itemIndex) => {
     const isActiveItem = activeIndex === itemIndex;
@@ -442,12 +441,12 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <Credenza className="!bg-white !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <CredenzaContent className="flex max-h-[70%] md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
-          <div className="mt-10 mb-2 text-center text-lg font-semibold text-gray-800">
+      <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
+          <div className="mt-10 mb-1 text-center text-lg font-medium text-black">
             Suggested Products
           </div>
-          <div className="grid grid-cols-2 gap-4 p-4 mb-3 ">
+          <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
             {selectedDishes?.slice(0, 4).map((item, index) => (
               <CartItemSuggestion
                 key={index}
@@ -645,69 +644,49 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
   const handleClick = () => {
     handleAddItem();
     setIsAdded(true);
-
-    // Reset the button state after a short delay (e.g., 2 seconds)
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 2000);
   };
   const handleAddItem = () => {
     dispatch(addItem({ product: item, quantity: quantities, resto_id: resto_id, toppings: [], ingredients: [], extravariants: [] }));
   };
   return (
-    <div className="grid gap-4">
-      <div className="bg-gray-100/50 dark:bg-gray-800 p-4 rounded-lg">
-        <div className='flex items-center flex-col gap-2'>
-          <div className="w-16 flex flex-col h-16 rounded-md overflow-hidden">
+    <div className="grid gap-1">
+      <div className=" dark:bg-gray-800 p-4 rounded-lg">
+        <div className='flex flex-col justify-center items-center gap-2'>
+          <div className="w-28 flex justify-center  relative">
             <img
               alt={item.name}
-              className="w-full h-full object-cover"
-              height={84}
+              className=" object-cover rounded-xl"
+              height={150}
               src={`${APIURL}/storage/${item.image1}`}
               style={{
-                aspectRatio: '64/64',
+                aspectRatio: '150/150',
                 objectFit: 'cover',
               }}
-              width={64}
+              width={150}
             />
-
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={handleClick}
+              style={{ backgroundColor: customization?.selectedPrimaryColor }}
+              className={`transition-transform h-8 w-8 absolute bottom-0 right-0 ${isAdded ? 'scale-110' : ''}`}
+            >
+              {isAdded ? (
+                <CheckIcon className="w-4 h-4  text-white" />
+              ) : (
+                <PlusIcon className="w-4 h-4  text-white" />
+              )}
+            </Button>
           </div>
 
-
-          <div className="flex flex-col justify-center items-center">
-
-            <div className='text-center'>
-              <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">{item.price + " " + infoRes.currency}</p>
+          <div className="flex flex-col self-start ml-6 ">
+            <div className='text-left'>
+              <p className=" font-medium -900 text-sm  dark:text-gray-50">{item.name}</p>
+              <h3 className=" text-gray-700 font-semibold text-base dark:text-gray-400 mb-1">{item.price + " " + infoRes.currency}</h3>
             </div>
           </div>
-          {/* <div className="flex items-center gap-2">
-            <Button onClick={() => setQuantities(quantities > 1 ? quantities - 1 : quantities)} size="icon" variant="outline">
-              <MinusIcon className="w-4 h-4" />
-            </Button>
-            <span className="text-base font-medium text-gray-900 dark:text-gray-50">{quantities}</span>
-            <Button onClick={() => setQuantities(quantities + 1)} size="icon" variant="outline">
-              <PlusIcon className="w-4 h-4" />
-            </Button>
-          </div> */}
-
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={handleClick}
-            style={{ backgroundColor: customization?.selectedPrimaryColor }}
-            className={`transition-transform duration-300 ${isAdded ? 'scale-105 !bg-muted/50' : ''}`}
-          >
-            {isAdded ? (
-              <CheckIcon className="w-4 h-4 text-black" />
-            ) : (
-              <PlusIcon className="w-4 h-4 text-white" />
-            )}
-          </Button>
-
         </div>
       </div>
-
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { useMenu } from "../../hooks/useMenu";
 import Spinner from "react-spinner-material";
-import { Dialog, DialogContent, DialogTrigger,DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
 import Trust from "./trustpilot-2.svg";
@@ -35,34 +35,34 @@ const ThemeOneRating = () => {
   const direction = isArabic ? 'rtl' : 'ltr';
   return (
     <Dialog>
-      <DialogTrigger className="flex items-center justify-center gap-1.5 bg-transparent hover:bg-transparent">
+      <DialogTrigger className="flex w-1/3 items-center justify-center gap-1.5 bg-transparent hover:bg-transparent">
         <FaRegStar size={25} className="text-white" />
         <span className="text-xs font-medium text-white">{t('menu.rating')}</span>
       </DialogTrigger>
 
       <DialogContent className='flex justify-center items-center w-[95%] rounded-lg'>
         <main className="flex flex-col items-center justify-center h-[80vh] px-4 w-[20rem]">
-       
+
           <div className="space-y-6 text-center">
-            
-          <img src={Rating} alt="TrustPilot" className="w-full h-[30vh] mr-2" />
+
+            <img src={Rating} alt="TrustPilot" className="w-full h-[30vh] mr-2" />
 
             <h1 className="text-2xl font-bold text-[#333] dark:text-[#f8f8f8]">
-            {t('rating.leaveReview')}
+              {t('rating.leaveReview')}
             </h1>
-            
+
             {(hasGoogle || hasTrustpilot) && (
               <p className="text-[#666] dark:text-[#ccc]">
                 {t('rating.btnReview')}
               </p>
             )}
-             <DialogClose>
-        <img
-          src="/assets/close.svg"
-          alt="close button"
-          className="absolute top-4 right-4 w-8 h-8"
-        />
-      </DialogClose>
+            <DialogClose>
+              <img
+                src="/assets/close.svg"
+                alt="close button"
+                className="absolute top-4 right-4 w-8 h-8"
+              />
+            </DialogClose>
             <div className="grid w-full grid-cols-1 gap-2">
               {hasGoogle && (
                 <Link

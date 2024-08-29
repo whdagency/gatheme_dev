@@ -199,7 +199,7 @@ export default function Claims({ items, table_id }) {
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={(value) => { field.onChange(value); toggleDisabled(); }}
-                            className={`${isArabic === 'ar' ? ' text-right' : ''}`}
+                            className={`${isArabic === 'ar' ? ' text-right' : ''} `}
                           />
                         </FormControl>
 

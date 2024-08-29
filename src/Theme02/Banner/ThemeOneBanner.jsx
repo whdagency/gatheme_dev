@@ -37,47 +37,46 @@ const ThemeOneBanner = () => {
         {restos.name}
       </h2>
 
-      <div className="absolute inset-x-0 bottom-0 items-center z-20 flex justify-between p-4 text-center">
+      <div className="absolute  inset-x-0 bottom-0 items-center z-20 flex justify-between p-4 text-center">
         {/* Social Icons */}
-        <div className="md:gap-5 flex items-center gap-3">
+        <div className="md:gap-5 mb-1 self-end flex items-center gap-3">
           {resInfo.facebook && (
             <Link to={resInfo.facebook} target="_blank">
-              <FaFacebook size={17} color={customization.selectedIconColor} />
+              <FaFacebook size={20} color={customization.selectedIconColor} />
             </Link>
           )}
           {resInfo.tiktok && (
             <Link to={resInfo.tiktok} target="_blank">
-              <FaTiktok size={17} color={customization.selectedIconColor} />
+              <FaTiktok size={20} color={customization.selectedIconColor} />
             </Link>
           )}
           {resInfo.youtube && (
             <Link to={resInfo.youtube} target="_blank">
-              <FaYoutube size={17} color={customization.selectedIconColor} />
+              <FaYoutube size={20} color={customization.selectedIconColor} />
             </Link>
           )}
           {resInfo.snapshat && (
             <Link to={resInfo.snapshat} target="_blank">
               <FaSnapchatGhost
-                size={17}
+                size={20}
                 color={customization.selectedIconColor}
               />
             </Link>
           )}
           {resInfo.instgram && (
             <Link to={resInfo.instgram} target="_blank">
-              <FaInstagram size={17} color={customization.selectedIconColor} />
+              <FaInstagram size={20} color={customization.selectedIconColor} />
             </Link>
           )}
         </div>
-        <div className="">
-          <p className="text-white">Table : {tableName}</p>
-        </div>
+
         {/* About Restaurant  */}
-        <div className={`flex-row items-center md:gap-5 flex gap-3`}>
+        <div className={`flex-col items-center md:gap-5 flex gap-3`}>
+          <p className="text-white self-start ">Table : {tableName}</p>
           {resInfo.phone && (
             <p
               style={{ backgroundColor: customization.selectedPrimaryColor }}
-              className="md:text-sm flex items-center gap-2 p-2 text-xs text-white rounded"
+              className="md:text-sm flex items-center gap-2 p-2 text-xs text-white rounded-sm"
             >
               <PhoneCall
                 size={18}
