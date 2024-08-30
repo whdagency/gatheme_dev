@@ -31,20 +31,29 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { product, quantity, resto_id, toppings , ingredients, extravariants,selectedPrices  } = action.payload;
+      const { product, quantity, resto_id, toppings, comment, ingredients, extravariants, selectedPrices } = action.payload;
       const existingIndex = state.items.findIndex(item => item.id === product.id);
       const transformedIngredients = transformIngredients(ingredients);
       const transformedToppings = transformtoppings(toppings);
       const transformedExtraToppings = transformtoppings(extravariants);
       const transformedPrices = transformPrices(selectedPrices);
+
       if (existingIndex >= 0) {
-        state.items[existingIndex].quantity += quantity;
-        state.items[existingIndex].toppings = transformedToppings;
-        state.items[existingIndex].ingredients = transformedIngredients;
-        state.items[existingIndex].extravariants = transformedExtraToppings;
-        state.items[existingIndex].selectedPrices = transformedPrices;
+        if (comment != "") {
+          state.items.push({ ...product, quantity, resto_id, comment, toppings: transformedToppings, ingredients: transformedIngredients, extravariants: transformedExtraToppings, selectedPrices: selectedPrices });
+        }
+        else if (Object.keys(ingredients).length > 0 || Object.keys(extravariants).length > 0 || Object.keys(toppings).length > 0) {
+          state.items.push({ ...product, quantity, resto_id, comment, toppings: transformedToppings, ingredients: transformedIngredients, extravariants: transformedExtraToppings, selectedPrices: selectedPrices });
+        }
+        else {
+          state.items[existingIndex].quantity += quantity;
+          state.items[existingIndex].toppings = transformedToppings;
+          state.items[existingIndex].ingredients = transformedIngredients;
+          state.items[existingIndex].extravariants = transformedExtraToppings;
+          state.items[existingIndex].selectedPrices = transformedPrices;
+        }
       } else {
-        state.items.push({ ...product, quantity, resto_id, toppings: transformedToppings, ingredients: transformedIngredients,extravariants:  transformedExtraToppings, selectedPrices: selectedPrices});
+        state.items.push({ ...product, quantity, resto_id, comment: comment, toppings: transformedToppings, ingredients: transformedIngredients, extravariants: transformedExtraToppings, selectedPrices: selectedPrices });
       }
       updateLocalStorage(state.items);
     },

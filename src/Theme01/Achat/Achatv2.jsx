@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { incrementQuantity, decrementQuantity, removeItem, removeAll, addItem } from '../../lib/cartSlice';
-import { APIURL } from '../../lib/ApiKey';
+import { APIURL, APIURLS3 } from '../../lib/ApiKey';
 // import StepsBar from './Steps'
 import StepsBar from './stepsv2'
 
@@ -154,7 +154,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
     } catch (error) {
       console.error('Failed to submit order:', error.message);
     }
-    setOrderSubmitted(true);
+    // setOrderSubmitted(true);
   }
 
   const [t, i18n] = useTranslation("global")
@@ -581,7 +581,7 @@ function CartItem({ item, infoRes }) {
   //   console.error("Error parsing images: ", error);
   // }
 
-  const imageUrl = `${APIURL}/storage/${item.image1}` // Add a default image path if necessary
+  // const imageUrl = `${APIURL}/storage/${item.image1}` // Add a default image path if necessary
   const price = parseFloat(item.price);
   const selectedPrices = parseFloat(item.selectedPrices) || 0;
   const quantity = parseInt(item.quantity, 10);
@@ -596,7 +596,8 @@ function CartItem({ item, infoRes }) {
               alt={item.name}
               className="w-full h-full object-cover"
               height={64}
-              src={imageUrl}
+              // src={imageUrl}
+              src={item.image1?.includes("default") ? `${APIURL}/storage/${item.image1}` : `${APIURLS3}/${item.image1}`}
               style={{
                 aspectRatio: '64/64',
                 objectFit: 'cover',
@@ -657,7 +658,8 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
               alt={item.name}
               className=" object-cover rounded-xl"
               height={150}
-              src={`${APIURL}/storage/${item.image1}`}
+              // src={`${APIURL}/storage/${item.image1}`}
+              src={item.image1?.includes("default") ? `${APIURL}/storage/${item.image1}` : `${APIURLS3}/${item.image1}`}
               style={{
                 aspectRatio: '150/150',
                 objectFit: 'cover',

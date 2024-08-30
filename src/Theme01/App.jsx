@@ -49,6 +49,7 @@ function Theme01() {
   const [cartCount, setCartCount] = useState(tabAchat.length);
   const [restos, setRestos] = useState({});
   const [loading, setLoading] = useState(true);
+  const [language, setLanguage] = useState('')
   const [categories, setCategories] = useState([]);
   const [dishes, setDishes] = useState([]);
   const [promo, setPromo] = useState([])
@@ -131,8 +132,15 @@ function Theme01() {
           const drinkData = await drinkResponse.json();
 
           let combinedData = [];
-          const filteredDishes = dishData?.filter(dish => visibleCategoryIds.includes(dish.category_id)).map(item => ({ ...item, type: 'dish' }));
-          const filteredDrinks = drinkData?.filter(drink => visibleCategoryIds.includes(drink.category_id)).map(item => ({ ...item, type: 'drink' }));
+          let filteredDishes = [];
+          let filteredDrinks = []
+          if (dishData.length > 0) {
+
+            filteredDishes = dishData?.filter(dish => visibleCategoryIds.includes(dish.category_id)).map(item => ({ ...item, type: 'dish' }));
+          }
+          if (drinkData.length > 0) {
+            filteredDrinks = drinkData?.filter(drink => visibleCategoryIds.includes(drink.category_id)).map(item => ({ ...item, type: 'drink' }));
+          }
 
           if (filteredDishes.length) {
             combinedData.push(...filteredDishes);
@@ -143,6 +151,7 @@ function Theme01() {
 
           setDishes(combinedData);
           setResInfo(infoResponse.data[0]);
+          setLanguage(infoResponse.data[0].language)
           const customizationData = await customizationResponse.json();
           setCustomization(customizationData[0] || defaultColor);
         } else {
@@ -171,9 +180,13 @@ function Theme01() {
   // {
   //   return <Navigate to="/not-found" replace />; 
   // }
+  // useEffect(() => {
+  //   i18next.changeLanguage(language);
+  // }, [language]);
+
   i18next.init({
     interpolation: { escapeValue: false },
-    lng: resInfo.language,
+    lng: language == '' ? 'en' : language,
     resources: {
       en: {
         global: global_en,

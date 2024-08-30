@@ -15,7 +15,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { axiosInstance } from "../../axiosInstance"
-import { APIURL, APIURLS3 } from "../../lib/ApiKey"
+import { APIURL } from "../../lib/ApiKey"
 import { useMenu } from "../../hooks/useMenu"
 import { useTranslation } from "react-i18next"
 
@@ -62,17 +62,16 @@ export default function ViewOrder({ orderID }) {
                         <span className="sr-only">Close</span>
                     </Button>
                 </DialogHeader>
-                <ScrollArea className="h-[300px] pr-4 mt-4">
+                <ScrollArea className="h-[300px]  mt-4">
                     {orderDetails.dishes.map((item) => (
                         <div key={item.id} className="flex items-center space-x-1 mb-4">
-                            <div className="relative w-16 h-16 rounded-md overflow-hidden">
+                            {/* <div className="relative w-16 h-16 rounded-md overflow-hidden">
                                 <img
-                                    // src={`${APIURL}/storage/${item.image}`}
-                                    src={item.image?.includes("default") ? `${APIURL}/storage/${item.image}` : `${APIURLS3}/${item.image}`}
+                                    src={`${APIURL}/storage/${item.image}`}
                                     alt={item.name}
                                     className="rounded-md object-cover w-14 h-14"
                                 />
-                            </div>
+                            </div> */}
                             <div className="flex-1 self-baseline mt-2">
                                 <h3 className="text-sm font-bold text-gray-700">{item.name}</h3>
                                 <p className="text-sm mt-1 text-gray-500">{item.price}</p>

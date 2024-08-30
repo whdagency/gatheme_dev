@@ -14,7 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ChevronRight } from "lucide-react"
+import { Check, ChevronRight } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import {
     AlertDialog,
@@ -70,6 +70,7 @@ export default function Info({ items, infoRes, customization }) {
         { icon: FaYoutube, link: infoRes.youtube },
     ].filter(item => item.link);
 
+    const [passwordCopied, setPasswordCopied] = useState(false);
     return (
         <>
             <div className={`flex flex-col items-center justify-center h-screen p-6 ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
@@ -98,8 +99,18 @@ export default function Info({ items, infoRes, customization }) {
                             <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
                                 <span className="text-gray-700 dark:text-gray-300 font-medium">{infoRes.wifi_pass}</span>
                                 <div className="flex space-x-2">
-                                    <Button className="rounded-full" size="icon" variant="ghost" onClick={() => navigator.clipboard.writeText(infoRes.wifi_pass)}>
-                                        <CopyIcon className="w-5 h-5" />
+                                    <Button className="rounded-full" size="icon" variant="ghost" onClick={() => {
+                                        navigator.clipboard.writeText(infoRes.wifi_pass);
+                                        setPasswordCopied(true);
+                                        setTimeout(() => {
+                                            setPasswordCopied(false);
+                                        }, 1000);
+                                    }}>
+                                        {passwordCopied ? (
+                                            <Check className="w-5 h-5" />
+                                        ) : (
+                                            <CopyIcon className="w-5 h-5" />
+                                        )}
                                         <span className="sr-only">Copy WiFi Password</span>
                                     </Button>
                                 </div>
@@ -148,7 +159,7 @@ export default function Info({ items, infoRes, customization }) {
 
                         <div className={`flex items-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
                             <PhoneIcon className="w-5 h-5" />
-                            <span>+ {infoRes.phone}</span>
+                            <span> {infoRes.phone}</span>
                         </div>
                         <div className={`flex items-center text-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
                             <span>{t("info.Address")}: {infoRes.address}</span>

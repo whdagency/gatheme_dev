@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaInstagram, FaSnapchat, FaTiktok, FaYoutube, } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-import { APIURL } from '../../lib/ApiKey';
+import { APIURL, APIURLS3 } from '../../lib/ApiKey';
 import { axiosInstance } from '../../../axiosInstance';
 import { useMenu } from '../../hooks/useMenu';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,10 @@ function Banner({ items, infoRes }) {
         <div className='pb-4 pt-0 px-0'>
             <div className="relative mx-auto h-[170px] max-w-md overflow-hidden rounded-b-lg bg-white shadow">
                 <div className='overflow-hidden bg-[#999]'>
-                    <img src={`${APIURL}/storage/${infoRes.cover_image}`} loading='lazy' className="w-full object-cover max-h-44 bg-[#999] h-screen" alt={items.name} />
+                    <img
+                        // src={`${APIURL}/storage/${infoRes.cover_image}`}
+                        src={infoRes.cover_image?.includes("default") ? `${APIURL}/storage/${infoRes.cover_image}` : `${APIURLS3}/${infoRes.cover_image}`}
+                        loading='lazy' className="w-full object-cover max-h-44 bg-[#999] h-screen" alt={items.name} />
                 </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black"></div>
                 <div className="absolute inset-x-0 bottom-16 z-20 p-4 text-center">

@@ -8,7 +8,10 @@ import ThemeOneFooter from "./Footer/ThemeOneFooter";
 
 const ThemeOne = () => {
   const { customization, dishes, categories } = useMenu();
+  // console.log("im category: ", categories);
 
+  const categoriesWithOrder = categories.filter(category => category.orderCategorie !== undefined);
+  categoriesWithOrder.sort((a, b) => a.orderCategorie - b.orderCategorie);
   // Filter dishes by category
   const dishesByCategory = (catId) => {
     const filteredDishes = dishes.filter((dish) => dish.category_id === catId);
@@ -32,7 +35,7 @@ const ThemeOne = () => {
 
         {/* Dishes Sorted By Category */}
         <div className="flex flex-col gap-0 px-5">
-          {categories.map((category) => {
+          {categoriesWithOrder.map((category) => {
             const filteredDishes = dishesByCategory(category.id);
 
             if (filteredDishes.length === 0) {

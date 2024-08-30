@@ -28,7 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { APIURL } from '../../lib/ApiKey';
+import { APIURL, APIURLS3 } from '../../lib/ApiKey';
 import { useToast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from 'react-i18next';
@@ -267,6 +267,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
+                    onClick={() => handleToppingSelect(topping, option, dishId)}
                     className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70 
                 ${isOptionSelected ? 'transition-transform scale-105 !font-extrabold text-black' : ''}`}
                   >
@@ -326,6 +327,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                 <div className="flex items-center justify-between w-full">
                   <label
                     htmlFor={option.name}
+                    onClick={() => handleExtraToppingSelect(topping, option, dishId)}
                     className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-black/70 
                       ${isOptionSelected ? 'transition-transform scale-105 !font-extrabold text-black' : ''}`}
                   >
@@ -370,6 +372,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   <div className="flex items-center justify-between w-full">
                     <label
                       htmlFor={topping.name}
+                      onClick={() => handleIngrediantSelect(topping, dishId)}
                       className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-300 
         ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70 hover:text-black/90"} 
         transform ${isOptionSelected ? "scale-105" : "scale-100"}`}
@@ -606,7 +609,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
                 {filteredCategories.length > 0 && filteredCategories.map((item, index) => {
                   const image = item?.image1;
-                  const imageUrl = `${APIURL}/storage/${image}`;
+                  const imageUrl = image?.includes("default") ? `${APIURL}/storage/${image}` : `${APIURLS3}/${image}`
 
 
                   return (
@@ -655,7 +658,10 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
                 {filteredCategories.length > 0 && filteredCategories.map((item, index) => {
                   const image = item?.image1;
-                  const imageUrl = `${APIURL}/storage/${image}`;
+                  console.log("helo image", image);
+
+                  // const imageUrl = `${APIURL}/storage/${image}`;
+                  const imageUrl = image?.includes("default") ? `${APIURL}/storage/${image}` : `${APIURLS3}/${image}`
                   return (
                     <div className="tabs-container overflow-x-auto" key={index}>
                       <div className="flex gap-4">
@@ -740,7 +746,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <video
-                              src={`${APIURL}/storage/${selectedItem.video}`}
+                              // src={`${APIURL}/storage/${selectedItem.video}`}
+                              src={selectedItem.video?.includes("default") ? `${APIURL}/storage/${selectedItem.video}` : `${APIURLS3}/${selectedItem.video}`}
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               autoPlay
@@ -757,7 +764,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 1 : 2} index={selectedItem.video ? 1 : 2} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image1}`}
+                              // src={`${APIURL}/storage/${selectedItem.image1}`}
+                              src={selectedItem.image1?.includes("default") ? `${APIURL}/storage/${selectedItem.image1}` : `${APIURLS3}/${selectedItem.image1}`}
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               alt="Slide 1"
@@ -770,7 +778,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 2 : 3} index={selectedItem.video ? 2 : 3} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image2}`}
+                              // src={`${APIURL}/storage/${selectedItem.image2}`}
+                              src={selectedItem.image2?.includes("default") ? `${APIURL}/storage/${selectedItem.image2}` : `${APIURLS3}/${selectedItem.image2}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               alt="Slide 2"
@@ -783,7 +793,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 3 : 4} index={selectedItem.video ? 3 : 4} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image3}`}
+                              // src={`${APIURL}/storage/${selectedItem.image3}`}
+                              src={selectedItem.image3?.includes("default") ? `${APIURL}/storage/${selectedItem.image3}` : `${APIURLS3}/${selectedItem.image3}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               alt="Slide 3"
@@ -796,7 +808,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 4 : 5} index={selectedItem.video ? 4 : 5} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image4}`}
+                              // src={`${APIURL}/storage/${selectedItem.image4}`}
+                              src={selectedItem.image4?.includes("default") ? `${APIURL}/storage/${selectedItem.image4}` : `${APIURLS3}/${selectedItem.image4}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               alt="Slide 4"
@@ -824,7 +838,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderThumbItem key={(selectedItem.video ? 1 : 0)} index={(selectedItem.video ? 1 : 0)} className="bg-transparent ">
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
+                              // src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
+                              src={selectedItem.image1?.includes("default") ? `${APIURL}/storage/${selectedItem.image1}` : `${APIURLS3}/${selectedItem.image1}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '100%', width: '100%' }}
                               alt="Video thumbnail"
@@ -836,7 +852,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderThumbItem key={(selectedItem.video ? 2 : 1)} index={(selectedItem.video ? 2 : 1)} className="bg-transparent ">
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image2}`} // Using the video thumbnail
+                              // src={`${APIURL}/storage/${selectedItem.image2}`} // Using the video thumbnail
+                              src={selectedItem.image2?.includes("default") ? `${APIURL}/storage/${selectedItem.image2}` : `${APIURLS3}/${selectedItem.image2}`}
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '100%', width: '100%' }}
                               alt="Video thumbnail"
@@ -848,7 +865,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderThumbItem key={(selectedItem.video ? 3 : 2)} index={(selectedItem.video ? 3 : 2)} className="bg-transparent ">
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image3}`} // Using the video thumbnail
+                              // src={`${APIURL}/storage/${selectedItem.image3}`} // Using the video thumbnail
+                              src={selectedItem.image3?.includes("default") ? `${APIURL}/storage/${selectedItem.image3}` : `${APIURLS3}/${selectedItem.image3}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '100%', width: '100%' }}
                               alt="Video thumbnail"
@@ -860,7 +879,9 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderThumbItem key={(selectedItem.video ? 4 : 3)} index={(selectedItem.video ? 4 : 3)} className="bg-transparent ">
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
                             <img
-                              src={`${APIURL}/storage/${selectedItem.image4}`} // Using the video thumbnail
+                              // src={`${APIURL}/storage/${selectedItem.image4}`} // Using the video thumbnail
+                              src={selectedItem.image4?.includes("default") ? `${APIURL}/storage/${selectedItem.image4}` : `${APIURLS3}/${selectedItem.image4}`}
+
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '100%', width: '100%' }}
                               alt="Video thumbnail"
@@ -883,6 +904,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                     <span
                       onClick={handleToggle}
                       className="text-muted-foreground  text-xs hover:underline "
+                      style={{ color: customization.selectedPrimaryColor }}
                     >
                       {isExpanded ? 'View Less' : 'View More'}
                     </span>

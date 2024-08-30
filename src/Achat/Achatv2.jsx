@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { incrementQuantity, decrementQuantity, removeItem, removeAll } from '../lib/cartSlice';
-import { APIURL } from '../lib/ApiKey';
+import { APIURL, APIURLS3 } from '../lib/ApiKey';
 import './Achat.css';
 import {
   AlertDialog,
@@ -19,13 +19,13 @@ export default function Achat({ tabel_id, resto_id, infoRes, customization }) {
   const cartItems = useSelector(state => state.cart.items);
   const totalCost = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   const dispatch = useDispatch();
-  
-  const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false); 
+
+  const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   async function submitOrder(cartItems, totalCost) {
     let cartItemProduct = cartItems.map(item => ({
       type: item.type,  // Assuming all items are dishes
       id: item.id,
-      quantity: item.quantity, 
+      quantity: item.quantity,
       comment: "test"
     }));
 
@@ -36,7 +36,7 @@ export default function Achat({ tabel_id, resto_id, infoRes, customization }) {
       resto_id: resto_id,   // Assuming static as well, adjust accordingly
       cartItems: cartItemProduct
     };
-    console.log("The orde is ",tabel_id);
+    console.log("The orde is ", tabel_id);
     // try {
     //   const response = await fetch(`https://backend.garista.com/api/order`, {
     //     method: 'POST',
@@ -72,7 +72,7 @@ export default function Achat({ tabel_id, resto_id, infoRes, customization }) {
     //     },
     //       body: JSON.stringify(notification)
     //     });
-        
+
     //       console.log("Nice => ",responseNotification);
     //       setOrderSuccessModalOpen(false);
     //       dispatch(removeAll())
@@ -88,7 +88,7 @@ export default function Achat({ tabel_id, resto_id, infoRes, customization }) {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Shopping Cart</h2>
-          <Button style={{backgroundColor: customization?.selectedPrimaryColor,color: customization?.selectedTextColor }} onClick={() => dispatch(removeAll())}>
+          <Button style={{ backgroundColor: customization?.selectedPrimaryColor, color: customization?.selectedTextColor }} onClick={() => dispatch(removeAll())}>
             Clear Cart
           </Button>
         </div>
@@ -102,9 +102,9 @@ export default function Achat({ tabel_id, resto_id, infoRes, customization }) {
             <div className="flex justify-between items-center mb-16">
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 Total:
-                <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost.toFixed(2)+ " " + infoRes.currency   }</span>
+                <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost.toFixed(2) + " " + infoRes.currency}</span>
               </p>
-              <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{backgroundColor: customization?.selectedPrimaryColor,color: customization?.selectedTextColor }} className="py-2 px-4 rounded-lg" size="lg">
+              <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor, color: customization?.selectedTextColor }} className="py-2 px-4 rounded-lg" size="lg">
                 Checkout
               </Button>
             </div>
@@ -141,7 +141,8 @@ function CartItem({ item, infoRes }) {
             alt={item.name}
             className="w-full h-full object-cover"
             height={64}
-            src={`${APIURL}/storage/${item.image}`}
+            // src={`${APIURL}/storage/${item.image}`}
+            src={item.image?.includes("default") ? `${APIURL}/storage/${item.image}` : `${APIURLS3}/${item.image}`}
             style={{
               aspectRatio: '64/64',
               objectFit: 'cover',
@@ -151,7 +152,7 @@ function CartItem({ item, infoRes }) {
         </div>
         <div className="flex-1">
           <h3 className="text-base font-medium text-gray-900 dark:text-gray-50">{item.name}</h3>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">{item.price + " " + infoRes.currency }</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">{item.price + " " + infoRes.currency}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline">

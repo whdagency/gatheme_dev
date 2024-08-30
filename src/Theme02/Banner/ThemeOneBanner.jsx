@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { APIURL } from "../../lib/ApiKey";
+import { APIURL, APIURLS3 } from "../../lib/ApiKey";
 import { useMenu } from "../../hooks/useMenu";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -23,7 +23,8 @@ const ThemeOneBanner = () => {
     <div className="w-full  md:h-[40vh] h-[40vh] relative">
       {/* Cover Image */}
       <img
-        src={`${APIURL}/storage/${resInfo.cover_image}`}
+        // src={`${APIURL}/storage/${resInfo.cover_image}`}
+        src={resInfo.cover_image?.includes("default") ? `${APIURL}/storage/${resInfo.cover_image}` : `${APIURLS3}/${resInfo.cover_image}`}
         alt={restos.name}
         loading="lazy"
         className="object-cover w-full h-full"
@@ -73,7 +74,7 @@ const ThemeOneBanner = () => {
         {/* About Restaurant  */}
         <div className={`flex-col items-center md:gap-5 flex gap-3`}>
           <p className="text-white self-start ">Table : {tableName}</p>
-          {resInfo.phone && (
+          {/* {resInfo.phone && (
             <p
               style={{ backgroundColor: customization.selectedPrimaryColor }}
               className="md:text-sm flex items-center gap-2 p-2 text-xs text-white rounded-sm"
@@ -86,7 +87,7 @@ const ThemeOneBanner = () => {
                 0507994477
               </span>
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

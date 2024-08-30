@@ -40,29 +40,23 @@ const ThemeOneRating = () => {
         <span className="text-xs font-medium text-white">{t('menu.rating')}</span>
       </DialogTrigger>
 
-      <DialogContent className='flex justify-center items-center w-[95%] rounded-lg'>
-        <main className="flex flex-col items-center justify-center h-[80vh] px-4 w-[20rem]">
+      <DialogContent className='flex !py-0 justify-center items-center h-[84%] w-[85%] rounded-lg'>
+        <main className="flex flex-col mt-8 items-stretch justify-center h-[80%] px-1 w-full">
 
-          <div className="space-y-6 text-center">
+          <div className="space-y-7 text-center">
 
-            <img src={Rating} alt="TrustPilot" className="w-full h-[30vh] mr-2" />
+            <img src={Rating} alt="TrustPilot" className="w-full h-[30vh] mx-auto" />
 
-            <h1 className="text-2xl font-bold text-[#333] dark:text-[#f8f8f8]">
+            <h1 className="text-2xl capitalize font-bold text-[#333] dark:text-[#f8f8f8]">
               {t('rating.leaveReview')}
             </h1>
 
             {(hasGoogle || hasTrustpilot) && (
-              <p className="text-[#666] dark:text-[#ccc]">
+              <p className="text-[#666]  dark:text-[#ccc]">
                 {t('rating.btnReview')}
               </p>
             )}
-            <DialogClose>
-              <img
-                src="/assets/close.svg"
-                alt="close button"
-                className="absolute top-4 right-4 w-8 h-8"
-              />
-            </DialogClose>
+
             <div className="grid w-full grid-cols-1 gap-2">
               {hasGoogle && (
                 <Link
@@ -97,7 +91,15 @@ const ThemeOneRating = () => {
                 </p>
               )}
             </div>
+            <DialogClose>
+              <img
+                src="/assets/close.svg"
+                alt="close button"
+                className="absolute top-3 right-3 w-8 h-8"
+              />
+            </DialogClose>
           </div>
+
         </main>
       </DialogContent>
     </Dialog>

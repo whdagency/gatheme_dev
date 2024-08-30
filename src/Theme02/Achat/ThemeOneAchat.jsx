@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -30,6 +30,11 @@ import {
   AlertDialogTitle,
   AlertDialogDescription,
 } from "@/components/ui/alert-dialog";
+import StepsBar from "./stepsv2";
+// import { ref, database, onValue, } from "firebase/database";
+
+import { database, onValue, ref } from '../../firebaseConfig';
+import { axiosInstance } from "../../axiosInstance";
 
 const ThemeOneAchat = ({ activeLink }) => {
   // restaurant menu data
@@ -42,9 +47,18 @@ const ThemeOneAchat = ({ activeLink }) => {
   const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   const [pending, setPending] = useState(false);
 
+  const [currentStep, setCurrentStep] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [complete, setComplete] = useState(false);
+  const [canceled, setCanceled] = useState(false);
+
+  const [status, setStatus] = useState("")
+  // const [orderID, setOrderID] = useState("");
   // redux state and dispatch
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  console.log("im cart ", cartItems);
+
 
   // order functions
   const totalCost = cartItems.reduce((total, item) => {
@@ -151,7 +165,87 @@ const ThemeOneAchat = ({ activeLink }) => {
   //     console.error("Failed to submit order:", error.message);
   //   }
   // };
+
+  const fetchValues = async () => {
+    try {
+      // const response = await axiosInstance.get('/api/suggestions/'+resto_id);
+
+      // const suggestions = response.data;
+
+      // // // Extract dishes from suggestions
+      // const initialSelectedDishes = suggestions
+      // .filter(suggestion => suggestion.dishes) // Only take suggestions with dishes
+      // .map(suggestion => suggestion.dishes);
+
+      // const initialSelectedDrinks = suggestions
+      // .filter(suggestion => suggestion.drinks) // Only take suggestions with dishes
+      // .map(suggestion => suggestion.drinks);
+
+      // // const ComindeSelected = [...initialSelectedDishes, ...initialSelectedDrinks]
+      // let ComindeSelected = [];
+      // if (initialSelectedDishes.length) {
+      //   ComindeSelected.push(...initialSelectedDishes.map(item => ({ ...item, type: 'dish' })));
+      // }
+      // if (initialSelectedDrinks.length) {
+      //   ComindeSelected.push(...initialSelectedDrinks.map(item => ({ ...item, type: 'drink' })));
+      // }
+      // const filteredSuggestions = ComindeSelected.filter(suggestion => {
+      //   return !cartItems.some(cartItem => cartItem.id === suggestion.id && cartItem.type === suggestion.type);
+      // });
+      // setSelectedDishes(filteredSuggestions);
+
+      const res = localStorage.getItem('orderID');
+      setOrderID(res)
+      const result = await axiosInstance.get('/api/orders/' + res)
+      console.log("The Response of RestoInfo => ", resto_id);
+      const data = result?.data?.order
+      if (result) {
+
+        setStatus(data?.status)
+        if (data?.status == "new") {
+          setCurrentStep(1);
+          setComplete(false)
+        }
+        else if (data?.status == "Processing") {
+          setCurrentStep(2)
+          setComplete(false)
+        }
+        else if (data?.status == "Completed") {
+          setCurrentStep(4);
+          setComplete(true);
+          localStorage.setItem('orderID', null)
+        }
+        else if (data?.status == "Canceled") {
+          setCurrentStep(3);
+          setCanceled(true);
+          localStorage.setItem('orderID', null)
+        }
+      }
+
+    }
+    catch (err) {
+      console.log("The Error => ", err);
+    }
+  }
+
+  const subscribeToFirebase = () => {
+    const ordersRef = ref(database, "orders");
+    onValue(ordersRef, (snapshot) => {
+      const firebaseData = snapshot.val();
+      if (firebaseData) {
+        fetchValues()
+      }
+    });
+  };
+
+
+
+  useEffect(() => {
+    fetchValues();
+    subscribeToFirebase()
+  }, [])
   const submitOrder = async (cartItems, totalCost) => {
+    setPending(true);
     sessionStorage.setItem('modalOpened', '');
     let cartItemProduct = cartItems.map(item => ({
       type: item.type,  // Assuming all items are dishes
@@ -172,7 +266,6 @@ const ThemeOneAchat = ({ activeLink }) => {
       resto_id: resto_id,   // Assuming static as well, adjust accordingly
       cartItems: cartItemProduct
     };
-    console.log("The orde is ", order);
     try {
       const response = await fetch(`https://backend.garista.com/api/order`, {
         method: 'POST',
@@ -212,8 +305,8 @@ const ThemeOneAchat = ({ activeLink }) => {
         });
 
         console.log("Nice => ", responseNotification);
+        setPending(false);
         setOrderSuccessModalOpen(false);
-        setIsModalOpen(false)
         setOrderID(id)
         dispatch(removeAll())
       }
@@ -221,8 +314,9 @@ const ThemeOneAchat = ({ activeLink }) => {
     } catch (error) {
       console.error('Failed to submit order:', error.message);
     }
-    setOrderSubmitted(true);
+    // setOrderSubmitted(true);
   };
+
 
   const { t, i18n } = useTranslation("global");
   const [orderID, setOrderID] = useState("");
@@ -269,7 +363,21 @@ const ThemeOneAchat = ({ activeLink }) => {
           </div>
 
           <section className="relative flex flex-col min-h-screen gap-4 pt-5 pb-40">
-            {" "}
+            <div className="flex flex-col justify-center ">
+              {orderID != 'null' &&
+                <StepsBar
+                  status={status}
+                  orderID={orderID}
+                  currentStep={currentStep}
+                  infoRes={resInfo}
+                  complete={complete}
+                  cartItems={cartItems}
+                  totalCost={totalCost}
+                  canceled={canceled}
+                />
+              }
+            </div>
+
             {/* Added padding-bottom */}
             <div className="flex items-center justify-between pb-2 border-b border-gray-400">
               <div className="flex items-center gap-2">
@@ -518,6 +626,7 @@ const CartItem = ({ item, infoRes }) => {
 
         </div>
 
+        <span className="text-[12px] font-medium text-gray-900 dark:text-gray-50">{item?.comment?.length > 15 ? item?.comment?.slice(0, 10) + '...' : item?.comment}</span>
         <ToppingOptions item={item} />
         <ExtraOptions item={item} />
         <IngredientsOption item={item} />

@@ -515,7 +515,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
         <ScrollArea className="max-h-[450px] w-full rounded-md p-0 overflow-y-auto">
           {selectedItem != null && (
             <>
-              <CredenzaBody className="sm:pb-0 flex flex-col items-center gap-1 mt-5 text-center">
+              <CredenzaBody className="pb-0 flex flex-col items-center gap-1 mt-5 text-center">
                 <CredenzaTitle
                   style={{ color: customization.selectedPrimaryColor }}
                   className="text-2xl mt-5 font-bold"
@@ -586,7 +586,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                     {getQuantity(selectedItem.id)}
                   </span>
                 </div> */}
-                <div className="flex items-center justify-between w-full px-8 gap-2">
+                <div className="flex items-center justify-between w-full px-8 ">
                   <div className="space-x-4 w-32 flex items-center">
                     <Button size="icon" variant="outline" onClick={() =>
                       setQuantity(

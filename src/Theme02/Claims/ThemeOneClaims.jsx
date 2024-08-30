@@ -21,7 +21,7 @@ import { X } from "lucide-react";
 import { APIURL } from "../../lib/ApiKey";
 import ClipLoader from "react-spinners/ClipLoader";
 import { ClaimsIcon } from "../icons";
-
+import Claim from "./claim.svg";
 // zod schema for the form
 const formSchema = z
   .object({
@@ -121,11 +121,11 @@ const ThemeOneClaims = ({ open, setOpen }) => {
     <>
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent
-          side="bottom" 
+          side="bottom"
           id="hide"
           className="scrollbar-hide ms-auto flex flex-col items-center justify-center w-full max-w-md h-[28rem]"
         >
-          <DrawerClose
+          {/* <DrawerClose
             onClick={() => {
               setOpen(false);
               reset();
@@ -133,27 +133,31 @@ const ThemeOneClaims = ({ open, setOpen }) => {
             className="right-5 top-5 absolute z-10 flex items-center justify-center w-8 h-8 p-1 border border-gray-500 rounded-full"
           >
             <X size={20} className="text-gray-500" />
-          </DrawerClose>
+          </DrawerClose> */}
 
-          <div className="scrollbar-hide w-full max-w-md p-6 overflow-y-scroll rounded-lg">
+          <div className="scrollbar-hide w-full max-w-md mt-6 p-6 overflow-y-scroll rounded-lg">
             <div className="flex flex-col gap-5">
-              <div className="flex items-center justify-center gap-3">
-                <ClaimsIcon fill={customization?.selectedPrimaryColor} />
+              <div className="flex flex-col items-center justify-center gap-0">
+                <div className="flex items-center justify-center gap-3">
+                  <ClaimsIcon fill={customization?.selectedPrimaryColor} />
 
-                <h2
-                  style={{ color: customization.selectedPrimaryColor }}
-                  className="text-3xl font-bold text-black font-[Inter]"
+                  <h2
+                    style={{ color: customization.selectedPrimaryColor }}
+                    className="text-3xl font-bold text-nowrap text-black font-[Inter]"
+                  >
+                    {t('claims.makeClaim')}  {t('claims.claim')}
+                  </h2>
+                </div>
+
+                <p
+                  style={{ color: customization?.selectedPrimaryColor }}
+                  className="text-center mt-0 font-[Inter] font-normal"
                 >
-                  {t('claims.makeClaim')}  {t('claims.claim')}
-                </h2>
+                  {t('claims.tellUs')}
+                </p>
               </div>
 
-              <p
-                style={{ color: customization?.selectedPrimaryColor }}
-                className="text-center font-[Inter] font-normal"
-              >
-               {t('claims.tellUs')}
-              </p>
+
 
               <form
                 method="post"
@@ -180,7 +184,7 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                     htmlFor="clamer_name"
                     className={`left-4 top-1/2 peer-focus:top-0 peer-focus:left-2 peer-focus:text-xs peer-focus:text-gray-700 absolute font-medium text-gray-700 transition-all transform -translate-y-1/2 ${watch("clamer_name") !== "" ? "-top-0 left-2 text-xs text-gray-700" : ""}`}
                   >
-                   
+
                   </label>
                 </div>
                 {errors.clamer_name && !isAnonymous && (
@@ -202,7 +206,7 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                     })}
                     className="peer focus:outline-none focus:ring-0 focus:border-0 dark:text-gray-300 block w-full py-4 pl-3 pr-10 text-gray-700 placeholder-[#666] bg-transparent border-0 rounded-md"
                     placeholder={t('claims.email')}
-                    // onPointerDown={(e) => e.stopPropagation()}
+                  // onPointerDown={(e) => e.stopPropagation()}
                   />
                   {/* <label
                     htmlFor="infos"
@@ -231,7 +235,7 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                     htmlFor="anonymCheckBox"
                     className="text-sm text-[#808080] font-[Inter]"
                   >
-                   {t('claims.anonymous')}
+                    {t('claims.anonymous')}
                   </label>
                 </div>
 
@@ -305,10 +309,10 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                 <AlertDialogContent className="w-[80%] rounded-lg">
                   <AlertDialogHeader>
                     <AlertDialogTitle>
-                    {t('claims.successClaim')}
+                      {t('claims.successClaim')}
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                    {t('claims.thankYou')}
+                      {t('claims.thankYou')}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

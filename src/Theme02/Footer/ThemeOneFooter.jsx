@@ -23,6 +23,7 @@ import {
   ClaimsOutlineIcon,
 } from "../icons";
 
+
 const ThemeOneFooter = () => {
   const { customization, table_id, restos, restoSlug } = useMenu();
   const [openClaimsModal, setOpenClaimsModal] = useState(false);
@@ -191,14 +192,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
       <div
         style={{ backgroundColor: customization?.selectedPrimaryColor }}
         className={`flex flex-col ${openWaiterModal
-            ? "transition-transform scale-100 translate-y-0 duration-500"
-            : "transition-transform scale-0 duration-500 translate-y-20"
-          } md:shadow-sm items-center justify-center gap-3 py-5 px-10 w-[304px] mx-auto bg-black/70 absolute bottom-[46.3px] md:bottom-14 left-1/2 transform -translate-x-1/2 rounded-t-full h-[119px] -z-10`}
+          ? "transition-transform scale-100 translate-y-0 duration-500"
+          : "transition-transform scale-0 duration-500 translate-y-20"
+          } md:shadow-sm items-center justify-center gap-3 py-5 px-10 w-full mx-auto bg-black/70 absolute bottom-[46.3px] md:bottom-14 left-1/2 transform -translate-x-1/2 rounded-t-full h-[119px] -z-10`}
       >
         <div className="flex items-center justify-center w-full gap-1 mt-8">
           <div className="flex flex-row items-center justify-center gap-[30px]">
             {/* Call Waiter */}
-            <div className="flex flex-col items-center justify-center gap-2">
+            <div className="flex w-1/3 flex-col items-center justify-center gap-2">
               <button
                 onClick={handleCallWaiter}
                 className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
@@ -212,14 +213,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
               </button>
               <p
                 style={{ color: customization?.selectedBgColor }}
-                className="text-[10px] font-medium text-white"
+                className="text-[10px] text-center font-medium text-white"
               >
                 {t('menu.callWaiter')}
               </p>
             </div>
 
             {/* Bring Bill */}
-            <div className="flex flex-col items-center justify-center gap-2 -mt-12">
+            <div className="flex flex-col w-1/3 items-center justify-center gap-2 -mt-16">
               <button
                 onClick={handleBringBill}
                 className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
@@ -233,14 +234,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
               </button>
               <p
                 style={{ color: customization?.selectedBgColor }}
-                className="text-[10px] font-medium text-white"
+                className="text-[10px] font-medium text-nowrap text-white"
               >
                 {t('menu.bringBill')}
               </p>
             </div>
 
             {/* Cancel */}
-            <div className="flex flex-col items-center justify-center gap-2">
+            <div className="flex flex-col w-1/3 items-center justify-center gap-2">
               <button
                 onClick={() => setOpenWaiterModal((prev) => !prev)}
                 className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
@@ -254,7 +255,7 @@ const CallWaiter = ({ customization, submitNotification }) => {
               </button>
               <p
                 style={{ color: customization?.selectedBgColor }}
-                className="text-[10px] font-medium text-white"
+                className="text-[10px] font-medium text-center text-white"
               >
                 {t('menu.cancel')}
               </p>

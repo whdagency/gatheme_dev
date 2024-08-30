@@ -1,5 +1,5 @@
 import { useMenu } from "../../hooks/useMenu"
-import { APIURL } from "../../lib/ApiKey";
+import { APIURL, APIURLS3 } from "../../lib/ApiKey";
 import { motion } from "framer-motion";
 
 export default function SplashScreen() {
@@ -18,7 +18,8 @@ export default function SplashScreen() {
                     transition={{ duration: 1 }}
                 >
                     <img
-                        src={`${APIURL}/storage/${restaurantLogo}`}
+                        // src={`${APIURL}/storage/${restaurantLogo}`}
+                        src={restaurantLogo?.includes("default") ? `${APIURL}/storage/${restaurantLogo}` : `${APIURLS3}/${restaurantLogo}`}
                         loading='lazy'
                         className="w-48 object-cover rounded-full bg-[#999] h-48"
                         alt={"Restaurant Logo"}
