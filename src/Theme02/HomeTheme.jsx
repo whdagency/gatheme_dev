@@ -9,7 +9,18 @@ import ThemeOneFooter from "./Footer/ThemeOneFooter";
 const ThemeOne = () => {
   const { customization, dishes, categories } = useMenu();
   // console.log("im category: ", categories);
-
+  const DEFAULT_THEME = {
+    id: 4,
+    selectedBgColor: "#fff",
+    selectedHeader: "logo-header",
+    selectedLayout: "theme-grid",
+    selectedPrimaryColor: "#000",
+    selectedSecondaryColor: "#6B7280",
+    selectedTheme: 1,
+    selectedTextColor: "#fff",
+    selectedIconColor: "#fff",
+    isDefault: true,
+  };
   const categoriesWithOrder = categories.filter(category => category.orderCategorie !== undefined);
   categoriesWithOrder.sort((a, b) => a.orderCategorie - b.orderCategorie);
   // Filter dishes by category
@@ -21,12 +32,12 @@ const ThemeOne = () => {
   return (
     <section
       style={{
-        color: customization?.selectedTextColor,
+        color: customization?.isDefault == false ? customization?.selectedTextColor : DEFAULT_THEME.selectedTextColor,
       }}
       className="bg-black/70 h-[100%] bg-white text-black block  flex-col items-center justify-center min-h-screen"
     >
       <div
-        style={{ backgroundColor: customization.selectedBgColor }}
+        style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
         className="max-w-2xl md:shadow md:h-[95vh] w-full md:overflow-y-scroll oveflow-x-hidden scrollbar-hide pb-20 relative"
       >
         <ThemeOneHeader />

@@ -88,6 +88,7 @@ const MenuProvider = ({ children }) => {
           console.log("im resto", infoResponse.data[0].currency);
           const customizationData = await customizationResponse.json();
           setCustomization(customizationData[0] || defaultColor);
+
           const qrCodeRes = await axiosInstance.get(`/api/qrcodes/${resto.id}`);
           if (qrCodeRes) {
             setQrCode(qrCodeRes.data.data);

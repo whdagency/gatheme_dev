@@ -89,7 +89,7 @@ const ThemeOneInfo = ({ activeLink }) => {
                 className="rounded-full"
                 height={110}
                 // src={`${APIURL}/storage/${resInfo.logo}`}
-                src={resInfo.logo?.includes("default") ? `${APIURL}/storage/${resInfo.logo}` : `${APIURLS3}/${resInfo.logo}`}
+                src={`${APIURLS3}/${resInfo.logo}`}
                 style={{ aspectRatio: "80/80", objectFit: "cover" }}
                 width={110}
               />

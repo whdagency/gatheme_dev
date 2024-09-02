@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { axiosInstance } from "../../axiosInstance"
-import { APIURL } from "../../lib/ApiKey"
+import { APIURL, APIURLS3 } from "../../lib/ApiKey"
 import { useMenu } from "../../hooks/useMenu"
 import { useTranslation } from "react-i18next"
 
@@ -51,7 +51,7 @@ export default function ViewOrder({ orderID }) {
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
-                <Button className="self-end text-white px-2 mr-[6px] mb-2" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+                <Button className="self-end text-white px-2 mr-[6px] mb-2" style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}>
                     {t("achat.see")}
                 </Button>
             </DrawerTrigger>
@@ -70,8 +70,6 @@ export default function ViewOrder({ orderID }) {
                         <div key={item.id} className="flex items-center space-x-1 mb-4">
                             <div className="relative w-16 h-16 rounded-md overflow-hidden">
                                 <img
-                                    // src={`${APIURL}/storage/${item.image}`}
-                                    src={`${APIURLS3}/${item.image}`}
                                     alt={item.name}
                                     className="rounded-md object-cover w-14 h-14"
                                 />
@@ -88,9 +86,10 @@ export default function ViewOrder({ orderID }) {
                 </ScrollArea>
                 <Separator className="my-4" />
                 <div className={`flex justify-between rounded-lg p-3 bg-muted/50 items-center`} >
-                    <h3 className="text-md font-semibold text-[#024CA3]" style={{ color: customization?.selectedPrimaryColor }}>{t("achat.total")}</h3>
-                    <p className="text-md font-bold " style={{ color: customization?.selectedPrimaryColor }}>{orderDetails.order.total} {resInfo.currency}</p>
+                    <h3 className="text-md font-semibold text-[#024CA3]" style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}>{t("achat.total")}</h3>
+                    <p className="text-md font-bold " style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}>{orderDetails.order.total} {resInfo.currency}</p>
                 </div>
+
             </DrawerContent>
         </Drawer>
     )

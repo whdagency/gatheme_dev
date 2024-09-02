@@ -82,7 +82,7 @@ function CartItem({ item }) {
             <div className="flex items-center">
                 <img
                     //   src={`${APIURL}/storage/${item.image}`}
-                    src={item.image?.includes("default") ? `${APIURL}/storage/${item.image}` : `${APIURLS3}/${item.image}`}
+                    src={`${APIURLS3}/${item.image}`}
                     alt={item.name} className="w-20 h-20 mr-4" />
                 <div>
                     <h4 className="font-bold">{item.name}</h4>

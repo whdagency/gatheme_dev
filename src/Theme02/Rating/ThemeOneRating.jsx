@@ -10,7 +10,7 @@ import Rating from "./RatIcon.svg";
 import { useTranslation } from "react-i18next";
 
 const ThemeOneRating = () => {
-  const { resInfo } = useMenu();
+  const { resInfo, customization } = useMenu();
 
   if (!resInfo) {
     return (
@@ -36,8 +36,11 @@ const ThemeOneRating = () => {
   return (
     <Dialog>
       <DialogTrigger className="flex w-1/3 items-center justify-center gap-1.5 bg-transparent hover:bg-transparent">
-        <FaRegStar size={25} className="text-white" />
-        <span className="text-xs font-medium text-white">{t('menu.rating')}</span>
+        <FaRegStar size={25}
+          fill={customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor} className="text-white" />
+        <span
+          style={{ color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+          className="text-xs font-medium text-white">{t('menu.rating')}</span>
       </DialogTrigger>
 
       <DialogContent className='flex !py-0 justify-center items-center h-[84%] w-[85%] rounded-lg'>

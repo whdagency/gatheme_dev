@@ -609,7 +609,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
                 {filteredCategories.length > 0 && filteredCategories.map((item, index) => {
                   const image = item?.image1;
-                  const imageUrl = image?.includes("default") ? `${APIURL}/storage/${image}` : `${APIURLS3}/${image}`
+                  const imageUrl = `${APIURLS3}/${image}`
 
 
                   return (
@@ -658,10 +658,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
                 {filteredCategories.length > 0 && filteredCategories.map((item, index) => {
                   const image = item?.image1;
-                  console.log("helo image", image);
-
                   // const imageUrl = `${APIURL}/storage/${image}`;
-                  const imageUrl = image?.includes("default") ? `${APIURL}/storage/${image}` : `${APIURLS3}/${image}`
+                  const imageUrl = `${APIURLS3}/${image}`
                   return (
                     <div className="tabs-container overflow-x-auto" key={index}>
                       <div className="flex gap-4">
@@ -747,7 +745,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <video
                               // src={`${APIURL}/storage/${selectedItem.video}`}
-                              src={selectedItem.video?.includes("default") ? `${APIURL}/storage/${selectedItem.video}` : `${APIURLS3}/${selectedItem.video}`}
+                              src={`${APIURLS3}/${selectedItem.video}`}
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               autoPlay
@@ -765,7 +763,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
                               // src={`${APIURL}/storage/${selectedItem.image1}`}
-                              src={selectedItem.image1?.includes("default") ? `${APIURL}/storage/${selectedItem.image1}` : `${APIURLS3}/${selectedItem.image1}`}
+                              src={`${APIURLS3}/${selectedItem.image1}`}
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
                               alt="Slide 1"
@@ -779,7 +777,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
                               // src={`${APIURL}/storage/${selectedItem.image2}`}
-                              src={selectedItem.image2?.includes("default") ? `${APIURL}/storage/${selectedItem.image2}` : `${APIURLS3}/${selectedItem.image2}`}
+                              src={`${APIURLS3}/${selectedItem.image2}`}
 
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
@@ -794,7 +792,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
                               // src={`${APIURL}/storage/${selectedItem.image3}`}
-                              src={selectedItem.image3?.includes("default") ? `${APIURL}/storage/${selectedItem.image3}` : `${APIURLS3}/${selectedItem.image3}`}
+                              src={`${APIURLS3}/${selectedItem.image3}`}
 
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '300px', width: '100%' }}
@@ -839,7 +837,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
                             <img
                               // src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
-                              src={selectedItem.image1?.includes("default") ? `${APIURL}/storage/${selectedItem.image1}` : `${APIURLS3}/${selectedItem.image1}`}
+                              src={`${APIURLS3}/${selectedItem.image1}`}
 
                               className="w-full md:h-auto rounded-md object-cover"
                               style={{ height: '100%', width: '100%' }}

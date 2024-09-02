@@ -19,7 +19,7 @@ export default function SplashScreen() {
                 >
                     <img
                         // src={`${APIURL}/storage/${restaurantLogo}`}
-                        src={restaurantLogo?.includes("default") ? `${APIURL}/storage/${restaurantLogo}` : `${APIURLS3}/${restaurantLogo}`}
+                        src={`${APIURLS3}/${restaurantLogo}`}
                         loading='lazy'
                         className="w-48 object-cover rounded-full bg-[#999] h-48"
                         alt={"Restaurant Logo"}

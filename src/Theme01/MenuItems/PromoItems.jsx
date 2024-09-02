@@ -27,7 +27,7 @@ function PromoItem({ selectedTab, customization, promo }) {
                             >
                               <img
                                 // src={`${APIURL}/storage/${item?.image}`}
-                                src={item?.image?.includes("default") ? `${APIURL}/storage/${item?.image}` : `${APIURLS3}/${item?.image}`}
+                                src={`${APIURLS3}/${item?.image}`}
 
                                 alt="Menu Icon" className="w-full object-cover rounded-[10px] h-32" />
                               <div className='text-black flex justify-between items-center py-2 px-3'>

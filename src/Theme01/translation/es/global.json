@@ -33,7 +33,8 @@
     "anonymous": "Enviar comentarios de forma anónima",
     "submit": "Enviar comentarios",
     "successClaim": "Tu reclamación se ha enviado con éxito",
-    "thankYou": "¡Gracias por tu reclamación!"
+    "thankYou": "¡Gracias por tu reclamación!",
+    "Reset": "reiniciar"
   },
   "waiter": {
     "CallWaiter": "Llamar al camarero",
@@ -59,15 +60,23 @@
     "complete": "Completado",
     "Order": "Pedido",
     "Preparing": "Preparando",
+    "item": "artículo",
+    "items": "artículos",
     "OrderCanceled": "Pedido cancelado",
     "final": "100% Completado"
   },
   "info": {
     "WiFiPassword": "Contraseña de WiFi",
-    "Address": "Dirección"
+    "Address": "Dirección",
+    "phone": "Teléfono: ",
+    "FollowUs": "Síguenos: ",
+    "item": "artículo",
+    "items": "artículos"
   },
   "menuAddItem": {
     "commentPlaceholder": "Añadir un comentario...",
-    "addToSelected": "Añadir a la selección"
+    "addToSelected": "Añadir a la selección",
+    "addnote": "Añadir la nota:",
+    "close": "cerca"
   }
 }

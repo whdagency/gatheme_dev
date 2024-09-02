@@ -37,7 +37,8 @@
     "anonymous": "Enviar feedback de manera anónima",
     "submit": "Enviar feedback",
     "successClaim": "Tu reclamación se ha enviado con éxito",
-    "thankYou": "¡Gracias por tu feedback!"
+    "thankYou": "¡Gracias por tu feedback!",
+    "Reset": "Ripristina"
   },
   "waiter": {
     "CallWaiter": "¿Necesitas ayuda?",
@@ -67,6 +68,8 @@
     "OrderCanceled": "Pedido cancelado",
     "final": "100% Completado",
     "see": "Ver tu pedido ",
+    "item": "Articolo",
+    "items": "Articoli",
     "table": "Mesa",
     "ofTable": "De la mesa"
   },
@@ -74,10 +77,14 @@
     "WiFiPassword": "Contraseña WiFi",
     "Address": "Dirección",
     "changeLanguage": "Cambiar idioma",
-    "powered": "alimentado por Garista."
+    "powered": "alimentado por Garista.",
+    "phone": "Telefono: ",
+    "FollowUs": "Seguici: "
   },
   "menuAddItem": {
     "commentPlaceholder": "Añadir un comentario...",
-    "addToSelected": "Añadir a la selección"
+    "addToSelected": "Añadir a la selección",
+    "addnote": "Aggiungi nota:",
+    "close": "Chiudi"
   }
 }

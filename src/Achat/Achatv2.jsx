@@ -142,7 +142,7 @@ function CartItem({ item, infoRes }) {
             className="w-full h-full object-cover"
             height={64}
             // src={`${APIURL}/storage/${item.image}`}
-            src={item.image?.includes("default") ? `${APIURL}/storage/${item.image}` : `${APIURLS3}/${item.image}`}
+            src={`${APIURLS3}/${item.image}`}
             style={{
               aspectRatio: '64/64',
               objectFit: 'cover',

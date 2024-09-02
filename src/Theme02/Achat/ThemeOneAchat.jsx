@@ -329,13 +329,14 @@ const ThemeOneAchat = ({ activeLink }) => {
         <p className="relative">
           <FiShoppingBag
             size={25}
-            color={customization?.selectedPrimaryColor}
+            color={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}
           />
           <span
             style={{
-              backgroundColor: customization?.selectedPrimaryColor,
-              color: customization?.selectedBgColor,
+              backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+              color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
             }}
+
             className="absolute -right-1.5 -top-1 size-5 grid place-content-center rounded-full text-[10px] leading-3"
           >
             {totalItems}
@@ -350,7 +351,7 @@ const ThemeOneAchat = ({ activeLink }) => {
         <div className="dark:bg-gray-950 bg-white">
           <div className="relative flex items-center justify-between">
             <h1 className="text-lg font-bold text-black uppercase">
-              {restos.name || "Garista"} <span className="text-xs text-muted-foreground capitalize font-normal"> Table: {tableName}</span>
+              {restos.name || "Garista"} <span className="text-xs text-muted-foreground capitalize font-normal"> {t("achat.ofTable")}: {tableName}</span>
             </h1>
 
             <SheetClose>
@@ -474,10 +475,11 @@ const ThemeOneAchat = ({ activeLink }) => {
 
               <Button
                 style={{
-                  backgroundColor: customization?.selectedPrimaryColor,
+                  backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
                   opacity: cartItems.length > 0 ? 1 : 0.2,
-                  color: customization?.selectedBgColor,
+                  color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
                 }}
+
                 className={`w-full px-4 py-2 font-semibold text-white rounded-lg ${cartItems.length === 0 ? "cursor-default" : ""}`}
                 size="lg"
                 disabled={pending || cartItems.length === 0}
@@ -599,7 +601,7 @@ const CartItem = ({ item, infoRes }) => {
             </button>
 
             <p
-              style={{ color: customization?.selectedTextColor }}
+              style={{ color: customization?.isDefault == false ? customization.selectedTextColor : DEFAULT_THEME.selectedTextColor }}
               className="text-base"
             >
               {item.quantity}
@@ -655,7 +657,7 @@ export const CartSuccessModal = ({ open, setOpen }) => {
 
           <AlertDialogDescription className="flex flex-col items-center gap-3 text-center">
             <h2
-              style={{ color: customization?.selectedPrimaryColor }}
+              style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
               className="text-2xl font-bold text-center text-black"
             >
               {t('achat.preparedorder')}
@@ -672,9 +674,10 @@ export const CartSuccessModal = ({ open, setOpen }) => {
             autoFocus
             onClick={() => setOpen(false)}
             style={{
-              backgroundColor: customization?.selectedPrimaryColor,
-              color: customization?.selectedBgColor,
+              backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+              color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
             }}
+
             className="flex items-center justify-center w-full gap-2 mx-auto font-normal text-center text-white"
           >
             {t('menu.ok')}

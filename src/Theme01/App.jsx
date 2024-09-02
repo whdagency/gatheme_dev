@@ -153,6 +153,8 @@ function Theme01() {
           setResInfo(infoResponse.data[0]);
           setLanguage(infoResponse.data[0].language)
           const customizationData = await customizationResponse.json();
+          // console.log('The DeFAULT => ', customizationData);
+
           setCustomization(customizationData[0] || defaultColor);
         } else {
           setMessage('No restaurant found with the provided slug.');
@@ -167,6 +169,7 @@ function Theme01() {
 
     fetchData();
   }, [restoSlug]);
+
 
   // if (loading) {
   //   return (

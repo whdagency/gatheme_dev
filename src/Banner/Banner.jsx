@@ -14,7 +14,7 @@ function Banner({ items, infoRes }) {
                 <div className='overflow-hidden bg-[#999]'>
                     <img
                         // src={`${APIURL}/storage/${infoRes.cover_image}`}
-                        src={infoRes.cover_image?.includes("default") ? `${APIURL}/storage/${infoRes.cover_image}` : `${APIURLS3}/${infoRes.cover_image}`}
+                        src={`${APIURLS3}/${infoRes.cover_image}`}
                         loading='lazy' className="w-full object-cover max-h-44 bg-[#999] h-screen" alt={items.name} />
                 </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black"></div>

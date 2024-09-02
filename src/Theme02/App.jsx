@@ -9,11 +9,16 @@ import Info from "./Info/ThemeOneInfo";
 // import Footer from "./Footer/Footerv2";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import i18next from "i18next";
-import global_en from "./translation/en/global.json"
-import global_fr from "./translation/fr/global.json"
-import global_es from "./translation/es/global.json"
-import global_it from "./translation/it/global.json"
-import global_ar from "./translation/ar/global.json"
+import global_en from "@/Theme01/translation/en/global.json"
+import global_fr from "@/Theme01/translation/fr/global.json"
+import global_it from "@/Theme01/translation/it/global.json"
+import global_ar from "@/Theme01/translation/ar/global.json"
+import global_es from "@/Theme01/translation/es/global.json"
+// import global_en from "./translation/en/global.json"
+// import global_fr from "./translation/fr/global.json"
+// import global_es from "./translation/es/global.json"global_ar
+// import global_it from "./translation/it/global.json"
+// import global_ar from "./translation/ar/global.json"
 import Achat from "./Achat/ThemeOneAchat";
 import Claims from "./Claims/ThemeOneClaims";
 import { APIURL } from "../lib/ApiKey";
@@ -46,6 +51,19 @@ const Theme02 = () => {
     setSelectedTab,
     restoSlug,
   } = useMenu();
+
+  const DEFAULT_THEME = {
+    id: 4,
+    selectedBgColor: "#fff",
+    selectedHeader: "logo-header",
+    selectedLayout: "theme-grid",
+    selectedPrimaryColor: "#000",
+    selectedSecondaryColor: "#6B7280",
+    selectedTheme: 1,
+    selectedTextColor: "#fff",
+    selectedIconColor: "#fff",
+    isDefault: true,
+  };
   i18next.init({
     interpolation: { escapeValue: false },
     lng: resInfo.language,
@@ -119,7 +137,7 @@ const Theme02 = () => {
               <Route path="/menu/:restoSlug/Rating" element={
                 <>
                   <Rate infoRes={resInfo} />
-                  <Footer slug={restoSlug} customization={customization} />
+                  <Footer slug={restoSlug} customization={customization} DEFAULT_THEME={DEFAULT_THEME} />
                 </>
               } />
               <Route path={`/menu/:restoSlug/info`} element={

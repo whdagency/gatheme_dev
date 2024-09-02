@@ -31,7 +31,7 @@ function Info({
                             <div className='overflow-hidden'></div>
                             <img
                                 // src={`${APIURL}/storage/${infoRes.logo}`}
-                                src={infoRes.logo?.includes("default") ? `${APIURL}/storage/${infoRes.logo}` : `${APIURLS3}/${infoRes.logo}`}
+                                src={`${APIURLS3}/${infoRes.logo}`}
                                 alt="Menu Icon" loading='lazy' className='w-24 h-24 rounded-full bg-black outline-2 outline outline-blue border border-1 border-white' />
                             <div>
                                 <h1>{items.name}</h1>

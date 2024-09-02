@@ -33,15 +33,29 @@ const ThemeDishes = ({ category, dishes }) => {
   const { t, i18n } = useTranslation("global");
   const isArabic = i18n.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
+  const DEFAULT_THEME = {
+    id: 4,
+    selectedBgColor: "#fff",
+    selectedHeader: "logo-header",
+    selectedLayout: "theme-grid",
+    selectedPrimaryColor: "#000",
+    selectedSecondaryColor: "#6B7280",
+    selectedTheme: 2,
+    selectedTextColor: "#fff",
+    selectedIconColor: "#fff",
+    isDefault: true,
+  };
+
 
   return (
     <>
       <AccordionItem value={category.id} className="border-0">
         <AccordionTrigger
           style={{
-            backgroundColor: customization?.selectedPrimaryColor,
-            color: customization?.selectedBgColor,
+            backgroundColor: customization?.isDefault == false ? customization?.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+            color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
           }}
+
           className="hover:bg-black rounded-sm hover:no-underline flex flex-row items-center justify-between w-full px-3 py-2 text-white uppercase bg-black border-0"
         >
           {category.name}
@@ -59,8 +73,8 @@ const ThemeDishes = ({ category, dishes }) => {
             >
               <div
                 style={{
-                  color: customization.selectedPrimaryColor,
-                  borderColor: customization.selectedPrimaryColor,
+                  color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+                  borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
                 }}
                 className="border-b-black/40 last:border-b-0 flex items-center justify-between border-b"
               >
@@ -71,7 +85,8 @@ const ThemeDishes = ({ category, dishes }) => {
               </div>
 
               <p
-                style={{ color: customization.selectedSecondaryColor }}
+                style={{ color: customization?.isDefault == false ? customization.selectedSecondaryColor : DEFAULT_THEME.selectedSecondaryColor }}
+
                 className="text-sm font-light leading-relaxed"
               >
                 {dish.desc}
@@ -324,10 +339,11 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                     className={`rounded-full border h-7 w-7 p-0 flex items-center justify-center ${isOptionSelected ? 'bg-[#63aa08]' : 'border-gray-300'}`}
                     onClick={() => handleToppingSelect(topping, option, dishId)}
                     style={{
-                      color: customization?.selectedTextColor,
-                      backgroundColor: customization?.backgroundColor
+                      color: customization?.isDefault == false ? customization.selectedTextColor : DEFAULT_THEME.selectedTextColor,
+                      backgroundColor: customization?.isDefault == false ? customization.backgroundColor : DEFAULT_THEME.backgroundColor
 
                     }}
+
                   // disabled={isDisabled}
                   >
                     {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
@@ -517,7 +533,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
             <>
               <CredenzaBody className="pb-0 flex flex-col items-center gap-1 mt-5 text-center">
                 <CredenzaTitle
-                  style={{ color: customization.selectedPrimaryColor }}
+                  style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
                   className="text-2xl mt-5 font-bold"
                 >
                   {selectedItem.name}
@@ -532,7 +548,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                   <span
                     onClick={handleToggle}
                     className="text-muted-foreground font-normal  text-sm hover:underline "
-                    style={{ color: customization.selectedPrimaryColor }}
+                    style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
                   >
                     {isExpanded ? 'See Less' : 'See More'}
                   </span>
@@ -556,7 +572,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                     </button>
 
                     <p
-                      style={{ color: customization?.selectedTextColor }}
+                      style={{ color: customization?.isDefault == false ? customization.selectedTextColor : DEFAULT_THEME.selectedTextColor }}
                       className="text-2xl"
                     >
                       {getQuantity(selectedItem.id)}
@@ -580,7 +596,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                   </div>
 
                   <span
-                    style={{ color: customization?.selectedTextColor }}
+                    style={{ color: customization?.isDefault == false ? customization.selectedTextColor : DEFAULT_THEME.selectedTextColor }}
                     className="text-2xl"
                   >
                     {getQuantity(selectedItem.id)}
@@ -610,7 +626,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                   </div>
 
 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-dot mx-1" viewBox="0 0 16 16" style={{ color: customization?.selectedPrimaryColor }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-dot mx-1" viewBox="0 0 16 16" style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}>
+
                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                   </svg>
                   <span className=" w-32">{selectedItem.price + " " + resInfo?.currency}</span>
@@ -682,8 +699,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                   }}
                   className={`rounded-[0.5rem] p-2 transition-all w-full duration-300 border font-medium text-xs md:text-sm flex items-center justify-center gap-1 `}
                   style={{
-                    backgroundColor: customization?.selectedPrimaryColor,
-                    color: customization?.selectedBgColor,
+                    backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+                    color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
                   }}
                 >
                   <div

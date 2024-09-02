@@ -604,7 +604,7 @@ function CartItem({ item, infoRes }) {
               className="w-full h-full object-cover"
               height={64}
               // src={imageUrl}
-              src={item.image1?.includes("default") ? `${APIURL}/storage/${item.image1}` : `${APIURLS3}/${item.image1}`}
+              src={`${APIURLS3}/${item.image1}`}
               style={{
                 aspectRatio: '64/64',
                 objectFit: 'cover',
@@ -671,7 +671,7 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
               className=" object-cover rounded-xl"
               height={150}
               // src={`${APIURL}/storage/${item.image1}`}
-              src={item.image1?.includes("default") ? `${APIURL}/storage/${item.image1}` : `${APIURLS3}/${item.image1}`}
+              src={`${APIURLS3}/${item.image1}`}
               style={{
                 aspectRatio: '150/150',
                 objectFit: 'cover',

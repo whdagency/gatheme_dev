@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { MapPin, Phone, PhoneCall } from "lucide-react";
 import { axiosInstance } from "../../axiosInstance";
+import { useTranslation } from "react-i18next";
 
 const ThemeOneBanner = () => {
   const { restos, tableName, resInfo, customization } = useMenu();
@@ -18,13 +19,14 @@ const ThemeOneBanner = () => {
   const addressAvailable =
     resInfo.address && resInfo.address !== "" ? true : false;
 
+  const [t, i18n] = useTranslation("global");
 
   return (
     <div className="w-full  md:h-[40vh] h-[40vh] relative">
       {/* Cover Image */}
       <img
         // src={`${APIURL}/storage/${resInfo.cover_image}`}
-        src={resInfo.cover_image?.includes("default") ? `${APIURL}/storage/${resInfo.cover_image}` : `${APIURLS3}/${resInfo.cover_image}`}
+        src={`${APIURLS3}/${resInfo.cover_image}`}
         alt={restos.name}
         loading="lazy"
         className="object-cover w-full h-full"
@@ -43,37 +45,38 @@ const ThemeOneBanner = () => {
         <div className="md:gap-5 mb-1 self-end flex items-center gap-3">
           {resInfo.facebook && (
             <Link to={resInfo.facebook} target="_blank">
-              <FaFacebook size={20} color={customization.selectedIconColor} />
+              <FaFacebook size={20} color={customization?.isDefault == false ? customization.selectedIconColor : DEFAULT_THEME.selectedIconColor} />
+
             </Link>
           )}
           {resInfo.tiktok && (
             <Link to={resInfo.tiktok} target="_blank">
-              <FaTiktok size={20} color={customization.selectedIconColor} />
+              <FaTiktok size={20} color={customization?.isDefault == false ? customization.selectedIconColor : DEFAULT_THEME.selectedIconColor} />
             </Link>
           )}
           {resInfo.youtube && (
             <Link to={resInfo.youtube} target="_blank">
-              <FaYoutube size={20} color={customization.selectedIconColor} />
+              <FaYoutube size={20} color={customization?.isDefault == false ? customization.selectedIconColor : DEFAULT_THEME.selectedIconColor} />
             </Link>
           )}
           {resInfo.snapshat && (
             <Link to={resInfo.snapshat} target="_blank">
               <FaSnapchatGhost
                 size={20}
-                color={customization.selectedIconColor}
+                color={customization?.isDefault == false ? customization.selectedIconColor : DEFAULT_THEME.selectedIconColor}
               />
             </Link>
           )}
           {resInfo.instgram && (
             <Link to={resInfo.instgram} target="_blank">
-              <FaInstagram size={20} color={customization.selectedIconColor} />
+              <FaInstagram size={20} color={customization?.isDefault == false ? customization.selectedIconColor : DEFAULT_THEME.selectedIconColor} />
             </Link>
           )}
         </div>
 
         {/* About Restaurant  */}
         <div className={`flex-col items-center md:gap-5 flex gap-3`}>
-          <p className="text-white self-start ">Table : {tableName}</p>
+          <p className="text-white self-start ">{t("achat.table")}  : {tableName}</p>
           {/* {resInfo.phone && (
             <p
               style={{ backgroundColor: customization.selectedPrimaryColor }}

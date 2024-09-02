@@ -37,7 +37,8 @@
     "anonymous": "Soumettre un retour de manière anonyme",
     "submit": "Soumettre le retour",
     "successClaim": "Votre réclamation a été soumise avec succès",
-    "thankYou": "Merci pour votre retour !"
+    "thankYou": "Merci pour votre retour !",
+    "Reset": "Réinitialiser"
   },
   "waiter": {
     "CallWaiter": "Besoin d'aide ?",
@@ -68,16 +69,24 @@
     "final": "100 % Complété",
     "see": "Voir votre commande ",
     "table": "Table",
+    "item": "article",
+    "items": "articles",
     "ofTable": "De la table"
   },
   "info": {
     "WiFiPassword": "Mot de passe WiFi",
     "Address": "Adresse",
     "changeLanguage": "Changer de langue",
-    "powered": "alimenté par Garista."
+    "powered": "alimenté par Garista.",
+    "phone": "Téléphone: ",
+    "FollowUs": "Suivez-nous: "
   },
   "menuAddItem": {
     "commentPlaceholder": "Ajouter un commentaire...",
-    "addToSelected": "Ajouter à la sélection"
+    "addToSelected": "Ajouter à la sélection",
+    "title": "ajouté(e) à votre panier avec succès",
+    "desc": "Passez à la caisse pour confirmer votre commande",
+    "addnote": "Ajouter une note:",
+    "close": "Fermer"
   }
 }

@@ -139,10 +139,11 @@ const ThemeOneClaims = ({ open, setOpen }) => {
             <div className="flex flex-col gap-5">
               <div className="flex flex-col items-center justify-center gap-0">
                 <div className="flex items-center justify-center gap-3">
-                  <ClaimsIcon fill={customization?.selectedPrimaryColor} />
+                  <ClaimsIcon fill={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor} />
+
 
                   <h2
-                    style={{ color: customization.selectedPrimaryColor }}
+                    style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
                     className="text-3xl font-bold text-nowrap text-black font-[Inter]"
                   >
                     {t('claims.makeClaim')}  {t('claims.claim')}
@@ -150,7 +151,7 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                 </div>
 
                 <p
-                  style={{ color: customization?.selectedPrimaryColor }}
+                  style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
                   className="text-center mt-0 font-[Inter] font-normal"
                 >
                   {t('claims.tellUs')}
@@ -269,9 +270,10 @@ const ThemeOneClaims = ({ open, setOpen }) => {
                 <div className="flex items-center justify-between gap-5">
                   <button
                     style={{
-                      backgroundColor: customization?.selectedPrimaryColor,
-                      color: customization?.selectedBgColor,
+                      backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+                      color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
                     }}
+
                     className="w-full font-[Inter] text-[15px] font-medium p-3 text-center text-white rounded-md"
                     type="submit"
                     disabled={pending}
@@ -290,8 +292,8 @@ const ThemeOneClaims = ({ open, setOpen }) => {
 
                   <button
                     style={{
-                      borderColor: customization?.selectedPrimaryColor,
-                      color: customization?.selectedPrimaryColor,
+                      borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+                      color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
                     }}
                     className="w-1/2 p-3 text-center rounded-md border-[1.43px] bg-transparent font-[Inter] text-[15px] font-medium"
                     type="button"

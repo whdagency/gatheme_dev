@@ -11,13 +11,15 @@ const ThemeOneHeader = () => {
 
   return (
     <header
-      style={{ backgroundColor: customization?.selectedBgColor }}
+      style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+
       className="md:max-w-2xl md:w-full md:top-2 fixed top-0 z-50 flex items-center justify-between w-screen px-5 py-3 mx-auto uppercase bg-white shadow"
     >
       <Link
         to={`/menu/${restoSlug}?table_id=${table_id}`}
         className="flex items-center gap-2 font-bold"
-        style={{ color: customization?.selectedPrimaryColor }}
+        style={{ color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
+
       >
         {/* <img
           src={`${APIURL}/storage/${resInfo.logo}`}

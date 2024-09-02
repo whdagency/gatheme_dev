@@ -37,7 +37,8 @@
     "anonymous": "قدّم الملاحظات بشكل مجهول",
     "submit": "إرسال الملاحظات",
     "successClaim": "تم تقديم شكواك بنجاح",
-    "thankYou": "شكراً لملاحظاتك!"
+    "thankYou": "شكراً لملاحظاتك!",
+    "Reset": "إعادة ضبط"
   },
   "waiter": {
     "CallWaiter": "تحتاج إلى مساعدة؟",
@@ -68,16 +69,22 @@
     "final": "مكتمل بنسبة 100%",
     "see": "عرض طلبك ",
     "table": "طاولة",
-    "ofTable": "من الطاولة"
+    "ofTable": "من الطاولة",
+    "item": "عنصر",
+    "items": "عناصر"
   },
   "info": {
     "WiFiPassword": "كلمة مرور WiFi",
     "Address": "العنوان",
     "changeLanguage": "تغيير اللغة",
-    "powered": "مدعوم من Garista."
+    "powered": "مدعوم من Garista.",
+    "phone": "الهاتف: ",
+    "FollowUs": "تابعنا: "
   },
   "menuAddItem": {
     "commentPlaceholder": "أضف تعليقاً...",
-    "addToSelected": "أضف إلى التحديد"
+    "addToSelected": "أضف إلى التحديد",
+    "addnote": "اضف ملاحظة:",
+    "close": "إلغاء"
   }
 }

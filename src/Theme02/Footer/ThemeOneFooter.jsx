@@ -80,7 +80,7 @@ const ThemeOneFooter = () => {
 
   return (
     <footer
-      style={{ backgroundColor: customization?.selectedPrimaryColor }}
+      style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
       className="md:max-w-sm bottom-5 fixed z-50 flex items-center justify-center w-full h-[56px] max-w-xs gap-5 mx-auto rounded"
     >
       <div className="z-20 flex items-center justify-around w-full">
@@ -120,17 +120,17 @@ const ClaimsTrigger = ({ open, setOpen }) => {
         <ClaimsFilledIcon
           width={25}
           height={25}
-          fill={customization?.selectedBgColor}
+          fill={customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor}
         />
       ) : (
         <ClaimsOutlineIcon
           width={25}
           height={25}
-          fill={customization?.selectedBgColor}
+          fill={customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor}
         />
       )}
       <span
-        style={{ color: customization?.selectedBgColor }}
+        style={{ color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
         className="text-xs font-medium text-white"
       >
         {t('claims.claim')}
@@ -185,14 +185,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
         id="call-waiter-button"
       >
         <WaiterIcon
-          style={{ backgroundColor: customization?.selectedBgColor }}
-          fill={customization?.selectedPrimaryColor}
+          style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+          fill={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}
           className="object-contain w-full h-full p-2 rounded-full"
         />
       </button>
 
       <div
-        style={{ backgroundColor: customization?.selectedPrimaryColor }}
+        style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
         className={`flex flex-col ${openWaiterModal
           ? "transition-transform scale-100 translate-y-0 duration-500"
           : "transition-transform scale-0 duration-500 translate-y-20"
@@ -211,13 +211,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
                     size="icon"
                   >
                     <CallWaiterIcon
-                      style={{ backgroundColor: customization?.selectedBgColor }}
-                      fill={customization?.selectedPrimaryColor}
+                      style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+
+                      fill={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}
                       className="object-contain w-full h-full p-2 rounded-full"
                     />
                   </button>
                   <p
-                    style={{ color: customization?.selectedBgColor }}
+                    style={{ color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
                     className="text-[10px] text-center font-medium text-white"
                   >
                     {t('menu.callWaiter')}
@@ -234,8 +235,8 @@ const CallWaiter = ({ customization, submitNotification }) => {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
-                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={handleCallWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
+                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} onClick={handleCallWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -251,13 +252,13 @@ const CallWaiter = ({ customization, submitNotification }) => {
                     size="icon"
                   >
                     <BringBillIcon
-                      style={{ backgroundColor: customization?.selectedBgColor }}
-                      fill={customization?.selectedPrimaryColor}
+                      style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+                      fill={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}
                       className="object-contain w-full h-full p-2 rounded-full"
                     />
                   </button>
                   <p
-                    style={{ color: customization?.selectedBgColor }}
+                    style={{ color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
                     className="text-[10px] font-medium text-nowrap text-white"
                   >
                     {t('menu.bringBill')}
@@ -274,8 +275,8 @@ const CallWaiter = ({ customization, submitNotification }) => {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
-                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={handleBringBill}>{t("waiter.BringTheBill")}</AlertDialogAction>
+                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
+                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} onClick={handleBringBill}>{t("waiter.BringTheBill")}</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -288,13 +289,13 @@ const CallWaiter = ({ customization, submitNotification }) => {
                 size="icon"
               >
                 <WaiterCancelIcon
-                  style={{ backgroundColor: customization?.selectedBgColor }}
-                  fill={customization?.selectedPrimaryColor}
+                  style={{ backgroundColor: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
+                  fill={customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}
                   className="object-contain w-full h-full p-3.5 rounded-full"
                 />
               </button>
               <p
-                style={{ color: customization?.selectedBgColor }}
+                style={{ color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor }}
                 className="text-[10px] font-medium text-center text-white"
               >
                 {t('menu.cancel')}
@@ -329,8 +330,8 @@ const SubmitItemModal = ({ openSubmitItemModal, setOpenSubmitItemModal }) => {
               setOpenSubmitItemModal((prev) => ({ ...prev, open: !prev.open }))
             }
             style={{
-              backgroundColor: customization?.selectedPrimaryColor,
-              color: customization?.selectedBgColor,
+              backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor,
+              color: customization?.isDefault == false ? customization.selectedBgColor : DEFAULT_THEME.selectedBgColor,
             }}
             className="flex items-center justify-center w-full gap-2 mx-auto font-normal text-center text-white"
           >
