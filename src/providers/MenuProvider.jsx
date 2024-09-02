@@ -35,6 +35,7 @@ const MenuProvider = ({ children }) => {
           const resto = restoData[0];
           setRestos(resto);
 
+
           const [
             categoryResponse,
             dishResponse,
@@ -84,11 +85,12 @@ const MenuProvider = ({ children }) => {
           setDishes(combinedData);
 
           setResInfo(infoResponse.data[0]);
+          console.log("im resto", infoResponse.data[0].currency);
           const customizationData = await customizationResponse.json();
           setCustomization(customizationData[0] || defaultColor);
           const qrCodeRes = await axiosInstance.get(`/api/qrcodes/${resto.id}`);
           if (qrCodeRes) {
-            setQrCode(qrCodeRes.data);
+            setQrCode(qrCodeRes.data.data);
           }
         } else {
           setMessage("No restaurant found with the provided slug.");
@@ -107,7 +109,7 @@ const MenuProvider = ({ children }) => {
     if (qrCode.length > 0 && table_id) {
       const getTableName = (tableId) => {
         const table = qrCode.find(qr => qr.table_id === parseInt(tableId));
-        return table ? table.table.name : 'Default';
+        return table ? table.table.name : 'Main';
       };
       setTableName(getTableName(table_id));
     }

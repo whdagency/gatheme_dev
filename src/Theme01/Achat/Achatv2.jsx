@@ -32,7 +32,8 @@ import orderSvg from "./orderSvg.svg"
 import { CheckIcon } from 'lucide-react';
 
 import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
-
+import loaderAnimation from "@/components/loader.json";
+import Lottie from "lottie-react";
 import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
 export default function Achat({ resto_id, infoRes, customization, slug, selectedDishes }) {
   const cartItems = useSelector(state => state.cart.items);
@@ -83,8 +84,9 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
   const [status, setStatus] = useState("")
   const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   const modalOpenedRef = useRef(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   async function submitOrder(cartItems, totalCost) {
+    setIsLoading(true);
     sessionStorage.setItem('modalOpened', '');
     let cartItemProduct = cartItems.map(item => ({
       type: item.type,  // Assuming all items are dishes
@@ -105,7 +107,6 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       resto_id: resto_id,   // Assuming static as well, adjust accordingly
       cartItems: cartItemProduct
     };
-    console.log("The orde is ", order);
     try {
       const response = await fetch(`https://backend.garista.com/api/order`, {
         method: 'POST',
@@ -149,6 +150,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
         setIsModalOpen(false)
         setOrderID(id)
         dispatch(removeAll())
+        setIsLoading(false);
       }
 
     } catch (error) {
@@ -295,90 +297,95 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
         </div>
 
 
-
-        <div className="flex flex-col gap-4  snap-y  scrollbar-hide">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >{t("achat.shoppingCart")}<span className="text-xs text-muted-foreground capitalize font-normal"> {t("achat.ofTable")}: {tableName}</span></h2>
-            {/* <button style={{backgroundColor: customization?.selectedPrimaryColor,color: customization?.selectedTextColor}} onClick={() => dispatch(removeAll())} className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+        {isLoading ?
+          <div className="flex items-center justify-center">
+            <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
+          </div>
+          :
+          <div className="flex flex-col gap-4  snap-y  scrollbar-hide">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >{t("achat.shoppingCart")}<span className="text-xs text-muted-foreground capitalize font-normal"> {t("achat.ofTable")}: {tableName}</span></h2>
+              {/* <button style={{backgroundColor: customization?.selectedPrimaryColor,color: customization?.selectedTextColor}} onClick={() => dispatch(removeAll())} className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
               <h1 className='mix-blend-difference' style={{color: customization?.selectedTextColor}}>
               {t("achat.clearBtn")}
               </h1>
             </button> */}
-            <button onClick={() => { sessionStorage.setItem('modalOpened', ''); dispatch(removeAll()) }} className="text-black bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-              {/* <h1 className='mix-blend-difference' style={{color: customization?.selectedTextColor}}> */}
-              {t("achat.clearBtn")}
-              {/* </h1> */}
-            </button>
-          </div>
-          {cartItems.length === 0 ? (
-            <div>
-              <div className="flex flex-col items-center justify-center">
-                <div className="w-64 h-44 flex-shrink-0 relative flex flex-col items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" viewBox="0 0 55 20" fill="none" className="mt-0 ">
-                    <path opacity="0.7" d="M1.5 6.30273L12.5996 18.7559M53.5996 6.30273L42.5 18.7559L53.5996 6.30273ZM27.5 2V18.7559V2Z" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+              <button onClick={() => { sessionStorage.setItem('modalOpened', ''); dispatch(removeAll()) }} className="text-black bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                {/* <h1 className='mix-blend-difference' style={{color: customization?.selectedTextColor}}> */}
+                {t("achat.clearBtn")}
+                {/* </h1> */}
+              </button>
+            </div>
+            {cartItems.length === 0 ? (
+              <div>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-64 h-44 flex-shrink-0 relative flex flex-col items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" viewBox="0 0 55 20" fill="none" className="mt-0 ">
+                      <path opacity="0.7" d="M1.5 6.30273L12.5996 18.7559M53.5996 6.30273L42.5 18.7559L53.5996 6.30273ZM27.5 2V18.7559V2Z" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 251 200" fill="none">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M63.5 134H154.5C155.015 134 155.517 133.944 156 133.839C156.483 133.944 156.985 134 157.5 134H209.5C213.366 134 216.5 130.866 216.5 127C216.5 123.134 213.366 120 209.5 120H203.5C199.634 120 196.5 116.866 196.5 113C196.5 109.134 199.634 106 203.5 106H222.5C226.366 106 229.5 102.866 229.5 99C229.5 95.134 226.366 92 222.5 92H200.5C204.366 92 207.5 88.866 207.5 85C207.5 81.134 204.366 78 200.5 78H136.5C140.366 78 143.5 74.866 143.5 71C143.5 67.134 140.366 64 136.5 64H79.5C75.634 64 72.5 67.134 72.5 71C72.5 74.866 75.634 78 79.5 78H39.5C35.634 78 32.5 81.134 32.5 85C32.5 88.866 35.634 92 39.5 92H64.5C68.366 92 71.5 95.134 71.5 99C71.5 102.866 68.366 106 64.5 106H24.5C20.634 106 17.5 109.134 17.5 113C17.5 116.866 20.634 120 24.5 120H63.5C59.634 120 56.5 123.134 56.5 127C56.5 130.866 59.634 134 63.5 134ZM226.5 134C230.366 134 233.5 130.866 233.5 127C233.5 123.134 230.366 120 226.5 120C222.634 120 219.5 123.134 219.5 127C219.5 130.866 222.634 134 226.5 134Z" fill="#F3F7FF" />
-                  </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 251 200" fill="none">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M63.5 134H154.5C155.015 134 155.517 133.944 156 133.839C156.483 133.944 156.985 134 157.5 134H209.5C213.366 134 216.5 130.866 216.5 127C216.5 123.134 213.366 120 209.5 120H203.5C199.634 120 196.5 116.866 196.5 113C196.5 109.134 199.634 106 203.5 106H222.5C226.366 106 229.5 102.866 229.5 99C229.5 95.134 226.366 92 222.5 92H200.5C204.366 92 207.5 88.866 207.5 85C207.5 81.134 204.366 78 200.5 78H136.5C140.366 78 143.5 74.866 143.5 71C143.5 67.134 140.366 64 136.5 64H79.5C75.634 64 72.5 67.134 72.5 71C72.5 74.866 75.634 78 79.5 78H39.5C35.634 78 32.5 81.134 32.5 85C32.5 88.866 35.634 92 39.5 92H64.5C68.366 92 71.5 95.134 71.5 99C71.5 102.866 68.366 106 64.5 106H24.5C20.634 106 17.5 109.134 17.5 113C17.5 116.866 20.634 120 24.5 120H63.5C59.634 120 56.5 123.134 56.5 127C56.5 130.866 59.634 134 63.5 134ZM226.5 134C230.366 134 233.5 130.866 233.5 127C233.5 123.134 230.366 120 226.5 120C222.634 120 219.5 123.134 219.5 127C219.5 130.866 222.634 134 226.5 134Z" fill="#F3F7FF" />
+                    </svg>
 
-                  <svg xmlns="http://www.w3.org/2000/svg" width="73" height="91" viewBox="0 0 73 91" fill="none" className="absolute inset-0 m-auto">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M4.29757 2H66.9041L61.2976 10.4098L68.773 16.0164H2.42871L10.8385 10.4098L4.29757 2Z" fill="#E8F0FE" />
-                    <rect x="0.5" y="14" width="71" height="75" rx="2" fill="white" />
-                    <path fillRule="evenodd" clipRule="evenodd" d="M5.08521 55.006V20.6453C5.08521 19.2296 6.24544 18.082 7.67666 18.082L68.6533 82.1642C68.6533 84.0518 67.1423 85.582 65.2784 85.582H8.46013C6.59621 85.582 5.08521 84.0518 5.08521 82.1642V69.3945V65.9301V55.006ZM5.08521 62.4247V58.5765V62.4247Z" fill="#E8F0FE" />
-                    <path d="M1.5 55.4631V17.8853C1.5 16.337 2.77049 15.082 4.33773 15.082H69.2612C70.2817 15.082 71.109 15.9187 71.109 16.9508V85.1639C71.109 87.2282 69.4544 88.9016 67.4134 88.9016H5.19564C3.15459 88.9016 1.5 87.2282 1.5 85.1639V71.1986V67.4098M1.5 63.5763V59.3678" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M3.36311 15.082V3.86886C3.36311 2.83672 4.11401 2 5.04029 2L67.0958 2C68.0221 2 68.7729 2.83672 68.7729 3.86886V15.082" stroke="#28509E" strokeWidth="2.5" />
-                    <path d="M20.6499 34.7049C22.4561 34.7049 23.9204 33.2407 23.9204 31.4344C23.9204 29.6282 22.4561 28.1639 20.6499 28.1639C18.8436 28.1639 17.3794 29.6282 17.3794 31.4344C17.3794 33.2407 18.8436 34.7049 20.6499 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M51.4861 34.7049C53.2923 34.7049 54.7566 33.2407 54.7566 31.4344C54.7566 29.6282 53.2923 28.1639 51.4861 28.1639C49.6798 28.1639 48.2156 29.6282 48.2156 31.4344C48.2156 33.2407 49.6798 34.7049 51.4861 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M51.0188 34.7049C51.0188 42.962 44.3251 49.6557 36.068 49.6557C27.8109 49.6557 21.1172 42.962 21.1172 34.7049" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M4.3545 2.93146L10.9329 9.42513C11.3259 9.81311 11.3301 10.4463 10.9421 10.8393C10.8749 10.9073 10.7984 10.9654 10.7148 11.0117L3.36304 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M67.9401 2.99922L61.6451 9.41968C61.2585 9.81404 61.2647 10.4472 61.6591 10.8338C61.7249 10.8984 61.7994 10.9535 61.8803 10.9977L69.3674 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                  </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="73" height="91" viewBox="0 0 73 91" fill="none" className="absolute inset-0 m-auto">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M4.29757 2H66.9041L61.2976 10.4098L68.773 16.0164H2.42871L10.8385 10.4098L4.29757 2Z" fill="#E8F0FE" />
+                      <rect x="0.5" y="14" width="71" height="75" rx="2" fill="white" />
+                      <path fillRule="evenodd" clipRule="evenodd" d="M5.08521 55.006V20.6453C5.08521 19.2296 6.24544 18.082 7.67666 18.082L68.6533 82.1642C68.6533 84.0518 67.1423 85.582 65.2784 85.582H8.46013C6.59621 85.582 5.08521 84.0518 5.08521 82.1642V69.3945V65.9301V55.006ZM5.08521 62.4247V58.5765V62.4247Z" fill="#E8F0FE" />
+                      <path d="M1.5 55.4631V17.8853C1.5 16.337 2.77049 15.082 4.33773 15.082H69.2612C70.2817 15.082 71.109 15.9187 71.109 16.9508V85.1639C71.109 87.2282 69.4544 88.9016 67.4134 88.9016H5.19564C3.15459 88.9016 1.5 87.2282 1.5 85.1639V71.1986V67.4098M1.5 63.5763V59.3678" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M3.36311 15.082V3.86886C3.36311 2.83672 4.11401 2 5.04029 2L67.0958 2C68.0221 2 68.7729 2.83672 68.7729 3.86886V15.082" stroke="#28509E" strokeWidth="2.5" />
+                      <path d="M20.6499 34.7049C22.4561 34.7049 23.9204 33.2407 23.9204 31.4344C23.9204 29.6282 22.4561 28.1639 20.6499 28.1639C18.8436 28.1639 17.3794 29.6282 17.3794 31.4344C17.3794 33.2407 18.8436 34.7049 20.6499 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M51.4861 34.7049C53.2923 34.7049 54.7566 33.2407 54.7566 31.4344C54.7566 29.6282 53.2923 28.1639 51.4861 28.1639C49.6798 28.1639 48.2156 29.6282 48.2156 31.4344C48.2156 33.2407 49.6798 34.7049 51.4861 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M51.0188 34.7049C51.0188 42.962 44.3251 49.6557 36.068 49.6557C27.8109 49.6557 21.1172 42.962 21.1172 34.7049" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M4.3545 2.93146L10.9329 9.42513C11.3259 9.81311 11.3301 10.4463 10.9421 10.8393C10.8749 10.9073 10.7984 10.9654 10.7148 11.0117L3.36304 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                      <path d="M67.9401 2.99922L61.6451 9.41968C61.2585 9.81404 61.2647 10.4472 61.6591 10.8338C61.7249 10.8984 61.7994 10.9535 61.8803 10.9977L69.3674 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
+                    </svg>
 
-                </div>
-                <div className='font-semibold text-center mt-2 '>
-                  <p className='text-xl'>{t("achat.emptycart")}</p>
-                  <p className="text-gray-500 text-center mt-2 text-xl dark:text-gray-400">
-                    {t("achat.checkout")}
-                  </p>
-                  <Link to={`/menu/${slug}?table_id=${table_id}`}>
-                    <p className=" text-center mt-2 text-lg dark:text-gray-400 " style={{ color: customization?.selectedPrimaryColor }}>
-                      <FaPlus size={15} className="inline-block mr-1" />  {t("achat.addmoreitems")}
+                  </div>
+                  <div className='font-semibold text-center mt-2 '>
+                    <p className='text-xl'>{t("achat.emptycart")}</p>
+                    <p className="text-gray-500 text-center mt-2 text-xl dark:text-gray-400">
+                      {t("achat.checkout")}
                     </p>
-                  </Link>
+                    <Link to={`/menu/${slug}?table_id=${table_id}`}>
+                      <p className=" text-center mt-2 text-lg dark:text-gray-400 " style={{ color: customization?.selectedPrimaryColor }}>
+                        <FaPlus size={15} className="inline-block mr-1" />  {t("achat.addmoreitems")}
+                      </p>
+                    </Link>
+
+                  </div>
 
                 </div>
-
-              </div>
-              <div className="flex justify-between items-center mt-16 ">
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("achat.total")}:
-                  <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost?.toFixed(2) + " " + infoRes.currency}</span>
-                </p>
-                <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg" disabled>
-                  {t("achat.checkoutBtn")}
-                </Button>
-              </div></div>
+                <div className="flex justify-between items-center mt-16 ">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    {t("achat.total")}:
+                    <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost?.toFixed(2) + " " + infoRes.currency}</span>
+                  </p>
+                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg" disabled>
+                    {t("achat.checkoutBtn")}
+                  </Button>
+                </div></div>
 
 
 
-          ) : (
-            <>
-              {cartItems.map(item => (
-                <CartItem key={item.id} item={item} infoRes={infoRes} />
-              ))}
-              <div className="flex justify-between items-center mb-12">
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  {t("achat.total")}:
-                  <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost?.toFixed(2) + " " + infoRes.currency}</span>
-                </p>
-                <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg">
-                  {t("achat.checkoutBtn")}
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+            ) : (
+              <>
+                {cartItems.map(item => (
+                  <CartItem key={item.id} item={item} infoRes={infoRes} />
+                ))}
+                <div className="flex justify-between items-center mb-12">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm">
+                    {t("achat.total")}:
+                    <span className="font-medium text-gray-900 dark:text-gray-50"> {totalCost?.toFixed(2) + " " + infoRes.currency}</span>
+                  </p>
+                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg">
+                    {t("achat.checkoutBtn")}
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>}
+
         <AlertDialog
           open={orderSuccessModalOpen}
           onOpenChange={setOrderSuccessModalOpen}
@@ -443,7 +450,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       </div>
       <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
         <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
-          <div className="mt-10 mb-1 text-center text-lg font-medium text-black">
+          <div className="mt-10 mb-1 text-center text-lg font-semibold text-black">
             Suggested Products
           </div>
           <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
@@ -459,7 +466,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
           </div>
         </CredenzaContent>
       </Credenza>
-      <AlertDialog>
+      {/* <AlertDialog>
         <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
           <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
             <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
@@ -470,10 +477,10 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
           <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
             <img src={callWaiterSvg} alt="Call Waiter" />
             {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
-            <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
-            <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
+      {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
+      {/* <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription> */}
 
-          </AlertDialogHeader>
+      {/*</AlertDialogHeader>
           <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
 
             <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
@@ -498,7 +505,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
             </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> */}
     </>
   );
 }
@@ -642,12 +649,17 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
   const dispatch = useDispatch();
   const [quantities, setQuantities] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
+  const [itemQuantity, setItemQuantity] = useState(0);
   const handleClick = () => {
     handleAddItem();
     setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 1500);
   };
   const handleAddItem = () => {
-    dispatch(addItem({ product: item, quantity: quantities, resto_id: resto_id, toppings: [], ingredients: [], extravariants: [] }));
+    dispatch(addItem({ product: item, quantity: quantities, resto_id: resto_id, comment: "", toppings: [], ingredients: [], extravariants: [] }));
+    setItemQuantity(itemQuantity + 1);
   };
   return (
     <div className="grid gap-1">
@@ -666,6 +678,14 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id }) {
               }}
               width={150}
             />
+            {itemQuantity > 0 && (
+              <div
+                className="absolute top-0 left-0 bg-green-500 text-white rounded-full w-6 h-6 flex justify-center items-center"
+                style={{ fontSize: 12 }}
+              >
+                {itemQuantity}
+              </div>
+            )}
             <Button
               size="icon"
               variant="outline"

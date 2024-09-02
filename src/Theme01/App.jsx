@@ -168,13 +168,13 @@ function Theme01() {
     fetchData();
   }, [restoSlug]);
 
-  if (loading) {
-    return (
-      <div className='justify-center items-center flex h-screen'>
-        <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className='justify-center items-center flex h-screen'>
+  //       <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
+  //     </div>
+  //   );
+  // }
 
   // if(!isValidSlug)
   // {

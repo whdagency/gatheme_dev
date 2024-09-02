@@ -1,13 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-} from "@/components/ui/alert-dialog";
 import { useMenu } from "../../hooks/useMenu";
 import { APIURL } from "../../lib/ApiKey";
 import ThemeOneRating from "../Rating/ThemeOneRating";
@@ -22,8 +13,19 @@ import {
   ClaimsFilledIcon,
   ClaimsOutlineIcon,
 } from "../icons";
-
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import bringBill from "./bringBill.svg";
+import callWaiter from "./callWaiter.svg";
 const ThemeOneFooter = () => {
   const { customization, table_id, restos, restoSlug } = useMenu();
   const [openClaimsModal, setOpenClaimsModal] = useState(false);
@@ -179,7 +181,7 @@ const CallWaiter = ({ customization, submitNotification }) => {
     <section ref={modalRef}>
       <button
         onClick={() => setOpenWaiterModal((prev) => !prev)}
-        className="flex items-center justify-center -mt-1 w-16 h-16 p-1.5  rounded-full"
+        className="flex items-center justify-center my-auto w-16 h-16 p-1.5  rounded-full"
         id="call-waiter-button"
       >
         <WaiterIcon
@@ -199,46 +201,84 @@ const CallWaiter = ({ customization, submitNotification }) => {
         <div className="flex items-center justify-center w-full gap-1 mt-8">
           <div className="flex flex-row items-center justify-center gap-[30px]">
             {/* Call Waiter */}
-            <div className="flex w-1/3 flex-col items-center justify-center gap-2">
-              <button
-                onClick={handleCallWaiter}
-                className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
-                size="icon"
-              >
-                <CallWaiterIcon
-                  style={{ backgroundColor: customization?.selectedBgColor }}
-                  fill={customization?.selectedPrimaryColor}
-                  className="object-contain w-full h-full p-2 rounded-full"
-                />
-              </button>
-              <p
-                style={{ color: customization?.selectedBgColor }}
-                className="text-[10px] text-center font-medium text-white"
-              >
-                {t('menu.callWaiter')}
-              </p>
-            </div>
+
+            <AlertDialog>
+              <AlertDialogTrigger className="w-full">
+                <div className="flex w-full flex-col items-center justify-center gap-2">
+                  <button
+                    // onClick={handleCallWaiter}
+                    className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
+                    size="icon"
+                  >
+                    <CallWaiterIcon
+                      style={{ backgroundColor: customization?.selectedBgColor }}
+                      fill={customization?.selectedPrimaryColor}
+                      className="object-contain w-full h-full p-2 rounded-full"
+                    />
+                  </button>
+                  <p
+                    style={{ color: customization?.selectedBgColor }}
+                    className="text-[10px] text-center font-medium text-white"
+                  >
+                    {t('menu.callWaiter')}
+                  </p>
+                </div>
+              </AlertDialogTrigger >
+              <AlertDialogContent className="w-[65%] rounded-sm">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="self-center">
+                    <img src={callWaiter} alt="Call Waiter Icon" />
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Would you like the waiter to attend to you?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
+                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
+                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={handleCallWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             {/* Bring Bill */}
-            <div className="flex flex-col w-1/3 items-center justify-center gap-2 -mt-16">
-              <button
-                onClick={handleBringBill}
-                className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
-                size="icon"
-              >
-                <BringBillIcon
-                  style={{ backgroundColor: customization?.selectedBgColor }}
-                  fill={customization?.selectedPrimaryColor}
-                  className="object-contain w-full h-full p-2 rounded-full"
-                />
-              </button>
-              <p
-                style={{ color: customization?.selectedBgColor }}
-                className="text-[10px] font-medium text-nowrap text-white"
-              >
-                {t('menu.bringBill')}
-              </p>
-            </div>
+
+            <AlertDialog>
+              <AlertDialogTrigger className="w-full">
+                <div className="flex flex-col w-full items-center justify-center gap-2 -mt-16">
+                  <button
+                    // onClick={handleBringBill}
+                    className="flex items-center justify-center w-12 h-12 bg-transparent rounded-full"
+                    size="icon"
+                  >
+                    <BringBillIcon
+                      style={{ backgroundColor: customization?.selectedBgColor }}
+                      fill={customization?.selectedPrimaryColor}
+                      className="object-contain w-full h-full p-2 rounded-full"
+                    />
+                  </button>
+                  <p
+                    style={{ color: customization?.selectedBgColor }}
+                    className="text-[10px] font-medium text-nowrap text-white"
+                  >
+                    {t('menu.bringBill')}
+                  </p>
+                </div>
+              </AlertDialogTrigger >
+              <AlertDialogContent className="w-[65%] rounded-sm">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="self-center">
+                    <img src={bringBill} alt="Bring Bill Icon" />
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Would you like the bill to be sent to your Table?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
+                  <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
+                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={handleBringBill}>{t("waiter.BringTheBill")}</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             {/* Cancel */}
             <div className="flex flex-col w-1/3 items-center justify-center gap-2">

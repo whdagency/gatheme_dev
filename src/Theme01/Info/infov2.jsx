@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Spinner from 'react-spinner-material';
 import { Button } from "@/components/ui/button";
-import { APIURL } from '../../lib/ApiKey';
+import { APIURL, APIURLS3 } from '../../lib/ApiKey';
 import { FaFacebook, FaInstagram, FaTiktok, FaSnapchat, FaYoutube } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import { FaChevronRight } from "react-icons/fa";
@@ -80,7 +80,7 @@ export default function Info({ items, infoRes, customization }) {
                             alt="Restaurant Logo"
                             className="rounded-full mb-4"
                             height={80}
-                            src={`${APIURL}/storage/${infoRes.logo}`}
+                            src={`${APIURLS3}/${infoRes.logo}`}
                             style={{ aspectRatio: "80/80", objectFit: "cover" }}
                             width={80}
                         />
