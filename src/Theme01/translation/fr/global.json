@@ -1,0 +1,100 @@
+{
+  "menu": {
+    "all": "Tous",
+    "search": "Rechercher",
+    "search_for_your_desired_food": "Recherchez votre nourriture préférée...",
+    "home": "Accueil",
+    "rating": "Évaluation",
+    "claims": "Réclamations",
+    "cart": "Panier",
+    "info": "Infos",
+    "callWaiter": "Appeler le serveur",
+    "error": "Cette action ne peut pas être annulée. Elle supprimera définitivement votre compte et vos données de nos serveurs.",
+    "bringBill": "Apporter l'addition",
+    "cancel": "Annuler",
+    "addToSelected": "Ajouter à la sélection : ",
+    "or": "Ou",
+    "ok": "Confirmer"
+  },
+  "rating": {
+    "leaveReview": "Laissez-nous un avis !",
+    "btnReview": "Appuyez sur le bouton ci-dessous pour partager votre expérience.",
+    "trustPilot": "Avis Trustpilot",
+    "googlereview": "Avis Google",
+    "or": "ou",
+    "desc": "Nous travaillons actuellement à l'ajout de la fonctionnalité d'avis. Restez à l'écoute !"
+  },
+  "claims": {
+    "makeClaim": "Soumettre une",
+    "claim": "Réclamation",
+    "tellUs": "Parlez-nous de votre récente expérience dans notre restaurant.",
+    "name": "Nom ",
+    "optional": "(optionnel)",
+    "email": "Email ou téléphone ",
+    "emailPlaceholder": "(optionnel)",
+    "namePlaceholder": "(optionnel)",
+    "thoughts": "Écrivez vos pensées ici...",
+    "anonymous": "Soumettre un retour de manière anonyme",
+    "submit": "Envoyer un avis",
+    "successClaim": "Votre réclamation a été soumise avec succès",
+    "thankYou": "Merci pour votre retour !",
+    "Reset": "Réinitialiser"
+  },
+  "waiter": {
+    "CallWaiter": "Besoin d'aide ?",
+    "BringTheBill": "Apporter l'addition",
+    "Cancel": "Annuler",
+    "please": "Veuillez sélectionner une option ci-dessous",
+    "WaiterRequested": "Serveur demandé!",
+    "BillRequested": "Addition demandée!",
+    "msgwaiter": "Le serveur vous sera envoyé sous peu.",
+    "msgbill": "L'addition vous sera envoyée sous peu.",
+    "Confirm": "Confirmer"
+  },
+  "not": {
+    "title": "Ajouté au panier avec succès !",
+    "desc": "Vous pouvez confirmer votre commande lors du paiement"
+  },
+  "achat": {
+    "shoppingCart": "Panier",
+    "empty": "Votre panier est vide.",
+    "clearBtn": "Vider le panier",
+    "checkoutBtn": "Passer à la caisse",
+    "total": "Total",
+    "successOrder": "Êtes-vous sûr de vouloir passer cette commande ?",
+    "thankYou": "Une fois confirmé, il ne peut pas être annulé.",
+    "emptycart": "Votre panier est vide",
+    "checkout": "Découvrez les tendances",
+    "addmoreitems": "Ajouter plus d'articles",
+    "OrderProcess": "Processus de commande",
+    "complete": "Complet",
+    "Order": "Commander",
+    "Preparing": "Préparation",
+    "OrderCanceled": "Commande annulée",
+    "final": "100 % Complété",
+    "see": "Voir votre commande ",
+    "table": "Table",
+    "item": "article",
+    "items": "articles",
+    "ofTable": "Table",
+    "preparedorder": "Votre commande est en cours de préparation!",
+    "thanksalert": "Merci pour votre commande. Vos articles seront livrés sous peu."
+  },
+  "info": {
+    "WiFiPassword": "Mot de passe WiFi",
+    "Address": "Adresse",
+    "changeLanguage": "Changer de langue",
+    "powered": "alimenté par Garista.",
+    "phone": "Téléphone: ",
+    "FollowUs": "Suivez-nous: "
+  },
+  "menuAddItem": {
+    "commentPlaceholder": "Ajouter un commentaire...",
+    "addToSelected": "Ajouter à la sélection",
+    "title": "ajouté(e) à votre panier avec succès",
+    "desc": "Passez à la caisse pour confirmer votre commande",
+    "addnote": "Ajouter une note:",
+    "close": "Fermer"
+  },
+  "required": "requis" 
+}

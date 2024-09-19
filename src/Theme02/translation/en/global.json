@@ -1,0 +1,95 @@
+{
+    "menu": {
+      "all": "All",
+      "search": "Search",
+      "search_for_your_desired_food": "Search for your favorite food...",
+      "home": "Home",
+      "rating": "Rating",
+      "claims": "Complaints",
+      "cart": "Cart",
+      "info": "Info",
+      "callWaiter": "Call the waiter",
+      "error": "This action cannot be undone. It will permanently delete your account and remove your data from our servers.",
+      "bringBill": "Bring the bill",
+      "cancel": "Cancel",
+      "addToSelected": "Add to selection :",
+      "or":"Or",
+      "ok": "Ok"
+    },
+    "rating": {
+      "leaveReview": "Leave us a review!",
+      "btnReview": "Tap the button below to share your experience.",
+      "trustPilot": "Trustpilot Reviews",
+      "googlereview": "Google Reviews",
+      "or": "or",
+      "desc": "We're working on adding review functionality soon. Stay tuned!"
+    },
+    "claims": {
+      "makeClaim": "Submit a",
+      "claim": "Complaint",
+      "tellUs": "Tell us about your recent experience at our restaurant.",
+      "name": "Name (optional)",
+      "optional":"(optional)",
+      "email": "Email or phone (optional)",
+      "emailPlaceholder": "Enter your email",
+      "namePlaceholder": "Enter your name",
+      "thoughts": "Write your thoughts here...",
+      "anonymous": "Submit feedback anonymously",
+      "submit": "Submit feedback",
+      "successClaim": "Your complaint has been successfully submitted",
+      "thankYou": "Thank you for your feedback!",
+      "Reset":"Reset"
+    },
+    "waiter": {
+      "CallWaiter": "Call the waiter",
+      "BringTheBill": "Bring the bill",
+      "WaiterRequested": "Waiter Requested!",
+      "Cancel": "Cancel",
+      "BillRequested": "Bill Requested!",
+      "msgbill": "The bill will be sent to you shortly.",
+      "msgwaiter": "The waiter will be sent to you shortly.",
+      "Confirm": "Confirm"
+    },
+    "waitering" : {
+      "Tester" : "Testering"
+    },
+    "not": {
+      "title": "Added to cart successfully!",
+      "desc": "You can confirm your order at checkout"
+    },
+    "achat": {
+      "shoppingCart": "Shopping Cart",
+      "empty": "Your cart is empty.",
+      "clearBtn": "Clear Cart",
+      "checkoutBtn": "Checkout",
+      "total": "Total",
+      "successOrder": "Your order has been successfully submitted",
+      "thankYou": "Thank you for your order! Your items will be delivered shortly.",
+      "emptycart":"Your Cart is empty",
+      "checkout":"Check out what's trending",
+      "addmoreitems":"Add more items",
+      "Order Process":"Order Process",
+      "complete":"Complete",
+      "Order":"Order",
+      "Preparing":"Preparing",
+      "item":"item",
+      "items":"items",
+      "preparedorder":"Your order is being prepared!",
+      "thanksalert":"Thank you for your order.Your items will be delivered shortly"
+
+    },
+    "info": {
+      "WiFiPassword": "WiFi Password",
+      "Address": "Address: ",
+      "phone":"Phone: ",
+      "FollowUs":"Follow Us: "
+    
+    },
+    "menuAddItem": {
+      "commentPlaceholder": "Add a comment...",
+      "addToSelected": "Add to selection",
+      "addnote":"Add Note:",
+      "close":"Close"
+    }
+  }
+  

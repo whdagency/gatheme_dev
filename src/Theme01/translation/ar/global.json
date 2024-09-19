@@ -1,0 +1,98 @@
+{
+  "menu": {
+    "all": "الكل",
+    "search": "بحث",
+    "search_for_your_desired_food": "ابحث عن طعامك المفضل...",
+    "home": "الرئيسية",
+    "rating": "تقييم",
+    "claims": "شكاوى",
+    "cart": "سلة المشتريات",
+    "info": "معلومات",
+    "callWaiter": "اتصل بالنادل",
+    "error": "لا يمكن التراجع عن هذا الإجراء. ستحذف حسابك وبياناتك من خوادمنا بشكل دائم.",
+    "bringBill": "احضر الفاتورة",
+    "cancel": "إلغاء",
+    "addToSelected": "أضف إلى التحديد: ",
+    "or": "أو",
+    "ok": "تأكيد"
+  },
+  "rating": {
+    "leaveReview": "اترك لنا مراجعة!",
+    "btnReview": "اضغط على الزر أدناه لمشاركة تجربتك.",
+    "trustPilot": "مراجعات Trustpilot",
+    "googlereview": "مراجعات Google",
+    "or": "أو",
+    "desc": "نحن نعمل على إضافة وظيفة المراجعات قريباً. ترقبوا!"
+  },
+  "claims": {
+    "makeClaim": "قدّم",
+    "claim": "شكوى",
+    "tellUs": "حدثنا عن تجربتك الأخيرة في مطعمنا.",
+    "name": "الاسم ",
+    "optional": "(اختياري)",
+    "email": "البريد الإلكتروني أو الهاتف ",
+    "emailPlaceholder": "(اختياري)",
+    "namePlaceholder": "(اختياري)",
+    "thoughts": "اكتب أفكارك هنا...",
+    "anonymous": "قدّم الملاحظات بشكل مجهول",
+    "submit": "إرسال الملاحظات",
+    "successClaim": "تم تقديم شكواك بنجاح",
+    "thankYou": "شكراً لملاحظاتك!",
+    "Reset": "إعادة ضبط"
+  },
+  "waiter": {
+    "CallWaiter": "تحتاج إلى مساعدة؟",
+    "BringTheBill": "احضر الفاتورة",
+    "Cancel": "إلغاء",
+    "please": "يرجى اختيار خيار أدناه",
+    "WaiterRequested": "تم طلب النادل!",
+    "msgwaiter": "سيتم إرسال النادل إليك قريبًا.",
+    "BillRequested": "تم طلب الفاتورة!",
+    "msgbill": "سيتم إرسال الفاتورة إليك قريبًا.",
+    "Confirm": "تأكيد"
+  },
+  "not": {
+    "title": "تمت الإضافة إلى السلة بنجاح!",
+    "desc": "يمكنك تأكيد طلبك عند الدفع"
+  },
+  "achat": {
+    "shoppingCart": "عربة التسوق",
+    "empty": "سلتك فارغة.",
+    "clearBtn": "مسح السلة",
+    "checkoutBtn": "الدفع",
+    "total": "المجموع",
+    "successOrder": "هل أنت متأكد أنك تريد إتمام هذا الطلب؟",
+    "thankYou": "بمجرد التأكيد، لا يمكن إلغاؤه.",
+    "emptycart": "سلتك فارغة",
+    "checkout": "اكتشف أحدث الاتجاهات",
+    "addmoreitems": "أضف المزيد من العناصر",
+    "OrderProcess": "عملية الطلب",
+    "complete": "مكتمل",
+    "Order": "اطلب",
+    "Preparing": "قيد التحضير",
+    "OrderCanceled": "تم إلغاء الطلب",
+    "final": "مكتمل بنسبة 100%",
+    "see": "عرض طلبك ",
+    "table": "طاولة",
+    "ofTable": "الطاولة",
+    "item": "عنصر",
+    "items": "عناصر",
+    "preparedorder": "طلبك قيد التحضير!",
+    "thanksalert": "شكرًا لك على طلبك. سيتم تسليم عناصر طلبك قريبًا."
+  },
+  "info": {
+    "WiFiPassword": "كلمة مرور WiFi",
+    "Address": "العنوان",
+    "changeLanguage": "تغيير اللغة",
+    "powered": "مدعوم من Garista.",
+    "phone": "الهاتف: ",
+    "FollowUs": "تابعنا: "
+  },
+  "menuAddItem": {
+    "commentPlaceholder": "أضف تعليقاً...",
+    "addToSelected": "أضف إلى التحديد",
+    "addnote": "اضف ملاحظة:",
+    "close": "إلغاء"
+  },
+  "required": "مطلوب" 
+}
