@@ -29,7 +29,7 @@ const MenuProvider = ({ children }) => {
   const [selectedDishes, setSelectedDishes] = useState([]);
   const [promo, setPromo] = useState([])
   const cartItems = useSelector(state => state.cart.items);
-
+  const [openClaimsModal, setOpenClaimsModal] = useState(false);
 
   const incrementVisitorCount = async (id) => {
     try {
@@ -228,6 +228,7 @@ const MenuProvider = ({ children }) => {
     customization,
     categoriesTheme1,
     setCustomization,
+    openClaimsModal, setOpenClaimsModal
   };
 
   return <MenuContext.Provider value={values}>{children}</MenuContext.Provider>;

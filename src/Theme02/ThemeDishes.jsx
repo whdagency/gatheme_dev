@@ -319,27 +319,27 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
   const renderToppings = (toppings, dishId) => {
     const dishIngrediants = selectedToppings[dishId] || [];
     return toppings?.map(topping => {
-      const options = JSON.parse(topping.options);
+      let options = JSON.parse(topping.options);
       // const isDisabled = existingTopping && !topping.multiple_selection;
+      const validOptions = options.filter(option => option.name !== null && option.price !== null);
+
       const isRequired = topping.required;
       const bgColor = customization?.isDefault == true ? DEFAULT_THEME.selectedPrimaryColor : customization?.selectedPrimaryColor;
-      if(options.length > 0)
+      if(validOptions.length > 0)
       {
         return (
           <div key={topping.id} className="topping-section mb-5 mt-3">
             <div className={`flex items-center gap-2 `}>
               <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
               {topping.required && (
-                <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white capitalize`} style={{backgroundColor: toppingError ? "#dc2626" : bgColor }}>{t('required')}</span>
+                <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white capitalize ${toppingErrorExtra ? "bg-red-600" : "bg-[#28509E]"} `}>{t('required')}</span>
               )}
             </div>
-            {options.map(option => {
-              // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
+            {validOptions.map(option => {
               let toppingKey = `${topping.name}`;
               const isOptionSelected = dishIngrediants?.some(ingredient =>
                 ingredient?.option?.some(opt => opt.name === option.name)
               );
-              // const isOptionSelected = dishIngrediants.includes(toppingKey);
               return (
                 <div key={option.name} className="flex items-center justify-start mx-3 mt-[7px] gap-3">
                   <div className="flex items-center justify-between w-full">
@@ -355,15 +355,8 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                       type="button"
                       className={`rounded-full border h-7 w-7 p-0 flex items-center justify-center ${isOptionSelected ? 'bg-[#63aa08]' : 'border-gray-300'}`}
                       onClick={() => handleToppingSelect(topping, option, dishId)}
-                      // style={{
-                      //   color: customization?.isDefault == false ? customization.selectedTextColor : DEFAULT_THEME.selectedTextColor,
-                      //   backgroundColor: customization?.isDefault == false ? customization.backgroundColor : DEFAULT_THEME.backgroundColor
-  
-                      // }}
-  
-                    // disabled={isDisabled}
+
                     >
-                      {/* <PlusIcon className={`w-4 h-4 ${isOptionSelected ? 'text-red-500' : ''}`} /> */}
                       {!isOptionSelected
                         ?
                         <PlusIcon className={`w-4 h-4 `}
@@ -385,21 +378,24 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
     const dishIngrediants = selectedExtraToppings[dishId] || [];
 
     return toppings?.map(topping => {
-      const options = JSON.parse(topping.options);
+       let options = JSON.parse(topping.options);
+      // const isDisabled = existingTopping && !topping.multiple_selection;
+      const validOptions = options.filter(option => option.name !== null && option.price !== null);
+
 
       const bgColor = customization?.isDefault == true ? DEFAULT_THEME.selectedPrimaryColor : customization?.selectedPrimaryColor;
 
-      if(options.length > 0)
+      if(validOptions.length > 0)
       {
         return (
           <div key={topping.id} className="topping-section mb-5">
             <div className='flex items-center gap-2'>
               <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
               {topping.required && (
-                <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white capitalize`} style={{backgroundColor: toppingError ? "#dc2626" : bgColor }}>{t('required')}</span>
+                <span className={` px-2 py-[2px] !font-[300] text-[12px] rounded-full text-white capitalize ${toppingErrorExtra ? "bg-red-600" : "bg-[#28509E]"} `}>{t('required')}</span>
               )}
             </div>
-            {options.map(option => {
+            {validOptions.map(option => {
               // const isOptionSelected = existingTopping && existingTopping.option.some(opt => opt.name === option.name);
               const toppingKey = `${option.name}`;
               const isOptionSelected = dishIngrediants?.some(ingredient =>
@@ -442,49 +438,54 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
   };
   const renderIngrediant = (toppings, dishId) => {
     const dishIngrediants = selectedIngrediant[dishId] || [];
-    return (
-      <>
-        <h3 className="text-left font-bold capitalize text-[18px]">Ingrediants</h3>
-        {
-          toppings != "null" && toppings?.map((topping, index) => {
-            // const isOptionSelected = selectedToppings.includes(topping.name);
-            const toppingKey = `${topping.name}`;
-            const isOptionSelected = dishIngrediants.includes(toppingKey);
-            return (
-              <div key={index} className="topping-section ">
-                <div className="flex items-center justify-start mx-3 mt-[7px] gap-3">
-                  <div className="flex items-center justify-between w-full">
-                    <label
-                      htmlFor={topping.name}
-                      onClick={() => handleIngrediantSelect(topping, dishId)}
-                      className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-300 
-        ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70 hover:text-black/90"} 
-        transform ${isOptionSelected ? "scale-105" : "scale-100"}`}
-                    >
-                      {topping.name}
-                    </label>
-                    <button
-                      type="button"
-                      className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-[#db281c]' : 'border-gray-300'}`}
-                      onClick={() => handleIngrediantSelect(topping, dishId)}
-                    // disabled={isDisabled}
-                    >
-                      {!isOptionSelected
-                        ?
-                        <MinusIcon className={`w-4 h-4 `} />
-                        :
-                        // <FaCheck className={`w-4 h-4 text-white`}/>
-                        <IoClose size={35} className={`w-4 h-4  text-white`} />
-                      }
-                    </button>
+
+    const validOptions = toppings?.filter(option => option.name);
+    if(validOptions.length > 0)
+    {
+      return (
+        <>
+          <h3 className="text-left font-bold capitalize text-[18px]">Ingrediants</h3>
+          {
+            toppings != "null" && toppings?.map((topping, index) => {
+              // const isOptionSelected = selectedToppings.includes(topping.name);
+              const toppingKey = `${topping.name}`;
+              const isOptionSelected = dishIngrediants.includes(toppingKey);
+              return (
+                <div key={index} className="topping-section ">
+                  <div className="flex items-center justify-start mx-3 mt-[7px] gap-3">
+                    <div className="flex items-center justify-between w-full">
+                      <label
+                        htmlFor={topping.name}
+                        onClick={() => handleIngrediantSelect(topping, dishId)}
+                        className={`text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 transition-all duration-300 
+          ${isOptionSelected ? "line-through ml-2 text-black/40" : "ml-0 text-black/70 hover:text-black/90"} 
+          transform ${isOptionSelected ? "scale-105" : "scale-100"}`}
+                      >
+                        {topping.name}
+                      </label>
+                      <button
+                        type="button"
+                        className={`rounded-full border p-1 flex items-center justify-center ${isOptionSelected ? 'bg-[#db281c]' : 'border-gray-300'}`}
+                        onClick={() => handleIngrediantSelect(topping, dishId)}
+                      // disabled={isDisabled}
+                      >
+                        {!isOptionSelected
+                          ?
+                          <MinusIcon className={`w-4 h-4 `} />
+                          :
+                          // <FaCheck className={`w-4 h-4 text-white`}/>
+                          <IoClose size={35} className={`w-4 h-4  text-white`} />
+                        }
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })
-        }
-      </>
-    )
+              );
+            })
+          }
+        </>
+      )
+    }
   };
   useEffect(() => {
     setSelectedIngrediant({});
@@ -500,16 +501,19 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
 
   const handleAddItem = (product, quantity, toppings, ingredients, extravariants, selectedPrices) => {
     // Safely parse the options for toppings
-    const parsedToppingsOptions = product.toppings[0]?.options ? JSON.parse(product.toppings[0].options) : [];
+    const parsedToppingsOptions = (product.isVariant == 1 && product.toppings[0]?.options) ? JSON.parse(product.toppings[0].options)?.filter(option => option.name !== null && option.price !== null)  : [];
     const requiredToppings = (parsedToppingsOptions.length > 0) 
         ? product.toppings.filter(topping => topping.required) 
         : [];
 
     // Safely parse the options for extra variants
-    const parsedExtraVariantsOptions = product.extravariants[0]?.options ? JSON.parse(product.extravariants[0].options) : [];
+    const parsedExtraVariantsOptions = (product.isVariant == 1 && product.extravariants[0]?.options) ? JSON.parse(product.extravariants[0].options)?.filter(option => option.name !== null && option.price !== null) : [];
     const requiredExtraToppings = (parsedExtraVariantsOptions.length > 0) 
         ? product.extravariants.filter(topping => topping.required) 
         : [];
+
+
+    console.log("The Parsed Topping => ", parsedToppingsOptions);
 
     // Check if all required toppings are selected
     const allRequiredSelected = requiredToppings.every(topping => {

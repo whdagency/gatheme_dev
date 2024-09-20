@@ -5,6 +5,7 @@ import {
   } from "@/components/ui/credenza";
   import { FaRegStar, FaStar } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import { useMenu } from '../hooks/useMenu';
   const StarRating = ({ rating, setRating }) => {
     const handleClick = (newRating) => {
       setRating(newRating);
@@ -32,15 +33,24 @@ const FeedBack = ({
     slug,
     table_id,
     hasTrustpilot,
-    trustpilot_link
+    trustpilot_link,
+    isTheme1 = true
 }) => {
+  const { setOpenClaimsModal  } = useMenu();
 
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const navigate = useNavigate();
     const handleSubmit = () => {
         if (rating <= 3) {
-            navigate(`/menu/${slug}/Claims?table_id=${table_id}`); // Redirect to /Claims page
+            if(isTheme1 == true)
+            {
+              navigate(`/menu/${slug}/Claims?table_id=${table_id}`); // Redirect to /Claims page
+            }
+            else{
+              setIsModalOpen(false)
+              setOpenClaimsModal(true)
+            }
         } else if (hasTrustpilot) { // Check if hasTrustpilot is true and rating is more than 3
             window.location.href = trustpilot_link; // Redirect to Trustpilot
         } 

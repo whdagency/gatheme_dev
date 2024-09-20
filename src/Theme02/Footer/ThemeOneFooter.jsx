@@ -27,8 +27,8 @@ import {
 import bringBill from "./bringBill.svg";
 import callWaiter from "./callWaiter.svg";
 const ThemeOneFooter = () => {
-  const { customization, table_id, restos, restoSlug } = useMenu();
-  const [openClaimsModal, setOpenClaimsModal] = useState(false);
+  const { customization, table_id, restos, restoSlug, openClaimsModal, setOpenClaimsModal } = useMenu();
+  
   const [openSubmitItemModal, setOpenSubmitItemModal] = useState({
     open: false,
     title: "",

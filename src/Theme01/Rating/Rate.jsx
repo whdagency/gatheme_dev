@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Trust from './trustpilot-2.svg';
 import Google from './icons8-google.svg';
 import Spinner from 'react-spinner-material';
@@ -20,7 +20,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useMenu } from "../../hooks/useMenu";
 import { Button } from '@/components/ui/button';
-export default function Rate({ infoRes }) {
+import { useState } from "react";
+import FeedBack from "../../components/FeedBack";
+export default function Rate({ infoRes, slug }) {
   if (!infoRes) {
     return (
       <div className='justify-center items-center flex h-screen'>
@@ -28,7 +30,12 @@ export default function Rate({ infoRes }) {
       </div>
     );
   }
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const extraInfo = queryParams.get('table_id');
+  const table_id = extraInfo;
+  const [isOpenModelGoogle, setIsOpenModelGoogle] = useState(false)
+  const [isOpenModelTrust, setIsOpenModelTrust] = useState(false)
   const { google_buss, trustpilot_link } = infoRes;
   const { submitBille, customization, callWaiter } = useMenu();
   const hasGoogle = google_buss !== null && google_buss !== "";
@@ -43,7 +50,7 @@ export default function Rate({ infoRes }) {
           <p className="text-[#666] dark:text-[#ccc]">{t("rating.btnReview")}</p>
         }
         <div className="grid grid-cols-1 gap-4 w-full">
-          {hasGoogle && (
+          {/* {hasGoogle && (
             <Link
               className="bg-gray-200 hover:bg-blue-400 hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
               to={google_buss}
@@ -51,11 +58,30 @@ export default function Rate({ infoRes }) {
               <img src={Google} alt="Google Reviews" className="w-8 h-8 mr-2" />
               Google Reviews
             </Link>
+          )} */}
+          {hasGoogle && (
+            <button
+              className="bg-gray-200 hover:bg-blue-400 hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+              onClick={() => setIsOpenModelGoogle(true)}
+            >
+              <img src={Google} alt="Google Reviews" className="w-8 h-8 mr-2" />
+              Google Reviews
+            </button>
           )}
+
+          <FeedBack 
+            isModalOpen={isOpenModelGoogle}
+            setIsModalOpen={setIsOpenModelGoogle}
+            slug={slug}
+            table_id={table_id}
+            hasTrustpilot={hasGoogle}
+            trustpilot_link={google_buss}
+            />
+
           {hasTrustpilot && hasGoogle && (
             <p className="text-[#666] dark:text-[#ccc]">{t("menu.or")}</p>
           )}
-          {hasTrustpilot && (
+          {/* {hasTrustpilot && (
             <Link
               className="bg-gray-200 hover:bg-[#009967] hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
               to={trustpilot_link}
@@ -63,7 +89,26 @@ export default function Rate({ infoRes }) {
               <img src={Trust} alt="TrustPilot" className="w-8 h-8 mr-2" />
               Trustpilot Reviews
             </Link>
+          )} */}
+          {hasTrustpilot && (
+            <button
+              className="bg-gray-200 hover:bg-[#009967] hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+               onClick={() => setIsOpenModelTrust(true)}
+            >
+              <img src={Trust} alt="TrustPilot" className="w-8 h-8 mr-2" />
+              Trustpilot Reviews
+            </button>
           )}
+          
+          <FeedBack 
+            isModalOpen={isOpenModelTrust}
+            setIsModalOpen={setIsOpenModelTrust}
+            slug={slug}
+            table_id={table_id}
+            hasTrustpilot={hasTrustpilot}
+            trustpilot_link={trustpilot_link}
+            />
+          
           {!hasGoogle && !hasTrustpilot && (
             <p className="text-[#666] dark:text-[#ccc]">{t("rating.desc")}</p>
           )}

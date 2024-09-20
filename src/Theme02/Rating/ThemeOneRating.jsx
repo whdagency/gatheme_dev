@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMenu } from "../../hooks/useMenu";
 import Spinner from "react-spinner-material";
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from "@/components/ui/dialog";
@@ -8,6 +8,7 @@ import Trust from "./trustpilot-2.svg";
 import Google from "./icons8-google.svg";
 import Rating from "./RatIcon.svg";
 import { useTranslation } from "react-i18next";
+import FeedBack from "../../components/FeedBack";
 
 const ThemeOneRating = () => {
   const { resInfo, customization } = useMenu();
@@ -25,7 +26,8 @@ const ThemeOneRating = () => {
       </div>
     );
   }
-
+  const [isOpenModelGoogle, setIsOpenModelGoogle] = useState(false)
+  const [isOpenModelTrust, setIsOpenModelTrust] = useState(false)
   const { google_buss, trustpilot_link } = resInfo;
   const hasGoogle = google_buss !== null && google_buss !== "";
   const hasTrustpilot = trustpilot_link !== null && trustpilot_link !== "";
@@ -73,7 +75,7 @@ const ThemeOneRating = () => {
             )}
 
             <div className="grid w-full grid-cols-1 gap-2">
-              {hasGoogle && (
+              {/* {hasGoogle && (
                 <Link
                   className="hover:bg-blue-400 hover:text-white flex items-center justify-center gap-2 px-2 py-3 font-bold text-black transition-colors bg-gray-200 rounded-lg"
                   to={google_buss}
@@ -86,11 +88,32 @@ const ThemeOneRating = () => {
                   />
                   Google Reviews
                 </Link>
+              )} */}
+              {hasGoogle && (
+                <button
+                  className="hover:bg-blue-400 hover:text-white flex items-center justify-center gap-2 px-2 py-3 font-bold text-black transition-colors bg-gray-200 rounded-lg"
+                  onClick={() => setIsOpenModelGoogle(true)}
+                  target="_blank"
+                >
+                  <img
+                    src={Google}
+                    alt="Google Reviews"
+                    className="w-8 h-8 mr-2"
+                  />
+                  Google Reviews
+                </button>
               )}
+              <FeedBack 
+                isModalOpen={isOpenModelGoogle}
+                setIsModalOpen={setIsOpenModelGoogle}
+                hasTrustpilot={hasGoogle}
+                trustpilot_link={google_buss}
+                isTheme1={false}
+                />
               {hasTrustpilot && hasGoogle && (
                 <p className="text-[#666] dark:text-[#ccc]">{t('menu.or')}</p>
               )}
-              {hasTrustpilot && (
+              {/* {hasTrustpilot && (
                 <Link
                   className="bg-gray-200 hover:bg-[#009967] hover:text-white text-black font-bold py-3 px-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
                   to={trustpilot_link}
@@ -99,7 +122,24 @@ const ThemeOneRating = () => {
                   <img src={Trust} alt="TrustPilot" className="w-8 h-8 mr-2" />
                   Trustpilot Reviews
                 </Link>
+              )} */}
+              {hasTrustpilot && (
+                <button
+                  className="bg-gray-200 hover:bg-[#009967] hover:text-white text-black font-bold py-3 px-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  onClick={() => setIsOpenModelTrust(true)}
+                  target="_blank"
+                >
+                  <img src={Trust} alt="TrustPilot" className="w-8 h-8 mr-2" />
+                  Trustpilot Reviews
+                </button>
               )}
+              <FeedBack 
+                isModalOpen={isOpenModelTrust}
+                setIsModalOpen={setIsOpenModelTrust}
+                hasTrustpilot={hasTrustpilot}
+                trustpilot_link={trustpilot_link}
+                isTheme1={false}
+                />
               {!hasGoogle && !hasTrustpilot && (
                 <p className="text-[#666] dark:text-[#ccc]">
                   {t('rating.desc')}

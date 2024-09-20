@@ -39,6 +39,7 @@ import StepsBar from "./stepsv2";
 import { database, onValue, ref } from '../../firebaseConfig';
 import { axiosInstance } from "../../axiosInstance";
 import FeedBack from "../../components/FeedBack";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 
 const ThemeOneAchat = ({ activeLink }) => {
   const { customization, restos, resInfo, table_id, tableName, selectedDishes,restoSlug } = useMenu();
@@ -264,6 +265,16 @@ const ThemeOneAchat = ({ activeLink }) => {
   const hasTrustpilot = google_buss !== null && google_buss !== "";
 const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
+  const filtredSuggest = selectedDishes.filter(suggestedDish => 
+    !filteredCartItems.some(cartItem => cartItem.id === suggestedDish.id)
+  );  
+
+  useEffect(() => {
+      if(filtredSuggest.length == 0)
+      {
+        setIsModalOpen(false)
+      }
+  }, [filtredSuggest])
   return (
     <Sheet>
       <SheetTrigger>
@@ -439,7 +450,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
           Suggested Products
         </div>
         <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
-          {selectedDishes?.slice(0, 4).map((item, index) => (
+          {filtredSuggest?.slice(0, 4).map((item, index) => (
             <CartItemSuggestion
               key={index}
               item={item}
@@ -462,6 +473,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
          table_id={table_id}
          hasTrustpilot={hasTrustpilot}
          trustpilot_link={google_buss}
+         isTheme1={false}
         />
 
 
@@ -699,26 +711,17 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id, DEFAULT_TH
       <div className=" dark:bg-gray-800 p-4 rounded-lg">
         <div className='flex flex-col justify-center items-center gap-2'>
           <div className="w-28 flex justify-center  relative">
-            <img
-              alt={item.name}
-              className=" object-cover rounded-xl"
-              height={150}
-              // src={`${APIURL}/storage/${item.image1}`}
-              src={`${APIURLS3}/${item.image1}`}
-              style={{
-                aspectRatio: '150/150',
-                objectFit: 'cover',
-              }}
-              width={150}
-            />
-            {itemQuantity > 0 && (
-              <div
-                className="absolute top-0 left-0 bg-green-500 text-white rounded-full w-6 h-6 flex justify-center items-center"
-                style={{ fontSize: 12 }}
-              >
-                {itemQuantity}
-              </div>
-            )}
+          <Avatar className="h-[110px] w-[110px]  rounded-xl">
+                <AvatarImage
+                    src={`${APIURLS3}/${item.image1}`}
+                    style={{
+                    aspectRatio: '150/150',
+                    objectFit: 'cover',
+                    }}
+                    className="bg-white w-full h-auto rounded-xl  object-cover"
+                />
+                <AvatarFallback className="bg-slate-200 rounded-xl"></AvatarFallback>
+            </Avatar>
             <Button
               size="icon"
               variant="outline"
