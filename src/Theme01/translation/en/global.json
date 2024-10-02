@@ -9,6 +9,7 @@
     "cart": "Cart",
     "info": "Info",
     "callWaiter": "Call the waiter",
+    "callWaiter_help" : "Do you need a help?",
     "error": "This action cannot be undone. It will permanently delete your account and remove your data from our servers.",
     "bringBill": "Bring the bill",
     "cancel": "Cancel",

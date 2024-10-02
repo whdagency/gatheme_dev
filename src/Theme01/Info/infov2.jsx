@@ -37,6 +37,7 @@ export default function Info({ items, infoRes, customization }) {
     const {
         submitBille,
         callWaiter,
+        subscriptionPlan
     } = useMenu();
     const { t, i18n } = useTranslation("global");
     const [selectedLanguageCode, setSelectedLanguageCode] = useState(infoRes.language);
@@ -213,8 +214,25 @@ export default function Info({ items, infoRes, customization }) {
                     </AlertDialogHeader>
                     <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
 
-                        <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
-                        <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+                        <AlertDialogAction 
+                        className="w-full !px-0  " 
+                        style={{ backgroundColor: customization?.selectedPrimaryColor }} 
+                        onClick={() => {
+                            if (!subscriptionPlan?.canOrderFeatures) return;
+                            callWaiter();
+                          }}
+                          disabled={!subscriptionPlan?.canOrderFeatures}>{t("waiter.CallWaiter")}</AlertDialogAction>
+                        <AlertDialogAction 
+                           variant="outline" 
+                            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} 
+                            onClick={() => {
+                                if (!subscriptionPlan?.canOrderFeatures) return;
+                                submitBille();
+                              }}
+                              disabled={!subscriptionPlan?.canOrderFeatures}
+                        >
+                            {t("waiter.BringTheBill")}
+                        </AlertDialogAction>
                         <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
 
                             <svg

@@ -77,7 +77,7 @@ const ThemeOneAchat = ({ activeLink }) => {
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
 
   const totalCost = filteredCartItems.reduce((total, item) => {
-    const itemPrice = parseFloat(item.price) || 0;
+    const itemPrice = parseFloat(item.current_price) || 0;
   
     let selectedPrices = 0;
   
@@ -200,7 +200,7 @@ const ThemeOneAchat = ({ activeLink }) => {
     console.log("The CartItems => ",order);
 
     try {
-      const response = await fetch(`https://backend.garista.com/api/order`, {
+      const response = await fetch(`${APIURL}/api/order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -229,7 +229,7 @@ const ThemeOneAchat = ({ activeLink }) => {
         formData.append("title", "New Order");
         formData.append("status", "Order");
         formData.append("resto_id", resto_id);
-        const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+        const responseNotification = await fetch(`${APIURL}/api/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -570,7 +570,7 @@ const CartItem = ({ item, infoRes }) => {
   };
   const dispatch = useDispatch();
   const { customization } = useMenu();
-  const price = parseFloat(item.price);
+  const price = parseFloat(item.current_price);
   const selectedPrices = parseFloat(item.selectedPrices) || 0;
   const quantity = parseInt(item.quantity, 10);
   const subtotal = (price + selectedPrices) * quantity;
@@ -740,7 +740,7 @@ function CartItemSuggestion({ item, infoRes, customization, resto_id, DEFAULT_TH
           <div className="flex flex-col self-start ml-6 ">
             <div className='text-left'>
               <p className=" font-medium -900 text-sm  dark:text-gray-50">{item.name}</p>
-              <h3 className=" text-gray-700 font-semibold text-base dark:text-gray-400 mb-1">{item.price + " " + infoRes.currency}</h3>
+              <h3 className=" text-gray-700 font-semibold text-base dark:text-gray-400 mb-1">{item.current_price + " " + infoRes.currency}</h3>
             </div>
           </div>
         </div>

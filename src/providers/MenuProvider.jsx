@@ -30,6 +30,98 @@ const MenuProvider = ({ children }) => {
   const [promo, setPromo] = useState([])
   const cartItems = useSelector(state => state.cart.items);
   const [openClaimsModal, setOpenClaimsModal] = useState(false);
+  const [subscriptionPlan, setSubscriptionPlan] = useState({});
+
+  const fetchSubscriptionPlan = async (resto_id) => {
+    const defaultPlan = {
+      hasPlanExpired: false,
+      // user_id,
+      resto_id,
+      plan_id: 4,
+      plan: {
+        id: 4,
+        name: "Basic",
+        price: "Free",
+        created_at: null,
+        updated_at: null,
+      },
+      numberOfQrCodes: 1,
+      numberOfThemes: 1,
+      hasVipThemes: false,
+      canOrderFeatures: false,
+      canGetNotifications: false,
+      hasPaymentIntegration: false,
+      hasPosIntegration: false,
+      hasFreeGaristaPos: false,
+    };
+
+    try {
+      const { status, data } = await axiosInstance.get(
+        `${APIURL}/api/getSubscriptionsByRestoId/${resto_id}`
+      );
+
+      console.log("the Data of Subscription => ",data);
+
+      if (status !== 200 || !data?.length) {
+        setSubscriptionPlan(defaultPlan);
+        return;
+      }
+
+      const subData = data[0];
+
+      const subscriptionData = {
+        ...subData,
+        hasPlanExpired:
+          new Date(subData?.ends_at?.replace(" ", "T").concat(".000000Z")) <
+          new Date().toISOString(),
+      };
+
+      if (subscriptionData?.hasPlanExpired) {
+        setSubscriptionPlan(defaultPlan);
+        return;
+      }
+
+      const planSettings = {
+        Silver: {
+          numberOfQrCodes: 20,
+          numberOfThemes: 2,
+          hasVipThemes: false,
+          canOrderFeatures: true,
+          canGetNotifications: true,
+          hasPaymentIntegration: false,
+          hasPosIntegration: false,
+          hasFreeGaristaPos: false,
+        },
+        Gold: {
+          numberOfQrCodes: 30,
+          numberOfThemes: 4,
+          hasVipThemes: false,
+          canOrderFeatures: true,
+          canGetNotifications: true,
+          hasPaymentIntegration: true,
+          hasPosIntegration: true,
+          hasFreeGaristaPos: false,
+        },
+        Platinum: {
+          numberOfQrCodes: 60,
+          numberOfThemes: 4,
+          hasVipThemes: true,
+          canOrderFeatures: true,
+          canGetNotifications: true,
+          hasPaymentIntegration: true,
+          hasPosIntegration: true,
+          hasFreeGaristaPos: true,
+        },
+      };
+
+      const planConfig = planSettings[subData?.plan?.name] || defaultPlan;
+
+      setSubscriptionPlan({ ...subscriptionData, ...planConfig });
+    } catch (error) {
+      console.error("Error fetching subscription plans:", error);
+      setSubscriptionPlan(defaultPlan);
+    }
+  };
 
   const incrementVisitorCount = async (id) => {
     try {
@@ -49,7 +141,7 @@ const MenuProvider = ({ children }) => {
         if (restoData && restoData.length > 0) {
           const resto = restoData[0];
           setRestos(resto);
-    
+          await fetchSubscriptionPlan(resto.id);
           const [
             categoryResponse,
             dishResponse,
@@ -75,6 +167,7 @@ const MenuProvider = ({ children }) => {
           setCustomization(customizationData[0] || defaultColor);
     
           const qrCodeRes = await axiosInstance.get(`/api/qrcodes/${resto.id}`);
+          console.log("The Qrcode => ", qrCodeRes.data);
           if (qrCodeRes.status == 200) {
             setQrCode(qrCodeRes.data);
           }
@@ -162,7 +255,7 @@ const MenuProvider = ({ children }) => {
         resto_id: resInfo.resto_id,
         table_id: table_id,
       };
-      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+      const responseNotification = await fetch(`${APIURL}/api/notifications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -186,7 +279,7 @@ const MenuProvider = ({ children }) => {
         resto_id: resInfo.resto_id,
         table_id: table_id,
       };
-      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+      const responseNotification = await fetch(`${APIURL}/api/notifications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -228,7 +321,8 @@ const MenuProvider = ({ children }) => {
     customization,
     categoriesTheme1,
     setCustomization,
-    openClaimsModal, setOpenClaimsModal
+    openClaimsModal, setOpenClaimsModal,
+    subscriptionPlan,
   };
 
   return <MenuContext.Provider value={values}>{children}</MenuContext.Provider>;

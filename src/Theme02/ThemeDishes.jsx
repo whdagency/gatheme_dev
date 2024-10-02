@@ -79,7 +79,7 @@ const ThemeDishes = ({ category, dishes, setSelectedItem,selectedItem }) => {
               >
                 <h3 className="font-bold">{dish.name}</h3>
                 <p className="font-bold">
-                  {dish.price} {resInfo.currency || "MAD"}
+                  {dish.current_price} {resInfo.currency || "MAD"}
                 </p>
               </div>
 
@@ -620,7 +620,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
 
                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                   </svg>
-                  <span className=" w-32">{selectedItem.price + " " + resInfo?.currency}</span>
+                  <span className=" w-32">{selectedItem.current_price + " " + resInfo?.currency}</span>
                 </div>
                 <div className="flex flex-col w-full gap-1 px-5">
                   <div className='px-2'>
@@ -684,7 +684,7 @@ const AddDishToCart = ({ isModalOpen, setIsModalOpen, selectedItem }) => {
                   >
                     {t('menuAddItem.addToSelected')}
                     : {(
-                      (selectedItem.price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + resInfo?.currency
+                      (selectedItem.current_price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + resInfo?.currency
                     )}
                   </div>
                 </button>

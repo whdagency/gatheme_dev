@@ -13,7 +13,8 @@
     "bringBill": "Traer la cuenta",
     "cancel": "Cancelar",
     "addToSelected": "Añadir a la selección: ",
-    "ok": "Ok"
+    "ok": "Ok",
+    "callWaiter_help" : "¿Necesitas ayuda?"
   },
   "rating": {
     "leaveReview": "¡Déjanos una reseña!",

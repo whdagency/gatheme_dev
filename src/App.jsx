@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       {isActive ? (
-        customization?.selectedTheme == 1 ? (
+        customization?.selectedTheme == 2 ? (
           <Theme01 />
         ) : (
           <Theme02 />

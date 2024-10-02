@@ -14,7 +14,8 @@
     "cancel": "Cancelar",
     "addToSelected": "Añadir a la selección: ",
     "or": "O",
-    "ok": "Confirmar"
+    "ok": "Confirmar",
+    "callWaiter_help" : "Hai bisogno di aiuto?"
   },
   "rating": {
     "leaveReview": "¡Déjanos una reseña!",

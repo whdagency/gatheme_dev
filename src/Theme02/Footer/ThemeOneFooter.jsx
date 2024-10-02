@@ -27,7 +27,7 @@ import {
 import bringBill from "./bringBill.svg";
 import callWaiter from "./callWaiter.svg";
 const ThemeOneFooter = () => {
-  const { customization, table_id, restos, restoSlug, openClaimsModal, setOpenClaimsModal } = useMenu();
+  const { customization, table_id, restos, restoSlug, openClaimsModal, setOpenClaimsModal, subscriptionPlan } = useMenu();
   
   const [openSubmitItemModal, setOpenSubmitItemModal] = useState({
     open: false,
@@ -100,6 +100,7 @@ const ThemeOneFooter = () => {
         <CallWaiter
           customization={customization}
           submitNotification={submitNotification}
+          subscriptionPlan={subscriptionPlan}
         />
 
         <ClaimsTrigger open={openClaimsModal} setOpen={setOpenClaimsModal} />
@@ -162,7 +163,7 @@ const ClaimsTrigger = ({ open, setOpen }) => {
 };
 
 // call a waiter
-const CallWaiter = ({ customization, submitNotification }) => {
+const CallWaiter = ({ customization, submitNotification, subscriptionPlan }) => {
   const [openWaiterModal, setOpenWaiterModal] = useState(false);
   const modalRef = useRef();
   const { t, i18n } = useTranslation("global");
@@ -269,7 +270,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
                   <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium  transition-colors  disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor, color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} >Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} onClick={handleCallWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
+                  <AlertDialogAction className="!p-1.5" 
+                  style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }}
+                   onClick={() => {
+                    if (!subscriptionPlan?.canOrderFeatures) return;
+                    handleCallWaiter();
+                  }}
+                  disabled={!subscriptionPlan?.canOrderFeatures}>
+                    {t("waiter.CallWaiter")}</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
@@ -309,7 +317,14 @@ const CallWaiter = ({ customization, submitNotification }) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row gap-2 items-center justify-center">
                   <AlertDialogCancel variant="outline" className="inline-flex items-center mt-0 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground  px-4  bg-white text-black " style={{ borderColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor, color: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor}} >Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="!p-1.5   " style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} onClick={handleBringBill}>{t("waiter.BringTheBill")}</AlertDialogAction>
+                  <AlertDialogAction className="!p-1.5   " 
+                  style={{ backgroundColor: customization?.isDefault == false ? customization.selectedPrimaryColor : DEFAULT_THEME.selectedPrimaryColor }} 
+                  onClick={() => {
+                    if (!subscriptionPlan?.canOrderFeatures) return;
+                    handleBringBill();
+                  }}
+                  disabled={!subscriptionPlan?.canOrderFeatures}
+                  >{t("waiter.BringTheBill")}</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

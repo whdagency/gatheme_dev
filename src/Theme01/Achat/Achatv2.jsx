@@ -47,10 +47,10 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
    
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
   const { tableName,
-    submitBille, callWaiter } = useMenu();
+    submitBille, callWaiter, subscriptionPlan } = useMenu();
     const totalCost = filteredCartItems.reduce((total, item) => {
       // Convert item.price to a number, defaulting to 0 if it's not a valid number
-      const itemPrice = parseFloat(item.price) || 0;
+      const itemPrice = parseFloat(item.current_price) || 0;
     
       // Initialize selectedPrices to 0 by default
       let selectedPrices = 0;
@@ -102,6 +102,8 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
   const hasTrustpilot = google_buss !== null && google_buss !== "";
 
   async function submitOrder(cartItems, totalCost) {
+
+    if (!subscriptionPlan?.canOrderFeatures) return;
     setIsLoading(true);
     setIsModalOpen(false)
     sessionStorage.setItem('modalOpened', '');
@@ -125,7 +127,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       cartItems: cartItemProduct
     };
     try {
-      const response = await fetch(`https://backend.garista.com/api/order`, {
+      const response = await fetch(`${APIURL}/api/order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -154,7 +156,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
         formData.append("title", "New Order");
         formData.append("status", "Order");
         formData.append("resto_id", resto_id);
-        const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+        const responseNotification = await fetch(`${APIURL}/api/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -348,7 +350,21 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                     {t("achat.total")}:
                     <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
                   </p>
-                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg" disabled>
+                  <Button 
+                     onClick={() => {
+                      if (!subscriptionPlan?.canOrderFeatures) return;
+
+                      setOrderSuccessModalOpen(!orderSuccessModalOpen);
+                    }}
+                    style={{ backgroundColor: customization?.selectedPrimaryColor }} 
+                    className={`px-4 py-2 rounded-lg ${
+                      !subscriptionPlan?.canOrderFeatures
+                        ? "cursor-default"
+                        : "cursor-pointer"
+                    }`}
+                    size="lg" 
+                    disabled={!subscriptionPlan?.canOrderFeatures}
+                  >
                     {t("achat.checkoutBtn")}
                   </Button>
                 </div></div>

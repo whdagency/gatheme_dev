@@ -25,6 +25,7 @@ import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
 
 import Logo from '@/Theme01/MenuItems/waiter-svgrepo-com.svg';
 import { useMenu } from "../../hooks/useMenu";
+import { APIURL } from "../../lib/ApiKey";
 
 const formSchema = z.object({
   clamer_name: z.string().optional(),
@@ -33,7 +34,7 @@ const formSchema = z.object({
 });
 
 export default function Claims({ items, table_id }) {
-  const { submitBille, customization, callWaiter, resInfo } = useMenu();
+  const { submitBille, customization, callWaiter, resInfo, subscriptionPlan  } = useMenu();
   const searchInputRef = useRef(null);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -102,7 +103,7 @@ export default function Claims({ items, table_id }) {
           resto_id: items.id,
           table_id: extraInfo
         };
-        const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+        const responseNotification = await fetch(`${APIURL}/api/notifications`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -287,8 +288,26 @@ export default function Claims({ items, table_id }) {
           </AlertDialogHeader>
           <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
 
-            <AlertDialogAction className="w-full !px-0  " style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={callWaiter}>{t("waiter.CallWaiter")}</AlertDialogAction>
-            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+            <AlertDialogAction 
+            className="w-full !px-0  " 
+            style={{ backgroundColor: customization?.selectedPrimaryColor }} 
+            onClick={() => {
+              if (!subscriptionPlan?.canOrderFeatures) return;
+              callWaiter();
+            }}
+            disabled={!subscriptionPlan?.canOrderFeatures}
+            >{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction 
+            variant="outline" 
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" 
+            style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} 
+            onClick={() => {
+              if (!subscriptionPlan?.canOrderFeatures) return;
+              submitBille();
+            }}
+            disabled={!subscriptionPlan?.canOrderFeatures}>
+              {t("waiter.BringTheBill")}
+            </AlertDialogAction>
             <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
 
               <svg

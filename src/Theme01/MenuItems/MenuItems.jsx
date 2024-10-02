@@ -48,12 +48,16 @@ import { IoClose } from "react-icons/io5";
 import { FaCircleCheck } from "react-icons/fa6";
 import callWaiterSvg from "./callWaiter.svg"
 import { MinusIcon, PlusIcon } from '../../constant/page';
+import './Dettaille.css'
+import { useMenu } from '../../hooks/useMenu';
 
 function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
+
+  const { subscriptionPlan, callWaiter } = useMenu();
   const { toast } = useToast()
   const [selectedProp, setSelectedProp] = useState(0); // initialisation de l'état avec 0
   const [searchTerm, setSearchTerm] = useState(""); // état pour stocker la valeur de la recherche
-  const [updateFormState, setUpdateFormState] = useState(false);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newtab, setNewtab] = useState([...tabAchat]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -434,6 +438,21 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     }));
   };
 
+  useEffect(() => {
+    // Open the modal after 5 seconds
+    const openTimer = setTimeout(() => {
+      setIsMessageOpen(true);
+
+      // Close the modal after 60 seconds
+      const closeTimer = setTimeout(() => {
+        setIsMessageOpen(false);
+      }, 50000); // 1 minute
+
+      return () => clearTimeout(closeTimer); // Cleanup close timer on unmount or when opening a new one
+    }, 500); // 5 seconds
+
+    return () => clearTimeout(openTimer); // Cleanup open timer on unmount
+  }, []);
 
   const filteredCategories = dishes.length > 0 && dishes.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -507,30 +526,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       return () => clearTimeout(timeout);
     }
   }, [showAlert]);
-  async function submitOrder() {
-    try {
-      const notification = {
-        title: "New Call For Waiter",
-        status: "Waiter",
-        resto_id: restoId,
-        table_id: tabel_id,
-      };
-      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(notification)
-      });
 
-      if (response) {
-        console.log("Nice => ", responseNotification);
-      }
-      // Handle post-order submission logic here, like clearing the cart or redirecting the user
-    } catch (error) {
-      console.error('Failed to submit order:', error.message);
-    }
-  }
   async function submitBille() {
     try {
       const notification = {
@@ -539,7 +535,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
         resto_id: restoId,
         table_id: tabel_id,
       };
-      const responseNotification = await fetch(`https://backend.garista.com/api/notifications`, {
+      const responseNotification = await fetch(`${APIURL}/api/notifications`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -556,6 +552,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
     }
   }
 
+  console.log("The subscriptionPlan => ", subscriptionPlan);
   const searchInputRef = useRef(null);
   const [t, i18n] = useTranslation("global")
 
@@ -578,6 +575,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
             <input type="search" ref={searchInputRef} id="default-search" style={{ color: customization?.selectedTextColor, '--placeholder-color': customization?.selectedTextColor }} className={`block w-full p-2 ps-10  border border-gray-300 input-placeholder rounded-[.5rem] bg-transparent  dark:bg-gray-700 dark:border-gray-600   input-height-small`} placeholder={t("menu.search_for_your_desired_food")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
           </div>
         </form>
+   
 
         <div className='overflow-x-auto md:max-w-[80%]  mx-auto px-3'>
           <h1 className={`pb-2 text-lg text-black font-semibold ${infoRes.language == "ar" ? "text-right" : "text-left"}`} style={{ color: customization?.selectedTextColor }}>{selectedTab == "All" ? t('menu.all') : selectedTab}</h1>
@@ -614,7 +612,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                                 <div >
                                   <h2 className={`text-[20px] mb-0 text-left uppercase ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'} style={{ color: customization?.selectedTextColor }}>{item?.name?.slice(0, 12)}</h2>
                                   <h2 className={`text-[16px] mb-0 text-left  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'} style={{ color: customization?.selectedTextColor }}>{item?.desc?.slice(0, 12)}</h2>
-                                  <p className={`text-[14px] mb-0 text-left  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'} style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency} </p>
+                                  <p className={`text-[14px] mb-0 text-left  ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'} style={{ color: customization?.selectedTextColor }}>{item.current_price + " " + infoRes?.currency} </p>
                                 </div>
                               </div>
                               <button
@@ -677,7 +675,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                                   {item.name.slice(0, 20)}
                                 </h2>
                                 <div className='flex w-full justify-between items-center'>
-                                  <p className='text-xs text-left' style={{ color: customization?.selectedTextColor }}>{item.price + " " + infoRes?.currency}</p>
+                                  <p className='text-xs text-left' style={{ color: customization?.selectedTextColor }}>{item.current_price + " " + infoRes?.currency}</p>
                                   <button
                                     type="button"
                                     onClick={(e) => {
@@ -733,8 +731,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                       loop: true,
                     }}
                   >
-                    {/* <CarouselNext className="top-1/3 -translate-y-1/3" />
-      <CarouselPrevious className="top-1/3 -translate-y-1/3" /> */}
                     <CarouselMainContainer className="h-60 !p-0">
                       {selectedItem.video && (
                         <SliderMainItem className="bg-transparent !p-0">
@@ -757,13 +753,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                       {selectedItem.image1 && (
                         <SliderMainItem key={selectedItem.video ? 1 : 2} index={selectedItem.video ? 1 : 2} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            {/* <img
-                              // src={`${APIURL}/storage/${selectedItem.image1}`}
-                              src={`${APIURLS3}/${selectedItem.image1}`}
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              alt="Slide 1"
-                            /> */}
                              <Avatar className="h-full w-full rounded-[10px]">
                               <AvatarImage
                                 // src={`${APIURL}/storage/${ImageItem}`}
@@ -795,7 +784,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 3 : 4} index={selectedItem.video ? 3 : 4} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              // src={`${APIURL}/storage/${selectedItem.image3}`}
                               src={`${APIURLS3}/${selectedItem.image3}`}
 
                               className="w-full md:h-auto rounded-md object-cover"
@@ -810,7 +798,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                         <SliderMainItem key={selectedItem.video ? 4 : 5} index={selectedItem.video ? 4 : 5} className="bg-transparent !p-0">
                           <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
                             <img
-                              // src={`${APIURL}/storage/${selectedItem.image4}`}
                               src={selectedItem.image4?.includes("default") ? `${APIURL}/storage/${selectedItem.image4}` : `${APIURLS3}/${selectedItem.image4}`}
 
                               className="w-full md:h-auto rounded-md object-cover"
@@ -839,14 +826,6 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                       {selectedItem.image1 && (
                         <SliderThumbItem key={(selectedItem.video ? 1 : 0)} index={(selectedItem.video ? 1 : 0)} className="bg-transparent ">
                           <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            {/* <img
-                              // src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
-                              src={`${APIURLS3}/${selectedItem.image1}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            /> */}
                              <Avatar className="h-full w-full rounded-[10px]">
                               <AvatarImage
                                 // src={`${APIURL}/storage/${ImageItem}`}
@@ -935,7 +914,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-dot mx-1" viewBox="0 0 16 16" style={{ color: customization?.selectedPrimaryColor }}>
                       <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
                     </svg>
-                    <span>{selectedItem.price + " " + infoRes?.currency}</span>
+                    <span>{selectedItem.current_price + " " + infoRes?.currency}</span>
                   </div>
                   <div className='px-5'>
                     {/* renderExtraToppings */}
@@ -971,7 +950,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   >
                     <div className={`text-lg font-semibold text-white flex-nowrap ${infoRes.language === "ar" ? "flex-row-reverse" : "flex-row"} gap-1 ${isClicked ? "text-[#28509E]" : "text-white"} `}>
                       {t("menu.addToSelected")}
-                      {(selectedItem.price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + infoRes?.currency}
+                      {(selectedItem.current_price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + infoRes?.currency}
                     </div>
                   </button>
                   <CredenzaClose asChild>
@@ -984,10 +963,30 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
         </CredenzaContent>
       </Credenza>
       <AlertDialog>
-        <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[5%] flex-col flex items-end justify-center ${credenzaOpen ? 'hidden' : ''}`}>
-          <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
-            <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
-          </Button>
+        <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 flex-row-reverse right-2 md:right-[5%] flex items-center gap-3 justify-center ${credenzaOpen ? 'hidden' : ''}`}>
+           <div >
+
+            <Button onClick={() => setIsMessageOpen(false)} className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
+              <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
+            </Button>
+            {
+              isMessageOpen && (
+                <div className="chat-thread">
+                <div className="message">
+                  <div className="message-content">
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <p>{t('menu.callWaiter_help')}</p>
+                  </div>
+                </div>
+              </div>
+              )
+            }
+           </div>
+
         </AlertDialogTrigger>
         <AlertDialogContent className="w-[80%] md:w-full mx-auto rounded-lg">
 
@@ -1000,8 +999,26 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           </AlertDialogHeader>
           <AlertDialogFooter className='flex !flex-col !justify-center  w-full gap-2'>
 
-            <AlertDialogAction className="w-full !px-0 bg-[#28509E]" style={{ backgroundColor: customization?.selectedPrimaryColor }} onClick={submitOrder}>{t("waiter.CallWaiter")}</AlertDialogAction>
-            <AlertDialogAction variant="outline" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full border-[#28509E] bg-white text-black !ml-0" style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} onClick={submitBille}>{t("waiter.BringTheBill")}</AlertDialogAction>
+          <AlertDialogAction 
+            className="w-full !px-0  " 
+            style={{ backgroundColor: customization?.selectedPrimaryColor }} 
+            onClick={() => {
+              if (!subscriptionPlan?.canOrderFeatures) return;
+              callWaiter();
+            }}
+            disabled={!subscriptionPlan?.canOrderFeatures}
+            >{t("waiter.CallWaiter")}</AlertDialogAction>
+            <AlertDialogAction 
+            variant="outline" 
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full  bg-white text-black !ml-0" 
+            style={{ borderColor: customization?.selectedPrimaryColor, color: customization?.selectedPrimaryColor }} 
+            onClick={() => {
+              if (!subscriptionPlan?.canOrderFeatures) return;
+              submitBille();
+            }}
+            disabled={!subscriptionPlan?.canOrderFeatures}>
+              {t("waiter.BringTheBill")}
+            </AlertDialogAction>            
             <AlertDialogCancel className="absolute top-1 right-2 rounded-full border-none">
 
               <svg
@@ -1023,6 +1040,8 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+
     </>
   );
 }

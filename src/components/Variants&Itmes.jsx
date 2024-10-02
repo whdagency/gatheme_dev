@@ -76,7 +76,7 @@ export const IngredientsOption = ({ item }) => {
 
 export function CartItem({ item, infoRes }) {
   const dispatch = useDispatch();
-  const price = parseFloat(item.price);
+  const price = parseFloat(item.current_price);
   const selectedPrices = parseFloat(item.selectedPrices) || 0;
   const quantity = parseInt(item.quantity, 10);
 
