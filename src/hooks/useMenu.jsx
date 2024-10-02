@@ -1,4 +1,4 @@
 import { useContext } from "react";
-import { MenuContext } from "../providers/MenuProvider";
+import { AppContext } from "../providers/AppProvider";
 
-export const useMenu = () => useContext(MenuContext);
+export const useMenu = () => useContext(AppContext);

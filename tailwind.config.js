@@ -2,6 +2,7 @@
 module.exports = {
   darkMode: ["class"],
   content: [
+    "./index.html",
     "./pages/**/*.{js,jsx, ts, tsx}",
     "./components/**/*.{js,jsx, ts, tsx}",
     "./app/**/*.{js,jsx, ts, tsx}",
@@ -17,6 +18,9 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xs: "480px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,6 +61,13 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      chart: {
+        1: "hsl(var(--chart-1))",
+        2: "hsl(var(--chart-2))",
+        3: "hsl(var(--chart-3))",
+        4: "hsl(var(--chart-4))",
+        5: "hsl(var(--chart-5))",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -73,5 +84,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar-hide")],
 };
