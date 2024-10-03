@@ -1,6 +1,5 @@
 import { Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import fetchApiData from "../lib/fetch-data";
 import { STORAGE_URL } from "../lib/api";
@@ -8,6 +7,7 @@ import { STORAGE_URL } from "../lib/api";
 const Promotion = () => {
   const { restos, resInfo, searchProductTerm } = useMenu();
   const [promos, setPromos] = useState([]);
+  const [seeAllPromos, setSeeAllPromos] = useState(false);
 
   useEffect(() => {
     fetchApiData(`/banners/${restos?.id}`, []).then((data) => {
@@ -29,8 +29,6 @@ const Promotion = () => {
     });
   }, [restos?.id]);
 
-  console.log({ promos });
-
   return (
     <div
       className={`px-4 mt-4 ${
@@ -40,12 +38,16 @@ const Promotion = () => {
     >
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-bold">Promotion 🔥</h2>
-        <Link to={"#"} className="text-sm text-orange-500">
-          See All
-        </Link>
+        <button
+          className="text-sm text-orange-500"
+          onClick={() => setSeeAllPromos((prev) => !prev)}
+        >
+          {seeAllPromos ? "See Less" : "See All"}
+        </button>
       </div>
+
       <div className="scrollbar-hide flex px-4 pb-4 -mx-4 space-x-4 overflow-x-auto">
-        {promos?.map((promo) => (
+        {promos?.slice(0, seeAllPromos ? promos?.length : 3)?.map((promo) => (
           <PromotionCard
             key={promo?.id}
             image={`${STORAGE_URL}/${promo?.image}`}
@@ -56,7 +58,7 @@ const Promotion = () => {
           />
         ))}
 
-        <PromotionCard
+        {/* <PromotionCard
           image="/photo/burger.jpg"
           title="Cheese Burger Hot Mix Dinde"
           price={20.0}
@@ -85,7 +87,7 @@ const Promotion = () => {
           title="Pizza Slice"
           price={25.0}
           originalPrice={45.0}
-        />
+        /> */}
       </div>
     </div>
   );

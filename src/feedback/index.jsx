@@ -7,6 +7,7 @@ import {
   SmileEmoji,
 } from "../components/icons";
 import FeedbackSuccess from "../modals/feedback-success";
+import { toast } from "sonner";
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState("");
@@ -33,11 +34,14 @@ const Feedback = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle feedback submission logic here later
+
+    if (!selectedEmoji) {
+      toast.error("Please select a rating before submitting your feedback.");
+      return;
+    }
+
     console.log("Feedback Submitted:", feedback);
-    console.log(
-      "Selected Emoji:",
-      emojis.find((emoji) => emoji.id === selectedEmoji)
-    );
+    console.log("Selected Rating:", selectedEmoji);
 
     setShowSuccessModal(true);
 

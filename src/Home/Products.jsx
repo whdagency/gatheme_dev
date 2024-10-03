@@ -1,6 +1,6 @@
 import { Star, X } from "lucide-react";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -16,6 +16,8 @@ const Products = () => {
     searchProductTerm,
   } = useMenu();
 
+  const [seeAllProducts, setSeeAllProducts] = useState(false);
+
   return (
     <div className="scrollbar-hide flex-1 px-4 mt-6 overflow-hidden">
       <div className="flex items-center justify-between mb-3">
@@ -24,9 +26,12 @@ const Products = () => {
             <h2 className="text-lg font-bold capitalize">
               {selectedCat === "All" ? "Products" : selectedCat}
             </h2>
-            <Link to="#" className="text-sm text-orange-500">
-              See All
-            </Link>
+            <button
+              onClick={() => setSeeAllProducts((prev) => !prev)}
+              className="text-sm text-orange-500"
+            >
+              {seeAllProducts ? "See Less" : "See All"}
+            </button>
           </>
         ) : (
           <p>
@@ -50,22 +55,24 @@ const Products = () => {
         </div>
       ) : (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide pb-32">
-          {products?.map((product) => (
-            <ProductCard
-              key={product?.name}
-              image={
-                product?.image1?.startsWith("default_images")
-                  ? ""
-                  : product?.image1
-              }
-              title={product.name}
-              rating={product?.rating || 4.5}
-              time={product?.time || `${12} minutes`}
-              price={parseFloat(product?.price)}
-              currency={resInfo?.currency || "MAD"}
-              id={product?.id}
-            />
-          ))}
+          {products
+            .slice(0, seeAllProducts ? products.length : 5)
+            ?.map((product) => (
+              <ProductCard
+                key={product?.name}
+                image={
+                  product?.image1?.startsWith("default_images")
+                    ? ""
+                    : product?.image1
+                }
+                title={product.name}
+                rating={product?.rating || 4.5}
+                time={product?.time || `${12} minutes`}
+                price={parseFloat(product?.price)}
+                currency={resInfo?.currency || "MAD"}
+                id={product?.id}
+              />
+            ))}
         </div>
       )}
     </div>
