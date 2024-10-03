@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,52 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { BillIcon } from "../components/icons";
+import NotificationModal from "./notification-modal";
+import { submitNotification } from "../lib/notification";
+import { useMenu } from "../hooks/useMenu";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const RequestBill = () => {
+  const { table_id, restos } = useMenu();
+  const [isBillRequested, setIsBillRequested] = useState(false);
+  const [pending, setPending] = useState(false);
+
+  const handleCallWaiter = async (e) => {
+    e.preventDefault();
+    setPending(true);
+
+    if (!table_id) {
+      toast.info(t("No table selected"));
+      return;
+    }
+
+    const isSubmitted = await submitNotification({
+      type: "Bill",
+      title: "Asking For Bill",
+      resto_id: restos.id,
+      table_id: table_id,
+    });
+
+    setPending(false);
+
+    if (isSubmitted) {
+      setIsBillRequested(true);
+    } else {
+      toast.error("Failed to request bill. Please try again later.");
+    }
+  };
+
+  if (isBillRequested) {
+    return (
+      <NotificationModal
+        open={isBillRequested}
+        setOpen={setIsBillRequested}
+        title="Bill Requested!"
+        description="The bill will be sent to you shortly."
+      />
+    );
+  }
+
   return (
     <Drawer>
       <DrawerTrigger>
@@ -43,7 +87,14 @@ const RequestBill = () => {
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
-          <Button className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full">
+          <Button
+            onClick={handleCallWaiter}
+            disabled={pending}
+            className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full flex items-center gap-2"
+          >
+            {pending && (
+              <ClipLoader size={20} loading={pending} color={"#ffffff"} />
+            )}{" "}
             Request Bill
           </Button>
         </DrawerFooter>

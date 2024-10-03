@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   DrawerContent,
@@ -10,8 +10,53 @@ import {
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { BellIcon } from "../components/icons";
+import { submitNotification } from "../lib/notification";
+import { toast } from "sonner";
+import NotificationModal from "./notification-modal";
+import { useMenu } from "../hooks/useMenu";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const CallWaiter = () => {
+  const { table_id, restos } = useMenu();
+  const [isWaiterCalled, setIsWaiterCalled] = useState(false);
+  const [pending, setPending] = useState(false);
+
+  const handleCallWaiter = async (e) => {
+    e.preventDefault();
+    setPending(true);
+
+    if (!table_id) {
+      toast.info(t("No table selected"));
+      return;
+    }
+
+    const isSubmitted = await submitNotification({
+      type: "Waiter",
+      title: "New Call For Waiter",
+      resto_id: restos.id,
+      table_id: table_id,
+    });
+
+    setPending(false);
+
+    if (isSubmitted) {
+      setIsWaiterCalled(true);
+    } else {
+      toast.error("Failed to call waiter");
+    }
+  };
+
+  if (isWaiterCalled) {
+    return (
+      <NotificationModal
+        open={isWaiterCalled}
+        setOpen={setIsWaiterCalled}
+        title="Waiter Requested!"
+        description="The waiter will be sent to you shortly."
+      />
+    );
+  }
+
   return (
     <Drawer>
       <DrawerTrigger>
@@ -42,7 +87,14 @@ const CallWaiter = () => {
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
-          <Button className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full">
+          <Button
+            onClick={handleCallWaiter}
+            disabled={pending}
+            className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full flex items-center gap-2"
+          >
+            {pending && (
+              <ClipLoader size={20} loading={pending} color={"#ffffff"} />
+            )}{" "}
             Request Waiter
           </Button>
         </DrawerFooter>

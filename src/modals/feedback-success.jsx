@@ -41,7 +41,7 @@ const FeedbackSuccess = ({ open, setOpen }) => {
         <DrawerFooter className="flex justify-center">
           <Button
             onClick={handleSubmit}
-            className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full"
+            className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full"
           >
             Back to Home
           </Button>
