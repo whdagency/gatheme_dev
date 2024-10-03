@@ -5,6 +5,7 @@ import {
   DrawerFooter,
   DrawerDescription,
   DrawerTrigger,
+  DrawerTitle,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -33,9 +34,9 @@ const RequestBill = () => {
             className="w-[151px] h-[151px]"
           />
         </div>
-        <h2 className="text-2xl font-semibold capitalize">
+        <DrawerTitle className="text-2xl font-semibold capitalize">
           Request Your Bill!
-        </h2>
+        </DrawerTitle>
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
           Are you ready to settle your bill? Let us know, and we&apos;ll bring
           it right to your table!

@@ -5,6 +5,7 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerTrigger,
+  DrawerTitle,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -33,9 +34,9 @@ const CallWaiter = () => {
             className="w-[151px] h-[151px]"
           />
         </div>
-        <h2 className="text-2xl font-semibold capitalize">
+        <DrawerTitle className="text-2xl font-semibold capitalize">
           Call Waiter To Your Table!
-        </h2>
+        </DrawerTitle>
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
           Need assistance? Tap below to request a waiter to come to your table.
         </DrawerDescription>

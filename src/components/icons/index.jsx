@@ -285,3 +285,263 @@ export const Timer = ({ color = "#F86A2F" }) => {
     </svg>
   );
 };
+
+export const SadEmoji = ({
+  strokeColor = "#D7D7D7",
+  rectFill = "white",
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="39"
+      viewBox="0 0 40 39"
+      fill="none"
+      {...props}
+    >
+      <g clipPath="url(#clip0_1864_16925)">
+        <path
+          d="M20.0012 37.0336C29.6938 37.0336 37.5512 29.1762 37.5512 19.4836C37.5512 9.791 29.6938 1.93359 20.0012 1.93359C10.3086 1.93359 2.45117 9.791 2.45117 19.4836C2.45117 29.1762 10.3086 37.0336 20.0012 37.0336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M27.8012 26.6758C26.191 24.6403 23.2181 23.3867 20.0012 23.3867C16.7843 23.3867 13.8114 24.6402 12.2012 26.6757"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.86 11.6836C26.9369 11.6836 27.81 12.5566 27.81 13.6336C27.81 14.6336 27.0572 15.4578 26.0874 15.5705L25.86 15.5836C24.7745 15.5836 23.9014 14.7105 23.9014 13.6336C23.9014 12.6336 24.6542 11.8094 25.624 11.6967L25.86 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M14.1598 11.6836C15.2367 11.6836 16.1098 12.5566 16.1098 13.6336C16.1098 14.6336 15.357 15.4578 14.3872 15.5705L14.1598 15.5836C13.0742 15.5836 12.2012 14.7105 12.2012 13.6336C12.2012 12.6336 12.954 11.8094 13.9238 11.6967L14.1598 11.6836Z"
+          fill={strokeColor}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1864_16925">
+          <rect
+            width="39"
+            height="39"
+            fill={rectFill}
+            transform="translate(0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const MiniSadEmoji = ({
+  strokeColor = "#D7D7D7",
+  rectFill = "white",
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="39"
+      height="39"
+      viewBox="0 0 39 39"
+      fill="none"
+      {...props}
+    >
+      <g clipPath="url(#clip0_1864_16932)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M19.5012 37.0336C29.1938 37.0336 37.0512 29.1762 37.0512 19.4836C37.0512 9.791 29.1938 1.93359 19.5012 1.93359C9.80857 1.93359 1.95117 9.791 1.95117 19.4836C1.95117 29.1762 9.80857 37.0336 19.5012 37.0336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.36 11.6836C26.4369 11.6836 27.31 12.5566 27.31 13.6336C27.31 14.6336 26.5572 15.4578 25.5874 15.5705L25.36 15.5836C24.2745 15.5836 23.4014 14.7105 23.4014 13.6336C23.4014 12.6336 24.1542 11.8094 25.124 11.6967L25.36 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M13.6597 11.6836C14.7367 11.6836 15.6097 12.5566 15.6097 13.6336C15.6097 14.6336 14.8569 15.4578 13.8871 15.5705L13.6597 15.5836C12.5742 15.5836 11.7012 14.7105 11.7012 13.6336C11.7012 12.6336 12.4539 11.8094 13.4237 11.6967L13.6597 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M26.591 23.6211L12.4092 25.5711"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1864_16932">
+          <rect width="39" height="39" fill={rectFill} />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const NeutralEmoji = ({
+  strokeColor = "#D7D7D7",
+  rectFill = "white",
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="39"
+      viewBox="0 0 40 39"
+      fill="none"
+      {...props}
+    >
+      <g clipPath="url(#clip0_1864_16939)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M20.0012 37.0336C29.6938 37.0336 37.5512 29.1762 37.5512 19.4836C37.5512 9.791 29.6938 1.93359 20.0012 1.93359C10.3086 1.93359 2.45117 9.791 2.45117 19.4836C2.45117 29.1762 10.3086 37.0336 20.0012 37.0336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M14.1499 25.3398H25.8499"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.86 11.6836C26.937 11.6836 27.81 12.5566 27.81 13.6336C27.81 14.6336 27.0572 15.4578 26.0874 15.5705L25.86 15.5836C24.7745 15.5836 23.9014 14.7105 23.9014 13.6336C23.9014 12.6336 24.6542 11.8094 25.624 11.6967L25.86 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M14.1597 11.6836C15.2367 11.6836 16.1097 12.5566 16.1097 13.6336C16.1097 14.6336 15.357 15.4578 14.3871 15.5705L14.1597 15.5836C13.0742 15.5836 12.2012 14.7105 12.2012 13.6336C12.2012 12.6336 12.954 11.8094 13.9238 11.6967L14.1597 11.6836Z"
+          fill={strokeColor}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1864_16939">
+          <rect
+            width="39"
+            height="39"
+            fill={rectFill}
+            transform="translate(0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const SmileEmoji = ({
+  strokeColor = "#D7D7D7",
+  rectFill = "white",
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="39"
+      height="39"
+      viewBox="0 0 39 39"
+      fill="none"
+      {...props}
+    >
+      <g clipPath="url(#clip0_1864_16946)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M19.5012 37.0336C29.1938 37.0336 37.0512 29.1762 37.0512 19.4836C37.0512 9.791 29.1938 1.93359 19.5012 1.93359C9.80857 1.93359 1.95117 9.791 1.95117 19.4836C1.95117 29.1762 9.80857 37.0336 19.5012 37.0336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M26.5922 22.6523C25.174 25.016 22.3376 26.5523 19.5013 26.5523C16.6649 26.5523 13.8285 25.016 12.4104 22.6523"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.36 11.6836C26.437 11.6836 27.31 12.5566 27.31 13.6336C27.31 14.6336 26.5572 15.4578 25.5874 15.5705L25.36 15.5836C24.2745 15.5836 23.4014 14.7105 23.4014 13.6336C23.4014 12.6336 24.1542 11.8094 25.124 11.6967L25.36 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M13.6597 11.6836C14.7367 11.6836 15.6097 12.5566 15.6097 13.6336C15.6097 14.6336 14.857 15.4578 13.8871 15.5705L13.6597 15.5836C12.5742 15.5836 11.7012 14.7105 11.7012 13.6336C11.7012 12.6336 12.454 11.8094 13.4238 11.6967L13.6597 11.6836Z"
+          fill={strokeColor}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1864_16946">
+          <rect width="39" height="39" fill={rectFill} />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const HappyEmoji = ({
+  strokeColor = "#D7D7D7",
+  rectFill = "white",
+  ...props
+}) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="39"
+      viewBox="0 0 40 39"
+      fill="none"
+      {...props}
+    >
+      <g clipPath="url(#clip0_1864_16953)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M20.0012 37.0336C29.6938 37.0336 37.5512 29.1762 37.5512 19.4836C37.5512 9.791 29.6938 1.93359 20.0012 1.93359C10.3086 1.93359 2.45117 9.791 2.45117 19.4836C2.45117 29.1762 10.3086 37.0336 20.0012 37.0336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M10.2904 21.4336H29.5634C29.6149 21.4336 29.6662 21.439 29.7159 21.4497C30.0331 21.5177 28.3053 29.2336 19.9269 29.2336C11.5485 29.2336 9.96234 21.4336 10.2904 21.4336Z"
+          stroke={strokeColor}
+          strokeWidth="3.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M25.86 11.6836C26.9369 11.6836 27.81 12.5566 27.81 13.6336C27.81 14.6336 27.0572 15.4578 26.0874 15.5705L25.86 15.5836C24.7745 15.5836 23.9014 14.7105 23.9014 13.6336C23.9014 12.6336 24.6542 11.8094 25.624 11.6967L25.86 11.6836Z"
+          fill={strokeColor}
+        />
+        <path
+          d="M14.1597 11.6836C15.2367 11.6836 16.1097 12.5566 16.1097 13.6336C16.1097 14.6336 15.357 15.4578 14.3871 15.5705L14.1597 15.5836C13.0742 15.5836 12.2012 14.7105 12.2012 13.6336C12.2012 12.6336 12.954 11.8094 13.9238 11.6967L14.1597 11.6836Z"
+          fill={strokeColor}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1864_16953">
+          <rect
+            width="39"
+            height="39"
+            fill={rectFill}
+            transform="translate(0.5)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
