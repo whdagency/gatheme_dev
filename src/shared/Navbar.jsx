@@ -101,7 +101,7 @@ const NavItem = ({ href, label, ...rest }) => {
       <>
         {getCorrectIcon(isActive)}
         <span
-          className={`text-xs mt-2`}
+          className={`text-[12.576px] font-medium mt-2 leading-[16.394px]`}
           style={{
             color: isActive ? "#F86A2E" : "#A7AEC1",
           }}

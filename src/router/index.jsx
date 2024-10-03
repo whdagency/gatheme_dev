@@ -11,6 +11,7 @@ import ProductDetails from "../product-details";
 import Feedback from "../feedback";
 import Info from "../info";
 import TrackingOrder from "../tracking-order";
+import ExpiredSubscriptionCard from "../renew/ExpiredSubscriptionCard";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ export const router = createBrowserRouter(
         <Route path="feedback" element={<Feedback />} />
         <Route path="info" element={<Info />} />
       </Route>
+      <Route path="*" element={<ExpiredSubscriptionCard />} />
     </Route>
   )
 );
