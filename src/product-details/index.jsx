@@ -1,7 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useMenu } from "../hooks/useMenu";
+import NotFound from "../shared/NotFound";
+import ProductDetailsHeader from "./ProductDetailsHeader";
+import ProductDetailsContent from "./ProductDetailsContent";
 
 const ProductDetails = () => {
-  return <div>Product Details</div>;
+  const { products } = useMenu();
+  const params = useParams();
+  const [currentSlide, setCurrentSlide] = useState(1);
+  const [api, setApi] = useState();
+
+  const product = products.filter(
+    (product) => product.id === parseInt(params.productId)
+  )[0];
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrentSlide(api.selectedScrollSnap() + 1);
+
+    api.on("select", () => {
+      setCurrentSlide(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
+  if (!product) {
+    return <NotFound />;
+  }
+
+  const { video, image1, image2, image3, image4 } = product;
+
+  const mediaItems = [
+    ...(video ? [video] : []),
+    ...(image1 ? [image1] : []),
+    ...(image2 ? [image2] : []),
+    ...(image3 ? [image3] : []),
+    ...(image4 ? [image4] : []),
+  ];
+
+  const totalSlides = mediaItems.length;
+
+  return (
+    <div className="pb-32">
+      <ProductDetailsHeader
+        mediaItems={mediaItems}
+        currentSlide={currentSlide}
+        totalSlides={totalSlides}
+        setApi={setApi}
+      />
+      <ProductDetailsContent
+        product={product}
+        productId={parseInt(params.productId)}
+      />
+    </div>
+  );
 };
 
 export default ProductDetails;

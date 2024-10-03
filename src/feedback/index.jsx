@@ -6,7 +6,7 @@ import {
   SadEmoji,
   SmileEmoji,
 } from "../components/icons";
-import FeedbackSuccess from "../modals/FeedbackSuccess";
+import FeedbackSuccess from "../modals/feedback-success";
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState("");

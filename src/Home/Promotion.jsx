@@ -29,6 +29,8 @@ const Promotion = () => {
     });
   }, [restos?.id]);
 
+  console.log({ promos });
+
   return (
     <div
       className={`px-4 mt-4 ${
