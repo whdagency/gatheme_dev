@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import { Outlet, useLocation } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
+import { Toaster } from "sonner";
 
 const Layout = () => {
   const pathname = useLocation().pathname;
@@ -17,6 +18,7 @@ const Layout = () => {
     <section className="flex flex-col -mt-3 max-w-md min-h-screen mx-auto shadow rounded-[20px_20px_40px_40px] relative overflow-x-hidden">
       <Outlet />
       {showNav && <Navbar hideCallToActionBtn={!isIndexPage} />}
+      <Toaster position="top-center" richColors />
     </section>
   );
 };

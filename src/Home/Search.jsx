@@ -35,7 +35,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="Lets find the food you like"
-          className="flex-1 ml-2 text-sm bg-transparent outline-none"
+          className="flex-1 ml-2 text-sm bg-transparent outline-none placeholder:text-[#7A7A7A]"
           onChange={(e) => {
             if (e.target.value === "") {
               setSearchParams((prev) => {

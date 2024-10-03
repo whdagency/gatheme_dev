@@ -60,6 +60,7 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "rsuite": "^5.65.1",
+    "sonner": "^1.5.0",
     "styled-components": "^6.1.12",
     "tailwind-merge": "^2.2.2",
     "tailwind-scrollbar-hide": "^1.1.7",

@@ -14,7 +14,7 @@ const Categories = () => {
             image={
               category?.name !== "All"
                 ? `${STORAGE_URL}/${category?.image}`
-                : null
+                : "/assets/all-products.png"
             }
             label={category?.name}
             active={
@@ -50,7 +50,7 @@ const CategoryButton = ({ image, label, active = false }) => {
       onClick={() => handleCategoryClick(label)}
       className={`flex w-auto items-center space-x-2 py-2 rounded-[20px] whitespace-nowrap ${
         label === "All" ? "px-10" : "px-4"
-      } ${active ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700"}`}
+      } ${active ? "bg-orange-500 text-white" : "bg-[#E2E4EA] text-black"}`}
     >
       {image && (
         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">
