@@ -144,7 +144,10 @@ const Cart = () => {
 
         <div className="px-7 flex items-center justify-between mt-5 mb-6">
           <p className="text-sm font-semibold text-black">
-            Table : {table_id?.padStart(3, "0")}
+            Table :{" "}
+            {isNaN(tableName)
+              ? tableName
+              : tableName?.padStart(3, "0") || table_id?.padStart(3, "0")}
           </p>
 
           <button

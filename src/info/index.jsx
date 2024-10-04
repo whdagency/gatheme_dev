@@ -71,8 +71,6 @@ const Info = () => {
         : { ...item, link: `https://www.${item.link}` }
     );
 
-  console.log({ socialMediaLinks });
-
   return (
     <div className="pb-28">
       <div className="relative -mt-3">
@@ -81,7 +79,7 @@ const Info = () => {
           // src="/assets/banner.png"
           src={`${STORAGE_URL}/${resInfo.cover_image}`}
           alt={restos?.description || "Restaurant Banner"}
-          className="rounded-[20px_20px_24px_24px] object-cover w-full h-[223px]"
+          className="rounded-[20px_20px_24px_24px] object-cover w-full h-[283px]"
           onError={(e) => (e.target.src = "/assets/banner.png")}
         />
       </div>
@@ -97,21 +95,24 @@ const Info = () => {
         </p>
 
         <div className="flex items-center gap-4 mt-3">
-          <div className="flex items-center space-x-2">
-            <TelephoneIcon />
-            <span className="text-[#181C2E] text-sm font-medium">
-              {resInfo?.phone?.includes("+")
-                ? resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")
-                : `+${resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")}` ||
-                  "N/A"}
-            </span>
-          </div>
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center space-x-2">
+              <TelephoneIcon />
+              <span className="text-[#181C2E] text-sm font-medium">
+                {resInfo?.phone?.includes("+")
+                  ? resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")
+                  : `+${resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")}` ||
+                    "N/A"}
+              </span>
+            </div>
 
-          <div className="flex items-center space-x-2">
-            <Timer />
-            <span className="text-[#181C2E] text-sm font-medium">
-              10AM – 11PM
-            </span>
+            {/* Timer*/}
+            <div className="flex items-center gap-2 mx-auto">
+              <Timer />
+              <span className="text-[#181C2E] text-sm font-medium">
+                10AM – 11PM
+              </span>
+            </div>
           </div>
         </div>
 
