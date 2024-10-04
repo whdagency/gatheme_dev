@@ -7,8 +7,10 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useMenu } from "../hooks/useMenu";
 
 const NotificationModal = ({ open, setOpen, title = "", description = "" }) => {
+  const { customization } = useMenu();
   const handleClose = () => {
     setOpen(false);
   };
@@ -28,6 +30,9 @@ const NotificationModal = ({ open, setOpen, title = "", description = "" }) => {
           <Button
             onClick={handleClose}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+            }}
           >
             Close
           </Button>

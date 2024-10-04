@@ -14,9 +14,10 @@ import { IoCheckmarkOutline, IoCopyOutline } from "react-icons/io5";
 import { toast } from "sonner";
 import { TelephoneIcon, Timer } from "../components/icons";
 import AnimatedLayout from "../shared/AnimateLayout";
+import { hexToRgba } from "../lib/utils";
 
 const Info = () => {
-  const { restos, resInfo } = useMenu();
+  const { restos, resInfo, customization } = useMenu();
   const wifiPassword = resInfo?.wifi_pass || "N/A";
   const restoName = restos?.name || "Restaurant Name";
   const [copied, setCopied] = useState(false);
@@ -88,19 +89,35 @@ const Info = () => {
 
         {/* Info Section */}
         <div className="p-6">
-          <h2 className="text-2xl font-semibold text-gray-900 capitalize">
+          <h2
+            className="text-2xl font-semibold text-gray-900 capitalize"
+            style={{
+              color: customization?.selectedTextColor,
+            }}
+          >
             {restoName}
           </h2>
 
-          <p className="mt-2 text-sm text-[#919191]">
+          <p
+            className="mt-2 text-sm text-[#919191]"
+            style={{
+              color: customization?.selectedSecondaryColor,
+              opacity: 0.7,
+            }}
+          >
             {resInfo?.address || "N/A"}
           </p>
 
           <div className="flex items-center gap-4 mt-3">
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center space-x-2">
-                <TelephoneIcon />
-                <span className="text-[#181C2E] text-sm font-medium">
+                <TelephoneIcon fill={customization?.selectedPrimaryColor} />
+                <span
+                  className="text-[#181C2E] text-sm font-medium"
+                  style={{
+                    color: customization?.selectedTextColor,
+                  }}
+                >
                   {resInfo?.phone?.includes("+")
                     ? resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")
                     : `+${resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")}` ||
@@ -110,22 +127,43 @@ const Info = () => {
 
               {/* Timer*/}
               <div className="flex items-center gap-2 mx-auto">
-                <Timer />
-                <span className="text-[#181C2E] text-sm font-medium">
+                <Timer fill={customization?.selectedPrimaryColor} />
+                <span
+                  className="text-[#181C2E] text-sm font-medium"
+                  style={{
+                    color: customization?.selectedTextColor,
+                  }}
+                >
                   10AM – 11PM
                 </span>
               </div>
             </div>
           </div>
 
-          <p className="mt-4 text-[#A0A5BA] pb-4 pt-2">
+          <p
+            className="mt-4 text-[#A0A5BA] pb-4 pt-2"
+            style={{
+              color: customization?.selectedSecondaryColor,
+              opacity: 0.7,
+            }}
+          >
             {resInfo?.description || "N/A"}
           </p>
 
-          <div className="p-6 mt-4 bg-[#FFF6E9] rounded-lg">
+          <div
+            className="p-6 mt-4 bg-[#FFF6E9] rounded-lg"
+            style={{
+              background: hexToRgba(customization?.selectedPrimaryColor, 0.2),
+            }}
+          >
             <div className="flex items-center gap-3">
-              <FaWifi className="text-black" size={30} />
-              <span className="font-semibold text-black text-[17.458px]">
+              <FaWifi size={30} color={customization?.selectedTextColor} />
+              <span
+                className="font-semibold text-black text-[17.458px]"
+                style={{
+                  color: customization?.selectedTextColor,
+                }}
+              >
                 WiFi Password
               </span>
             </div>
@@ -134,14 +172,25 @@ const Info = () => {
               onClick={handleCopyPassword}
               className="flex items-center justify-between gap-3 mt-5 cursor-pointer"
             >
-              <span className="text-base font-medium text-black">
+              <span
+                className="text-base font-medium text-black"
+                style={{
+                  color: customization?.selectedTextColor,
+                }}
+              >
                 {wifiPassword}
               </span>
               <span>
                 {copied ? (
-                  <IoCheckmarkOutline size={20} color={"black"} />
+                  <IoCheckmarkOutline
+                    size={20}
+                    color={customization?.selectedTextColor}
+                  />
                 ) : (
-                  <IoCopyOutline size={20} color={"black"} />
+                  <IoCopyOutline
+                    size={20}
+                    color={customization?.selectedTextColor}
+                  />
                 )}
               </span>
             </p>
@@ -150,7 +199,12 @@ const Info = () => {
           {/* Social Icons */}
           {socialMediaLinks.length > 0 && (
             <div className={`flex flex-col gap-4 mt-7`}>
-              <h4 className="text-lg font-semibold text-black">
+              <h4
+                className="text-lg font-semibold text-black"
+                style={{
+                  color: customization?.selectedTextColor,
+                }}
+              >
                 {"Follow Us"}:
               </h4>
 
@@ -162,14 +216,20 @@ const Info = () => {
                     target="_blank"
                     rel="noreferrer"
                     style={{
-                      background: "#FFF6E9",
+                      background: hexToRgba(
+                        customization?.selectedPrimaryColor,
+                        0.2
+                      ),
                       boxShadow: "0px 4px 4.1px 0px rgba(0, 0, 0, 0.10)",
                       borderRadius: "14.739px",
                       padding: "13.704px 13.446px",
                     }}
                     className="flex items-center justify-center"
                   >
-                    <rest.icon size={30} color={"#F86A2F"} />
+                    <rest.icon
+                      size={30}
+                      color={customization?.selectedPrimaryColor}
+                    />
                   </Link>
                 ))}
               </div>

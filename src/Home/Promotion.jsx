@@ -6,7 +6,7 @@ import { STORAGE_URL } from "../lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Promotion = () => {
-  const { restos, resInfo, searchProductTerm, loading } = useMenu();
+  const { restos, resInfo, searchProductTerm, customization } = useMenu();
   const [promos, setPromos] = useState([]);
   const [seeAllPromos, setSeeAllPromos] = useState(false);
 
@@ -38,10 +38,20 @@ const Promotion = () => {
       }`}
     >
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-bold">Promotion 🔥</h2>
+        <h2
+          className="text-lg font-bold"
+          style={{
+            color: customization?.selectedTextColor,
+          }}
+        >
+          Promotion 🔥
+        </h2>
         <button
           className="text-sm text-orange-500"
           onClick={() => setSeeAllPromos((prev) => !prev)}
+          style={{
+            color: customization?.selectedPrimaryColor,
+          }}
         >
           {seeAllPromos ? "See Less" : "See All"}
         </button>
@@ -56,6 +66,7 @@ const Promotion = () => {
             price={parseFloat(promo?.price)}
             originalPrice={parseFloat(promo?.price) * 1.2}
             currency={resInfo?.currency || "MAD"}
+            customization={customization}
           />
         ))}
       </div>
@@ -71,6 +82,7 @@ const PromotionCard = ({
   price,
   originalPrice,
   currency = "MAD",
+  customization,
 }) => {
   return (
     <div className="relative flex-shrink-0 w-[194px]">
@@ -84,7 +96,7 @@ const PromotionCard = ({
           style={{
             border: "1px solid rgba(64, 53, 53, 0.01)",
             background: "rgba(64, 53, 53, 0.51)",
-            backdropFilter: "blur(5.099999904632568px)",
+            backdropFilter: "blur(5.099px)",
           }}
           className="rounded-[15px] p-2 shrink-0"
         >
@@ -92,15 +104,27 @@ const PromotionCard = ({
             <h3 className="line-clamp-2 text-xs font-semibold text-white capitalize">
               {title}
             </h3>
-            <button className="w-6 h-6 p-1 flex items-center justify-center text-white bg-[#F86A2E] rounded-[5.714px]">
-              <Plus size={15} />
+            <button
+              className="w-6 h-6 p-1 flex items-center justify-center text-white bg-[#F86A2E] rounded-[5.714px]"
+              style={{
+                background: customization?.selectedPrimaryColor,
+              }}
+            >
+              <Plus size={15} color={customization?.selectedIconColor} />
             </button>
           </div>
 
           <div className="flex items-center mt-2">
             <span className="font-semibold text-[13px] text-white">
               {price.toFixed(2)}{" "}
-              <span className="text-xs text-orange-500">{currency}</span>
+              <span
+                className="text-xs text-orange-500"
+                style={{
+                  color: customization?.selectedPrimaryColor,
+                }}
+              >
+                {currency}
+              </span>
             </span>
             <span className="ml-2 text-white text-[13px] font-medium opacity-60 line-through">
               {originalPrice.toFixed(2)}{" "}

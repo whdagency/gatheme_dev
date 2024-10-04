@@ -19,7 +19,7 @@ import CallWaiter from "../modals/call-waiter";
 import RequestBill from "../modals/request-bill";
 
 const Navbar = ({ hideCallToActionBtn }) => {
-  const { restoSlug, table_id } = useMenu();
+  const { restoSlug, table_id, customization } = useMenu();
 
   const navLinks = [
     {
@@ -53,11 +53,13 @@ const Navbar = ({ hideCallToActionBtn }) => {
       {/* Navigation */}
       <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between max-w-md px-4 py-3 mx-auto bg-white border-t">
         {navLinks.map((link) => (
-          <NavItem key={link.label} {...link} />
+          <NavItem key={link.label} {...link} customization={customization} />
         ))}
 
         {/* Call to Action Button as part of the navigation */}
-        {!hideCallToActionBtn && <ToggleNavActionButton />}
+        {!hideCallToActionBtn && (
+          <ToggleNavActionButton customization={customization} />
+        )}
 
         {/* Border bottom */}
         {/* <div
@@ -71,7 +73,7 @@ const Navbar = ({ hideCallToActionBtn }) => {
 
 export default Navbar;
 
-const NavItem = ({ href, label, ...rest }) => {
+const NavItem = ({ href, label, customization, ...rest }) => {
   const name = rest.name;
   const location = useLocation();
 
@@ -85,15 +87,31 @@ const NavItem = ({ href, label, ...rest }) => {
   const getCorrectIcon = (isActive) => {
     switch (name) {
       case "home":
-        return isActive ? <HomeActiveIcon /> : <HomeInactiveIcon />;
+        return isActive ? (
+          <HomeActiveIcon fill={customization?.selectedPrimaryColor} />
+        ) : (
+          <HomeInactiveIcon fill={customization?.selectedSecondaryColor} />
+        );
       case "cart":
-        return isActive ? <CartActiveIcon /> : <CartInactiveIcon />;
+        return isActive ? (
+          <CartActiveIcon fill={customization?.selectedPrimaryColor} />
+        ) : (
+          <CartInactiveIcon fill={customization?.selectedSecondaryColor} />
+        );
       case "feedback":
-        return isActive ? <FeedbackActiveIcon /> : <FeedbackInactiveIcon />;
+        return isActive ? (
+          <FeedbackActiveIcon fill={customization?.selectedPrimaryColor} />
+        ) : (
+          <FeedbackInactiveIcon fill={customization?.selectedSecondaryColor} />
+        );
       case "info":
-        return isActive ? <InfoActiveIcon /> : <InfoInactiveIcon />;
+        return isActive ? (
+          <InfoActiveIcon fill={customization?.selectedPrimaryColor} />
+        ) : (
+          <InfoInactiveIcon fill={customization?.selectedSecondaryColor} />
+        );
       default:
-        return <HomeActiveIcon />;
+        return <HomeActiveIcon fill={customization?.selectedPrimaryColor} />;
     }
   };
 
@@ -101,7 +119,7 @@ const NavItem = ({ href, label, ...rest }) => {
     <NavLink to={href} className="flex flex-col items-center">
       <>
         {isProductsPage && name === "home" ? (
-          <HomeActiveIcon />
+          <HomeActiveIcon fill={customization?.selectedPrimaryColor} />
         ) : (
           getCorrectIcon(isActive)
         )}
@@ -110,10 +128,10 @@ const NavItem = ({ href, label, ...rest }) => {
           style={{
             color:
               isProductsPage && name === "home"
-                ? "#F86A2E"
+                ? customization?.selectedPrimaryColor
                 : isActive
-                ? "#F86A2E"
-                : "#A7AEC1",
+                ? customization?.selectedPrimaryColor
+                : customization?.selectedSecondaryColor,
           }}
         >
           {isProductsPage ? "Home" : label}
@@ -123,7 +141,7 @@ const NavItem = ({ href, label, ...rest }) => {
   );
 };
 
-const ToggleNavActionButton = () => {
+const ToggleNavActionButton = ({ customization }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
@@ -144,12 +162,12 @@ const ToggleNavActionButton = () => {
         onClick={toggleExpand}
         animate={{ rotate: isExpanded ? 90 : 0 }}
         transition={{ duration: 0.5, type: "tween" }}
-        style={{ background: "#F86A2E" }}
+        style={{ background: customization?.selectedPrimaryColor }}
       >
         {isExpanded ? (
-          <X size={30} color={"white"} />
+          <X size={30} color={customization?.selectedIconColor} />
         ) : (
-          <Plus size={30} color={"white"} />
+          <Plus size={30} color={customization?.selectedIconColor} />
         )}
       </motion.button>
     </div>

@@ -9,10 +9,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
+import { hexToRgba } from "../lib/utils";
 
 const AddProductToCartSuccess = ({ open, setOpen }) => {
   const navigate = useNavigate();
-  const { restoSlug, table_id } = useMenu();
+  const { restoSlug, table_id, customization } = useMenu();
 
   const handleGoHome = () => {
     setOpen(false);
@@ -47,6 +48,9 @@ const AddProductToCartSuccess = ({ open, setOpen }) => {
           <Button
             onClick={handeGoToCart}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full text-center w-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+            }}
           >
             Go to Cart
           </Button>
@@ -54,6 +58,10 @@ const AddProductToCartSuccess = ({ open, setOpen }) => {
           <Button
             onClick={handleGoHome}
             className="hover:bg-[#FCEEEC] bg-[#FCEEEC] px-10 py-6 text-[#F86A2E] rounded-full text-center w-full"
+            style={{
+              background: hexToRgba(customization?.selectedPrimaryColor, 0.3),
+              color: customization?.selectedPrimaryColor,
+            }}
           >
             Continue Shopping
           </Button>

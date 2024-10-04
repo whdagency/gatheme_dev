@@ -9,11 +9,14 @@ import {
 import FeedbackSuccess from "../modals/feedback-success";
 import { toast } from "sonner";
 import AnimatedLayout from "../shared/AnimateLayout";
+import { useMenu } from "../hooks/useMenu";
+import { hexToRgba } from "../lib/utils";
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const { customization } = useMenu();
 
   // Emojis and their states
   const emojis = [
@@ -29,7 +32,12 @@ const Feedback = () => {
   };
 
   const handleEmojiSelect = (id) => {
-    setSelectedEmoji(id);
+    setSelectedEmoji((prev) => {
+      if (prev === id) {
+        return null;
+      }
+      return id;
+    });
   };
 
   const handleSubmit = (e) => {
@@ -55,7 +63,14 @@ const Feedback = () => {
       <div className="pb-28 flex flex-col items-center justify-center mt-10">
         {/* Header */}
         <div className="md:px-6 text-center">
-          <h2 className="text-xl font-semibold text-black">Feedback</h2>
+          <h2
+            className="text-xl font-semibold text-black"
+            style={{
+              color: customization?.selectedTextColor,
+            }}
+          >
+            Feedback
+          </h2>
         </div>
 
         {/* Feedback Image */}
@@ -75,11 +90,30 @@ const Feedback = () => {
               boxShadow: "0px 4px 15.1px 0px rgba(0, 0, 0, 0.15)",
             }}
           >
-            <h3 className="text-2xl font-semibold text-center text-gray-900">
-              Give us your <span className="text-[#F86A2E]">Feedback! 😊</span>
+            <h3
+              className="text-2xl font-semibold text-center text-gray-900"
+              style={{
+                color: customization?.selectedTextColor,
+              }}
+            >
+              Give us your{" "}
+              <span
+                className="text-[#F86A2E]"
+                style={{
+                  color: customization?.selectedPrimaryColor,
+                }}
+              >
+                Feedback! 😊
+              </span>
             </h3>
 
-            <p className="mt-2 text-center text-base text-[#C2C2C2] font-medium">
+            <p
+              className="mt-2 text-center text-base text-[#C2C2C2] font-medium"
+              style={{
+                color: customization?.selectedSecondaryColor,
+                opacity: 0.6,
+              }}
+            >
               Help us improve your experience by sharing your thoughts.
             </p>
 
@@ -89,14 +123,17 @@ const Feedback = () => {
                 {emojis.map((emoji) => (
                   <span
                     key={emoji.id}
-                    className={`text-3xl cursor-pointer ${
-                      selectedEmoji === emoji.id ? emoji.color : "text-gray-400"
-                    }`}
+                    className={`text-3xl cursor-pointer`}
                     onClick={() => handleEmojiSelect(emoji.id)}
                   >
                     <emoji.symbol
                       strokeColor={
-                        selectedEmoji === emoji.id ? "#F86A2E" : "#D7D7D7"
+                        selectedEmoji === emoji.id
+                          ? customization?.selectedPrimaryColor
+                          : hexToRgba(
+                              customization?.selectedSecondaryColor,
+                              0.4
+                            )
                       }
                       className={`${
                         selectedEmoji === emoji.id ? "scale-110" : "scale-100"
@@ -118,7 +155,13 @@ const Feedback = () => {
           </div>
 
           {/* Send Button */}
-          <button className="hover:bg-orange-500 mt-7 w-full py-4 font-semibold text-white bg-[#F86A2E] rounded-full">
+          <button
+            className="hover:bg-orange-500 mt-7 w-full py-4 font-semibold text-white bg-[#F86A2E] rounded-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+              color: customization?.selectedIconColor,
+            }}
+          >
             Send Feedback
           </button>
         </form>

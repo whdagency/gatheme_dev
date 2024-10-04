@@ -9,9 +9,10 @@ import OrderSuccessFeddback from "../modals/order-success-feedback";
 import OrderCancelled from "../modals/order-cancelled";
 import { useMenu } from "../hooks/useMenu";
 import AnimatedLayout from "../shared/AnimateLayout";
+import { hexToRgba } from "../lib/utils";
 
 const TrackingOrder = () => {
-  const { setOrderID, orderID } = useMenu();
+  const { setOrderID, orderID, customization } = useMenu();
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
   const [canceled, setCanceled] = useState(false);
@@ -76,7 +77,7 @@ const TrackingOrder = () => {
             setShowFeedbackModal(false);
             localStorage.setItem("orderID", null);
             setOrderID(null);
-          }, 1000);
+          }, 2000);
         }
       }
     } catch (err) {
@@ -138,7 +139,12 @@ const TrackingOrder = () => {
         )}
 
         {orderID && (
-          <h2 className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black">
+          <h2
+            className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+            style={{
+              color: customization?.selectedTextColor,
+            }}
+          >
             {!showFeedbackModal ? "Tracking Details" : "Order Feedack"}
           </h2>
         )}
@@ -146,7 +152,12 @@ const TrackingOrder = () => {
         {orderID && (
           <div>
             <div className="pb-48 my-4">
-              <h3 className="px-7 md:text-lg pb-2 text-base font-semibold border-b">
+              <h3
+                className="px-7 md:text-lg pb-2 text-base font-semibold border-b"
+                style={{
+                  color: customization?.selectedTextColor,
+                }}
+              >
                 Order: #{orders.order.id}
               </h3>
 
@@ -159,11 +170,21 @@ const TrackingOrder = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col items-start justify-between">
-                          <h3 className="text-base font-semibold text-black capitalize">
+                          <h3
+                            className="text-base font-semibold text-black capitalize"
+                            style={{
+                              color: customization?.selectedTextColor,
+                            }}
+                          >
                             {title}
                           </h3>
 
-                          <span className="text-sm font-medium text-[#9F9F9F]">
+                          <span
+                            className="text-sm font-medium text-[#9F9F9F]"
+                            style={{
+                              color: customization?.selectedSecondaryColor,
+                            }}
+                          >
                             x{quantity}
                           </span>
                         </div>
@@ -183,7 +204,13 @@ const TrackingOrder = () => {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <h3 className="text-base font-medium text-[#B3B3B3] capitalize">
+                        <h3
+                          className="text-base font-medium text-[#B3B3B3] capitalize"
+                          style={{
+                            color: customization?.selectedSecondaryColor,
+                            opacity: 0.7,
+                          }}
+                        >
                           {"Rating"}
                         </h3>
 
@@ -207,6 +234,7 @@ const TrackingOrder = () => {
                   currentStep={currentStep}
                   complete={complete}
                   canceled={canceled}
+                  customization={customization}
                 />
               </div>
             </div>
@@ -235,6 +263,7 @@ const OrderTrackingTimeline = ({
   currentStep,
   complete,
   canceled,
+  customization,
 }) => {
   return (
     <div className="max-w-md p-6 mx-auto">
@@ -251,20 +280,44 @@ const OrderTrackingTimeline = ({
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
+                style={{
+                  background:
+                    step.step <= currentStep
+                      ? customization?.selectedPrimaryColor
+                      : customization?.selectedBgColor,
+                  borderColor:
+                    step.step <= currentStep
+                      ? customization?.selectedPrimaryColor
+                      : hexToRgba(customization?.selectedSecondaryColor, 0.3),
+                }}
               >
                 {step.step === currentStep &&
                   (complete ? (
-                    <CheckIcon size={20} color={"#FFFFFF"} />
+                    <CheckIcon
+                      size={20}
+                      color={customization?.selectedIconColor ?? "#FFFFFF"}
+                    />
                   ) : canceled ? (
-                    <XIcon size={20} color={"#FFFFFF"} />
+                    <XIcon
+                      size={20}
+                      color={customization?.selectedIconColor ?? "#FFFFFF"}
+                    />
                   ) : (
                     <OrderSpinnerIcon />
                   ))}
                 {step.step < currentStep && (
-                  <CheckIcon size={20} color={"#FFFFFF"} />
+                  <CheckIcon
+                    size={20}
+                    color={customization?.selectedIconColor ?? "#FFFFFF"}
+                  />
                 )}
                 {step.step > currentStep && (
-                  <span className="font-bold text-center text-[#D6D6D6]">
+                  <span
+                    className="font-bold text-center text-[#D6D6D6]"
+                    style={{
+                      color: customization?.selectedSecondaryColor,
+                    }}
+                  >
                     {step.step}
                   </span>
                 )}
@@ -274,7 +327,15 @@ const OrderTrackingTimeline = ({
                   className={`absolute w-0.5 ${
                     step.step < currentStep ? "bg-[#F86A2E]" : "bg-[#E5E5E5]"
                   } mt-1`}
-                  style={{ top: "2.5rem", height: "1.5rem", left: "20px" }}
+                  style={{
+                    top: "2.5rem",
+                    height: "1.5rem",
+                    left: "20px",
+                    background:
+                      step.step < currentStep
+                        ? customization?.selectedPrimaryColor
+                        : hexToRgba(customization?.selectedSecondaryColor, 0.3),
+                  }}
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: 1 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -282,13 +343,23 @@ const OrderTrackingTimeline = ({
               )}
             </div>
             <div className="flex flex-col pt-1 ml-4">
-              <span className="mb-1 text-[10px] font-bold text-[#B5B5B5]">
+              <span
+                className="mb-1 text-[10px] font-bold text-[#B5B5B5]"
+                style={{
+                  color: customization?.selectedSecondaryColor,
+                }}
+              >
                 STEP {step.step}
               </span>
               <span
                 className={`text-xs font-semibold ${
                   canceled ? "line-through text-red-500" : ""
                 }`}
+                style={{
+                  color: canceled
+                    ? "#ef4444"
+                    : customization?.selectedTextColor,
+                }}
               >
                 {step.label}
               </span>

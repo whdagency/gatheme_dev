@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useMenu } from "../hooks/useMenu";
 
 const NotFound = () => {
   const navigate = useNavigate();
   const slug = window.location.pathname.split("/")[2] || "";
+  const { customization } = useMenu();
 
   const handleGoHome = () => {
     navigate(`/menu/${slug}`);
@@ -16,6 +18,9 @@ const NotFound = () => {
       <button
         onClick={handleGoHome}
         className="hover:bg-orange-600 px-6 py-3 text-white transition-colors bg-orange-500 rounded-md"
+        style={{
+          background: customization?.selectedPrimaryColor,
+        }}
       >
         Go Back Home
       </button>

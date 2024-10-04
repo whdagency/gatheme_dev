@@ -12,7 +12,7 @@ import { useMenu } from "../hooks/useMenu";
 
 const FeedbackSuccess = ({ open, setOpen }) => {
   const navigate = useNavigate();
-  const { restoSlug, table_id } = useMenu();
+  const { restoSlug, table_id, customization } = useMenu();
 
   const handleSubmit = () => {
     setOpen(false);
@@ -42,6 +42,9 @@ const FeedbackSuccess = ({ open, setOpen }) => {
           <Button
             onClick={handleSubmit}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+            }}
           >
             Back to Home
           </Button>

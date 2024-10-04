@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useMenu } from "../hooks/useMenu";
 
 const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
+  const { customization } = useMenu();
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
@@ -34,6 +36,9 @@ const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
             disabled={orderPending}
             onClick={submitOrder}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full text-center flex items-center gap-2"
+            style={{
+              background: customization?.selectedPrimaryColor,
+            }}
           >
             {orderPending && (
               <ClipLoader size={20} loading={orderPending} color={"#ffffff"} />

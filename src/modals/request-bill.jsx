@@ -16,7 +16,7 @@ import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const RequestBill = () => {
-  const { table_id, restos } = useMenu();
+  const { table_id, restos, customization } = useMenu();
   const [isBillRequested, setIsBillRequested] = useState(false);
   const [pending, setPending] = useState(false);
 
@@ -66,7 +66,7 @@ const RequestBill = () => {
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.2 }}
         >
-          <BillIcon />
+          <BillIcon fill={customization?.selectedPrimaryColor} />
         </motion.button>
       </DrawerTrigger>
 
@@ -91,6 +91,7 @@ const RequestBill = () => {
             onClick={handleCallWaiter}
             disabled={pending}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full flex items-center gap-2"
+            style={{ background: customization?.selectedPrimaryColor }}
           >
             {pending && (
               <ClipLoader size={20} loading={pending} color={"#ffffff"} />

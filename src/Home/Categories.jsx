@@ -2,6 +2,7 @@ import React from "react";
 import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
 import { useSearchParams } from "react-router-dom";
+import { hexToRgba } from "../lib/utils";
 
 const Categories = () => {
   const { categories, selectedCat } = useMenu();
@@ -31,7 +32,7 @@ export default Categories;
 
 const CategoryButton = ({ image, label, active = false }) => {
   const [_, setSearchParams] = useSearchParams();
-  const { setSelectedCat } = useMenu();
+  const { setSelectedCat, customization } = useMenu();
 
   const handleCategoryClick = (category) => {
     setSelectedCat(category);
@@ -51,6 +52,11 @@ const CategoryButton = ({ image, label, active = false }) => {
       className={`flex w-auto items-center space-x-2 py-2 rounded-[20px] whitespace-nowrap ${
         label === "All" ? "px-10" : "px-4"
       } ${active ? "bg-orange-500 text-white" : "bg-[#E2E4EA] text-black"}`}
+      style={{
+        background: active
+          ? customization?.selectedPrimaryColor
+          : hexToRgba(customization?.selectedSecondaryColor, 0.3),
+      }}
     >
       {image && (
         <div className="flex items-center justify-center w-8 h-8 bg-white rounded-full">

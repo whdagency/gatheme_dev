@@ -139,7 +139,12 @@ const CartItemSuggestion = ({
               </p>
               <h3 className="flex items-center gap-1 mb-1 text-base font-semibold text-black">
                 {item.price}
-                <span className="text-[#F86A2E]">
+                <span
+                  className="text-[#F86A2E]"
+                  style={{
+                    color: customization?.selectedPrimaryColor,
+                  }}
+                >
                   {resInfo.currency || "MAD"}
                 </span>
               </h3>

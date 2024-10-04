@@ -12,7 +12,7 @@ import { useMenu } from "../hooks/useMenu";
 
 const OrderCancelled = ({ open, setOpen }) => {
   const navigate = useNavigate();
-  const { restoSlug, table_id } = useMenu();
+  const { restoSlug, table_id, customization } = useMenu();
 
   const handleNavigateToMenu = () => {
     setOpen(false);
@@ -47,6 +47,9 @@ const OrderCancelled = ({ open, setOpen }) => {
           <Button
             onClick={handleNavigateToMenu}
             className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+            }}
           >
             Back to Home
           </Button>

@@ -1,21 +1,20 @@
-import { Star, X, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import React, { useState, useEffect, useCallback } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
-import { STORAGE_URL } from "../lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Timer } from "../components/icons";
 import AnimatedLayout from "../shared/AnimateLayout";
+import ProductCard from "./ProductCard";
 
 const Products = () => {
   const {
     products,
     resInfo,
-    selectedCat,
     message,
     loading,
     searchProductTerm,
     setSearchProductTerm,
+    customization,
   } = useMenu();
   const pathname = useLocation().pathname;
   const [visibleProducts, setVisibleProducts] = useState(10);
@@ -83,22 +82,30 @@ const Products = () => {
           <button
             onClick={clearSearch}
             className="flex top-11 right-3 absolute z-50 w-fit items-center justify-center p-[8.163px] text-sm gap-[8.163px] hover:underline text-orange-500 font-medium"
+            style={{
+              color: customization?.selectedPrimaryColor,
+            }}
           >
             Clear Search
           </button>
         )}
 
-        <h2 className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black">
+        <h2
+          className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+          style={{
+            color: customization?.selectedTextColor,
+          }}
+        >
           {searchProductTerm.length === 0 ? "All Products" : "Search Results"}
         </h2>
 
-        <div className="mt-28 flex items-center justify-between mb-3">
-          {/* Adjusted margin for header */}
-          {searchProductTerm.length === 0 ? (
-            <h2 className="text-lg font-bold capitalize">
-              {selectedCat === "All" ? "Products" : selectedCat}
-            </h2>
-          ) : (
+        <div
+          className="mt-28 flex items-center justify-between mb-3"
+          style={{
+            color: customization?.selectedTextColor,
+          }}
+        >
+          {searchProductTerm.length !== 0 && (
             <p>
               Your search term ({`"${searchProductTerm}"`}) yielded{" "}
               {products.length} result(s){" "}
@@ -108,14 +115,28 @@ const Products = () => {
 
         {loading ? (
           <div className="flex items-center justify-center h-64">
-            <ClipLoader size={40} loading={loading} color={"#F86A2F"} />
+            <ClipLoader
+              size={40}
+              loading={loading}
+              color={customization?.selectedPrimaryColor ?? "#F86A2F"}
+            />
           </div>
         ) : products.length === 0 && searchProductTerm.length > 0 ? (
-          <div className="flex items-center justify-center h-64">
+          <div
+            className="flex items-center justify-center h-64"
+            style={{
+              color: customization?.selectedTextColor,
+            }}
+          >
             No products found for this search term
           </div>
         ) : message ? (
-          <div className="flex items-center justify-center h-64">
+          <div
+            className="flex items-center justify-center h-64"
+            style={{
+              color: customization?.selectedTextColor,
+            }}
+          >
             No products found for the selected category
           </div>
         ) : (
@@ -139,7 +160,11 @@ const Products = () => {
 
             {isFetching && visibleProducts < products.length && (
               <div className="flex items-center justify-center py-4 pb-10">
-                <ClipLoader size={30} loading={isFetching} color={"#F86A2F"} />
+                <ClipLoader
+                  size={30}
+                  loading={isFetching}
+                  color={customization?.selectedPrimaryColor ?? "#F86A2F"}
+                />
               </div>
             )}
           </div>
@@ -150,54 +175,3 @@ const Products = () => {
 };
 
 export default Products;
-
-const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
-  const navigate = useNavigate();
-  const { restoSlug, table_id } = useMenu();
-
-  const handleGotoProductDetails = () => {
-    navigate(`/menu/${restoSlug}/products/${id}?table_id=${table_id}`);
-  };
-
-  return (
-    <div
-      className="flex items-center gap-4 cursor-pointer"
-      onClick={handleGotoProductDetails}
-    >
-      <img
-        src={`${STORAGE_URL}/${image}`}
-        alt={title}
-        className="rounded-2xl object-cover w-20 h-20 shadow-sm"
-        onError={(e) => (e.target.src = "/assets/placeholder-image.png")}
-      />
-
-      <div className="flex items-center justify-between flex-1">
-        <div className="flex flex-col items-start justify-between gap-5">
-          <h3 className="font-semibold text-black capitalize">{title}</h3>
-
-          <div className="flex items-center gap-3 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-[#F5A816] fill-current" />
-              <span className="font-semibold text-black">{rating}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Timer />
-              <span className="font-semibold text-black">{time}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="shrink-0 flex flex-col items-end self-end justify-end gap-5">
-          <X color={"#A6ADB4"} className="w-4 h-4 cursor-pointer" />
-
-          <span className="text-base font-semibold text-black">
-            {price.toFixed(2)}{" "}
-            <span className="text-xs text-[#F86A2F] font-medium">
-              {currency}
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
