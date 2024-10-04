@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 
 const Search = () => {
   const [search, setSearch] = useState();
-  const { setSearchProductTerm } = useMenu();
+  const { setSearchProductTerm, restoSlug, table_id } = useMenu();
   const [_, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -23,6 +24,10 @@ const Search = () => {
       prev.set("search", search);
       return prev;
     });
+
+    navigate(
+      `/menu/${restoSlug}/products?table_id=${table_id}&search=${search}`
+    );
   };
 
   return (

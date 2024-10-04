@@ -57,37 +57,6 @@ const Promotion = () => {
             currency={resInfo?.currency || "MAD"}
           />
         ))}
-
-        {/* <PromotionCard
-          image="/photo/burger.jpg"
-          title="Cheese Burger Hot Mix Dinde"
-          price={20.0}
-          originalPrice={35.0}
-        />
-        <PromotionCard
-          image="/photo/burger-1.jpeg"
-          title="Pastitsio (Greek beef pasta bake)"
-          price={39.0}
-          originalPrice={50.0}
-        />
-        <PromotionCard
-          image="/photo/donut.jpg"
-          title="Double Whopper Meal"
-          price={45.0}
-          originalPrice={55.0}
-        />
-        <PromotionCard
-          image="/photo/pizza.jpg"
-          title="Chicken Royale Bacon Cheese"
-          price={35.0}
-          originalPrice={42.0}
-        />
-        <PromotionCard
-          image="/photo/offer.jpg"
-          title="Pizza Slice"
-          price={25.0}
-          originalPrice={45.0}
-        /> */}
       </div>
     </div>
   );

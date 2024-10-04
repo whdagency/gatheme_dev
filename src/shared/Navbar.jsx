@@ -80,6 +80,7 @@ const NavItem = ({ href, label, ...rest }) => {
 
   // Check if the current pathname matches the href's pathname
   const isActive = location.pathname === hrefPathname;
+  const isProductsPage = location.pathname.split("/")[3] === "products";
 
   const getCorrectIcon = (isActive) => {
     switch (name) {
@@ -92,21 +93,30 @@ const NavItem = ({ href, label, ...rest }) => {
       case "info":
         return isActive ? <InfoActiveIcon /> : <InfoInactiveIcon />;
       default:
-        break;
+        return <HomeActiveIcon />;
     }
   };
 
   return (
     <NavLink to={href} className="flex flex-col items-center">
       <>
-        {getCorrectIcon(isActive)}
+        {isProductsPage && name === "home" ? (
+          <HomeActiveIcon />
+        ) : (
+          getCorrectIcon(isActive)
+        )}
         <span
           className={`text-[12.576px] font-medium mt-2 leading-[16.394px]`}
           style={{
-            color: isActive ? "#F86A2E" : "#A7AEC1",
+            color:
+              isProductsPage && name === "home"
+                ? "#F86A2E"
+                : isActive
+                ? "#F86A2E"
+                : "#A7AEC1",
           }}
         >
-          {label}
+          {isProductsPage ? "Home" : label}
         </span>
       </>
     </NavLink>

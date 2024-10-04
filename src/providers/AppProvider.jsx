@@ -64,12 +64,14 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
           loading: false,
         }));
 
+        // Filter visible categories
         const visibleCategories = categoryData?.filter(
           (cat) => cat.visibility === 1
         );
 
         const visibleCategoryIds = visibleCategories.map((cat) => cat.id);
 
+        // Filter dishes and drinks based on category visibility
         const filteredDishes = dishData
           ?.filter((dish) => visibleCategoryIds.includes(dish.category_id))
           .map((item) => ({ ...item, type: "dish" }));
@@ -83,7 +85,12 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
         setData((prev) => ({
           ...prev,
           restos: resto,
-          categories: [{ name: "All", id: 0 }, ...visibleCategories],
+          categories: [
+            { name: "All", id: 0 },
+            ...visibleCategories.sort(
+              (a, b) => a.orderCategorie - b.orderCategorie
+            ),
+          ],
           products: searchTerm
             ? combinedData?.filter((data) =>
                 data?.name?.toLowerCase().includes(searchTerm?.toLowerCase())

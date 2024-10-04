@@ -1,6 +1,6 @@
 import { Star, X } from "lucide-react";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -14,6 +14,8 @@ const Products = () => {
     message,
     loading,
     searchProductTerm,
+    restoSlug,
+    table_id,
   } = useMenu();
 
   const [seeAllProducts, setSeeAllProducts] = useState(false);
@@ -26,12 +28,13 @@ const Products = () => {
             <h2 className="text-lg font-bold capitalize">
               {selectedCat === "All" ? "Products" : selectedCat}
             </h2>
-            <button
-              onClick={() => setSeeAllProducts((prev) => !prev)}
+            <Link
+              to={`/menu/${restoSlug}/products?table_id=${table_id}`}
+              // onClick={() => setSeeAllProducts((prev) => !prev)}
               className="text-sm text-orange-500"
             >
               {seeAllProducts ? "See Less" : "See All"}
-            </button>
+            </Link>
           </>
         ) : (
           <p>
@@ -56,7 +59,7 @@ const Products = () => {
       ) : (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide pb-32">
           {products
-            .slice(0, seeAllProducts ? products.length : 5)
+            .slice(0, seeAllProducts ? products.length : 10)
             ?.map((product) => (
               <ProductCard
                 key={product?.name}
@@ -103,7 +106,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
 
       <div className="flex items-center justify-between flex-1">
         <div className="flex flex-col items-start justify-between gap-5">
-          <h3 className="font-semibold text-black">{title}</h3>
+          <h3 className="font-semibold text-black capitalize">{title}</h3>
 
           <div className="flex items-center gap-3 text-sm text-gray-500">
             <div className="flex items-center gap-1">
