@@ -4,6 +4,7 @@ import { useMenu } from "../hooks/useMenu";
 import NotFound from "../shared/NotFound";
 import ProductDetailsHeader from "./ProductDetailsHeader";
 import ProductDetailsContent from "./ProductDetailsContent";
+import AnimatedLayout from "../shared/AnimateLayout";
 
 const ProductDetails = () => {
   const { products } = useMenu();
@@ -49,18 +50,20 @@ const ProductDetails = () => {
   const totalSlides = mediaItems.length;
 
   return (
-    <div className="pb-32">
-      <ProductDetailsHeader
-        mediaItems={mediaItems}
-        currentSlide={currentSlide}
-        totalSlides={totalSlides}
-        setApi={setApi}
-      />
-      <ProductDetailsContent
-        product={product}
-        productId={parseInt(params.productId)}
-      />
-    </div>
+    <AnimatedLayout>
+      <div className="pb-32">
+        <ProductDetailsHeader
+          mediaItems={mediaItems}
+          currentSlide={currentSlide}
+          totalSlides={totalSlides}
+          setApi={setApi}
+        />
+        <ProductDetailsContent
+          product={product}
+          productId={parseInt(params.productId)}
+        />
+      </div>
+    </AnimatedLayout>
   );
 };
 

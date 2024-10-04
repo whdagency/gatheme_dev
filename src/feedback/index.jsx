@@ -8,6 +8,7 @@ import {
 } from "../components/icons";
 import FeedbackSuccess from "../modals/feedback-success";
 import { toast } from "sonner";
+import AnimatedLayout from "../shared/AnimateLayout";
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState("");
@@ -50,7 +51,7 @@ const Feedback = () => {
   };
 
   return (
-    <>
+    <AnimatedLayout>
       <div className="pb-28 flex flex-col items-center justify-center mt-10">
         {/* Header */}
         <div className="md:px-6 text-center">
@@ -124,7 +125,7 @@ const Feedback = () => {
       </div>
 
       <FeedbackSuccess open={showSuccessModal} setOpen={setShowSuccessModal} />
-    </>
+    </AnimatedLayout>
   );
 };
 

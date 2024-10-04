@@ -142,8 +142,8 @@ const ToggleNavActionButton = () => {
       <motion.button
         className="flex items-center justify-center rounded-full shadow-lg w-[52px] h-[52px] p-3"
         onClick={toggleExpand}
-        animate={{ rotate: isExpanded ? 45 : 0 }}
-        transition={{ duration: 0.2 }}
+        animate={{ rotate: isExpanded ? 90 : 0 }}
+        transition={{ duration: 0.5, type: "tween" }}
         style={{ background: "#F86A2E" }}
       >
         {isExpanded ? (

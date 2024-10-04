@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useMenu } from "../hooks/useMenu";
 import fetchApiData from "../lib/fetch-data";
 import { STORAGE_URL } from "../lib/api";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Promotion = () => {
-  const { restos, resInfo, searchProductTerm } = useMenu();
+  const { restos, resInfo, searchProductTerm, loading } = useMenu();
   const [promos, setPromos] = useState([]);
   const [seeAllPromos, setSeeAllPromos] = useState(false);
 

@@ -10,6 +10,7 @@ import ConfirmOrder from "../modals/confirm-order";
 import { api } from "../lib/api";
 import { submitNotification } from "../lib/notification";
 import SuggestedProducts from "../products/SuggestedProducts";
+import AnimatedLayout from "../shared/AnimateLayout";
 
 const Cart = () => {
   const {
@@ -137,7 +138,7 @@ const Cart = () => {
   }, [isRestoCartEmpty]);
 
   return (
-    <>
+    <AnimatedLayout>
       <div className="pt-28 relative pb-32">
         {/* Title and Back Button */}
         <button
@@ -376,7 +377,7 @@ const Cart = () => {
         isModalOpen={showSuggestedProducts}
         setIsModalOpen={setShowSuggestedProducts}
       />
-    </>
+    </AnimatedLayout>
   );
 };
 

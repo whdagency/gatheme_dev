@@ -4,6 +4,7 @@ import Categories from "./Categories";
 import Products from "./Products";
 import Banner from "./Banner";
 import Search from "./Search";
+import AnimatedLayout from "../shared/AnimateLayout";
 
 const Home = () => {
   return (
@@ -15,7 +16,9 @@ const Home = () => {
       <Search />
 
       {/* Promotion */}
-      <Promotion />
+      <AnimatedLayout y={50}>
+        <Promotion />
+      </AnimatedLayout>
 
       {/* Categories */}
       <Categories />

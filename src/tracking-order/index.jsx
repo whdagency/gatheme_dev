@@ -8,6 +8,7 @@ import NoOrdersFound from "./NoOrdersFound";
 import OrderSuccessFeddback from "../modals/order-success-feedback";
 import OrderCancelled from "../modals/order-cancelled";
 import { useMenu } from "../hooks/useMenu";
+import AnimatedLayout from "../shared/AnimateLayout";
 
 const TrackingOrder = () => {
   const { setOrderID, orderID } = useMenu();
@@ -103,7 +104,11 @@ const TrackingOrder = () => {
   }, [fetchValues, subscribeToFirebase]);
 
   if (!orders) {
-    return <NoOrdersFound showFeedback={showFeedbackModal} />;
+    return (
+      <AnimatedLayout>
+        <NoOrdersFound showFeedback={showFeedbackModal} />
+      </AnimatedLayout>
+    );
   }
 
   const statusSteps = [
@@ -114,7 +119,7 @@ const TrackingOrder = () => {
   ];
 
   return (
-    <>
+    <AnimatedLayout>
       {!orderID && <NoOrdersFound showFeedback={showFeedbackModal} />}
       <div className="pt-28 relative pb-32">
         {/* Title and Back Button */}
@@ -218,7 +223,7 @@ const TrackingOrder = () => {
         open={orderCanceledModal}
         setOpen={setOrderCanceledModal}
       />
-    </>
+    </AnimatedLayout>
   );
 };
 
