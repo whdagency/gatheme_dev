@@ -330,8 +330,11 @@ const ProductDetailsContent = ({ product, productId }) => {
                     className={`mb-4 ${options.length > 0 ? "" : "hidden"}`}
                     key={topping.id}
                   >
-                    <h4 className="mb-0.5 font-semibold flex items-center gap-1">
-                      Select <span className="capitalize">{toppingName}</span>{" "}
+                    <h4 className="mb-0.5 overflow-hidden whitespace-nowrap font-semibold flex items-center gap-1">
+                      Select{" "}
+                      <span className="capitalize">
+                        {toppingName?.split(" ")[0]}
+                      </span>{" "}
                       for your{" "}
                       <span className="capitalize">
                         {product.categorie?.name}
@@ -351,7 +354,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     {options?.map((option) => (
                       <div
                         key={option.name}
-                        className="flex items-center justify-between mb-4"
+                        className="flex items-center justify-between mb-4 border-b border-b-[#E0E0E0] pb-2 last:border-b-0"
                       >
                         <span
                           className={`capitalize font-medium ${
@@ -435,7 +438,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     {options?.map((option) => (
                       <div
                         key={option.name}
-                        className="flex items-center justify-between mb-4"
+                        className="flex items-center justify-between mb-4 border-b border-b-[#E0E0E0] pb-2 last:border-b-0"
                       >
                         <span
                           className={`capitalize font-medium ${
@@ -495,7 +498,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                   {product.ingredients.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between mb-4"
+                      className="flex items-center justify-between mb-4 border-b border-b-[#E0E0E0] pb-2 last:border-b-0"
                     >
                       <span className="capitalize">No {item?.name}</span>
                       <button
@@ -540,7 +543,7 @@ const ProductDetailsContent = ({ product, productId }) => {
               <span className="text-xl font-medium text-[#191D31]">
                 {calculateTotalPrice()}{" "}
                 <span className="text-[#F86A2E] text-xs font-semibold">
-                  MAD
+                  {currency}
                 </span>
               </span>
             </div>

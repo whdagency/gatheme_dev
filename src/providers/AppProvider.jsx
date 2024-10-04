@@ -115,6 +115,7 @@ const AppProvider = ({ children }) => {
     () => new URLSearchParams(window.location.search),
     []
   );
+  const pathname = window.location.pathname;
   const table_id = queryParams.get("table_id") || null;
   const searchTerm = queryParams.get("search") || "";
   const cat = queryParams.get("cat") || "All";
@@ -122,6 +123,7 @@ const AppProvider = ({ children }) => {
   const [searchProductTerm, setSearchProductTerm] = useState(searchTerm);
   const [tableName, setTableName] = useState("");
   const [showSplashScreenLoader, setShowSplashScreenLoader] = useState(true);
+  const [orderID, setOrderID] = useState(null);
 
   const {
     restos,
@@ -158,6 +160,35 @@ const AppProvider = ({ children }) => {
     }, 3000);
   }, []);
 
+  // Scroll to top on pathname change when not on splash screens
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  const fetchOrderId = async () => {
+    try {
+      const res = localStorage.getItem("orderID");
+
+      if (res === null || res === "null") {
+        setOrderID(null);
+        localStorage.setItem("orderID", null);
+        return false;
+      }
+
+      setOrderID(res);
+    } catch (err) {
+      console.log("The Error => ", err);
+      if (err?.status === 404) {
+        localStorage.setItem("orderID", null);
+        setOrderID(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderId();
+  }, [orderID]);
+
   const values = useMemo(
     () => ({
       table_id,
@@ -174,6 +205,8 @@ const AppProvider = ({ children }) => {
       loading,
       setSearchProductTerm,
       searchProductTerm,
+      orderID,
+      setOrderID,
     }),
     [
       table_id,
@@ -189,6 +222,8 @@ const AppProvider = ({ children }) => {
       loading,
       setSearchProductTerm,
       searchProductTerm,
+      orderID,
+      setOrderID,
     ]
   );
 

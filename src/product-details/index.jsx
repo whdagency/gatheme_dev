@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import NotFound from "../shared/NotFound";
 import ProductDetailsHeader from "./ProductDetailsHeader";
@@ -7,6 +7,7 @@ import ProductDetailsContent from "./ProductDetailsContent";
 
 const ProductDetails = () => {
   const { products } = useMenu();
+  const pathname = useLocation().pathname;
   const params = useParams();
   const [currentSlide, setCurrentSlide] = useState(1);
   const [api, setApi] = useState();
@@ -26,6 +27,10 @@ const ProductDetails = () => {
       setCurrentSlide(api.selectedScrollSnap() + 1);
     });
   }, [api]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   if (!product) {
     return <NotFound />;
