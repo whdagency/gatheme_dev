@@ -51,7 +51,7 @@ const Navbar = ({ hideCallToActionBtn }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0">
       {/* Navigation */}
-      <div className="md:pb-7 fixed bottom-0 left-0 right-0 flex items-center justify-between max-w-md px-4 py-3 mx-auto bg-white border-t">
+      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between max-w-md px-4 py-3 mx-auto bg-white border-t">
         {navLinks.map((link) => (
           <NavItem key={link.label} {...link} />
         ))}
@@ -60,10 +60,10 @@ const Navbar = ({ hideCallToActionBtn }) => {
         {!hideCallToActionBtn && <ToggleNavActionButton />}
 
         {/* Border bottom */}
-        <div
+        {/* <div
           className="absolute hidden md:block md:bottom-3 -translate-x-1/2 left-1/2 right-0 rounded-[104.8px] border-b-4 border-[#191D31]"
           style={{ width: "141.48px" }}
-        />
+        /> */}
       </div>
     </div>
   );

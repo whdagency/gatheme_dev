@@ -1,88 +1,130 @@
 import { CheckIcon, PlusIcon } from "lucide-react";
-import React from "react";
-import { Credenza, CredenzaContent } from "@/components/ui/credenza";
+import React, { useState } from "react";
 import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
+import { useCart } from "react-use-cart";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
   const { resInfo, customization, resto_id, products } = useMenu();
+  const [suggestedProductsAdded, setSuggestedProductsAdded] = useState([]);
+  const { items, addItem, removeItem } = useCart();
+  const restoCartItems = items.filter((item) => item.resto_id === resto_id);
+
+  const suggestedProducts =
+    restoCartItems.length > 0
+      ? products?.filter((prod) =>
+          restoCartItems.every((item) => item.id !== prod.id)
+        )
+      : products;
+
+  const addSuggested = (item) => {
+    setSuggestedProductsAdded((prev) => {
+      // Check if the product is already in the list
+      if (prev.includes(item.id)) {
+        // Remove product from cart and state
+        removeItem(item.id);
+        return prev.filter((id) => id !== item.id);
+      }
+
+      // If product not in the list, add it
+      const itemToAdd = {
+        ...item,
+        extravariants:
+          item?.extravariants?.length > 0
+            ? item?.extravariants.map((extra) => ({
+                ...extra,
+                options: JSON.parse(extra.options)
+                  ?.map((option) => ({
+                    ...option,
+                    price: isNaN(parseFloat(option?.price))
+                      ? 0
+                      : parseFloat(option?.price || 0),
+                  }))
+                  ?.filter((option) => option?.name),
+              }))
+            : [],
+        toppings:
+          item?.toppings?.length > 0
+            ? item?.toppings.map((top) => ({
+                ...top,
+                options: JSON.parse(top.options)
+                  ?.map((option) => ({
+                    ...option,
+                    price: isNaN(parseFloat(option?.price))
+                      ? 0
+                      : parseFloat(option?.price || 0),
+                  }))
+                  ?.filter((option) => option?.name),
+              }))
+            : [],
+      };
+
+      addItem(itemToAdd, 1);
+      return [...prev, item.id];
+    });
+  };
 
   return (
-    <Credenza
-      className="!bg-white  !py-0"
-      open={isModalOpen}
-      onOpenChange={setIsModalOpen}
-    >
-      <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
-        <div className="mt-10 mb-1 text-lg font-semibold text-center text-black">
+    <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
+        <DrawerTitle className="text-lg font-semibold text-center text-black">
           Suggested Products
-        </div>
-        <div className=" grid grid-cols-2 gap-0 p-2 mb-3">
-          {products?.slice(0, 4).map((item, index) => (
+        </DrawerTitle>
+
+        <DrawerDescription className="sr-only"></DrawerDescription>
+
+        <div className="grid grid-cols-2 gap-0 p-2 mb-3">
+          {suggestedProducts?.slice(0, 4).map((item, index) => (
             <CartItemSuggestion
               key={index}
               item={item}
-              infoRes={resInfo}
+              resInfo={resInfo}
               customization={customization}
-              resto_id={resto_id}
+              addSuggested={() => addSuggested(item)}
+              suggestedProductsAdded={suggestedProductsAdded}
             />
           ))}
         </div>
-      </CredenzaContent>
-    </Credenza>
+      </DrawerContent>
+    </Drawer>
   );
 };
 
 export default SuggestedProducts;
 
-const CartItemSuggestion = ({ item, infoRes, customization, resto_id }) => {
-  const [isAdded, setIsAdded] = useState(false);
-  const [itemQuantity, setItemQuantity] = useState(0);
-
-  const handleClick = () => {
-    handleAddItem();
-    setIsAdded(true);
-    setTimeout(() => {
-      setIsAdded(false);
-    }, 1500);
-  };
-
-  const handleAddItem = () => {
-    setItemQuantity(itemQuantity + 1);
-  };
-
+const CartItemSuggestion = ({
+  item,
+  resInfo,
+  customization,
+  addSuggested,
+  suggestedProductsAdded,
+}) => {
   return (
     <div className="grid gap-1">
-      <div className=" dark:bg-gray-800 p-4 rounded-lg">
+      <div className="p-4">
         <div className="flex flex-col items-center justify-center gap-2">
-          <div className="w-28 relative flex justify-center">
+          <div className="relative">
             <img
-              alt={item.name}
-              className=" rounded-xl object-cover"
-              height={150}
               src={`${STORAGE_URL}/${item.image1}`}
-              style={{
-                aspectRatio: "150/150",
-                objectFit: "cover",
-              }}
-              width={150}
+              alt={item.name}
+              className="rounded-xl object-cover w-[122.219px] h-[97.54px] shadow-sm"
+              onError={(e) => (e.target.src = "/assets/placeholder-image.png")}
             />
-            {itemQuantity > 0 && (
-              <div
-                className="absolute top-0 left-0 flex items-center justify-center w-6 h-6 text-white bg-green-500 rounded-full"
-                style={{ fontSize: 12 }}
-              >
-                {itemQuantity}
-              </div>
-            )}
+
             <button
-              onClick={handleClick}
+              onClick={addSuggested}
               style={{ backgroundColor: customization?.selectedPrimaryColor }}
-              className={`transition-transform h-8 w-8 absolute bottom-0 right-0 ${
-                isAdded ? "scale-110" : ""
+              className={`transition-transform flex items-center justify-center h-8 w-8 absolute bottom-0 -right-10 rounded-[7.07px] ${
+                suggestedProductsAdded.includes(item.id) ? "opacity-50" : ""
               }`}
             >
-              {isAdded ? (
+              {suggestedProductsAdded.includes(item.id) ? (
                 <CheckIcon className="w-4 h-4 text-white" />
               ) : (
                 <PlusIcon className="w-4 h-4 text-white" />
@@ -90,13 +132,16 @@ const CartItemSuggestion = ({ item, infoRes, customization, resto_id }) => {
             </button>
           </div>
 
-          <div className=" flex flex-col self-start ml-6">
-            <div className="text-left">
-              <p className=" -900 dark:text-gray-50 text-sm font-medium">
+          <div className="flex flex-col items-start">
+            <div className="flex flex-col gap-0.5 text-left">
+              <p className="text-sm font-medium text-[#595757] capitalize">
                 {item.name}
               </p>
-              <h3 className=" dark:text-gray-400 mb-1 text-base font-semibold text-gray-700">
-                {item.price + " " + infoRes.currency}
+              <h3 className="flex items-center gap-1 mb-1 text-base font-semibold text-black">
+                {item.price}
+                <span className="text-[#F86A2E]">
+                  {resInfo.currency || "MAD"}
+                </span>
               </h3>
             </div>
           </div>

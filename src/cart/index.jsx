@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import ConfirmOrder from "../modals/confirm-order";
 import { api } from "../lib/api";
 import { submitNotification } from "../lib/notification";
+import SuggestedProducts from "../products/SuggestedProducts";
 
 const Cart = () => {
   const {
@@ -25,6 +26,7 @@ const Cart = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [orderPending, setOrderPending] = useState(false);
   const currency = resInfo?.currency || "MAD";
+  const [showSuggestedProducts, setShowSuggestedProducts] = useState(false);
 
   // Get cart items for the current restaurant
   const restocartItems = useMemo(() => {
@@ -121,6 +123,18 @@ const Cart = () => {
       localStorage.setItem("orderID", null);
     }
   }, [restos.id, restocartItems, setOrderID]);
+
+  useEffect(() => {
+    if (isRestoCartEmpty) {
+      setShowSuggestedProducts(false);
+      return;
+    }
+    setShowSuggestedProducts(true);
+
+    return () => {
+      setShowSuggestedProducts(false);
+    };
+  }, [isRestoCartEmpty]);
 
   return (
     <>
@@ -356,6 +370,11 @@ const Cart = () => {
         setOpen={setOpenConfirmModal}
         submitOrder={submitOrder}
         orderPending={orderPending}
+      />
+
+      <SuggestedProducts
+        isModalOpen={showSuggestedProducts}
+        setIsModalOpen={setShowSuggestedProducts}
       />
     </>
   );
