@@ -14,6 +14,7 @@ export const defaultColor = {
   selectedSecondaryColor: "#6b7280",
   selectedTextColor: "#000",
   selectedIconColor: "#ffffff",
+  selectedthreeColor: "#FF0000",
 };
 
 export const menu = [

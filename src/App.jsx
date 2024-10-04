@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Theme01 from './Theme01/App';
 import Theme02 from './Theme02/App';
+import Theme03 from './Theme03/App';
+
 import { useMenu } from './hooks/useMenu';
 import ExpiredSubscriptionCard from './Renew/expired-subscription-card';
 import SplashScreen from './components/ui/splash-screen';
@@ -35,7 +37,7 @@ function App() {
   }
   return (
     <>
-      {isActive ? (
+      {/* {isActive ? (
         customization?.selectedTheme == 2 ? (
           <Theme01 />
         ) : (
@@ -43,7 +45,9 @@ function App() {
         )
       ) : (
         <ExpiredSubscriptionCard />
-      )}
+       )} */}
+          <Theme03 />
+
     </>
   );
 }

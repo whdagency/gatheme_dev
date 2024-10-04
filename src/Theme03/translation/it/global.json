@@ -1,0 +1,98 @@
+{
+  "menu": {
+    "all": "Todos",
+    "search": "Buscar",
+    "search_for_your_desired_food": "Busca tu comida favorita...",
+    "home": "Inicio",
+    "rating": "Calificación",
+    "claims": "Reclamaciones",
+    "cart": "Carrito",
+    "info": "Información",
+    "callWaiter": "Llamar al camarero",
+    "error": "Esta acción no puede deshacerse. Eliminará permanentemente tu cuenta y tus datos de nuestros servidores.",
+    "bringBill": "Traer la cuenta",
+    "cancel": "Cancelar",
+    "addToSelected": "Añadir a la selección: ",
+    "or": "O",
+    "ok": "Confirmar"
+  },
+  "rating": {
+    "leaveReview": "¡Déjanos una reseña!",
+    "btnReview": "Toca el botón de abajo para compartir tu experiencia.",
+    "trustPilot": "Opiniones de Trustpilot",
+    "googlereview": "Opiniones de Google",
+    "or": "o",
+    "desc": "Estamos trabajando en agregar la funcionalidad de reseñas. ¡Mantente atento!"
+  },
+  "claims": {
+    "makeClaim": "Enviar una",
+    "claim": "Reclamación",
+    "tellUs": "Cuéntanos sobre tu experiencia reciente en nuestro restaurante.",
+    "name": "Nombre ",
+    "optional": "(opcional)",
+    "email": "Email o teléfono ",
+    "emailPlaceholder": "(opcional)",
+    "namePlaceholder": "(opcional)",
+    "thoughts": "Escribe tus pensamientos aquí...",
+    "anonymous": "Enviar feedback de manera anónima",
+    "submit": "Enviar feedback",
+    "successClaim": "Tu reclamación se ha enviado con éxito",
+    "thankYou": "¡Gracias por tu feedback!",
+    "Reset": "Ripristina"
+  },
+  "waiter": {
+    "CallWaiter": "¿Necesitas ayuda?",
+    "BringTheBill": "Traer la cuenta",
+    "Cancel": "Cancelar",
+    "please": "Por favor, selecciona una opción a continuación",
+    "Confirm": "Confermare",
+    "WaiterRequested":"Cameriere richiesto!",
+    "msgwaiter":"Il cameriere sarà da te a breve.",
+    "BillRequested":"Conto richiesto!",
+    "msgbill":"Il conto ti sarà inviato a breve."
+  },
+  "not": {
+    "title": "¡Añadido al carrito con éxito!",
+    "desc": "Puedes confirmar tu pedido al finalizar la compra"
+  },
+  "achat": {
+    "shoppingCart": "Carrito de compras",
+    "empty": "Tu carrito está vacío.",
+    "clearBtn": "Vaciar carrito",
+    "checkoutBtn": "Pagar",
+    "total": "Total",
+    "successOrder": "¿Estás seguro de que deseas realizar este pedido?",
+    "thankYou": "Una vez confirmado, no se puede cancelar.",
+    "emptycart": "Tu carrito está vacío",
+    "checkout": "Descubre lo que está de moda",
+    "addmoreitems": "Añadir más artículos",
+    "OrderProcess": "Proceso del pedido",
+    "complete": "Completo",
+    "Order": "Ordenar",
+    "Preparing": "En preparación",
+    "OrderCanceled": "Pedido cancelado",
+    "final": "100% Completado",
+    "see": "Ver tu pedido ",
+    "item": "Articolo",
+    "items": "Articoli",
+    "table": "Mesa",
+    "ofTable": "Mesa",
+    "preparedorder":"Il tuo ordine é in preparazione!",
+    "thanksalert":"Grazie per il tuo ordine. I tuoi articoli saranno consegnati a breve."
+  },
+  "info": {
+    "WiFiPassword": "Contraseña WiFi",
+    "Address": "Dirección",
+    "changeLanguage": "Cambiar idioma",
+    "powered": "alimentado por Garista.",
+    "phone": "Telefono: ",
+    "FollowUs": "Seguici: "
+  },
+  "menuAddItem": {
+    "commentPlaceholder": "Añadir un comentario...",
+    "addToSelected": "Añadir a la selección",
+    "addnote": "Aggiungi nota:",
+    "close": "Chiudi"
+  },
+  "required": "necessario" 
+}
