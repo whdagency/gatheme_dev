@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowLeft } from "lucide-react";
 import { STORAGE_URL } from "../lib/api";
+import { useTranslation } from "react-i18next";
 
 const ProductDetailsHeader = ({
   mediaItems,
@@ -13,6 +14,8 @@ const ProductDetailsHeader = ({
   totalSlides,
   setApi,
 }) => {
+  const { t } = useTranslation("global");
+
   return (
     <div className="relative -mt-3">
       {/* Title and Back Button */}
@@ -29,7 +32,7 @@ const ProductDetailsHeader = ({
       </button>
 
       <h2 className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-white">
-        Product Details
+        {t("productDetails.title")}
       </h2>
 
       {/* Slide Counter */}

@@ -3,9 +3,12 @@ import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
 import { useSearchParams } from "react-router-dom";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
   const { categories, selectedCat } = useMenu();
+  const { t } = useTranslation("global");
+
   return (
     <div className="px-8 mt-4 -mx-4">
       <div className="scrollbar-hide flex pb-2 space-x-3 overflow-x-auto">
@@ -17,10 +20,15 @@ const Categories = () => {
                 ? `${STORAGE_URL}/${category?.image}`
                 : "/assets/all-products.png"
             }
-            label={category?.name}
+            label={
+              category?.name === "All"
+                ? t("common.actions.all")
+                : category?.name
+            }
             active={
               category?.name?.toLowerCase() === selectedCat?.toLowerCase()
             }
+            name={category?.name}
           />
         ))}
       </div>
@@ -30,7 +38,7 @@ const Categories = () => {
 
 export default Categories;
 
-const CategoryButton = ({ image, label, active = false }) => {
+const CategoryButton = ({ image, label, active = false, name }) => {
   const [_, setSearchParams] = useSearchParams();
   const { setSelectedCat, customization } = useMenu();
 
@@ -48,9 +56,9 @@ const CategoryButton = ({ image, label, active = false }) => {
 
   return (
     <button
-      onClick={() => handleCategoryClick(label)}
+      onClick={() => handleCategoryClick(name)}
       className={`flex w-auto items-center space-x-2 py-2 rounded-[20px] whitespace-nowrap ${
-        label === "All" ? "px-10" : "px-4"
+        name === "All" ? "px-10" : "px-4"
       } ${active ? "bg-orange-500 text-white" : "bg-[#E2E4EA] text-black"}`}
       style={{
         background: active

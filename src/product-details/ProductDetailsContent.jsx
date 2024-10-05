@@ -6,6 +6,7 @@ import { useCart } from "react-use-cart";
 import { toast } from "sonner";
 import AddProductToCartSuccess from "../modals/add-product-to-cart-success";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const ProductDetailsContent = ({ product, productId }) => {
   const { resInfo, customization } = useMenu();
@@ -21,6 +22,7 @@ const ProductDetailsContent = ({ product, productId }) => {
   const [note, setNote] = useState("");
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useTranslation("global");
 
   const handleQuantityChange = useCallback(
     (change) => {
@@ -184,11 +186,11 @@ const ProductDetailsContent = ({ product, productId }) => {
     } = isOptionRequired(extrasOptions, selectedExtrasOptions);
 
     if (isToppingRequired && !isToppingOptionRequired) {
-      return toast.error("Choose at least one item from a required field.");
+      return toast.error(t("productDetails.requiredError"));
     }
 
     if (isExtrasRequired && !isExtrasOptionRequired) {
-      return toast.error("Choose at least one item from a required field.");
+      return toast.error(t("productDetails.requiredError"));
     }
 
     const sizes = selectedToppingsOptions?.filter(
@@ -239,6 +241,7 @@ const ProductDetailsContent = ({ product, productId }) => {
               >
                 {product.categorie?.name}
               </h2>
+
               <div className="flex items-center justify-between mb-2">
                 <h3
                   className="text-xl font-bold"
@@ -248,6 +251,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                 >
                   {product.name}
                 </h3>
+
                 <div
                   className="flex items-center p-[4.372px] bg-[#EAEAEA] rounded-full"
                   style={{
@@ -271,7 +275,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     />
                   </button>
                   <span
-                    className="font-rs-text-semibold mx-3"
+                    className="mx-3 text-base font-semibold"
                     style={{
                       color: customization?.selectedTextColor,
                     }}
@@ -304,7 +308,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                       color: customization?.selectedSecondaryColor,
                     }}
                   >
-                    Rating
+                    {t("productDetails.rating")}
                   </h4>
                   <div className="flex items-center gap-1">
                     <Star />
@@ -327,7 +331,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                       color: customization?.selectedSecondaryColor,
                     }}
                   >
-                    Time
+                    {t("productDetails.time")}
                   </h4>
                   <div className="flex items-center gap-1">
                     <Timer fill={customization?.selectedPrimaryColor} />
@@ -337,7 +341,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                         color: customization?.selectedTextColor,
                       }}
                     >
-                      15 min
+                      15 {t("productDetails.min")}
                     </span>
                   </div>
                 </div>
@@ -352,7 +356,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     color: customization?.selectedTextColor,
                   }}
                 >
-                  Description
+                  {t("productDetails.description")}
                 </h4>
                 {product.desc && product.desc.length < 100 ? (
                   <p
@@ -381,7 +385,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                             color: customization?.selectedPrimaryColor,
                           }}
                         >
-                          Read Less
+                          {t("productDetails.readLess")}
                         </button>
                       </>
                     ) : (
@@ -395,7 +399,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                             color: customization?.selectedPrimaryColor,
                           }}
                         >
-                          Read More
+                          {t("productDetails.readMore")}
                         </button>
                       </>
                     )}
@@ -410,7 +414,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     color: customization?.selectedTextColor,
                   }}
                 >
-                  Description
+                  {t("productDetails.description")}
                 </h4>
                 <p
                   className="text-sm text-[#767884]"
@@ -418,7 +422,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                     color: customization?.selectedSecondaryColor,
                   }}
                 >
-                  No description available
+                  {t("productDetails.noDescription")}
                 </p>
               </div>
             )}
@@ -446,11 +450,11 @@ const ProductDetailsContent = ({ product, productId }) => {
                         color: customization?.selectedTextColor,
                       }}
                     >
-                      Select{" "}
+                      {t("productDetails.select")}{" "}
                       <span className="capitalize">
                         {toppingName?.split(" ")[0]}
                       </span>{" "}
-                      for your{" "}
+                      {t("productDetails.forYour")}{" "}
                       <span className="capitalize">
                         {product.categorie?.name}
                       </span>
@@ -462,7 +466,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                           }}
                           className="px-2 py-1 ml-1 text-xs font-normal text-white bg-orange-500 rounded-full"
                         >
-                          Required
+                          {t("productDetails.required")}
                         </span>
                       )}
                     </h4>
@@ -473,8 +477,10 @@ const ProductDetailsContent = ({ product, productId }) => {
                       }}
                     >
                       {selectMuliple
-                        ? `Choose a maximum of ${options?.length} items`
-                        : "Select only one item"}
+                        ? t("productDetails.chooseMultiple", {
+                            max: options?.length,
+                          })
+                        : t("productDetails.chooseOne")}
                     </p>
 
                     {options?.map((option) => (
@@ -582,7 +588,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                         color: customization?.selectedTextColor,
                       }}
                     >
-                      Select Extras for your{" "}
+                      {t("productDetails.selectExtras")}{" "}
                       <span className="capitalize">
                         {product.categorie?.name}
                       </span>
@@ -594,7 +600,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                             color: customization?.selectedIconColor,
                           }}
                         >
-                          Required
+                          {t("productDetails.required")}
                         </span>
                       )}
                     </h4>
@@ -605,8 +611,10 @@ const ProductDetailsContent = ({ product, productId }) => {
                       }}
                     >
                       {selectMuliple
-                        ? `Choose a maximum of ${options?.length} items`
-                        : "Select only one item"}
+                        ? t("productDetails.chooseMultiple", {
+                            max: options?.length,
+                          })
+                        : t("productDetails.chooseOne")}
                     </p>
 
                     {options?.map((option) => (
@@ -706,7 +714,8 @@ const ProductDetailsContent = ({ product, productId }) => {
                       color: customization?.selectedTextColor,
                     }}
                   >
-                    Customise Your {product.categorie?.name}
+                    {t("productDetails.customizeYour")}{" "}
+                    {product.categorie?.name}
                   </h4>
                   <p
                     className="mb-4 text-xs text-gray-500"
@@ -715,8 +724,10 @@ const ProductDetailsContent = ({ product, productId }) => {
                     }}
                   >
                     {product.ingredients.length > 1
-                      ? `Choose a maximum of ${product.ingredients.length} items`
-                      : "Select only one item"}
+                      ? t("productDetails.chooseMultiple", {
+                          max: product.ingredients.length,
+                        })
+                      : t("productDetails.chooseOne")}
                   </p>
                   {product.ingredients.map((item, index) => (
                     <div
@@ -729,7 +740,9 @@ const ProductDetailsContent = ({ product, productId }) => {
                           color: customization?.selectedTextColor,
                         }}
                       >
-                        No {item?.name}
+                        {t("productDetails.noProductName", {
+                          productName: item?.name,
+                        })}
                       </span>
                       <button
                         type="button"
@@ -780,12 +793,12 @@ const ProductDetailsContent = ({ product, productId }) => {
                   color: customization?.selectedTextColor,
                 }}
               >
-                Note
+                {t("productDetails.note")}
               </h4>
               <textarea
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                placeholder="Write your note here"
+                placeholder={t("productDetails.notePlaceholder")}
                 className="w-full h-28 text-base rounded-[13px] border border-[#E2E4EA] p-[16px_19px] outline-none focus:outline-none text-black placeholder:text-[#9DA0A3]"
                 rows={10}
                 style={{
@@ -815,7 +828,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                   color: customization?.selectedSecondaryColor,
                 }}
               >
-                Order Total
+                {t("productDetails.orderTotal")}
               </span>
               <span
                 className="text-xl font-medium text-[#191D31]"
@@ -840,7 +853,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                 color: customization?.selectedIconColor,
               }}
             >
-              Add to Cart
+              {t("common.actions.addToCart")}
             </button>
           </div>
         </div>

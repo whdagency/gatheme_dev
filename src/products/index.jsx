@@ -5,6 +5,7 @@ import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
 import AnimatedLayout from "../shared/AnimateLayout";
 import ProductCard from "./ProductCard";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
   const {
@@ -20,6 +21,7 @@ const Products = () => {
   const [visibleProducts, setVisibleProducts] = useState(10);
   const [isFetching, setIsFetching] = useState(false);
   const [_, setSearchParams] = useSearchParams();
+  const { t } = useTranslation("global");
 
   const clearSearch = () => {
     setSearchProductTerm("");
@@ -77,7 +79,6 @@ const Products = () => {
         >
           <ArrowLeft size={25} color="black" />
         </button>
-
         {searchProductTerm.length !== 0 && (
           <button
             onClick={clearSearch}
@@ -86,19 +87,19 @@ const Products = () => {
               color: customization?.selectedPrimaryColor,
             }}
           >
-            Clear Search
+            {t("home.products.clearSearch")}
           </button>
         )}
-
         <h2
-          className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+          className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black capitalize"
           style={{
             color: customization?.selectedTextColor,
           }}
         >
-          {searchProductTerm.length === 0 ? "All Products" : "Search Results"}
+          {searchProductTerm.length === 0
+            ? t("home.products.allProducts")
+            : t("home.products.searchResults")}
         </h2>
-
         <div
           className="mt-28 flex items-center justify-between mb-3"
           style={{
@@ -106,9 +107,10 @@ const Products = () => {
           }}
         >
           {searchProductTerm.length !== 0 && (
-            <p>
-              Your search term ({`"${searchProductTerm}"`}) yielded{" "}
-              {products.length} result(s){" "}
+            <p className="flex items-center gap-1">
+              {t("home.products.yourSearchTerm")} ({`"${searchProductTerm}"`})
+              {t("home.products.yielded")} {products.length}{" "}
+              {t("home.products.results")}{" "}
             </p>
           )}
         </div>
@@ -128,7 +130,7 @@ const Products = () => {
               color: customization?.selectedTextColor,
             }}
           >
-            No products found for this search term
+            {t("home.products.noResults")}
           </div>
         ) : message ? (
           <div
@@ -137,7 +139,7 @@ const Products = () => {
               color: customization?.selectedTextColor,
             }}
           >
-            No products found for the selected category
+            {t("home.products.noProducts")}
           </div>
         ) : (
           <div className="space-y-5">
@@ -151,7 +153,7 @@ const Products = () => {
                 }
                 title={product.name}
                 rating={product?.rating || 4.5}
-                time={product?.time || `${12} minutes`}
+                time={product?.time || `${12} ${t("home.products.minutes")}`}
                 price={parseFloat(product?.price)}
                 currency={resInfo?.currency || "MAD"}
                 id={product?.id}

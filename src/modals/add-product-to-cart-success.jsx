@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const AddProductToCartSuccess = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const { restoSlug, table_id, customization } = useMenu();
+  const { t } = useTranslation("global");
 
   const handleGoHome = () => {
     setOpen(false);
@@ -36,12 +38,11 @@ const AddProductToCartSuccess = ({ open, setOpen }) => {
           />
         </div>
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Added To Cart!
+          {t("common.modals.addedToCart")}
         </DrawerTitle>
 
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          Your item has been successfully added. You can view your cart or
-          continue shopping.
+          {t("common.modals.addedToCartDesc")}
         </DrawerDescription>
 
         <DrawerFooter className="flex flex-col items-center justify-center w-full gap-4">
@@ -52,7 +53,7 @@ const AddProductToCartSuccess = ({ open, setOpen }) => {
               background: customization?.selectedPrimaryColor,
             }}
           >
-            Go to Cart
+            {t("common.actions.goToCart")}
           </Button>
 
           <Button
@@ -63,7 +64,7 @@ const AddProductToCartSuccess = ({ open, setOpen }) => {
               color: customization?.selectedPrimaryColor,
             }}
           >
-            Continue Shopping
+            {t("common.actions.continueShopping")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

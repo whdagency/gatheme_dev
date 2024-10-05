@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useMenu } from "../hooks/useMenu";
 import fetchApiData from "../lib/fetch-data";
 import { STORAGE_URL } from "../lib/api";
-import ClipLoader from "react-spinners/ClipLoader";
+import { useTranslation } from "react-i18next";
 
 const Promotion = () => {
   const { restos, resInfo, searchProductTerm, customization } = useMenu();
   const [promos, setPromos] = useState([]);
   const [seeAllPromos, setSeeAllPromos] = useState(false);
+  const { t } = useTranslation("global");
 
   useEffect(() => {
     fetchApiData(`/banners/${restos?.id}`, []).then((data) => {
@@ -44,7 +45,7 @@ const Promotion = () => {
             color: customization?.selectedTextColor,
           }}
         >
-          Promotion 🔥
+          {t("home.promotion")}
         </h2>
         <button
           className="text-sm text-orange-500"
@@ -53,7 +54,9 @@ const Promotion = () => {
             color: customization?.selectedPrimaryColor,
           }}
         >
-          {seeAllPromos ? "See Less" : "See All"}
+          {seeAllPromos
+            ? t("common.actions.seeLess")
+            : t("common.actions.seeAll")}
         </button>
       </div>
 

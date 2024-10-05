@@ -11,12 +11,14 @@ import { toast } from "sonner";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { useMenu } from "../hooks/useMenu";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { customization } = useMenu();
+  const { t } = useTranslation("global");
 
   // Emojis and their states
   const emojis = [
@@ -45,7 +47,7 @@ const Feedback = () => {
     // Handle feedback submission logic here later
 
     if (!selectedEmoji) {
-      toast.error("Please select a rating before submitting your feedback.");
+      toast.error(t("feedback.selectFeedback"));
       return;
     }
 
@@ -69,7 +71,7 @@ const Feedback = () => {
               color: customization?.selectedTextColor,
             }}
           >
-            Feedback
+            {t("feedback.title")}
           </h2>
         </div>
 
@@ -96,14 +98,14 @@ const Feedback = () => {
                 color: customization?.selectedTextColor,
               }}
             >
-              Give us your{" "}
+              {t("feedback.giveUsYour")}{" "}
               <span
                 className="text-[#F86A2E]"
                 style={{
                   color: customization?.selectedPrimaryColor,
                 }}
               >
-                Feedback! 😊
+                {t("feedback.feedback")}
               </span>
             </h3>
 
@@ -114,7 +116,7 @@ const Feedback = () => {
                 opacity: 0.6,
               }}
             >
-              Help us improve your experience by sharing your thoughts.
+              {t("feedback.feedbackDesc")}
             </p>
 
             {/* Emoji Reaction Section */}
@@ -147,7 +149,7 @@ const Feedback = () => {
             {/* Feedback Input */}
             <textarea
               className="focus:outline-none focus:border-[#EFEFF0] w-full h-24 p-3 mt-4 border border-[#EFEFF0] bg-[#EFEFF0] rounded-lg placeholder:text-[#A0A5BA] text-[#535353]"
-              placeholder="Type your feedback here..."
+              placeholder={t("feedback.placeholder")}
               value={feedback}
               onChange={handleFeedbackChange}
               rows={10}
@@ -162,7 +164,7 @@ const Feedback = () => {
               color: customization?.selectedIconColor,
             }}
           >
-            Send Feedback
+            {t("feedback.sendFeedback")}
           </button>
         </form>
       </div>

@@ -1,0 +1,155 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "myCart": "My Cart",
+      "feedback": "Feedback",
+      "restaurant": "Restaurant"
+    },
+    "actions": {
+      "back": "Back",
+      "addToCart": "Add to Cart",
+      "close": "Close",
+      "all": "All",
+      "seeAll": "See All",
+      "seeLess": "See Less",
+      "continueShopping": "Continue Shopping",
+      "goToCart": "Go to Cart",
+      "requestWaiter": "Request Waiter",
+      "requestBill": "Request Bill",
+      "confirmOrder": "Confirm Order",
+      "backToHome": "Back to Home",
+      "selectTable": "Please select a table"
+    },
+    "modals": {
+      "addedToCart": "Added To Cart!",
+      "addedToCartDesc": "Your item has been successfully added. You can view your cart or continue shopping.",
+      "noTableSelected": "No table selected",
+      "failedToRequestWaiter": "Failed to call waiter. Please try again later.",
+      "waiterRequested": "Waiter Requested!",
+      "waiterRequestedDesc": "The waiter will be sent to you shortly.",
+      "callWaiter": "Call Waiter To Your Table!",
+      "callWaiterDesc": " Need assistance? Tap below to request a waiter to come to your table.",
+      "billRequested": "Bill Requested!",
+      "billRequestedDesc": "The bill will be sent to you shortly.",
+      "billRequestFailed": "Failed to request bill. Please try again later.",
+      "requestYourBill": "Request Your Bill!",
+      "requestYourBillDesc": "Are you ready to settle your bill? Let us know, and we'll bring it right to your table!",
+      "confirmOrder": "Confirm Order",
+      "confirmOrderDesc": "If everything looks good, hit Confirm Orders; below, and we'll start preparing your meal right away!",
+      "feedbackSuccess": "Thank You for Your Feedback!",
+      "feedbackSuccessDesc": "Thank you for sharing your thoughts! We’ve received your feedback and are always striving to improve your experience.",
+      "orderCancelled": "Order Cancelled",
+      "orderCancelledDesc": "Sorry, your order has been rejected. If this was a mistake, you can place a new order from the menu or call a waiter to verify.",
+      "orderSuccess": {
+        "bad": "Bad",
+        "decent": "Decent",
+        "loveIt": "Love it!",
+        "feedbackRequired": "Please select a feedback rating",
+        "rateYourExperience": "Rate Your Experience",
+        "rateYourExperienceDesc": "How was your experience with us?",
+        "commentPlaceholder": "Tell us more (optional)",
+        "submitFeedback": "Submit your feedback"
+      }
+    },
+    "subscription": {
+      "title": "Subscription Expired",
+      "desc": " We apologize for the interruption. Your digital menu subscription has expired.",
+      "benefits": {
+        "title": "Benefits of Renewing:",
+        "keepUp": "Keep your menu up-to-date",
+        "attractMore": "Attract more customers",
+        "efficiency": "Increase efficiency"
+      },
+      "thankYou": " Thank you for being a valued customer. We look forward to continuing to serve you!"
+    }
+  },
+  "home": {
+    "searchPlaceholder": "Let's find the food you like",
+    "promotion": "Promotion 🔥",
+    "products": {
+      "title": "Products",
+      "rating": "Rating",
+      "minutes": "Minutes",
+      "allProducts": "All Products",
+      "searchResults": "Search Results",
+      "yourSearchTerm": "Your search term",
+      "noResults": "No search results found for your search term",
+      "yielded": "yielded",
+      "results": "result(s)",
+      "noProducts": "No products found for this category",
+      "clearSearch": "Clear Search",
+      "suggestedProducts": "Suggested Products"
+    }
+  },
+  "productDetails": {
+    "title": "Product Details",
+    "rating": "Rating",
+    "time": "Time",
+    "min": "min",
+    "description": "Description",
+    "noDescription": "No description available",
+    "readMore": "Read More",
+    "readLess": "Read Less",
+    "select": "Select",
+    "forYour": "for your",
+    "selectProduct": "Select {{type}} for your {{product}}",
+    "selectExtras": "Select Extras for your",
+    "chooseMultiple": "Choose a maximum of {{max}} items",
+    "chooseOne": "Select only one item",
+    "requiredError": "Choose at least one item from a required field.",
+    "required": "Required",
+    "customizeYour": "Customise Your",
+    "noProductName": "No {{productName}}",
+    "no": "No",
+    "note": "Note",
+    "notePlaceholder": "Write your note here",
+    "orderTotal": "Order Total"
+  },
+  "info": {
+    "changeLanguage": "Change Language",
+    "selectLanguage": "Select Language",
+    "followUs": "Follow Us",
+    "wifiPassword": " WiFi Password",
+    "passwordCopied": "Copied to clipboard",
+    "passwordNotCopied": "Could not copy password"
+  },
+  "cart": {
+    "table": "Table:",
+    "clearCart": "Clear Cart",
+    "orderDetails": "Order Details",
+    "orderNo": "Order",
+    "toppings": "Toppings :",
+    "none": "None",
+    "extras": "Extras :",
+    "ingredients": "Ingredients :",
+    "comment": "Comment :",
+    "noComment": "No Comment",
+    "empytCart": "Your Cart is Empty :(",
+    "empytCartDesc": "Looks like you haven't added anything to your cart yet",
+    "orderProcess": "Ordering Process",
+    "orderStart": "Start Ordering",
+    "orderTotal": "Order Total"
+  },
+  "trackingOrder": {
+    "title": "Tracking Details",
+    "orderFeedback": "Order Feedback",
+    "newOrder": "New Order",
+    "preparingFood": "Preparing Food",
+    "orderReady": "Order Ready",
+    "orderCompleted": "Order Completed",
+    "noOrdersFound": "No Orders Found",
+    "noOrdersFoundDesc": "Looks like you haven't ordered anything yet",
+    "startOrdering": "Start Ordering",
+    "stepNo": "Step {{stepNo}}"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "selectFeedback": "Please select a rating before submitting your feedback.",
+    "giveUsYour": "Give us your",
+    "feedback": "Feedback! 😊",
+    "feedbackDesc": "Help us improve your experience by sharing your thoughts.",
+    "placeholder": "Type your feedback here...",
+    "sendFeedback": "Send Feedback"
+  }
+}

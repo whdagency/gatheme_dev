@@ -9,12 +9,14 @@ import {
   DrawerDescription,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { useTranslation } from "react-i18next";
 
 const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
   const { resInfo, customization, resto_id, products } = useMenu();
   const [suggestedProductsAdded, setSuggestedProductsAdded] = useState([]);
   const { items, addItem, removeItem } = useCart();
   const restoCartItems = items.filter((item) => item.resto_id === resto_id);
+  const { t } = useTranslation("global");
 
   const suggestedProducts =
     restoCartItems.length > 0
@@ -74,7 +76,7 @@ const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
         <DrawerTitle className="text-lg font-semibold text-center text-black">
-          Suggested Products
+          {t("home.products.suggestedProducts")}
         </DrawerTitle>
 
         <DrawerDescription className="sr-only"></DrawerDescription>

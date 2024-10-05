@@ -5,11 +5,12 @@ import { database, onValue, ref } from "../firebaseConfig";
 import { motion } from "framer-motion";
 import { OrderSpinnerIcon, StarOutline } from "../components/icons";
 import NoOrdersFound from "./NoOrdersFound";
-import OrderSuccessFeddback from "../modals/order-success-feedback";
 import OrderCancelled from "../modals/order-cancelled";
 import { useMenu } from "../hooks/useMenu";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
+import OrderSuccessFeedback from "../modals/order-success-feedback";
 
 const TrackingOrder = () => {
   const { setOrderID, orderID, customization } = useMenu();
@@ -20,6 +21,7 @@ const TrackingOrder = () => {
   const [orders, setOrders] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [orderCanceledModal, setOrderCanceledModal] = useState(false);
+  const { t } = useTranslation("global");
 
   const fetchValues = useCallback(async () => {
     try {
@@ -113,10 +115,10 @@ const TrackingOrder = () => {
   }
 
   const statusSteps = [
-    { step: 1, label: "New Order", status: "New" },
-    { step: 2, label: "Preparing Food", status: "Preparing" },
-    { step: 3, label: "Order Ready", status: "Ready" },
-    { step: 4, label: "Order Completed", status: "Completed" },
+    { step: 1, label: t("trackingOrder.newOrder"), status: "New" },
+    { step: 2, label: t("trackingOrder.preparingFood"), status: "Preparing" },
+    { step: 3, label: t("trackingOrder.orderReady"), status: "Ready" },
+    { step: 4, label: t("trackingOrder.orderCompleted"), status: "Completed" },
   ];
 
   return (
@@ -145,7 +147,9 @@ const TrackingOrder = () => {
               color: customization?.selectedTextColor,
             }}
           >
-            {!showFeedbackModal ? "Tracking Details" : "Order Feedack"}
+            {!showFeedbackModal
+              ? t("trackingOrder.title")
+              : t("trackingOrder.orderFeedback")}
           </h2>
         )}
 
@@ -158,7 +162,7 @@ const TrackingOrder = () => {
                   color: customization?.selectedTextColor,
                 }}
               >
-                Order: #{orders.order.id}
+                {t("cart.orderNo")}: #{orders.order.id}
               </h3>
 
               <div className="px-7 flex flex-col gap-2 pt-4">
@@ -211,7 +215,7 @@ const TrackingOrder = () => {
                             opacity: 0.7,
                           }}
                         >
-                          {"Rating"}
+                          {t("productDetails.rating")}
                         </h3>
 
                         <div className="flex items-center gap-1">
@@ -242,7 +246,7 @@ const TrackingOrder = () => {
         )}
       </div>
 
-      <OrderSuccessFeddback
+      <OrderSuccessFeedback
         open={showFeedbackModal}
         setOpen={setShowFeedbackModal}
       />
@@ -265,6 +269,7 @@ const OrderTrackingTimeline = ({
   canceled,
   customization,
 }) => {
+  const { t } = useTranslation("global");
   return (
     <div className="max-w-md p-6 mx-auto">
       <div className="relative">
@@ -344,12 +349,12 @@ const OrderTrackingTimeline = ({
             </div>
             <div className="flex flex-col pt-1 ml-4">
               <span
-                className="mb-1 text-[10px] font-bold text-[#B5B5B5]"
+                className="mb-1 text-[10px] uppercase font-bold text-[#B5B5B5]"
                 style={{
                   color: customization?.selectedSecondaryColor,
                 }}
               >
-                STEP {step.step}
+                {t("trackingOrder.stepNo", { stepNo: step.step })}
               </span>
               <span
                 className={`text-xs font-semibold ${

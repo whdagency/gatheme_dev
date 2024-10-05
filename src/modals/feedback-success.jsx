@@ -9,10 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
+import { useTranslation } from "react-i18next";
 
 const FeedbackSuccess = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const { restoSlug, table_id, customization } = useMenu();
+  const { t } = useTranslation("global");
 
   const handleSubmit = () => {
     setOpen(false);
@@ -30,12 +32,11 @@ const FeedbackSuccess = ({ open, setOpen }) => {
           />
         </div>
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Thank You for Your Feedback!
+          {t("common.modals.feedbackSuccess")}
         </DrawerTitle>
 
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          Thank you for sharing your thoughts! We’ve received your feedback and
-          are always striving to improve your experience.
+          {t("common.modals.feedbackSuccessDesc")}
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
@@ -46,7 +47,7 @@ const FeedbackSuccess = ({ open, setOpen }) => {
               background: customization?.selectedPrimaryColor,
             }}
           >
-            Back to Home
+            {t("common.actions.backToHome")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

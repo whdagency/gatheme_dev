@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import { ArrowLeft } from "lucide-react";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const NoOrdersFound = ({ showFeedback = false }) => {
   const { table_id, restoSlug, customization } = useMenu();
+  const { t } = useTranslation("global");
 
   return (
     <div className={`${showFeedback ? "pt-10" : "pt-28"} relative pb-32`}>
@@ -28,7 +30,9 @@ const NoOrdersFound = ({ showFeedback = false }) => {
           color: customization?.selectedSecondaryColor,
         }}
       >
-        {!showFeedback ? "Tracking Details" : "Order Feedack"}
+        {!showFeedback
+          ? t("trackingOrder.title")
+          : t("trackingOrder.orderFeedback")}
       </h2>
 
       <div className="flex flex-col items-center justify-center gap-3 px-12">
@@ -51,7 +55,7 @@ const NoOrdersFound = ({ showFeedback = false }) => {
               color: customization?.selectedTextColor,
             }}
           >
-            No Orders Found
+            {t("trackingOrder.noOrdersFound")}
           </h3>
         )}
 
@@ -62,7 +66,7 @@ const NoOrdersFound = ({ showFeedback = false }) => {
               color: customization?.selectedSecondaryColor,
             }}
           >
-            Looks like you haven&apos;t ordered anything yet.
+            {t("trackingOrder.noOrdersFoundDesc")}
           </p>
         )}
 
@@ -82,7 +86,7 @@ const NoOrdersFound = ({ showFeedback = false }) => {
                   color: customization?.selectedPrimaryColor,
                 }}
               >
-                Start Ordering
+                {t("trackingOrder.startOrdering")}
               </button>
             </Link>
           </div>

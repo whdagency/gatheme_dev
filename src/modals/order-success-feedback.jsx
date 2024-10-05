@@ -9,19 +9,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMenu } from "../hooks/useMenu";
+import { useTranslation } from "react-i18next";
+import { hexToRgba } from "../lib/utils";
 
-const OrderSuccessFeddback = ({ open, setOpen }) => {
+const OrderSuccessFeedback = ({ open, setOpen }) => {
   // Feedback states
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [additionalComments, setAdditionalComments] = useState("");
   const { customization } = useMenu();
+  const { t } = useTranslation("global");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     // Validate feedback input
     if (!selectedFeedback) {
-      toast.error("Please select a feedback rating");
+      toast.error(t("common.modals.orderSuccess.feedbackRequired"));
       return;
     }
 
@@ -42,15 +45,18 @@ const OrderSuccessFeddback = ({ open, setOpen }) => {
   const reactions = [
     {
       emoji: "/assets/bad.png",
-      name: "Bad",
+      name: t("common.modals.orderSuccess.bad"),
+      value: "Bad",
     },
     {
       emoji: "/assets/decent.png",
-      name: "Decent",
+      name: t("common.modals.orderSuccess.decent"),
+      value: "Decent",
     },
     {
       emoji: "/assets/love-it.png",
-      name: "Love it!",
+      name: t("common.modals.orderSuccess.loveIt"),
+      value: "Love It!",
     },
   ];
 
@@ -58,29 +64,29 @@ const OrderSuccessFeddback = ({ open, setOpen }) => {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Rate Your Experience
+          {t("common.modals.orderSuccess.rateYourExperience")}
         </DrawerTitle>
 
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center sr-only">
-          How was your experience with us?
+          {t("common.modals.orderSuccess.rateYourExperienceDesc")}
         </DrawerDescription>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Emoji Feedback */}
           <div className="flex justify-between gap-5">
-            {reactions.map((reaction) => (
+            {reactions.map((reaction, index) => (
               <button
-                key={reaction.name}
+                key={index}
                 type="button"
                 className={`p-[6px_10px] flex items-center border border-[#B8B8B8] rounded-[10px] w-full whitespace-nowrap text-center gap-2 ${
-                  selectedFeedback === reaction.name ? "bg-[#E5E5E5]" : ""
+                  selectedFeedback === reaction.value ? "bg-[#E5E5E5]" : ""
                 }`}
                 onClick={() => {
                   setSelectedFeedback((prev) => {
-                    if (prev === reaction.name) {
+                    if (prev === reaction.value) {
                       return null;
                     }
-                    return reaction.name;
+                    return reaction.value;
                   });
                 }}
               >
@@ -96,11 +102,15 @@ const OrderSuccessFeddback = ({ open, setOpen }) => {
 
           {/* Optional Comments */}
           <textarea
-            placeholder="Tell us more (optional)"
+            placeholder={t("common.modals.orderSuccess.commentPlaceholder")}
             className="w-full p-[19px_21px] border border-[#E2E4EA] rounded-xl text-black text-sm placeholder:text-sm placeholder:text-[#9DA0A3] outline-none focus:outline-none"
             rows={5}
             value={additionalComments}
             onChange={(e) => setAdditionalComments(e.target.value)}
+            style={{
+              background: hexToRgba(customization?.selectedPrimaryColor, 0.2),
+              color: customization?.selectedTextColor,
+            }}
           />
 
           {/* Submit Button */}
@@ -110,9 +120,10 @@ const OrderSuccessFeddback = ({ open, setOpen }) => {
               className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full"
               style={{
                 background: customization?.selectedPrimaryColor,
+                color: customization?.selectedIconColor,
               }}
             >
-              Submit your feedback
+              {t("common.modals.orderSuccess.submitFeedback")}
             </Button>
           </DrawerFooter>
         </form>
@@ -121,4 +132,4 @@ const OrderSuccessFeddback = ({ open, setOpen }) => {
   );
 };
 
-export default OrderSuccessFeddback;
+export default OrderSuccessFeedback;

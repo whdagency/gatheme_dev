@@ -9,10 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
+import { useTranslation } from "react-i18next";
 
 const OrderCancelled = ({ open, setOpen }) => {
   const navigate = useNavigate();
   const { restoSlug, table_id, customization } = useMenu();
+  const { t } = useTranslation("global");
 
   const handleNavigateToMenu = () => {
     setOpen(false);
@@ -33,13 +35,12 @@ const OrderCancelled = ({ open, setOpen }) => {
 
         {/* Title */}
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Order Cancelled
+          {t("common.modals.orderCancelled")}
         </DrawerTitle>
 
         {/* Description */}
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          Sorry, your order has been rejected. If this was a mistake, you can
-          place a new order from the menu or call a waiter to verify.
+          {t("common.modals.orderCancelledDesc")}
         </DrawerDescription>
 
         {/* Footer */}
@@ -51,7 +52,7 @@ const OrderCancelled = ({ open, setOpen }) => {
               background: customization?.selectedPrimaryColor,
             }}
           >
-            Back to Home
+            {t("common.actions.backToHome")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

@@ -15,18 +15,20 @@ import { toast } from "sonner";
 import NotificationModal from "./notification-modal";
 import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useTranslation } from "react-i18next";
 
 const CallWaiter = () => {
   const { table_id, restos, customization } = useMenu();
   const [isWaiterCalled, setIsWaiterCalled] = useState(false);
   const [pending, setPending] = useState(false);
+  const { t } = useTranslation("global");
 
   const handleCallWaiter = async (e) => {
     e.preventDefault();
     setPending(true);
 
     if (!table_id) {
-      toast.info(t("No table selected"));
+      toast.info(t("common.modals.noTableSelected"));
       return;
     }
 
@@ -42,7 +44,7 @@ const CallWaiter = () => {
     if (isSubmitted) {
       setIsWaiterCalled(true);
     } else {
-      toast.error("Failed to call waiter");
+      toast.error("common.modals.failedToRequestWaiter");
     }
   };
 
@@ -51,8 +53,8 @@ const CallWaiter = () => {
       <NotificationModal
         open={isWaiterCalled}
         setOpen={setIsWaiterCalled}
-        title="Waiter Requested!"
-        description="The waiter will be sent to you shortly."
+        title={t("common.modals.waiterRequested")}
+        description={t("common.modals.waiterRequestedDesc")}
       />
     );
   }
@@ -80,10 +82,10 @@ const CallWaiter = () => {
           />
         </div>
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Call Waiter To Your Table!
+          {t("common.modals.callWaiter")}
         </DrawerTitle>
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          Need assistance? Tap below to request a waiter to come to your table.
+          {t("common.modals.callWaiterDesc")}
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
@@ -98,7 +100,7 @@ const CallWaiter = () => {
             {pending && (
               <ClipLoader size={20} loading={pending} color={"#ffffff"} />
             )}{" "}
-            Request Waiter
+            {t("common.actions.requestWaiter")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

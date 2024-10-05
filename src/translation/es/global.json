@@ -1,0 +1,155 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Inicio",
+      "myCart": "Carrito",
+      "feedback": "Comentarios",
+      "restaurant": "Restaurante"
+    },
+    "actions": {
+      "back": "Atrás",
+      "addToCart": "Añadir al Carrito",
+      "close": "Cerrar",
+      "all": "Todos",
+      "seeAll": "Ver Todo",
+      "seeLess": "Ver Menos",
+      "continueShopping": "Continuar Comprando",
+      "goToCart": "Ir al Carrito",
+      "requestWaiter": "Pedir Camarero",
+      "requestBill": "Pedir Cuenta",
+      "confirmOrder": "Confirmar Pedido",
+      "backToHome": "Volver al Inicio",
+      "selectTable": "Por favor seleccione una mesa"
+    },
+    "modals": {
+      "addedToCart": "Añadido al Carrito!",
+      "addedToCartDesc": "Su artículo ha sido añadido con éxito. Puede ver su carrito o continuar comprando.",
+      "noTableSelected": "Ninguna mesa seleccionada",
+      "failedToRequestWaiter": "No se pudo solicitar al camarero. Inténtelo más tarde.",
+      "waiterRequested": "¡Camarero Solicitado!",
+      "waiterRequestedDesc": "El camarero llegará a su mesa en breve.",
+      "callWaiter": "Llamar al Camarero",
+      "callWaiterDesc": "¿Necesita ayuda? Toque aquí para solicitar al camarero.",
+      "billRequested": "¡Cuenta Solicitada!",
+      "billRequestedDesc": "La cuenta llegará en breve.",
+      "billRequestFailed": "No se pudo solicitar la cuenta. Inténtelo de nuevo.",
+      "requestYourBill": "Solicite su Cuenta!",
+      "requestYourBillDesc": "¿Listo para pagar? Háganoslo saber y le llevaremos la cuenta a su mesa.",
+      "confirmOrder": "Confirmar Pedido",
+      "confirmOrderDesc": "Si todo está correcto, confirme para que comencemos a preparar su comida.",
+      "feedbackSuccess": "¡Gracias por su Opinión!",
+      "feedbackSuccessDesc": "Gracias por sus comentarios! Los hemos recibido y estamos trabajando para mejorar su experiencia.",
+      "orderCancelled": "Pedido Cancelado",
+      "orderCancelledDesc": "Lo sentimos, su pedido ha sido cancelado. Si fue un error, puede realizar un nuevo pedido o llamar al camarero para verificarlo.",
+      "orderSuccess": {
+        "bad": "Malo",
+        "decent": "Regular",
+        "loveIt": "¡Me encanta!",
+        "feedbackRequired": "Por favor seleccione una calificación",
+        "rateYourExperience": "Califique su Experiencia",
+        "rateYourExperienceDesc": "¿Cómo fue su experiencia?",
+        "commentPlaceholder": "Cuéntenos más (opcional)",
+        "submitFeedback": "Enviar Opinión"
+      }
+    },
+    "subscription": {
+      "title": "Suscripción Caducada",
+      "desc": "Lo sentimos, su suscripción al menú digital ha caducado.",
+      "benefits": {
+        "title": "Beneficios de Renovar:",
+        "keepUp": "Mantenga su menú actualizado",
+        "attractMore": "Atraiga más clientes",
+        "efficiency": "Aumente la eficiencia"
+      },
+      "thankYou": "Gracias por ser un cliente valioso. ¡Esperamos seguir sirviéndole!"
+    }
+  },
+  "home": {
+    "searchPlaceholder": "Vamos a encontrar la comida que te gusta",
+    "promotion": "Promoción 🔥",
+    "products": {
+      "title": "Productos",
+      "rating": "Calificación",
+      "minutes": "Minutos",
+      "allProducts": "Todos los Productos",
+      "searchResults": "Resultados de la Búsqueda",
+      "yourSearchTerm": "Su término de búsqueda",
+      "noResults": "No se encontraron resultados",
+      "yielded": "dio",
+      "results": "resultado(s)",
+      "noProducts": "No se encontraron productos",
+      "clearSearch": "Limpiar Búsqueda",
+      "suggestedProducts": "Productos Sugeridos"
+    }
+  },
+  "productDetails": {
+    "title": "Detalles del Producto",
+    "rating": "Calificación",
+    "time": "Tiempo",
+    "min": "min",
+    "description": "Descripción",
+    "noDescription": "No hay descripción disponible",
+    "readMore": "Leer Más",
+    "readLess": "Leer Menos",
+    "select": "Seleccionar",
+    "forYour": "para su",
+    "selectProduct": "Seleccione {{type}} para su {{product}}",
+    "selectExtras": "Seleccione Extras para",
+    "chooseMultiple": "Elija un máximo de {{max}} artículos",
+    "chooseOne": "Elija un solo artículo",
+    "requiredError": "Elija al menos un artículo obligatorio.",
+    "required": "Requerido",
+    "customizeYour": "Personalice su",
+    "noProductName": "Sin {{productName}}",
+    "no": "No",
+    "note": "Nota",
+    "notePlaceholder": "Escriba su nota aquí",
+    "orderTotal": "Total del Pedido"
+  },
+  "info": {
+    "changeLanguage": "Cambiar Idioma",
+    "selectLanguage": "Seleccione Idioma",
+    "followUs": "Síguenos",
+    "wifiPassword": "Contraseña WiFi",
+    "passwordCopied": "Copiado al portapapeles",
+    "passwordNotCopied": "No se pudo copiar la contraseña"
+  },
+  "cart": {
+    "table": "Mesa:",
+    "clearCart": "Vaciar Carrito",
+    "orderDetails": "Detalles del Pedido",
+    "orderNo": "Pedido",
+    "toppings": "Aderezos:",
+    "none": "Ninguno",
+    "extras": "Extras:",
+    "ingredients": "Ingredientes:",
+    "comment": "Comentario:",
+    "noComment": "Sin Comentarios",
+    "empytCart": "Su Carrito está Vacío :(",
+    "empytCartDesc": "Parece que no ha agregado nada a su carrito",
+    "orderProcess": "Proceso de Pedido",
+    "orderStart": "Comenzar Pedido",
+    "orderTotal": "Total del Pedido"
+  },
+  "trackingOrder": {
+    "title": "Seguimiento de Pedido",
+    "orderFeedback": "Opinión del Pedido",
+    "newOrder": "Nuevo Pedido",
+    "preparingFood": "Preparando Comida",
+    "orderReady": "Pedido Listo",
+    "orderCompleted": "Pedido Completado",
+    "noOrdersFound": "No se Encontraron Pedidos",
+    "noOrdersFoundDesc": "Parece que no ha realizado ningún pedido",
+    "startOrdering": "Realizar Pedido",
+    "stepNo": "Paso {{stepNo}}"
+  },
+  "feedback": {
+    "title": "Opinión",
+    "selectFeedback": "Por favor seleccione una calificación antes de enviar.",
+    "giveUsYour": "Díganos su",
+    "feedback": "Opinión! 😊",
+    "feedbackDesc": "Ayúdenos a mejorar su experiencia compartiendo su opinión.",
+    "placeholder": "Escriba su opinión aquí...",
+    "sendFeedback": "Enviar Opinión"
+  }
+}

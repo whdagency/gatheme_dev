@@ -7,6 +7,7 @@ import {
   FaSnapchat,
   FaTiktok,
   FaYoutube,
+  FaChevronRight,
 } from "react-icons/fa";
 import { useMenu } from "../hooks/useMenu";
 import { STORAGE_URL } from "../lib/api";
@@ -15,18 +16,51 @@ import { toast } from "sonner";
 import { TelephoneIcon, Timer } from "../components/icons";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { hexToRgba } from "../lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Card } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
+import { HiLanguage } from "react-icons/hi2";
+import { ChevronRight } from "lucide-react";
 
 const Info = () => {
-  const { restos, resInfo, customization } = useMenu();
+  const {
+    restos,
+    resInfo,
+    customization,
+    handleLanguageChange,
+    selectedLanguage,
+  } = useMenu();
   const wifiPassword = resInfo?.wifi_pass || "N/A";
   const restoName = restos?.name || "Restaurant Name";
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation("global");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const languageMap = {
+    en: "English",
+    fr: "French",
+    es: "Spanish",
+    it: "Italian",
+    ar: "العربية",
+  };
+
+  const handleLanguage = (lang) => {
+    handleLanguageChange(lang);
+    setIsOpen(false);
+  };
 
   const handleCopyPassword = () => {
     navigator.clipboard
       .writeText(wifiPassword)
       .then(() => {
-        toast.success("Copied to clipboard");
+        toast.success(t("info.passwordCopied"));
         setCopied(true);
         setTimeout(() => {
           setCopied(false);
@@ -35,7 +69,7 @@ const Info = () => {
       .catch((err) => {
         console.log({ err });
         setCopied(false);
-        toast.error("Could not copy password");
+        toast.error(t("info.passwordNotCopied"));
       });
   };
 
@@ -119,8 +153,8 @@ const Info = () => {
                   }}
                 >
                   {resInfo?.phone?.includes("+")
-                    ? resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")
-                    : `+${resInfo?.phone.replace(/(\d{3})(?=\d)/g, "$1 ")}` ||
+                    ? resInfo?.phone?.replace(/(\d{3})(?=\d)/g, "$1 ")
+                    : `+${resInfo?.phone?.replace(/(\d{3})(?=\d)/g, "$1 ")}` ||
                       "N/A"}
                 </span>
               </div>
@@ -151,7 +185,7 @@ const Info = () => {
           </p>
 
           <div
-            className="p-6 mt-4 bg-[#FFF6E9] rounded-lg"
+            className="p-6 mt-4 bg-[#FFF6E9] rounded-lg mb-6"
             style={{
               background: hexToRgba(customization?.selectedPrimaryColor, 0.2),
             }}
@@ -164,7 +198,7 @@ const Info = () => {
                   color: customization?.selectedTextColor,
                 }}
               >
-                WiFi Password
+                {t("info.wifiPassword")}
               </span>
             </div>
 
@@ -196,6 +230,63 @@ const Info = () => {
             </p>
           </div>
 
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <div
+                className="dark:bg-gray-700 flex items-center justify-around w-full gap-2 p-4 mb-6 bg-gray-100 rounded-lg cursor-pointer"
+                style={{
+                  background: hexToRgba(
+                    customization?.selectedPrimaryColor,
+                    0.2
+                  ),
+                }}
+              >
+                <div>
+                  <HiLanguage className="w-6 h-6" />
+                </div>
+                <h2 className="text-md flex-1 font-normal">
+                  {t("info.changeLanguage")}
+                </h2>
+                <FaChevronRight className="" />
+              </div>
+            </DialogTrigger>
+            <DialogDescription className="sr-only"></DialogDescription>
+            <DialogContent className="max-w-md gap-0 px-[20px] py-[23px] rounded-lg">
+              <DialogHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+                <DialogTitle
+                  className="text-lg font-bold tracking-wide text-gray-700"
+                  style={{
+                    color: hexToRgba(customization?.selectedTextColor, 0.7),
+                  }}
+                >
+                  {t("info.selectLanguage")}
+                </DialogTitle>
+              </DialogHeader>
+
+              <Card className="w-full max-w-md mx-auto border-none">
+                <ul className="divide-y">
+                  {Object.keys(languageMap).map((code) => (
+                    <li key={code}>
+                      <button
+                        className={`flex items-center justify-between w-full px-4 py-4 text-md font-medium text-left hover:bg-muted/50 transition-colors ${
+                          selectedLanguage === code
+                            ? "text-[" +
+                              customization?.selectedPrimaryColor +
+                              "]"
+                            : "text-muted-foreground"
+                        }`}
+                        onClick={() => handleLanguage(code)}
+                      >
+                        {languageMap[code]}
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </DialogContent>
+          </Dialog>
+
           {/* Social Icons */}
           {socialMediaLinks.length > 0 && (
             <div className={`flex flex-col gap-4 mt-7`}>
@@ -205,7 +296,7 @@ const Info = () => {
                   color: customization?.selectedTextColor,
                 }}
               >
-                {"Follow Us"}:
+                {t("info.followUs")}:
               </h4>
 
               <div className="flex flex-wrap items-center justify-start gap-4">

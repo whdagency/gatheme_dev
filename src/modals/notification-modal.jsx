@@ -8,9 +8,12 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useMenu } from "../hooks/useMenu";
+import { useTranslation } from "react-i18next";
 
 const NotificationModal = ({ open, setOpen, title = "", description = "" }) => {
   const { customization } = useMenu();
+  const { t } = useTranslation("global");
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -34,7 +37,7 @@ const NotificationModal = ({ open, setOpen, title = "", description = "" }) => {
               background: customization?.selectedPrimaryColor,
             }}
           >
-            Close
+            {t("common.actions.close")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

@@ -9,9 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useMenu } from "../hooks/useMenu";
+import { useTranslation } from "react-i18next";
 
 const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
   const { customization } = useMenu();
+  const { t } = useTranslation("global");
+
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
@@ -23,12 +26,11 @@ const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
           />
         </div>
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Confirm Order
+          {t("common.modals.confirmOrder")}
         </DrawerTitle>
 
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          If everything looks good, hit &apos;Confirm Order&apos; below, and
-          we&apos;ll start preparing your meal right away!
+          {t("common.modals.confirmOrderDesc")}
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
@@ -43,7 +45,7 @@ const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
             {orderPending && (
               <ClipLoader size={20} loading={orderPending} color={"#ffffff"} />
             )}{" "}
-            {"Confirm Order"}
+            {t("common.actions.confirmOrder")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

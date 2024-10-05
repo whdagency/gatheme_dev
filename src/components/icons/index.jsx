@@ -653,3 +653,37 @@ export const OrderSpinnerIcon = ({ fill = "white", className, ...props }) => {
     </svg>
   );
 };
+
+export const SearchBar = ({ width = 18, height = 18 }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 18 18"
+      fill="none"
+    >
+      <g clipPath="url(#clip0_1868_21029)">
+        <path
+          d="M7.66675 13.6666C10.9805 13.6666 13.6667 10.9803 13.6667 7.66663C13.6667 4.35292 10.9805 1.66663 7.66675 1.66663C4.35304 1.66663 1.66675 4.35292 1.66675 7.66663C1.66675 10.9803 4.35304 13.6666 7.66675 13.6666Z"
+          stroke="#7A7A7A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.3334 16.3333L12.0001 11.9999M11.0001 7.66659C11.0001 6.78253 10.6489 5.93468 10.0238 5.30956C9.39865 4.68444 8.5508 4.33325 7.66675 4.33325"
+          stroke="#7A7A7A"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1868_21029">
+          <rect width={width} height={height} fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};

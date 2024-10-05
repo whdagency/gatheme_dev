@@ -17,31 +17,33 @@ import {
 } from "../components/icons";
 import CallWaiter from "../modals/call-waiter";
 import RequestBill from "../modals/request-bill";
+import { useTranslation } from "react-i18next";
 
 const Navbar = ({ hideCallToActionBtn }) => {
   const { restoSlug, table_id, customization } = useMenu();
+  const { t } = useTranslation("global");
 
   const navLinks = [
     {
-      label: "Home",
+      label: t("common.navigation.home"),
       href: `/menu/${restoSlug}?table_id=${table_id}`,
       icon: ShoppingBag,
       name: "home",
     },
     {
-      label: "My Cart",
+      label: t("common.navigation.myCart"),
       href: `/menu/${restoSlug}/cart?table_id=${table_id}`,
       icon: Star,
       name: "cart",
     },
     {
-      label: "Feedback",
+      label: t("common.navigation.feedback"),
       href: `/menu/${restoSlug}/feedback?table_id=${table_id}`,
       icon: MessageCircle,
       name: "feedback",
     },
     {
-      label: "Restaurant",
+      label: t("common.navigation.restaurant"),
       href: `/menu/${restoSlug}/info?table_id=${table_id}`,
       icon: User,
       name: "info",
@@ -51,7 +53,7 @@ const Navbar = ({ hideCallToActionBtn }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0">
       {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between max-w-md px-4 py-3 mx-auto bg-white border-t">
+      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-around max-w-md px-4 py-3 mx-auto bg-white border-t">
         {navLinks.map((link) => (
           <NavItem key={link.label} {...link} customization={customization} />
         ))}
@@ -76,6 +78,7 @@ export default Navbar;
 const NavItem = ({ href, label, customization, ...rest }) => {
   const name = rest.name;
   const location = useLocation();
+  const { t } = useTranslation("global");
 
   // Extract the pathname from href (ignoring query params)
   const hrefPathname = new URL(href, window.location.origin).pathname;
@@ -134,7 +137,7 @@ const NavItem = ({ href, label, customization, ...rest }) => {
                 : customization?.selectedSecondaryColor,
           }}
         >
-          {isProductsPage ? "Home" : label}
+          {isProductsPage ? t("common.navigation.home") : label}
         </span>
       </>
     </NavLink>

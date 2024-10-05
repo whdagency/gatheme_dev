@@ -7,7 +7,7 @@ import ProductDetailsContent from "./ProductDetailsContent";
 import AnimatedLayout from "../shared/AnimateLayout";
 
 const ProductDetails = () => {
-  const { products, customization } = useMenu();
+  const { products } = useMenu();
   const pathname = useLocation().pathname;
   const params = useParams();
   const [currentSlide, setCurrentSlide] = useState(1);

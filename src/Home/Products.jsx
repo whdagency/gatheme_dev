@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
 import ProductCard from "../products/ProductCard";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
   const {
@@ -16,6 +17,7 @@ const Products = () => {
     table_id,
     customization,
   } = useMenu();
+  const { t } = useTranslation("global");
 
   const [seeAllProducts, setSeeAllProducts] = useState(false);
 
@@ -30,7 +32,7 @@ const Products = () => {
                 color: customization?.selectedTextColor,
               }}
             >
-              {selectedCat === "All" ? "Products" : selectedCat}
+              {selectedCat === "All" ? t("home.products.title") : selectedCat}
             </h2>
             <Link
               to={`/menu/${restoSlug}/products?table_id=${table_id}`}
@@ -40,13 +42,16 @@ const Products = () => {
                 color: customization?.selectedPrimaryColor,
               }}
             >
-              {seeAllProducts ? "See Less" : "See All"}
+              {seeAllProducts
+                ? t("common.actions.seeLess")
+                : t("common.actions.seeAll")}
             </Link>
           </>
         ) : (
-          <p>
-            Your search term ({`"${searchProductTerm}"`}) yielded{" "}
-            {products.length} result(s){" "}
+          <p className="flex items-center gap-1">
+            {t("home.products.yourSearchTerm")} ({`"${searchProductTerm}"`})
+            {t("home.products.yielded")} {products.length}{" "}
+            {t("home.products.results")}{" "}
           </p>
         )}
       </div>
@@ -61,11 +66,11 @@ const Products = () => {
         </div>
       ) : products.length === 0 && searchProductTerm.length > 0 ? (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide flex flex-col items-center py-5 pb-32 mx-auto text-base text-center">
-          {`No products found for this search term`}
+          {t("home.products.noResults")}
         </div>
       ) : message ? (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide flex flex-col items-center py-5 pb-32 mx-auto text-base text-center">
-          {`No products found for the selected category`}
+          {t("home.products.noProducts")}
         </div>
       ) : (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide pb-32">
@@ -81,7 +86,7 @@ const Products = () => {
                 }
                 title={product.name}
                 rating={product?.rating || 4.5}
-                time={product?.time || `${12} minutes`}
+                time={product?.time || `${12} ${t("home.products.minutes")}`}
                 price={parseFloat(product?.price)}
                 currency={resInfo?.currency || "MAD"}
                 id={product?.id}

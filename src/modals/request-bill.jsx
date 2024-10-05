@@ -14,18 +14,20 @@ import NotificationModal from "./notification-modal";
 import { submitNotification } from "../lib/notification";
 import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useTranslation } from "react-i18next";
 
 const RequestBill = () => {
   const { table_id, restos, customization } = useMenu();
   const [isBillRequested, setIsBillRequested] = useState(false);
   const [pending, setPending] = useState(false);
+  const { t } = useTranslation("global");
 
   const handleCallWaiter = async (e) => {
     e.preventDefault();
     setPending(true);
 
     if (!table_id) {
-      toast.info(t("No table selected"));
+      toast.info(t("common.modals.noTableSelected"));
       return;
     }
 
@@ -41,7 +43,7 @@ const RequestBill = () => {
     if (isSubmitted) {
       setIsBillRequested(true);
     } else {
-      toast.error("Failed to request bill. Please try again later.");
+      toast.error(t("common.modals.billRequestFailed"));
     }
   };
 
@@ -50,8 +52,8 @@ const RequestBill = () => {
       <NotificationModal
         open={isBillRequested}
         setOpen={setIsBillRequested}
-        title="Bill Requested!"
-        description="The bill will be sent to you shortly."
+        title={t("common.modals.billRequested")}
+        description={t("common.modals.billRequestedDesc")}
       />
     );
   }
@@ -79,11 +81,10 @@ const RequestBill = () => {
           />
         </div>
         <DrawerTitle className="text-2xl font-semibold capitalize">
-          Request Your Bill!
+          {t("common.modals.requestYourBill")}
         </DrawerTitle>
         <DrawerDescription className="text-[#A7AEC1] text-sm text-center">
-          Are you ready to settle your bill? Let us know, and we&apos;ll bring
-          it right to your table!
+          {t("common.modals.requestYourBillDesc")}
         </DrawerDescription>
 
         <DrawerFooter className="flex justify-center">
@@ -96,7 +97,7 @@ const RequestBill = () => {
             {pending && (
               <ClipLoader size={20} loading={pending} color={"#ffffff"} />
             )}{" "}
-            Request Bill
+            {t("common.actions.requestBill")}
           </Button>
         </DrawerFooter>
       </DrawerContent>

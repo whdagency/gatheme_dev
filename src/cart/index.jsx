@@ -12,6 +12,7 @@ import { submitNotification } from "../lib/notification";
 import SuggestedProducts from "../products/SuggestedProducts";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { hexToRgba } from "../lib/utils";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
   const {
@@ -24,6 +25,7 @@ const Cart = () => {
     orderID,
     customization,
   } = useMenu();
+  const { t } = useTranslation("global");
   const { items, removeItem } = useCart();
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
@@ -66,7 +68,7 @@ const Cart = () => {
 
   const submitOrder = async () => {
     if (!table_id) {
-      toast.error("Please select a table");
+      toast.error(t("common.actions.selectTable"));
       return;
     }
     setOrderPending(true);
@@ -161,7 +163,7 @@ const Cart = () => {
             color: customization?.selectedTextColor,
           }}
         >
-          My Cart
+          {t("common.navigation.myCart")}
         </h2>
 
         <div className="px-7 flex items-center justify-between mt-5 mb-6">
@@ -171,7 +173,7 @@ const Cart = () => {
               color: customization?.selectedTextColor,
             }}
           >
-            Table :{" "}
+            {t("cart.table")}{" "}
             {isNaN(tableName)
               ? tableName
               : tableName?.padStart(3, "0") || table_id?.padStart(3, "0")}
@@ -188,7 +190,7 @@ const Cart = () => {
               borderColor: customization?.selectedPrimaryColor,
             }}
           >
-            Clear Card
+            {t("cart.clearCart")}
           </button>
         </div>
 
@@ -223,7 +225,7 @@ const Cart = () => {
                     color: customization?.selectedSecondaryColor,
                   }}
                 >
-                  Order Details
+                  {t("cart.orderDetails")}
                 </span>
                 {isDetailsOpen ? (
                   <ChevronUp
@@ -265,7 +267,7 @@ const Cart = () => {
                               ),
                             }}
                           >
-                            Order #{index + 1}
+                            {t("cart.orderNo")} #{index + 1}
                           </h3>
 
                           {toppings ? (
@@ -291,7 +293,7 @@ const Cart = () => {
                                 >
                                   {top.options
                                     ?.map((op) => op.name)
-                                    .join(", ") || "None"}
+                                    .join(", ") || t("cart.none")}
                                 </span>
                               </p>
                             ))
@@ -306,7 +308,7 @@ const Cart = () => {
                                   ),
                                 }}
                               >
-                                Toppings :
+                                {t("cart.toppings")}
                               </span>{" "}
                               <span
                                 className="text-[#A9A9A9]"
@@ -314,7 +316,7 @@ const Cart = () => {
                                   color: customization?.selectedSecondaryColor,
                                 }}
                               >
-                                None
+                                {t("cart.none")}
                               </span>
                             </p>
                           )}
@@ -342,7 +344,7 @@ const Cart = () => {
                                 >
                                   {extra.options
                                     ?.map((op) => op.name)
-                                    .join(", ") || "None"}
+                                    .join(", ") || t("cart.none")}
                                 </span>
                               </p>
                             ))
@@ -357,7 +359,7 @@ const Cart = () => {
                                   ),
                                 }}
                               >
-                                Extras :
+                                {t("cart.extras")}
                               </span>{" "}
                               <span
                                 className="text-[#A9A9A9]"
@@ -365,7 +367,7 @@ const Cart = () => {
                                   color: customization?.selectedSecondaryColor,
                                 }}
                               >
-                                None
+                                {t("cart.none")}
                               </span>
                             </p>
                           )}
@@ -380,7 +382,7 @@ const Cart = () => {
                                 ),
                               }}
                             >
-                              Ingredients :
+                              {t("cart.ingredients")}
                             </span>{" "}
                             <span
                               className="text-[#A9A9A9] capitalize"
@@ -390,7 +392,7 @@ const Cart = () => {
                             >
                               {ingredients
                                 ?.map((ingredient) => ingredient.name)
-                                .join(", ") || "None"}
+                                .join(", ") || t("cart.none")}
                             </span>
                           </p>
                           <p>
@@ -403,7 +405,7 @@ const Cart = () => {
                                 ),
                               }}
                             >
-                              Comment :
+                              {t("cart.comment")}
                             </span>{" "}
                             <span
                               className="text-[#A9A9A9]"
@@ -411,7 +413,7 @@ const Cart = () => {
                                 color: customization?.selectedSecondaryColor,
                               }}
                             >
-                              {comment || "No Comment"}
+                              {comment || t("cart.noComment")}
                             </span>
                           </p>
                         </div>
@@ -440,7 +442,7 @@ const Cart = () => {
                 color: customization?.selectedTextColor,
               }}
             >
-              Your Cart is Empty :(
+              {t("cart.empytCart")}
             </h3>
 
             <p
@@ -449,7 +451,7 @@ const Cart = () => {
                 color: customization?.selectedSecondaryColor,
               }}
             >
-              Looks like you haven&apos;t added anything to your cart yet
+              {t("cart.empytCartDesc")}
             </p>
 
             <div className="mt-7 flex flex-col items-center w-[186px] gap-4">
@@ -465,7 +467,7 @@ const Cart = () => {
                       color: customization?.selectedIconColor,
                     }}
                   >
-                    Ordering Process
+                    {t("cart.orderProcess")}
                   </button>
                 </Link>
               )}
@@ -484,7 +486,7 @@ const Cart = () => {
                     color: customization?.selectedPrimaryColor,
                   }}
                 >
-                  Start Ordering
+                  {t("cart.orderStart")}
                 </button>
               </Link>
             </div>
@@ -510,7 +512,7 @@ const Cart = () => {
                     color: customization?.selectedSecondaryColor,
                   }}
                 >
-                  Order Total
+                  {t("cart.orderTotal")}
                 </span>
                 <span
                   className="text-xl font-medium text-[#191D31]"
@@ -538,7 +540,7 @@ const Cart = () => {
                   color: customization?.selectedIconColor,
                 }}
               >
-                Add to Cart
+                {t("common.actions.addToCart")}
               </button>
             </div>
           </div>

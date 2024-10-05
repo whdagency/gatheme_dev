@@ -3,13 +3,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import { Toaster } from "sonner";
 import Navbar from "./Navbar";
-import { AnimatePresence, motion } from "framer-motion";
 import AnimatedLayout from "./AnimateLayout";
 
 const Layout = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  const { restoSlug, customization } = useMenu();
+  const { restoSlug, customization, selectedLanguage } = useMenu();
   const isIndexPage = pathname === `/menu/${restoSlug}`;
   const showNav =
     pathname === `/menu/${restoSlug}` ||
@@ -18,15 +17,19 @@ const Layout = () => {
     pathname === `/menu/${restoSlug}/feedback` ||
     pathname === `/menu/${restoSlug}/products`;
 
-  // Animation variants for page transitions
-  const variants = {
-    initial: { opacity: 0, x: 10 },
-    animate: { opacity: 1, x: 0, transition: { duration: 0.3 } },
-  };
-
   useEffect(() => {
     document.body.style.backgroundColor = customization?.selectedBgColor;
   }, [customization?.selectedBgColor]);
+
+  useEffect(() => {
+    selectedLanguage === "ar"
+      ? (document.body.dir = "rtl")
+      : (document.body.dir = "ltr");
+
+    return () => {
+      document.body.dir = "ltr";
+    };
+  }, [selectedLanguage]);
 
   return (
     <section

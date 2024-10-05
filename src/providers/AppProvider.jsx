@@ -1,10 +1,17 @@
-import { createContext, useEffect, useState, useMemo } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import { defaultCustomization } from "../constant";
 import Lottie from "lottie-react";
 import loaderAnimation from "@/components/loader.json";
 import fetchApiData from "../lib/fetch-data";
 import { Helmet } from "react-helmet-async";
 import { STORAGE_URL } from "../lib/api";
+import i18next from "i18next";
 
 export const AppContext = createContext();
 
@@ -18,6 +25,8 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
     message: "",
     loading: false,
     qrCode: [],
+    suggestions: [],
+    language: "",
   });
 
   useEffect(() => {
@@ -50,6 +59,7 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
           infoData,
           customizationData,
           qrCodeData,
+          suggestionsData,
         ] = await Promise.all([
           fetchApiData(`/getCategorieByResto/${resto.id}`, []),
           fetchApiData(`/getdishes/${resto.id}${searchQuery}`, []),
@@ -57,6 +67,7 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
           fetchApiData(`/infos/${resto.id}`, {}),
           fetchApiData(`/customizations/${resto.id}`, defaultCustomization),
           fetchApiData(`/qrcodes/${resto.id}`, []),
+          fetchApiData(`/suggestions/${resto.id}`, []),
         ]);
 
         setData((prev) => ({
@@ -99,6 +110,8 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
           resInfo: infoData[0] || {},
           customization: customizationData[0] || defaultCustomization,
           qrCode: qrCodeData || [],
+          suggestions: suggestionsData,
+          language: infoData[0]?.language,
         }));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -141,7 +154,16 @@ const AppProvider = ({ children }) => {
     message,
     loading,
     qrCode,
+    suggestions,
+    language,
   } = useFetchRestoData(restoSlug, selectedCat, searchProductTerm);
+
+  const [selectedLanguage, setSelectedLanguage] = useState(language);
+
+  const handleLanguageChange = useCallback((language) => {
+    setSelectedLanguage(language);
+    i18next.changeLanguage(language);
+  }, []);
 
   useEffect(() => {
     setSelectedCat(cat);
@@ -214,6 +236,10 @@ const AppProvider = ({ children }) => {
       searchProductTerm,
       orderID,
       setOrderID,
+      suggestions,
+      language,
+      selectedLanguage,
+      handleLanguageChange,
     }),
     [
       table_id,
@@ -231,6 +257,10 @@ const AppProvider = ({ children }) => {
       searchProductTerm,
       orderID,
       setOrderID,
+      suggestions,
+      language,
+      selectedLanguage,
+      handleLanguageChange,
     ]
   );
 

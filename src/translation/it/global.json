@@ -1,0 +1,155 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "myCart": "Carrello",
+      "feedback": "Feedback",
+      "restaurant": "Ristorante"
+    },
+    "actions": {
+      "back": "Indietro",
+      "addToCart": "Aggiungi al Carrello",
+      "close": "Chiudi",
+      "all": "Tutti",
+      "seeAll": "Vedi Tutto",
+      "seeLess": "Vedi Meno",
+      "continueShopping": "Continua Shopping",
+      "goToCart": "Vai al Carrello",
+      "requestWaiter": "Richiedi Cameriere",
+      "requestBill": "Richiedi Conto",
+      "confirmOrder": "Conferma Ordine",
+      "backToHome": "Torna alla Home",
+      "selectTable": "Si prega di selezionare un tavolo"
+    },
+    "modals": {
+      "addedToCart": "Aggiunto al Carrello!",
+      "addedToCartDesc": "Il tuo articolo è stato aggiunto con successo. Puoi vedere il carrello o continuare a fare shopping.",
+      "noTableSelected": "Nessun tavolo selezionato",
+      "failedToRequestWaiter": "Impossibile richiedere il cameriere. Riprova più tardi.",
+      "waiterRequested": "Cameriere Richiesto!",
+      "waiterRequestedDesc": "Il cameriere arriverà al tuo tavolo a breve.",
+      "callWaiter": "Chiama Cameriere",
+      "callWaiterDesc": "Hai bisogno di aiuto? Tocca qui sotto per chiamare un cameriere.",
+      "billRequested": "Conto Richiesto!",
+      "billRequestedDesc": "Il conto ti sarà portato a breve.",
+      "billRequestFailed": "Impossibile richiedere il conto. Riprova più tardi.",
+      "requestYourBill": "Richiedi il Conto!",
+      "requestYourBillDesc": "Pronto a pagare il conto? Facci sapere e te lo porteremo al tavolo!",
+      "confirmOrder": "Conferma Ordine",
+      "confirmOrderDesc": "Se tutto è corretto, conferma per iniziare a preparare il tuo ordine.",
+      "feedbackSuccess": "Grazie per la tua Opinione!",
+      "feedbackSuccessDesc": "Grazie per aver condiviso i tuoi pensieri! Abbiamo ricevuto il tuo feedback e lavoriamo sempre per migliorare la tua esperienza.",
+      "orderCancelled": "Ordine Annullato",
+      "orderCancelledDesc": "Il tuo ordine è stato annullato. Se è stato un errore, puoi fare un nuovo ordine o chiedere al cameriere di verificare.",
+      "orderSuccess": {
+        "bad": "Scarso",
+        "decent": "Discreto",
+        "loveIt": "Lo adoro!",
+        "feedbackRequired": "Si prega di selezionare una valutazione",
+        "rateYourExperience": "Valuta la tua Esperienza",
+        "rateYourExperienceDesc": "Com'è stata la tua esperienza?",
+        "commentPlaceholder": "Dicci di più (opzionale)",
+        "submitFeedback": "Invia Opinione"
+      }
+    },
+    "subscription": {
+      "title": "Abbonamento Scaduto",
+      "desc": "Spiacenti, il tuo abbonamento al menù digitale è scaduto.",
+      "benefits": {
+        "title": "Vantaggi del Rinnovo:",
+        "keepUp": "Mantieni il tuo menù aggiornato",
+        "attractMore": "Attira più clienti",
+        "efficiency": "Aumenta l'efficienza"
+      },
+      "thankYou": "Grazie per essere un cliente fedele! Non vediamo l'ora di continuare a servirti."
+    }
+  },
+  "home": {
+    "searchPlaceholder": "Troviamo il cibo che ti piace",
+    "promotion": "Promozione 🔥",
+    "products": {
+      "title": "Prodotti",
+      "rating": "Valutazione",
+      "minutes": "Minuti",
+      "allProducts": "Tutti i Prodotti",
+      "searchResults": "Risultati della Ricerca",
+      "yourSearchTerm": "Il tuo termine di ricerca",
+      "noResults": "Nessun risultato trovato",
+      "yielded": "ha prodotto",
+      "results": "risultato(i)",
+      "noProducts": "Nessun prodotto trovato",
+      "clearSearch": "Cancella Ricerca",
+      "suggestedProducts": "Prodotti Suggeriti"
+    }
+  },
+  "productDetails": {
+    "title": "Dettagli del Prodotto",
+    "rating": "Valutazione",
+    "time": "Tempo",
+    "min": "min",
+    "description": "Descrizione",
+    "noDescription": "Nessuna descrizione disponibile",
+    "readMore": "Leggi di Più",
+    "readLess": "Leggi Meno",
+    "select": "Seleziona",
+    "forYour": "per il tuo",
+    "selectProduct": "Seleziona {{type}} per il tuo {{product}}",
+    "selectExtras": "Seleziona Extra per",
+    "chooseMultiple": "Scegli un massimo di {{max}} articoli",
+    "chooseOne": "Scegli un solo articolo",
+    "requiredError": "Seleziona almeno un articolo obbligatorio.",
+    "required": "Obbligatorio",
+    "customizeYour": "Personalizza il tuo",
+    "noProductName": "Nessun {{productName}}",
+    "no": "No",
+    "note": "Nota",
+    "notePlaceholder": "Scrivi la tua nota qui",
+    "orderTotal": "Totale Ordine"
+  },
+  "info": {
+    "changeLanguage": "Cambia Lingua",
+    "selectLanguage": "Seleziona Lingua",
+    "followUs": "Seguici",
+    "wifiPassword": "Password WiFi",
+    "passwordCopied": "Copiato negli appunti",
+    "passwordNotCopied": "Impossibile copiare la password"
+  },
+  "cart": {
+    "table": "Tavolo:",
+    "clearCart": "Svuota Carrello",
+    "orderDetails": "Dettagli Ordine",
+    "orderNo": "Ordine",
+    "toppings": "Condimenti:",
+    "none": "Nessuno",
+    "extras": "Extra:",
+    "ingredients": "Ingredienti:",
+    "comment": "Commento:",
+    "noComment": "Nessun Commento",
+    "empytCart": "Il tuo Carrello è Vuoto :(",
+    "empytCartDesc": "Sembra che non hai aggiunto nulla al carrello",
+    "orderProcess": "Processo d'Ordine",
+    "orderStart": "Inizia Ordinazione",
+    "orderTotal": "Totale Ordine"
+  },
+  "trackingOrder": {
+    "title": "Dettagli di Tracciamento",
+    "orderFeedback": "Feedback Ordine",
+    "newOrder": "Nuovo Ordine",
+    "preparingFood": "Preparazione Cibo",
+    "orderReady": "Ordine Pronto",
+    "orderCompleted": "Ordine Completato",
+    "noOrdersFound": "Nessun Ordine Trovato",
+    "noOrdersFoundDesc": "Sembra che non hai ordinato nulla",
+    "startOrdering": "Inizia Ordinazione",
+    "stepNo": "Passo {{stepNo}}"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "selectFeedback": "Si prega di selezionare una valutazione prima di inviare.",
+    "giveUsYour": "Dacci il tuo",
+    "feedback": "Feedback! 😊",
+    "feedbackDesc": "Aiutaci a migliorare la tua esperienza condividendo i tuoi pensieri.",
+    "placeholder": "Scrivi il tuo feedback qui...",
+    "sendFeedback": "Invia Feedback"
+  }
+}

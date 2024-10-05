@@ -1,0 +1,155 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Accueil",
+      "myCart": "Mon Panier",
+      "feedback": "Avis",
+      "restaurant": "Restaurant"
+    },
+    "actions": {
+      "back": "Retour",
+      "addToCart": "Ajouter au Panier",
+      "close": "Fermer",
+      "all": "Tous",
+      "seeAll": "Voir Tout",
+      "seeLess": "Voir Moins",
+      "continueShopping": "Continuer vos Achats",
+      "goToCart": "Voir le Panier",
+      "requestWaiter": "Appeler Serveur",
+      "requestBill": "Demander Addition",
+      "confirmOrder": "Confirmer Commande",
+      "backToHome": "Retour à l'Accueil",
+      "selectTable": "Veuillez sélectionner une table"
+    },
+    "modals": {
+      "addedToCart": "Ajouté au Panier!",
+      "addedToCartDesc": "Votre article a été ajouté avec succès. Consultez votre panier ou continuez vos achats.",
+      "noTableSelected": "Aucune table sélectionnée",
+      "failedToRequestWaiter": "Échec de la demande du serveur. Veuillez réessayer.",
+      "waiterRequested": "Serveur demandé!",
+      "waiterRequestedDesc": "Le serveur arrivera bientôt.",
+      "callWaiter": "Appeler le Serveur",
+      "callWaiterDesc": "Besoin d'aide? Appuyez ici pour appeler un serveur.",
+      "billRequested": "Addition demandée!",
+      "billRequestedDesc": "L'addition arrivera sous peu.",
+      "billRequestFailed": "Échec de la demande de l'addition. Veuillez réessayer.",
+      "requestYourBill": "Demandez votre Addition!",
+      "requestYourBillDesc": "Prêt à régler l'addition? Faites-le nous savoir et nous l'apporterons!",
+      "confirmOrder": "Confirmer Commande",
+      "confirmOrderDesc": "Si tout est correct, confirmez pour que nous commencions à préparer votre repas.",
+      "feedbackSuccess": "Merci pour votre Avis!",
+      "feedbackSuccessDesc": "Merci pour votre retour! Nous avons reçu vos commentaires et travaillons toujours à améliorer votre expérience.",
+      "orderCancelled": "Commande Annulée",
+      "orderCancelledDesc": "Votre commande a été annulée. Si c'était une erreur, vous pouvez passer une nouvelle commande ou demander un serveur.",
+      "orderSuccess": {
+        "bad": "Mauvais",
+        "decent": "Correct",
+        "loveIt": "J'adore!",
+        "feedbackRequired": "Veuillez sélectionner une note",
+        "rateYourExperience": "Évaluez votre expérience",
+        "rateYourExperienceDesc": "Comment s'est déroulée votre expérience?",
+        "commentPlaceholder": "Dites-nous plus (facultatif)",
+        "submitFeedback": "Envoyer l'avis"
+      }
+    },
+    "subscription": {
+      "title": "Abonnement Expiré",
+      "desc": "Désolé, votre abonnement au menu numérique a expiré.",
+      "benefits": {
+        "title": "Avantages du Renouvellement:",
+        "keepUp": "Gardez votre menu à jour",
+        "attractMore": "Attirez plus de clients",
+        "efficiency": "Augmentez l'efficacité"
+      },
+      "thankYou": "Merci d'être un client fidèle! Nous avons hâte de continuer à vous servir."
+    }
+  },
+  "home": {
+    "searchPlaceholder": "Trouvons la nourriture que vous aimez",
+    "promotion": "Promotion 🔥",
+    "products": {
+      "title": "Produits",
+      "rating": "Note",
+      "minutes": "Minutes",
+      "allProducts": "Tous les produits",
+      "searchResults": "Recherche de résultats",
+      "yourSearchTerm": "Votre terme de recherche",
+      "noResults": "Aucun résultat trouvé",
+      "yielded": "a donné",
+      "results": "résultat(s)",
+      "noProducts": "Aucun produit trouvé",
+      "clearSearch": "Effacer la Recherche",
+      "suggestedProducts": "Produits Suggérés"
+    }
+  },
+  "productDetails": {
+    "title": "Détails du Produit",
+    "rating": "Note",
+    "time": "Temps",
+    "min": "min",
+    "description": "Description",
+    "noDescription": "Pas de description disponible",
+    "readMore": "En Savoir Plus",
+    "readLess": "En Savoir Moins",
+    "select": "Sélectionner",
+    "forYour": "pour votre",
+    "selectProduct": "Sélectionnez {{type}} pour votre {{product}}",
+    "selectExtras": "Sélectionnez des Extras pour",
+    "chooseMultiple": "Choisissez un maximum de {{max}} articles",
+    "chooseOne": "Sélectionnez un seul article",
+    "requiredError": "Choisissez au moins un élément obligatoire.",
+    "required": "Requis",
+    "customizeYour": "Personnalisez Votre",
+    "noProductName": "Pas de {{productName}}",
+    "no": "Non",
+    "note": "Note",
+    "notePlaceholder": "Écrivez votre note ici",
+    "orderTotal": "Total de la Commande"
+  },
+  "info": {
+    "changeLanguage": "Changer de Langue",
+    "selectLanguage": "Sélectionner une Langue",
+    "followUs": "Suivez-nous",
+    "wifiPassword": "Mot de Passe WiFi",
+    "passwordCopied": "Copié dans le presse-papier",
+    "passwordNotCopied": "Impossible de copier le mot de passe"
+  },
+  "cart": {
+    "table": "Table:",
+    "clearCart": "Vider le Panier",
+    "orderDetails": "Détails de la Commande",
+    "orderNo": "Commande",
+    "toppings": "Garnitures:",
+    "none": "Aucune",
+    "extras": "Extras:",
+    "ingredients": "Ingrédients:",
+    "comment": "Commentaire:",
+    "noComment": "Aucun Commentaire",
+    "empytCart": "Votre Panier est Vide :(",
+    "empytCartDesc": "Il semble que vous n'ayez rien ajouté à votre panier",
+    "orderProcess": "Processus de Commande",
+    "orderStart": "Commencer la Commande",
+    "orderTotal": "Total de la Commande"
+  },
+  "trackingOrder": {
+    "title": "Suivi de la Commande",
+    "orderFeedback": "Retour sur la Commande",
+    "newOrder": "Nouvelle Commande",
+    "preparingFood": "Préparation en cours",
+    "orderReady": "Commande Prête",
+    "orderCompleted": "Commande Terminée",
+    "noOrdersFound": "Aucune Commande Trouvée",
+    "noOrdersFoundDesc": "Il semble que vous n'ayez passé aucune commande",
+    "startOrdering": "Passer une Commande",
+    "stepNo": "Étape {{stepNo}}"
+  },
+  "feedback": {
+    "title": "Avis",
+    "selectFeedback": "Veuillez sélectionner une note avant de soumettre.",
+    "giveUsYour": "Donnez-nous votre",
+    "feedback": "Avis! 😊",
+    "feedbackDesc": "Aidez-nous à améliorer votre expérience en partageant vos commentaires.",
+    "placeholder": "Tapez vos commentaires ici...",
+    "sendFeedback": "Envoyer Avis"
+  }
+}
