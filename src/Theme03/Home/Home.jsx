@@ -69,6 +69,7 @@ const Home = ({
       </div>
 
       <CatandProduct promo={promo} infoRes={resInfo} filteredCategories={filteredCategories} customization={filteredTheme} categories={categories} resto={restoId} tabel_id={extraInfo} dishes={dishes} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <Footer slug={restoSlug} customization={filteredTheme} table_id={extraInfo} infoRes={resInfo} resto_id={resto_id}/>
 
     </>
   );
