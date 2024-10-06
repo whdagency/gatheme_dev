@@ -12,6 +12,12 @@ import { useTranslation } from 'react-i18next';
 import { IoSearchOutline } from "react-icons/io5";
 import { BiDish } from "react-icons/bi";
 import { IoCloseSharp } from "react-icons/io5";
+import { LuPhoneCall } from "react-icons/lu";
+import { HiNewspaper } from "react-icons/hi2";
+import { MdOutlineStarPurple500 } from "react-icons/md";
+
+
+
 
 export default function Footer({ slug, customization, resto_id }) {
   const location = useLocation();
@@ -68,10 +74,40 @@ export default function Footer({ slug, customization, resto_id }) {
               <div className="absolute bottom-12  left-1/2 transform -translate-x-1/2 h-32 mt-2 z-50">
                 <div className="bg-opacity-30 rounded-lg p-4 w-52 h-36 flex flex-col items-center">
                   <div className="flex justify-between w-full mb-2">
-                    <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">1</button>
-                    <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">2</button>
+                    <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">
+                    <NavItem
+                        // to={`/menu/${slug}/Cart?table_id=${table_id}`}
+                        icon={LuPhoneCall}
+                        label={t("")}
+                        // active={location.pathname === `/menu/${slug}/Cart`}
+                        customization={customization}
+                        isCount={true}
+                        totalQuantity={totalQuantity}
+                      />
+                    </button>
+                    <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">
+                    <NavItem
+                        // to={`/menu/${slug}/Cart?table_id=${table_id}`}
+                        icon={HiNewspaper}
+                        label={t("")}
+                        // active={location.pathname === `/menu/${slug}/Cart`}
+                        customization={customization}
+                        isCount={true}
+                        totalQuantity={totalQuantity}
+                      />
+                    </button>
                   </div>
-                  <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">3</button>
+                  <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">
+                  <NavItem
+                        // to={`/menu/${slug}/Cart?table_id=${table_id}`}
+                        icon={MdOutlineStarPurple500}
+                        label={t("")}
+                        // active={location.pathname === `/menu/${slug}/Cart`}
+                        customization={customization}
+                        isCount={true}
+                        totalQuantity={totalQuantity}
+                      />
+                  </button>
                 </div>
               </div>
             )}
@@ -107,7 +143,9 @@ function NavItem({ to, icon: Icon, label, active, customization, isCount = false
         style={{ color: active ? "red" : customization?.selectedSecondaryColor }} 
         className={`flex flex-col relative items-center justify-center gap-1 ${isCentered ? "scale-110" : ""}`}
       >
-        <Icon className="h-6 w-6" />
+        <Icon className="h-6 w-6  "
+        style={{ color: Icon === LuPhoneCall || Icon === BiDish || Icon === MdOutlineStarPurple500 || Icon === HiNewspaper ? 'white' : '' }} 
+        />
         <span className="text-xs font-medium">{label}</span>
         {isCount && totalQuantity > 0 && (
           <div className='absolute -right-2.5 top-0 bg-red-600 size-4 grid place-content-center rounded-full text-white text-[10px] leading-3'>
