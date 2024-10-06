@@ -4,11 +4,12 @@ import { useMenu } from "../hooks/useMenu";
 import { Toaster } from "sonner";
 import Navbar from "./Navbar";
 import AnimatedLayout from "./AnimateLayout";
+import { api } from "../lib/api";
 
 const Layout = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  const { restoSlug, customization, selectedLanguage } = useMenu();
+  const { restoSlug, customization, selectedLanguage, restos } = useMenu();
   const isIndexPage = pathname === `/menu/${restoSlug}`;
   const showNav =
     pathname === `/menu/${restoSlug}` ||
@@ -21,6 +22,7 @@ const Layout = () => {
     document.body.style.backgroundColor = customization?.selectedBgColor;
   }, [customization?.selectedBgColor]);
 
+  // Set language direction
   useEffect(() => {
     selectedLanguage === "ar"
       ? (document.body.dir = "rtl")
@@ -30,6 +32,19 @@ const Layout = () => {
       document.body.dir = "ltr";
     };
   }, [selectedLanguage]);
+
+  // Increment visitor count
+  const incrementVisitorCount = async (id) => {
+    try {
+      await api.post(`/resto/incrementVisitorCount/${id}`);
+    } catch (error) {
+      console.error("Error incrementing visitor count:", error);
+    }
+  };
+
+  useEffect(() => {
+    incrementVisitorCount(restos?.id);
+  }, [restos?.id]);
 
   return (
     <section

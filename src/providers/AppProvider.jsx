@@ -10,7 +10,7 @@ import Lottie from "lottie-react";
 import loaderAnimation from "@/components/loader.json";
 import fetchApiData from "../lib/fetch-data";
 import { Helmet } from "react-helmet-async";
-import { STORAGE_URL } from "../lib/api";
+import { api, STORAGE_URL } from "../lib/api";
 import i18next from "i18next";
 
 export const AppContext = createContext();
@@ -158,7 +158,9 @@ const AppProvider = ({ children }) => {
     language,
   } = useFetchRestoData(restoSlug, selectedCat, searchProductTerm);
 
-  const [selectedLanguage, setSelectedLanguage] = useState(language);
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    localStorage.getItem("i18nextLng") || language
+  );
 
   const handleLanguageChange = useCallback((language) => {
     setSelectedLanguage(language);
@@ -194,6 +196,7 @@ const AppProvider = ({ children }) => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Get order ID from local storage
   const fetchOrderId = async () => {
     try {
       const res = localStorage.getItem("orderID");
@@ -218,6 +221,7 @@ const AppProvider = ({ children }) => {
     fetchOrderId();
   }, [orderID]);
 
+  // Memoize the values
   const values = useMemo(
     () => ({
       table_id,
