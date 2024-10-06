@@ -32,6 +32,7 @@ const Cart = () => {
   const [orderPending, setOrderPending] = useState(false);
   const currency = resInfo?.currency || "MAD";
   const [showSuggestedProducts, setShowSuggestedProducts] = useState(false);
+  const [cartWasEmpty, setCartWasEmpty] = useState(false);
 
   // Get cart items for the current restaurant
   const restocartItems = useMemo(() => {
@@ -140,6 +141,25 @@ const Cart = () => {
       setShowSuggestedProducts(false);
     };
   }, [isRestoCartEmpty]);
+
+  // Manage when to show suggested products
+  useEffect(() => {
+    if (isRestoCartEmpty) {
+      setShowSuggestedProducts(false);
+      setCartWasEmpty(true);
+      return;
+    }
+
+    // Show suggested products only if the cart was empty and items were added
+    if (cartWasEmpty && restocartItems.length > 0) {
+      setShowSuggestedProducts(true);
+    }
+
+    return () => {
+      setShowSuggestedProducts(false);
+      setCartWasEmpty(false);
+    };
+  }, [isRestoCartEmpty, restocartItems.length, cartWasEmpty]);
 
   return (
     <AnimatedLayout>
