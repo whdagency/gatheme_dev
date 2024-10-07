@@ -4,21 +4,36 @@ import React, { useState } from 'react';
 
 
 
-function Search({ infoRes, slug }) {
+function Search({ infoRes, slug , categories }) {
 
-  const [searchHistory, setSearchHistory] = useState([]);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [selectedItem, setSelectedItem] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
+  
+  let allProducts = [];
+  categories.forEach(category => {
+    const dishNames = category.dishes.map(dish => dish.name);
+    const drinkNames = category.drinks.map(drink => drink.name);
+    allProducts = [...allProducts, ...dishNames, ...drinkNames];
+  });
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    const searchTerm = event.target.search.value.trim();
+  
+  const handleSearch = (e) => {
+    const value = e.target.value; 
+    setSearchTerm(value); 
 
-    if (searchTerm) {
-      setSearchHistory((prevHistory) => [...new Set([searchTerm, ...prevHistory])]); // Ajoute la recherche à l'historique
+    
+    if (value === "") {
+      setFilteredProducts([]); 
+    } else {
+      
+      const filtered = allProducts.filter(product =>
+        product.toLowerCase().includes(value.toLowerCase()) 
+      );
+      setFilteredProducts(filtered); 
     }
   };
+
 
   return (
     <>
@@ -38,12 +53,30 @@ function Search({ infoRes, slug }) {
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                       </svg>
                   </div>
-                  <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search For Food ..." required />
+                  <input type="search" id="default-search" 
+                  class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search For Food ..." required 
+                  value={searchTerm} 
+                  onChange={handleSearch}
+                  />
               </div>
           </form>
         </div>
       </div>
 
+      {/* Affichage des résultats filtrés */}
+      <div className="results-list">
+            {filteredProducts.length > 0 ? (
+              <ul>
+                {filteredProducts.map((product, index) => (
+                  <li key={index} className="p-2 border-b border-gray-300">
+                    {product}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              searchTerm && <p className="p-2">Aucun résultat trouvé</p>
+            )}
+      </div>
       <div className='grid grid-cols-2 md:grid-cols-3 bg-[red] lg:grid-cols-4 2xl:grid-cols-5 gap-5 mb-[100px] lg:mb-[150px]'>
 
       </div>
@@ -51,7 +84,7 @@ function Search({ infoRes, slug }) {
 
         {/* History */}
 
-        {searchHistory.length > 0 && (
+        {/* {searchHistory.length > 0 && (
           <div className="w-full h-[200px]  flex justify-center items-center">
             <div className="w-[90%] h-full  ">
               <h1 className="my-4 text-[#2F2F2F] font-[DM_Sans] text-[18px] not-italic font-bold leading-[19.135px]">
@@ -71,7 +104,7 @@ function Search({ infoRes, slug }) {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* <div className="w-full h-[200px]  flex justify-center items-center">
           <div className="w-[90%] h-full  ">
@@ -127,7 +160,3 @@ function Search({ infoRes, slug }) {
 };
 
 export default Search;
-
-
-
-

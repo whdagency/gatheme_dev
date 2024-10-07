@@ -128,7 +128,7 @@ function Theme03() {
                 <Route path="/menu/:restoSlug/Search" element={
                   <>
                     {/* <Rate infoRes={resInfo} slug={restoSlug}/> */}
-                    <Search infoRes={resInfo} slug={restoSlug} />
+                    <Search infoRes={resInfo} slug={restoSlug}  categories={categories} />
                     <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/>
                   </>
                 } />
