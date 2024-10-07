@@ -5,7 +5,7 @@ import Info from "./Info/infov2";
 import Footer from "./Footer/Footerv2";
 import Achat from "./Achat/Achatv2";
 import Claims from "./Claims/Claimsv2";
-import Rate from './Rating/Rate';
+import Search from './Search/search';
 import Navbar from './Navbar/Navbar';
 import {  APIURLS3 } from "../lib/ApiKey";
 import { Toaster } from "@/components/ui/toaster"
@@ -125,9 +125,10 @@ function Theme03() {
                     </>
                   }
                 />
-                <Route path="/menu/:restoSlug/Rating" element={
+                <Route path="/menu/:restoSlug/Search" element={
                   <>
-                    <Rate infoRes={resInfo} slug={restoSlug}/>
+                    {/* <Rate infoRes={resInfo} slug={restoSlug}/> */}
+                    <Search infoRes={resInfo} slug={restoSlug} />
                     <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/>
                   </>
                 } />

@@ -61,7 +61,7 @@ export default function Rate({ infoRes, slug }) {
           )} */}
           {hasGoogle && (
             <button
-              className="bg-gray-200 hover:bg-blue-400 hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+              className="bg-gray-200  hover:bg-blue-400 hover:text-white text-black font-bold py-6 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
               onClick={() => setIsOpenModelGoogle(true)}
             >
               <img src={Google} alt="Google Reviews" className="w-8 h-8 mr-2" />

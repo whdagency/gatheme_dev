@@ -25,6 +25,7 @@ function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto,
                      style={{
                        backgroundColor: selectedTab === 'All' ? 'red' : 'white',
                        color: selectedTab === 'All' ? 'white' : 'black'
+                      
                     }}
                     onClick={() => setSelectedTab('All')}
                     role="button"
@@ -39,7 +40,7 @@ function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto,
                   <div key={item.id} className="relative  rounded-xl border-gray-300 border inline-block">
                     <div
                          onClick={() => setSelectedTab(item.name)}
-                         className={` tab flex items-center focus:bg-[red] w-[90px] justify-center h-9 pl-1.5 pr-2.5 font-semibold rounded-[8px] cursor-pointer transition-colors`}
+                         className={` tab flex items-center focus:bg-[red] focus:text-white w-[90px] justify-center h-9 pl-1.5 pr-2.5 font-semibold rounded-[8px] cursor-pointer transition-colors`}
                        role="button"
                       aria-selected={selectedTab === item.name}
                       tabIndex={0}
