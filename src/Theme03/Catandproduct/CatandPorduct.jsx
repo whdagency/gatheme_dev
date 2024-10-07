@@ -16,7 +16,7 @@ function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto,
   return (
 
       <div>
-        <h1 className='text-base font-bold	 ml-6'>Categories</h1>
+        <h1 className='text-base font-bold	 ml-6 mb-2'>Categories</h1>
              <div className={`overflow-x-auto  pl-4  ${infoRes.language === 'ar' ? 'rtl' : 'ltr'}`} >
                <div className={` flex   ${infoRes.language === 'ar' ? 'justify-content-end flex-row-reverse' : 'justify-content-start'} 2xl:justify-center gap-4 mb-1`}>
                 <div className="relative shadow-md rounded-xl border-gray-300 border inline-block ">
@@ -54,7 +54,7 @@ function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto,
               </div>
             </div>
 
-          <h1 className='text-base font-bold ml-6'>Product</h1>
+          {/* <h1 className='text-base font-bold ml-6'>Product</h1> */}
             <MenuItems
               dishes={Array.isArray(dishes) && dishes.length > 0
                 ? dishes.filter(dish => selectedTab === 'All' || (dish.categorie && dish.categorie.name === selectedTab))

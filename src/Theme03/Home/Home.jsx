@@ -38,7 +38,7 @@ const Home = ({
     <>
 
 
-      <div className="w-full h-16 border-b-4 fixed flex justify-between items-center px-4 flex z-10">
+      <div className="w-full h-16 border-b-4 fixed bg-[white] flex justify-between items-center px-4 flex z-10">
         <div className='flex items-center'>
           <img src={logo} alt="logo" className="w-12 h-12 mx-2" />
           <h1 className="text-black text-xl font-bold">{restoSlug}</h1>        
