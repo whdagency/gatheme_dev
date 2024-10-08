@@ -8,39 +8,26 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function CartItemSuggestion({ item, infoRes, customization, resto_id, isDishInCart }) {
-     const dispatch = useDispatch();
-     const [quantities, setQuantities] = useState(1);
+    const dispatch = useDispatch();
+    const [quantities, setQuantities] = useState(1);
     const [isAdded, setIsAdded] = useState(false);
-     const [itemQuantity, setItemQuantity] = useState(0);
-     const [initiallyInCart, setInitiallyInCart] = useState(false);
-     useEffect(() => {
-       const dishInCart = isDishInCart(item.id);
-       setInitiallyInCart(dishInCart);
-     }, [item.id, isDishInCart]);
-     const handleClick = () => {
-       handleAddItem();
-       setIsAdded(true);
-       setTimeout(() => {
-         setIsAdded(false);
-       }, 1500);
-     };
-     const handleAddItem = () => {
-       dispatch(addItem({ product: item, quantity: quantities, resto_id: resto_id, comment: "", toppings: [], ingredients: [], extravariants: [] }));
-       setItemQuantity(itemQuantity + 1);
-     };
-
-    // console.log("resInfo ==== ", infoRes);
-    // console.log("item  ==== ", item);
-    // console.log("customization  ==== ", customization);
-    // console.log("resto_id  ==== ", resto_id);
-
-    console.log("isDishInCart  ==== ", isDishInCart);
-
-    
-
-
-
-
+    const [itemQuantity, setItemQuantity] = useState(0);
+    const [initiallyInCart, setInitiallyInCart] = useState(false);
+    useEffect(() => {
+      const dishInCart = isDishInCart(item.id);
+      setInitiallyInCart(dishInCart);
+    }, [item.id, isDishInCart]);
+    const handleClick = () => {
+      handleAddItem();
+      setIsAdded(true);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 1500);
+    };
+    const handleAddItem = () => {
+      dispatch(addItem({ product: item, quantity: quantities, resto_id: resto_id, comment: "", toppings: [], ingredients: [], extravariants: [] }));
+      setItemQuantity(itemQuantity + 1);
+    };
       return (
         <div className="grid gap-1">
           <div className=" dark:bg-gray-800 p-4 rounded-lg">
@@ -84,4 +71,3 @@ export function CartItemSuggestion({ item, infoRes, customization, resto_id, isD
       );
 
   }
-  

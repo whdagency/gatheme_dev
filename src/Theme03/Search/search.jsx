@@ -2,7 +2,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FontItalicIcon } from "@radix-ui/react-icons";
 import React, { useState , useEffect} from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { CartItemSuggestion } from "../../components/CartItemSuggestion";
+import { CartItemSuggestionT3 } from "../../components/CartItemSuggestionT3";
 
 
 
@@ -203,7 +203,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
           <h1 className="text-[#2F2F2F] font-[DM_Sans] text-[18px] not-italic font-bold leading-[19.135px]">You May Like</h1>
             <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
               {filtredSuggest?.slice(0, 4).map((item, index) => (
-                   <CartItemSuggestion
+                   <CartItemSuggestionT3
                      key={index}
                      item={item}
                       infoRes={infoRes}
