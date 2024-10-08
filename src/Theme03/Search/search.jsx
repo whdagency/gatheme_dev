@@ -1,13 +1,63 @@
 import { FaChevronLeft } from "react-icons/fa";
 import { FontItalicIcon } from "@radix-ui/react-icons";
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { CartItemSuggestion } from "../../components/CartItemSuggestion";
 
 
 
-function Search({ infoRes, slug , categories }) {
 
+function Search({ infoRes, slug , categories , selectedDishes, customization, restos, tableName}) {
+  // const { customization, restos, resInfo, table_id, tableName, selectedDishes,restoSlug } = useMenu();
   const [searchTerm, setSearchTerm] = useState(""); 
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const resto_id = customization.resto_id;
+  const cartItems = useSelector((state) => state.cart.items);
+  const isDishInCart = (dishId) => {
+    return cartItems.some(item => item.id === dishId);
+  };
+  const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
+  // console.log("restos id ============= ", customization.resto_id);
+  
+  const DEFAULT_THEME = {
+    id: 4,
+    selectedBgColor: "#fff",
+    selectedHeader: "logo-header",
+    selectedLayout: "theme-grid",
+    selectedPrimaryColor: "#000",
+    selectedSecondaryColor: "#6B7280",
+    selectedTheme: 1,
+    selectedTextColor: "#fff",
+    selectedIconColor: "#fff",
+    isDefault: true,
+  };
+  
+  
+  const filtredSuggest = selectedDishes.filter(suggestedDish => 
+    !filteredCartItems.some(cartItem => cartItem.id === suggestedDish.id)
+  );  
+  
+  useEffect(() => {
+    if(filtredSuggest.length == 0)
+      {
+        setIsModalOpen(false)
+      }
+    }, [filtredSuggest])
+    
+
+
+    // infoRes={resInfo}
+    //     customization={customization}
+    //     resto_id={customization.resto_id}
+
+  //  console.log("resInfo === ", infoRes);
+    // console.log("customization === ", customization);
+    // console.log("resto_id === ", customization.resto_id);
+
+
+    // console.log("filtredSuggest == ", filtredSuggest);
+  // console.log("suggestiooon = ",filtredSuggest);
 
   
   let allProducts = [];
@@ -151,6 +201,19 @@ function Search({ infoRes, slug , categories }) {
         <div className="w-full   flex justify-center items-center">
           <div className="w-[90%] ">
           <h1 className="text-[#2F2F2F] font-[DM_Sans] text-[18px] not-italic font-bold leading-[19.135px]">You May Like</h1>
+            <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
+              {filtredSuggest?.slice(0, 4).map((item, index) => (
+                   <CartItemSuggestion
+                     key={index}
+                     item={item}
+                      infoRes={infoRes}
+                      customization={customization}
+                      resto_id={customization.resto_id}
+                      isDishInCart={isDishInCart}
+                   />
+                //  <div></div>
+              ))}
+            </div>
           </div>
         </div>
 

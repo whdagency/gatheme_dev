@@ -45,7 +45,7 @@ const ThemeOneAchat = ({ activeLink }) => {
   const { customization, restos, resInfo, table_id, tableName, selectedDishes,restoSlug } = useMenu();
   const [isModalFeedOpen, setIsModalFeedOpen] = useState(false);
 
-  const resto_id = restos.id;
+  const resto_id = restos.id  ;
 
 
   const DEFAULT_THEME = {
