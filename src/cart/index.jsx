@@ -32,7 +32,6 @@ const Cart = () => {
   const [orderPending, setOrderPending] = useState(false);
   const currency = resInfo?.currency || "MAD";
   const [showSuggestedProducts, setShowSuggestedProducts] = useState(false);
-  const [cartWasEmpty, setCartWasEmpty] = useState(false);
 
   // Get cart items for the current restaurant
   const restocartItems = useMemo(() => {
@@ -65,6 +64,7 @@ const Cart = () => {
     restocartItems.forEach((item) => {
       removeItem(item.id);
     });
+    localStorage.setItem("alreadyOpened", false);
   };
 
   const submitOrder = async () => {
@@ -110,6 +110,8 @@ const Cart = () => {
         clearRestoCart();
 
         setOpenConfirmModal(false);
+
+        setShowSuggestedProducts(false);
       }
     } catch (error) {
       console.error("Failed to submit order:", error.message);
@@ -135,31 +137,18 @@ const Cart = () => {
       setShowSuggestedProducts(false);
       return;
     }
-    setShowSuggestedProducts(true);
 
-    return () => {
-      setShowSuggestedProducts(false);
+    const OpenModel = async () => {
+      const modalAlreadyOpened = sessionStorage.getItem("modalOpened");
+      if (!modalAlreadyOpened && restocartItems.length > 0) {
+        setShowSuggestedProducts(true);
+        sessionStorage.setItem("modalOpened", "true");
+      } else if (restocartItems.length === 0) {
+        sessionStorage.setItem("modalOpened", "");
+      }
     };
-  }, [isRestoCartEmpty]);
-
-  // Manage when to show suggested products
-  useEffect(() => {
-    if (isRestoCartEmpty) {
-      setShowSuggestedProducts(false);
-      setCartWasEmpty(true);
-      return;
-    }
-
-    // Show suggested products only if the cart was empty and items were added
-    if (cartWasEmpty && restocartItems.length > 0) {
-      setShowSuggestedProducts(true);
-    }
-
-    return () => {
-      setShowSuggestedProducts(false);
-      setCartWasEmpty(false);
-    };
-  }, [isRestoCartEmpty, restocartItems.length, cartWasEmpty]);
+    OpenModel();
+  }, [restocartItems.length, isRestoCartEmpty]);
 
   return (
     <AnimatedLayout>
@@ -515,7 +504,7 @@ const Cart = () => {
 
         {!isRestoCartEmpty && (
           <div
-            className="px-7 bottom-[105px] fixed left-0 right-0 flex items-center justify-between w-full max-w-md py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
+            className="px-7 bottom-[105px] fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
             style={{
               background: customization?.selectedBgColor,
               borderColor: hexToRgba(

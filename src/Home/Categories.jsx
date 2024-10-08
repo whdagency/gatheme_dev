@@ -78,7 +78,7 @@ const CategoryButton = ({ image, label, active = false, name }) => {
           />
         </div>
       )}
-      <span>{label}</span>
+      <span className="capitalize">{label}</span>
     </button>
   );
 };

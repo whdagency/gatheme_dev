@@ -48,7 +48,7 @@ const Layout = () => {
 
   return (
     <section
-      className="flex flex-col -mt-3 max-w-md min-h-screen mx-auto shadow rounded-[20px_20px_40px_40px] relative overflow-x-hidden"
+      className="flex flex-col -mt-3 max-w-xl min-h-screen mx-auto shadow rounded-[20px_20px_40px_40px] relative overflow-x-hidden"
       style={{
         background: customization?.selectedBgColor,
       }}

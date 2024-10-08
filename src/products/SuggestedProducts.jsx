@@ -1,7 +1,7 @@
 import { CheckIcon, PlusIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMenu } from "../hooks/useMenu";
-import { STORAGE_URL } from "../lib/api";
+import { api, STORAGE_URL } from "../lib/api";
 import { useCart } from "react-use-cart";
 import {
   Drawer,
@@ -12,18 +12,51 @@ import {
 import { useTranslation } from "react-i18next";
 
 const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
-  const { resInfo, customization, resto_id, products } = useMenu();
+  const { resInfo, customization, resto_id, restos } = useMenu();
   const [suggestedProductsAdded, setSuggestedProductsAdded] = useState([]);
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
   const { items, addItem, removeItem } = useCart();
   const restoCartItems = items.filter((item) => item.resto_id === resto_id);
   const { t } = useTranslation("global");
 
-  const suggestedProducts =
-    restoCartItems.length > 0
-      ? products?.filter((prod) =>
-          restoCartItems.every((item) => item.id !== prod.id)
-        )
-      : products;
+  useEffect(() => {
+    const fetchSuggestedProducts = async () => {
+      const res = await api.get(`/suggestions/${restos?.id}`);
+      const suggestions = await res.data;
+
+      // // Extract dishes from suggestions
+      const initialSelectedDishes = suggestions
+        .filter((suggestion) => suggestion.dishes)
+        .map((suggestion) => suggestion.dishes);
+
+      const initialSelectedDrinks = suggestions
+        .filter((suggestion) => suggestion.drinks)
+        .map((suggestion) => suggestion.drinks);
+
+      let ComindeSelected = [];
+      if (initialSelectedDishes.length) {
+        ComindeSelected.push(
+          ...initialSelectedDishes.map((item) => ({ ...item, type: "dish" }))
+        );
+      }
+      if (initialSelectedDrinks.length) {
+        ComindeSelected.push(
+          ...initialSelectedDrinks.map((item) => ({ ...item, type: "drink" }))
+        );
+      }
+
+      const filteredSuggestions = ComindeSelected.filter((suggestion) => {
+        return !restoCartItems.some(
+          (cartItem) =>
+            cartItem.id === suggestion.id && cartItem.type === suggestion.type
+        );
+      });
+
+      setSuggestedProducts(filteredSuggestions);
+    };
+
+    fetchSuggestedProducts();
+  }, [restoCartItems, restos?.id]);
 
   const addSuggested = (item) => {
     setSuggestedProductsAdded((prev) => {
@@ -74,7 +107,11 @@ const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
 
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
+      <DrawerContent
+        className={`flex flex-col max-w-xl gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px] ${
+          suggestedProducts?.length === 0 ? "hidden" : ""
+        }`}
+      >
         <DrawerTitle className="text-lg font-semibold text-center text-black">
           {t("home.products.suggestedProducts")}
         </DrawerTitle>

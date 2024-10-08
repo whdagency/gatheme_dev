@@ -251,7 +251,7 @@ const Info = () => {
               </div>
             </DialogTrigger>
             <DialogDescription className="sr-only"></DialogDescription>
-            <DialogContent className="max-w-md gap-0 px-[20px] py-[23px] rounded-lg">
+            <DialogContent className="max-w-xl gap-0 px-[20px] py-[23px] rounded-lg">
               <DialogHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
                 <DialogTitle
                   className="text-lg font-bold tracking-wide text-gray-700"
@@ -263,7 +263,7 @@ const Info = () => {
                 </DialogTitle>
               </DialogHeader>
 
-              <Card className="w-full max-w-md mx-auto border-none">
+              <Card className="w-full max-w-xl mx-auto border-none">
                 <ul className="divide-y">
                   {Object.keys(languageMap).map((code) => (
                     <li key={code}>

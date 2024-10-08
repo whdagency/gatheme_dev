@@ -39,13 +39,13 @@ const ProductDetailsContent = ({ product, productId }) => {
 
   const handleToppingToggle = useCallback((topping, selectMuliple) => {
     if (!selectMuliple) {
-      setSelectedToppings((prev) => (prev.includes(topping) ? [] : [topping]));
+      setSelectedToppings((prev) => (prev?.includes(topping) ? [] : [topping]));
       return;
     }
 
     setSelectedToppings((prev) =>
-      prev.includes(topping)
-        ? prev.filter((t) => t !== topping)
+      prev?.includes(topping)
+        ? prev?.filter((t) => t !== topping)
         : [...prev, topping]
     );
   }, []);
@@ -231,7 +231,7 @@ const ProductDetailsContent = ({ product, productId }) => {
     <>
       <form onSubmit={handleSubmit}>
         <div className="px-7 flex-1 pt-[13px] overflow-hidden">
-          <div className="max-w-md mx-auto">
+          <div className="max-w-xl mx-auto">
             <div className="mb-3">
               <h2
                 className="text-sm font-semibold capitalize text-[#797D81]"
@@ -348,7 +348,7 @@ const ProductDetailsContent = ({ product, productId }) => {
               </div>
             </div>
 
-            {product.desc ? (
+            {product?.desc ? (
               <div className="mb-6">
                 <h4
                   className="mb-3 font-semibold"
@@ -358,14 +358,14 @@ const ProductDetailsContent = ({ product, productId }) => {
                 >
                   {t("productDetails.description")}
                 </h4>
-                {product.desc && product.desc.length < 100 ? (
+                {product?.desc && product?.desc?.length < 100 ? (
                   <p
                     className="text-sm text-[#767884]"
                     style={{
                       color: customization?.selectedSecondaryColor,
                     }}
                   >
-                    {product.desc}
+                    {product?.desc}
                   </p>
                 ) : (
                   <p
@@ -376,7 +376,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                   >
                     {showFullDescription ? (
                       <>
-                        {product.desc}
+                        {product?.desc}
                         <button
                           type="button"
                           className="ml-1 text-[#F97D49]"
@@ -390,7 +390,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                       </>
                     ) : (
                       <>
-                        {product.desc && product.desc.slice(0, 100)}
+                        {product?.desc && product?.desc?.slice(0, 100)}
                         <button
                           type="button"
                           className="ml-1 text-[#F97D49]"
@@ -427,21 +427,21 @@ const ProductDetailsContent = ({ product, productId }) => {
               </div>
             )}
 
-            {product.toppings.length > 0 &&
-              product.toppings.map((topping) => {
-                const options = JSON.parse(topping.options)
+            {product?.toppings?.length > 0 &&
+              product?.toppings.map((topping) => {
+                const options = JSON.parse(topping?.options)
                   ?.map((option) => ({
                     ...option,
-                    price: parseFloat(option.price || 0),
+                    price: parseFloat(option?.price || 0),
                   }))
-                  .filter((option) => option.name);
-                const isRequired = topping.required;
-                const selectMuliple = topping.multiple_selection;
-                const toppingName = topping.name;
+                  .filter((option) => option?.name);
+                const isRequired = topping?.required;
+                const selectMuliple = topping?.multiple_selection;
+                const toppingName = topping?.name;
 
                 return (
                   <div
-                    className={`mb-4 ${options.length > 0 ? "" : "hidden"}`}
+                    className={`mb-4 ${options?.length > 0 ? "" : "hidden"}`}
                     key={topping.id}
                   >
                     <h4
@@ -456,7 +456,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                       </span>{" "}
                       {t("productDetails.forYour")}{" "}
                       <span className="capitalize">
-                        {product.categorie?.name}
+                        {product?.categorie?.name}
                       </span>
                       {isRequired && (
                         <span
@@ -525,7 +525,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                               color: customization?.selectedPrimaryColor,
                             }}
                           >
-                            {option.price.toFixed(2)} {currency}
+                            {option?.price.toFixed(2)} {currency}
                           </span>
 
                           <button
@@ -565,8 +565,8 @@ const ProductDetailsContent = ({ product, productId }) => {
                 );
               })}
 
-            {product.extravariants.length > 0 &&
-              product.extravariants.map((extra) => {
+            {product?.extravariants?.length > 0 &&
+              product?.extravariants?.map((extra) => {
                 const options = JSON.parse(extra.options)
                   ?.map((option) => ({
                     ...option,
@@ -705,8 +705,8 @@ const ProductDetailsContent = ({ product, productId }) => {
                 );
               })}
 
-            {product.ingredients.length > 0 &&
-              product?.ingredients.filter((item) => item.name).length > 0 && (
+            {product?.ingredients?.length > 0 &&
+              product?.ingredients?.filter((item) => item.name).length > 0 && (
                 <div className="mt-6 mb-4">
                   <h4
                     className="mb-0.5 font-semibold capitalize"
@@ -814,7 +814,7 @@ const ProductDetailsContent = ({ product, productId }) => {
         </div>
 
         <div
-          className="px-7 bottom-5 fixed left-0 right-0 flex items-center justify-between w-full max-w-md py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
+          className="px-7 bottom-5 fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
           style={{
             background: customization?.selectedBgColor,
             borderColor: hexToRgba(customization?.selectedSecondaryColor, 0.2),

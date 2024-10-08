@@ -10,7 +10,7 @@ import Lottie from "lottie-react";
 import loaderAnimation from "@/components/loader.json";
 import fetchApiData from "../lib/fetch-data";
 import { Helmet } from "react-helmet-async";
-import { api, STORAGE_URL } from "../lib/api";
+import { STORAGE_URL } from "../lib/api";
 import i18next from "i18next";
 
 export const AppContext = createContext();
@@ -55,6 +55,8 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
         const [
           categoryData,
           dishData,
+          allDishData,
+          allDrinkData,
           drinkData,
           infoData,
           customizationData,
@@ -63,6 +65,8 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
         ] = await Promise.all([
           fetchApiData(`/getCategorieByResto/${resto.id}`, []),
           fetchApiData(`/getdishes/${resto.id}${searchQuery}`, []),
+          fetchApiData(`/getdishes/${resto.id}`, []),
+          fetchApiData(`/getdrinks/${resto.id}`, []),
           fetchApiData(`/getdrinks/${resto.id}${searchQuery}`, []),
           fetchApiData(`/infos/${resto.id}`, {}),
           fetchApiData(`/customizations/${resto.id}`, defaultCustomization),
@@ -82,26 +86,64 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
 
         const visibleCategoryIds = visibleCategories.map((cat) => cat.id);
 
+        // get all drinks and dishes
+        const allProducts = [];
+        if (allDishData.length > 0) {
+          allProducts.push(...allDishData);
+        }
+        if (allDrinkData.length > 0) {
+          allProducts.push(...allDrinkData);
+        }
+
         // Filter dishes and drinks based on category visibility
-        const filteredDishes = dishData
-          ?.filter((dish) => visibleCategoryIds.includes(dish.category_id))
-          .map((item) => ({ ...item, type: "dish" }));
+        let combinedData = [];
+        let filteredDishes = [];
+        let filteredDrinks = [];
+        if (dishData.length > 0) {
+          filteredDishes = dishData
+            ?.filter((dish) => visibleCategoryIds.includes(dish.category_id))
+            .map((item) => ({ ...item, type: "dish" }));
+        }
+        if (drinkData.length > 0) {
+          filteredDrinks = drinkData
+            ?.filter((drink) => visibleCategoryIds.includes(drink.category_id))
+            .map((item) => ({ ...item, type: "drink" }));
+        }
 
-        const filteredDrinks = drinkData
-          ?.filter((drink) => visibleCategoryIds.includes(drink.category_id))
-          .map((item) => ({ ...item, type: "drink" }));
+        if (filteredDishes.length) {
+          combinedData.push(...filteredDishes);
+        }
+        if (filteredDrinks.length) {
+          combinedData.push(...filteredDrinks);
+        }
 
-        const combinedData = [...filteredDishes, ...filteredDrinks];
+        const categoriesWithProducts = Array.from(
+          new Set(
+            allProducts
+              .map((item) => ({
+                ...item,
+                category: visibleCategories.find(
+                  (category) => category.id === item.category_id
+                ),
+              }))
+              .sort(
+                (a, b) => a.category.orderCategorie - b.category.orderCategorie
+              )
+              .map((item) => item?.category)
+          )
+        );
+
+        const sortedCategories = [
+          { name: "All", id: 0 },
+          ...categoriesWithProducts.sort(
+            (a, b) => a.orderCategorie - b.orderCategorie
+          ),
+        ];
 
         setData((prev) => ({
           ...prev,
           restos: resto,
-          categories: [
-            { name: "All", id: 0 },
-            ...visibleCategories.sort(
-              (a, b) => a.orderCategorie - b.orderCategorie
-            ),
-          ],
+          categories: sortedCategories,
           products: searchTerm
             ? combinedData?.filter((data) =>
                 data?.name?.toLowerCase().includes(searchTerm?.toLowerCase())

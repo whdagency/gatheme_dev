@@ -13,7 +13,7 @@ const ExpiredSubscriptionCard = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Card className="w-full max-w-md mx-auto border-none shadow-none">
+      <Card className="w-full max-w-xl mx-auto border-none shadow-none">
         <CardHeader>
           <CardTitle className="text-amber-500 flex items-center gap-2">
             <AlertTriangle className="w-6 h-6" />

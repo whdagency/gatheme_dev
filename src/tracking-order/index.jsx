@@ -230,7 +230,7 @@ const TrackingOrder = () => {
               </div>
             </div>
 
-            <div className="bottom-5 fixed left-0 right-0 flex items-center justify-between w-full max-w-md py-0 mx-auto mt-2 -mb-5 bg-white border-t border-gray-200">
+            <div className="bottom-5 fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-0 mx-auto mt-2 -mb-5 bg-white border-t border-gray-200">
               <div className="px-7">
                 <OrderTrackingTimeline
                   steps={statusSteps}
@@ -271,7 +271,7 @@ const OrderTrackingTimeline = ({
 }) => {
   const { t } = useTranslation("global");
   return (
-    <div className="max-w-md p-6 mx-auto">
+    <div className="max-w-xl p-6 mx-auto">
       <div className="relative">
         {steps.map((step, index) => (
           <div key={step.step} className="last:mb-0 flex items-center mb-8">

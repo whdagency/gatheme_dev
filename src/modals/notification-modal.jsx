@@ -20,7 +20,7 @@ const NotificationModal = ({ open, setOpen, title = "", description = "" }) => {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
+      <DrawerContent className="flex flex-col max-w-xl gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
         <DrawerTitle className="text-2xl font-semibold capitalize">
           {title}
         </DrawerTitle>

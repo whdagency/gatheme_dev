@@ -17,7 +17,7 @@ const ConfirmOrder = ({ open, setOpen, submitOrder, orderPending }) => {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="flex flex-col max-w-md gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
+      <DrawerContent className="flex flex-col max-w-xl gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px]">
         <div className="pt-7 flex justify-center mb-4">
           <img
             src="/assets/confirm-order.png"
