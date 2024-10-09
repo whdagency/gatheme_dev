@@ -42,42 +42,34 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
      allProducts = [...allProducts, ...dishNames, ...drinkNames];
    });
 
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
   
-   const handleSearch = (e) => {
-     const value = e.target.value; 
-     setSearchTerm(value); 
-
-    
-     if (value === "") {
-       setFilteredProducts([]); 
-       setIsSearching(false); // Désactiver la recherche si le champ est vide
-     } else {
-      
-       const filtered = allProducts.filter(product =>
-         product.toLowerCase().includes(value.toLowerCase()) 
-       );
-       setFilteredProducts(filtered); 
-       setIsSearching(true);
-     }
-   };
-
-   // Ajouter à l'historique  l'utilisateur appuie sur "Entrée"
-   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-     e.preventDefault(); // Empêche la soumission du formulaire par défaut
-  if (searchTerm.trim() && !searchHistory.includes(searchTerm)) {
-        setSearchHistory(prevHistory => [...prevHistory, searchTerm]); // Ajouter le terme complet
-      }
+    if (value === "") {
+      setFilteredProducts([]); // Si input vide, vider la liste
+      setIsSearching(false);   // Ne plus être en mode recherche
+    } else {
+      const filtered = allProducts.filter(product =>
+        product.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+      setIsSearching(true);  // Garder l'état de recherche actif
     }
   };
 
-  
-   const handleBlur = () => {
-     if (searchTerm.trim() && !searchHistory.includes(searchTerm)) {
-      setSearchHistory(prevHistory => [...prevHistory, searchTerm]); // Ajouter le terme complet
-      setIsSearching(false);
-     }
-   };
+   // Fonction pour ajouter la recherche à l'historique
+   const handleResultClick = (result) => {
+    setSearchTerm(result);
+
+    // Ajoute à l'historique seulement si le terme n'est pas déjà dans l'historique
+    if (!searchHistory.includes(result)) {
+      setSearchHistory(prevHistory => [...prevHistory, result]);
+    }
+
+    // Afficher les résultats correspondants ou d'autres actions
+  };
 
 
   return (
@@ -98,8 +90,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
                           placeholder="Search For Food ..." required 
                           value={searchTerm} 
                           onChange={handleSearch}
-                          onFocus={() => setIsSearching(searchTerm !== "")}
-                          onBlur={handleBlur}
+
                         />
                       </div>
                     </form>
@@ -115,8 +106,8 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
                           <div className=" w-full text-[#565656] flex flex-row border-b border-gray-300 justify-between items-center ">
                           <li
                             key={index}
-                            onClick={() => {}}
                             className="p-4  cursor-pointer"
+                            onClick={() => handleResultClick(product)}
                           >
                             {product}
                           </li>
@@ -196,3 +187,5 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
 };
 
 export default Search;
+
+
