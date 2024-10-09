@@ -249,7 +249,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
       if(validOptions.length > 0)
       {
         return (
-          <div key={topping.id} className="topping-section mb-5 mt-7">
+          <div key={topping.id} className="topping-section  mb-5 mt-7">
             <div className={`flex items-center gap-2 `}>
               <h3 className="text-left font-bold capitalize text-[18px]">{topping.name}</h3>
               {topping.required && (
@@ -649,7 +649,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   // const imageUrl = `${APIURL}/storage/${image}`;
                   const imageUrl = `${APIURLS3}/${image}`
                   return (
-                    <div className="tabs-container overflow-x-auto" key={index}>
+                    <div className="tabs-container  overflow-x-auto" key={index}>
                       <div className="flex gap-4">
                         <Button onClick={() => setIsModalOpen(!isModalOpen)} style={{ backgroundColor: !customization?.selectedBgColor, }} className="h-auto w-full !py-0 px-0 bg-transparent hover:bg-transparent">
                           <div key={item.id} className="relative rounded-[10px] w-full border-gray-300 border inline-block">
