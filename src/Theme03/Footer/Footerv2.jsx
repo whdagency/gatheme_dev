@@ -64,7 +64,7 @@ export default function Footer({ slug, customization, resto_id }) {
 
   return (
     <>
-      <footer className={`fixed shadow-inner bottom-0 left-0 right-0 z-50 rounded-t-xl h-14 dark:bg-gray-900 md:max-w-[100%] lg:max-w-[100%] xl:max-w-[100%] ${isRTL ? 'flex-row-reverse' : ''}`} style={{ backgroundColor: "#FFF8EB" }}>        
+      <footer className={`fixed shadow-inner bottom-0 left-0 right-0 z-40 rounded-t-xl h-14 dark:bg-gray-900 md:max-w-[100%] lg:max-w-[100%] xl:max-w-[100%] ${isRTL ? 'flex-row-reverse' : ''}`} style={{ backgroundColor: "#FFF8EB" }}>        
         <div className='lg:max-w-[50%] max-w-full w-full flex h-14 items-center justify-around mx-auto relative'>
           <NavItem
             to={`/menu/${slug}?table_id=${table_id}`}
@@ -164,10 +164,10 @@ export default function Footer({ slug, customization, resto_id }) {
           </div>
 
           <NavItem
-            to={`/menu/${slug}/Cart?table_id=${table_id}`}
+            // to={`/menu/${slug}/Cart?table_id=${table_id}`}
             icon={CiShoppingBasket}
             label={t("menu.cart")}
-            active={location.pathname === `/menu/${slug}/Cart`}
+            // active={location.pathname === `/menu/${slug}/Cart`}
             customization={customization}
             isCount={true}
             totalQuantity={totalQuantity}

@@ -6,6 +6,8 @@ import React, { useState , useEffect} from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { CartItemSuggestionT3 } from "../../components/CartItemSuggestionT3";
 import { CartItemProductSearch } from "../../components/CartItemProductSearch";
+import { CgClose } from "react-icons/cg";
+
 import filter from "../Search/filter.svg";
 
 
@@ -21,6 +23,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
   const [isFilterButtonVisible, setIsFilterButtonVisible] = useState(false);
   const [showCartDish, setshowCartDish] = useState(false);
   const [selectedItem, setSelectedItem] = useState(false);
+  const [showFilterPage, setshowFilterPage] = useState(false);
 
 
 
@@ -50,7 +53,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
 
    const getFilteredProducts = (searchTerm) => {
     if (!searchTerm) {
-      return []; // Si aucun terme de recherche, renvoyer un tableau vide
+      return []; 
     }
   
     
@@ -61,12 +64,11 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
   
     
     categories.forEach(category => {
-      // Filtrer les plats correspondant au terme de recherche
+
       const matchingDishes = category.dishes.filter(dish =>
         dish.name.toLowerCase().includes(lowerCaseSearchTerm)
       );
-  
-      // Filtrer les boissons correspondant au terme de recherche
+
       const matchingDrinks = category.drinks.filter(drink =>
         drink.name.toLowerCase().includes(lowerCaseSearchTerm)
       );
@@ -98,12 +100,12 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
         product.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredProducts(filtered);
-      setIsSearching(true);  // Garder l'état de recherche actif
+      setIsSearching(true);  
 
     }
   };
 
-   // Fonction pour ajouter la recherche à l'historique
+
    const handleResultClick = (result) => {
     setSearchTerm(result);
     setSelectedItem(true); 
@@ -114,26 +116,71 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
     
     setIsFilterButtonVisible(true);
     setshowCartDish(true);
-    // Afficher les résultats correspondants ou d'autres actions
+
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      console.log('do validate')
-    }
+  const handlefilter = () => {
+    setshowFilterPage(true);
   }
+
+
+  const options = [
+    { label: "Price: Low to High", value: "low-to-high" },
+    { label: "Price: High to Low", value: "high-to-low" },
+    { label: "Reviews", value: "reviews" },
+    { label: "Newest", value: "newest" },
+    { label: "Just for you", value: "just-for-you" },
+  ];
+
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleSelection = (value) => {
+    setSelectedOption(value);
+  };
+
+
+  const priceOptions = [1, 20, 70, 100];
+
+  const [selectedMin, setSelectedMin] = useState(priceOptions[1]);
+  const [selectedMax, setSelectedMax] = useState(priceOptions[2]);
+
+  const handlePriceClick = (price) => {
+    if (price < selectedMin) {
+      setSelectedMin(price);
+    } else if (price > selectedMax) {
+      setSelectedMax(price);
+    } else {
+      // Si le prix cliqué est entre min et max, ajuster en fonction de la distance
+      if (price - selectedMin < selectedMax - price) {
+        setSelectedMin(price);
+      } else {
+        setSelectedMax(price);
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // 
+      setSearchTerm(e.target.value);
+      // setSearchHistory(e.target.value);
+      // console.log('Recherche validée:', e.target.value);
+     
+    }
+  };
+
 
   return (
     <>
               <div className="relative w-full h-full">
                 {/* Champ de recherche */}
-                <div className='fixed top-0 w-full bg-white h-[80px] z-50'>
+                <div className='fixed top-0 w-full bg-white h-[80px] z-40'>
                   <div className='my-4 w-full h-[60px] flex items-center'>
                     <Link to="/menu/${slug}?table_id=${table_id}" className="w-[50px] h-[50px] rounded-[10px] border-[1px] border-[solid] border-[#898989] ml-4 flex justify-center items-center">
                       <FaChevronLeft />
                      </Link>
 
-                    <form className="w-[291px] mx-auto">
+                    <div className="w-[291px] mx-auto">
                       <div className="flex items-center relative">
                         <input
                           type="search"
@@ -143,21 +190,118 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
                           required
                           value={searchTerm}
                           onChange={handleSearch}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter")
-                              handleResultClick(product);
-                            }}
+                          onKeyDown={handleKeyDown}
                         />
                         
                         {isFilterButtonVisible && ( 
-                            <img src={filter} alt="filter" className="ml-2 h-[50px] "/>
+                            <img src={filter} alt="filter" className="ml-2 h-[50px] "
+                            onClick={handlefilter}
+                            />
                         )}
                       </div>
-                    </form>
+                    </div>
 
                   </div>
                 </div>
+                
+                {showFilterPage && (
+                  <div className="w-full h-full z-50 bg-[white] fixed">
+                      <div className="top-0 w-full bg-white h-[80px] flex items-center justify-between px-4 border-2 border-b-gray-700">
+                          <div className="mx-1" onClick={() => {setshowFilterPage(false)}}>
+                            <CgClose color="black" size={25}/>
+                          </div>
+                          <h1 className="text-xl font-semibold text-center flex-grow text-black">
+                            Filter
+                          </h1>
+                          <div className="w-[50px]"></div>
+                      </div>
+                      <div className="w-full h-[300px]  border-2 border-b-gray-700  flex justify-center">
+                      <div className="w-[90%] flex flex-col gap-4">
+                            <h1 className="text-lg font-semibold mb-2 mt-6">Sort by</h1>
+                                {options.map((option) => (
+                                    <label key={option.value} className="flex items-center">
+                                          <input
+                                            type="radio"
+                                            name="sort"
+                                            className="hidden"
+                                            value={option.value}
+                                            onChange={() => handleSelection(option.value)}
+                                          />
+                                          <div
+                                            className={`w-6 h-6 flex items-center justify-center border ${
+                                              selectedOption === option.value ? 'border-black' : 'border-gray-400'
+                                            } rounded-full cursor-pointer`}
+                                          >
+                                            <div
+                                              className={`circle-inner ${
+                                                selectedOption === option.value ? 'bg-black' : 'bg-transparent'
+                                              } w-3 h-3 rounded-full`}
+                                            ></div>
+                                          </div>
+                                          <span className="ml-3">{option.label}</span>
+                                    </label>
+                                ))}
+                          </div>
 
+                      </div>
+                      <div className="w-full h-[150px] flex justify-center ">
+                          <div className="w-[90%] flex flex-col gap-4 ">
+                            <h1 className="text-lg font-semibold mb-2 mt-6">Sort by</h1>
+                            <div className="flex flex-col items-center my-4">
+                                <div className="relative w-full h-2 bg-gray-300">
+                                  <div
+                                    className="absolute h-2 bg-red-500"
+                                    style={{
+                                      left: `${(priceOptions.indexOf(selectedMin) / (priceOptions.length - 1)) * 100}%`,
+                                      right: `${100 - (priceOptions.indexOf(selectedMax) / (priceOptions.length - 1)) * 100}%`,
+                                    }}
+                                  >
+                                  </div>
+                                  {priceOptions.map((price, index) => (
+                                    <div
+                                      key={index}
+                                      className="absolute -top-2 w-6 h-6 flex items-center justify-center"
+                                      style={{
+                                        left: `${(index / (priceOptions.length - 1)) * 100}%`,
+                                        transform: 'translateX(-50%)',
+                                      }}
+                                      onClick={() => handlePriceClick(price)}
+                                    >
+                                      <div
+                                        className={`w-4 h-4 rounded-full ${
+                                          price >= selectedMin && price <= selectedMax ? 'bg-red-500' : 'bg-gray-300'
+                                        } cursor-pointer`}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                                <div className="flex justify-between w-full mt-4">
+                                  {priceOptions.map((price, index) => (
+                                    <span 
+                                      key={index} 
+                                      className={`text-gray-600 text-sm ${price === 1 ? 'ml-[-4px]' : ''} ${price === 100 ? 'mr-[-12px]' : ''}`}
+                                    >
+                                      {price}$
+                                    </span>
+                                  ))}
+                                </div>
+                      </div>
+
+
+                        </div>
+                      </div>
+
+                      <div className="fixed bottom-0 w-full h-[100px]  flex justify-center items-center">
+                          <div className="w-[90%] h-[60px]  flex mx-auto">
+                              <button className="w-[170px] h-[45px] bg-[white] border-2 border-[red] border-solid  text-[red] hover:bg-[red] hover:text-[white] rounded-lg mx-1" onClick={() => {setshowFilterPage(false)}}>Cancel</button>
+                              <button className="w-[170px] h-[45px] bg-[white] text-[red] hover:bg-[red] hover:text-[white] border-2 border-[red] border-solid rounded-lg mx-1">Confirm</button>
+                          </div>
+                      </div>
+
+                  </div>
+                  
+                
+                )}
                   
                 {isSearching && filteredProducts.length > 0 && (
                   <div className=" pt-[80px]  left-0  h-full ">
