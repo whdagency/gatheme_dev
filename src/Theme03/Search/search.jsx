@@ -5,6 +5,8 @@ import { FontItalicIcon } from "@radix-ui/react-icons";
 import React, { useState , useEffect} from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { CartItemSuggestionT3 } from "../../components/CartItemSuggestionT3";
+import { CartItemProductSearch } from "../../components/CartItemProductSearch";
+import filter from "../Search/filter.svg";
 
 
 
@@ -16,6 +18,12 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
   const [searchHistory, setSearchHistory] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const location = useLocation();
+  const [isFilterButtonVisible, setIsFilterButtonVisible] = useState(false);
+  const [showCartDish, setshowCartDish] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(false);
+
+
+
 
 
   
@@ -29,9 +37,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
   // console.log("restos id ============= ", customization.resto_id);
   
-  // const filtredSuggest = selectedDishes.filter(suggestedDish => 
-  //   !filteredCartItems.some(cartItem => cartItem.id === suggestedDish.id)
-  // );  
+  
   const filtredSuggest = selectedDishes;
   
   
@@ -42,35 +48,80 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
      allProducts = [...allProducts, ...dishNames, ...drinkNames];
    });
 
+   const getFilteredProducts = (searchTerm) => {
+    if (!searchTerm) {
+      return []; // Si aucun terme de recherche, renvoyer un tableau vide
+    }
+  
+    
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  
+    
+    let filteredProducts = [];
+  
+    
+    categories.forEach(category => {
+      // Filtrer les plats correspondant au terme de recherche
+      const matchingDishes = category.dishes.filter(dish =>
+        dish.name.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+  
+      // Filtrer les boissons correspondant au terme de recherche
+      const matchingDrinks = category.drinks.filter(drink =>
+        drink.name.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+  
+      
+      filteredProducts = [...filteredProducts, ...matchingDishes, ...matchingDrinks];
+    });
+  
+    return filteredProducts;
+  };
+  
+  
+  const filteredResults = getFilteredProducts(searchTerm);
+  console.log("Produits filtrés: ", filteredResults);
+
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
+   
   
     if (value === "") {
-      setFilteredProducts([]); // Si input vide, vider la liste
-      setIsSearching(false);   // Ne plus être en mode recherche
+      setFilteredProducts([]); 
+      setIsSearching(false);   
+      setIsFilterButtonVisible(false);
+      setSelectedItem(false); 
     } else {
       const filtered = allProducts.filter(product =>
         product.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredProducts(filtered);
       setIsSearching(true);  // Garder l'état de recherche actif
+
     }
   };
 
    // Fonction pour ajouter la recherche à l'historique
    const handleResultClick = (result) => {
     setSearchTerm(result);
+    setSelectedItem(true); 
 
-    // Ajoute à l'historique seulement si le terme n'est pas déjà dans l'historique
     if (!searchHistory.includes(result)) {
       setSearchHistory(prevHistory => [...prevHistory, result]);
     }
-
+    
+    setIsFilterButtonVisible(true);
+    setshowCartDish(true);
     // Afficher les résultats correspondants ou d'autres actions
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      console.log('do validate')
+    }
+  }
 
   return (
     <>
@@ -81,48 +132,85 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
                     <Link to="/menu/${slug}?table_id=${table_id}" className="w-[50px] h-[50px] rounded-[10px] border-[1px] border-[solid] border-[#898989] ml-4 flex justify-center items-center">
                       <FaChevronLeft />
                      </Link>
-                    
-                    <form className="w-[291px] mx-auto">
-                      <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                      <div className="relative">
-                        <input type="search" id="default-search" 
-                          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                          placeholder="Search For Food ..." required 
-                          value={searchTerm} 
-                          onChange={handleSearch}
 
+                    <form className="w-[291px] mx-auto">
+                      <div className="flex items-center relative">
+                        <input
+                          type="search"
+                          id="default-search"
+                          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          placeholder="Search For Food ..."
+                          required
+                          value={searchTerm}
+                          onChange={handleSearch}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter")
+                              handleResultClick(product);
+                            }}
                         />
+                        
+                        {isFilterButtonVisible && ( 
+                            <img src={filter} alt="filter" className="ml-2 h-[50px] "/>
+                        )}
                       </div>
                     </form>
+
                   </div>
                 </div>
 
-                  {/* Résultats de recherche */}
+                  
                 {isSearching && filteredProducts.length > 0 && (
                   <div className=" pt-[80px]  left-0  h-full ">
                     <div className="w-full  bg-white h-full  overflow-y-auto">
-                      <ul className="p-2">
-                        {filteredProducts.map((product, index) => (
-                          <div className=" w-full text-[#565656] flex flex-row border-b border-gray-300 justify-between items-center ">
-                          <li
-                            key={index}
-                            className="p-4  cursor-pointer"
-                            onClick={() => handleResultClick(product)}
-                          >
-                            {product}
-                          </li>
-                          <div className="mr-[15px]">
+                        {!selectedItem && (
+                          
+                          <ul className="p-2">
+                          {filteredProducts.map((product, index) => (
+                            <div className=" w-full text-[#565656] flex flex-row border-b border-gray-300 justify-between items-center ">
+                            <li
+                              key={index}
+                              className="p-4  cursor-pointer"
+                              onClick={() => handleResultClick(product)}
+                            >
+                              {product}
+                            </li>
+                            <div className="mr-[15px]">
+  
+                              <FaChevronRight />
+                            </div>
+                            </div>
+                          ))}
+                          </ul>
+                        )}
+                       {selectedItem && (
+                        <ul className="w-full gap-2 ">
 
-                            <FaChevronRight />
-                          </div>
-                          </div>
-                        ))}
-                      </ul>
+                          {filteredResults.map((item, index) => (
+                            <div className=" w-full  text-[#565656] flex flex-row border-b border-gray-300 justify-between items-center "
+                            key={index}
+                            >
+                            <li className="w-[90%] mx-auto my-2">
+
+                              <CartItemProductSearch
+                                // key={index}
+                                item={item}
+                                infoRes={infoRes}
+                                customization={customization}
+                                resto_id={customization.resto_id}
+                                isDishInCart={isDishInCart}
+                              />
+                            </li>
+                            </div>
+                         ))}
+                        </ul>
+                        )}
+
+                        
                     </div>
                   </div>
                 )}
 
-                {/* Message d'aucun résultat trouvé */}
+               
                 {isSearching && filteredProducts.length === 0 && searchTerm && (
                   <p className="p-2 pt-[80px] left-0 h-full">Aucun résultat trouvé</p>
                 )}
