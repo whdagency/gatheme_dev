@@ -28,7 +28,7 @@ import {
 import { axiosInstance } from '../../axiosInstance';
 import { database, onValue, ref } from '../../firebaseConfig';
 import { useMenu } from '../../hooks/useMenu';
-import orderSvg from "./orderSvg.svg"
+import confirmorder from "./confirmorder.svg"
 import { CheckIcon } from 'lucide-react';
 
 import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
@@ -295,7 +295,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
 
         {isLoading ?
-          <div className="flex items-center justify-center border-8 border-red-700">
+          <div className="flex items-center justify-center ">
             <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
           </div>
           :
@@ -458,18 +458,19 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </button>
-              <img src={orderSvg} alt="Order" />
-              <AlertDialogTitle className="text-center">{t("achat.successOrder")}</AlertDialogTitle>
+              <img src={confirmorder} alt="Order" />
+              <h1>Confirm Order</h1>
+              <p className="text-center text-gray-500">Are you ready to place your order? Your selected items will be submitted.</p>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex flex-row gap-4 justify-center">
-              <AlertDialogAction style={{ backgroundColor: customization?.selectedPrimaryColor }} autoFocus onClick={() => submitOrder(filteredCartItems, totalCost)}>
-                {t("menu.ok")}
-              </AlertDialogAction>
-              <Button style={{ borderColor: customization?.selectedPrimaryColor }} autoFocus onClick={() => setOrderSuccessModalOpen(false)} variant="outline" >
+            <div className="flex  gap-4 justify-center items-center">
+              <button className='text-[red] border-2 border-[#DB281C] rounded-md bg-[white] px-4 py-2' autoFocus onClick={() => submitOrder(filteredCartItems, totalCost)}>
                 {t("menu.cancel")}
-              </Button>
+              </button>
+              <button className='text-[white] border-2 border-[#DB281C] rounded-md bg-[#DB281C] px-4 py-2' autoFocus onClick={() => setOrderSuccessModalOpen(false)} variant="outline" >
+                {t("menu.ok")}
+              </button>
 
-            </AlertDialogFooter>
+            </div>
           </AlertDialogContent>
         </AlertDialog>
       </div>
