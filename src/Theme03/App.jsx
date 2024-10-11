@@ -20,6 +20,7 @@ import global_it from "./translation/it/global.json"
 import global_ar from "./translation/ar/global.json"
 import { PrimeReactProvider } from 'primereact/api';
 import { useMenu } from "../hooks/useMenu";
+import ProductDetail from "./ProductDetail/ProductDetail";
 
 function Theme03() {
 
@@ -130,6 +131,12 @@ function Theme03() {
                     {/* <Rate infoRes={resInfo} slug={restoSlug}/> */}
                     <Search infoRes={resInfo} slug={restoSlug}  categories={categories} selectedDishes={selectedDishes} resto_id={restos?.id} restoId={restos?.id} customization={customization}/>
                     <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/>
+                  </>
+                } />
+                <Route path="/menu/:restoSlug/ProductDetail" element={
+                  <>
+                    <ProductDetail infoRes={resInfo} slug={restoSlug}  categories={categories} selectedDishes={selectedDishes} resto_id={restos?.id} restoId={restos?.id} customization={customization}/>
+                    {/* <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/> */}
                   </>
                 } />
                 <Route path={`/menu/:restoSlug/info`} element={

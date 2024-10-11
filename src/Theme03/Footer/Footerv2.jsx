@@ -164,10 +164,10 @@ export default function Footer({ slug, customization, resto_id }) {
           </div>
 
           <NavItem
-            // to={`/menu/${slug}/Cart?table_id=${table_id}`}
+            to={`/menu/${slug}/Cart?table_id=${table_id}`}
             icon={CiShoppingBasket}
             label={t("menu.cart")}
-            // active={location.pathname === `/menu/${slug}/Cart`}
+            active={location.pathname === `/menu/${slug}/Cart`}
             customization={customization}
             isCount={true}
             totalQuantity={totalQuantity}

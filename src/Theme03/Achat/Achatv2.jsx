@@ -273,9 +273,9 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
   console.log("The Filtred Suggesttion => ", filtredSuggest);
   return (
     <>
-      <div className={`bg-white snap-y scrollbar-hide dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
+      <div className={`bg-white snap-y scrollbar-hide overflow-y-auto dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
         <div className="flex flex-col justify-center ">
-          {orderID != 'null' &&
+          {/* {orderID != 'null' &&
             <StepsBar
               status={status}
               orderID={orderID}
@@ -286,56 +286,88 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
               totalCost={formattedTotalCostWithSpaces}
               canceled={canceled}
             />
-          }
+          } */}
+          <div className='w-full h-[80px]  flex justify-center items-center'>
+              <h1>My Cart</h1>
+          </div>
         </div>
 
 
 
         {isLoading ?
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center border-8 border-red-700">
             <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
           </div>
           :
-          <div className="flex flex-col gap-4  snap-y  scrollbar-hide">
+          <div className="flex flex-col gap-4  snap-y  scrollbar-hide overflow-auto mb-[100px]">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >{t("achat.shoppingCart")}<span className="text-xs text-muted-foreground capitalize font-normal"> {t("achat.ofTable")}: {tableName}</span></h2>
-              <button onClick={() => { sessionStorage.setItem('modalOpened', ''); dispatch(removeAll()) }} className="text-black bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                {t("achat.clearBtn")}
-              </button>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
+              <button
+                  onClick={() => {
+                    if (filteredCartItems.length > 0) {
+                      sessionStorage.setItem('modalOpened', '');
+                      dispatch(removeAll());
+                    }
+                  }}
+                  className={`relative ${
+                    filteredCartItems.length === 0
+                      ? 'text-[#FFB3A4] cursor-not-allowed'
+                      : 'text-[red] cursor-pointer'
+                  }`}
+                  disabled={filteredCartItems.length === 0}
+                >
+                  <span className="relative">
+                    {t("achat.clearBtn")}
+                    <span
+                      className={`absolute left-0 bottom-[-2px] h-[2px] w-full ${
+                        filteredCartItems.length === 0 ? 'bg-[#FFB3A4]' : 'bg-[red]'
+                      }`}
+                    />
+                  </span>
+                </button>
+
             </div>
             {filteredCartItems.length === 0 ? (
               <div>
                 <div className="flex flex-col items-center justify-center">
                   <div className="w-64 h-44 flex-shrink-0 relative flex flex-col items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" viewBox="0 0 55 20" fill="none" className="mt-0 ">
-                      <path opacity="0.7" d="M1.5 6.30273L12.5996 18.7559M53.5996 6.30273L42.5 18.7559L53.5996 6.30273ZM27.5 2V18.7559V2Z" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 251 200" fill="none">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M63.5 134H154.5C155.015 134 155.517 133.944 156 133.839C156.483 133.944 156.985 134 157.5 134H209.5C213.366 134 216.5 130.866 216.5 127C216.5 123.134 213.366 120 209.5 120H203.5C199.634 120 196.5 116.866 196.5 113C196.5 109.134 199.634 106 203.5 106H222.5C226.366 106 229.5 102.866 229.5 99C229.5 95.134 226.366 92 222.5 92H200.5C204.366 92 207.5 88.866 207.5 85C207.5 81.134 204.366 78 200.5 78H136.5C140.366 78 143.5 74.866 143.5 71C143.5 67.134 140.366 64 136.5 64H79.5C75.634 64 72.5 67.134 72.5 71C72.5 74.866 75.634 78 79.5 78H39.5C35.634 78 32.5 81.134 32.5 85C32.5 88.866 35.634 92 39.5 92H64.5C68.366 92 71.5 95.134 71.5 99C71.5 102.866 68.366 106 64.5 106H24.5C20.634 106 17.5 109.134 17.5 113C17.5 116.866 20.634 120 24.5 120H63.5C59.634 120 56.5 123.134 56.5 127C56.5 130.866 59.634 134 63.5 134ZM226.5 134C230.366 134 233.5 130.866 233.5 127C233.5 123.134 230.366 120 226.5 120C222.634 120 219.5 123.134 219.5 127C219.5 130.866 222.634 134 226.5 134Z" fill="#F3F7FF" />
-                    </svg>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="73" height="91" viewBox="0 0 73 91" fill="none" className="absolute inset-0 m-auto">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M4.29757 2H66.9041L61.2976 10.4098L68.773 16.0164H2.42871L10.8385 10.4098L4.29757 2Z" fill="#E8F0FE" />
-                      <rect x="0.5" y="14" width="71" height="75" rx="2" fill="white" />
-                      <path fillRule="evenodd" clipRule="evenodd" d="M5.08521 55.006V20.6453C5.08521 19.2296 6.24544 18.082 7.67666 18.082L68.6533 82.1642C68.6533 84.0518 67.1423 85.582 65.2784 85.582H8.46013C6.59621 85.582 5.08521 84.0518 5.08521 82.1642V69.3945V65.9301V55.006ZM5.08521 62.4247V58.5765V62.4247Z" fill="#E8F0FE" />
-                      <path d="M1.5 55.4631V17.8853C1.5 16.337 2.77049 15.082 4.33773 15.082H69.2612C70.2817 15.082 71.109 15.9187 71.109 16.9508V85.1639C71.109 87.2282 69.4544 88.9016 67.4134 88.9016H5.19564C3.15459 88.9016 1.5 87.2282 1.5 85.1639V71.1986V67.4098M1.5 63.5763V59.3678" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M3.36311 15.082V3.86886C3.36311 2.83672 4.11401 2 5.04029 2L67.0958 2C68.0221 2 68.7729 2.83672 68.7729 3.86886V15.082" stroke="#28509E" strokeWidth="2.5" />
-                      <path d="M20.6499 34.7049C22.4561 34.7049 23.9204 33.2407 23.9204 31.4344C23.9204 29.6282 22.4561 28.1639 20.6499 28.1639C18.8436 28.1639 17.3794 29.6282 17.3794 31.4344C17.3794 33.2407 18.8436 34.7049 20.6499 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M51.4861 34.7049C53.2923 34.7049 54.7566 33.2407 54.7566 31.4344C54.7566 29.6282 53.2923 28.1639 51.4861 28.1639C49.6798 28.1639 48.2156 29.6282 48.2156 31.4344C48.2156 33.2407 49.6798 34.7049 51.4861 34.7049Z" fill="#E8F0FE" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M51.0188 34.7049C51.0188 42.962 44.3251 49.6557 36.068 49.6557C27.8109 49.6557 21.1172 42.962 21.1172 34.7049" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M4.3545 2.93146L10.9329 9.42513C11.3259 9.81311 11.3301 10.4463 10.9421 10.8393C10.8749 10.9073 10.7984 10.9654 10.7148 11.0117L3.36304 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                      <path d="M67.9401 2.99922L61.6451 9.41968C61.2585 9.81404 61.2647 10.4472 61.6591 10.8338C61.7249 10.8984 61.7994 10.9535 61.8803 10.9977L69.3674 15.082" stroke="#28509E" strokeWidth="2.5" strokeLinecap="round" />
-                    </svg>
-
+                      <svg width="261" height="260" viewBox="0 0 261 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#clip0_1936_9138)">
+                      <path d="M130.499 229.222C185.509 229.222 230.104 184.799 230.104 129.999C230.104 75.1999 185.509 30.7762 130.499 30.7762C75.489 30.7762 30.8945 75.1999 30.8945 129.999C30.8945 184.799 75.489 229.222 130.499 229.222Z" fill="#E0E9F9"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M178.068 147.072L188.288 147.761L176.691 196.069L166.472 195.38L178.068 147.072Z" fill="#3594DC"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M178.062 147.066C178.062 147.066 191.06 92.9295 195.467 74.5423C196.293 71.0616 199.548 68.6902 203.117 68.9309L219.246 70.0182C220.096 70.0755 220.863 70.5054 221.367 71.1824C221.871 71.8593 222.04 72.7217 221.851 73.5411C221.558 74.7695 221.216 76.1647 220.95 77.2815C220.629 78.6404 219.351 79.5754 217.954 79.4812C213.591 79.1871 204.885 78.6002 204.885 78.6002L188.278 147.774L178.061 147.085L178.062 147.066Z" fill="#3594DC"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M94.7256 182.203L178.678 187.868L176.711 196.067L92.7591 190.401L94.7256 182.203Z" fill="#3594DC"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M202.729 87.6554L69.457 78.6713C69.457 78.6713 74.5307 130.042 76.6557 151.398C77.1844 156.692 81.446 160.825 86.7651 161.184C106.837 162.537 154.276 165.735 174.348 167.088C179.667 167.447 184.475 163.924 185.697 158.749C190.709 137.874 202.729 87.6554 202.729 87.6554Z" fill="#4FB4F3"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M107.92 103.672L111.872 141.324C112.15 143.915 114.469 145.792 117.067 145.513C119.666 145.235 121.551 142.922 121.291 140.333L117.339 102.699C117.06 100.109 114.742 98.2316 112.144 98.4914C109.546 98.7512 107.661 101.082 107.92 103.672Z" fill="#1D77C7"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M108.289 107.157L111.872 141.324C112.15 143.915 114.469 145.792 117.068 145.514C119.667 145.235 121.551 142.922 121.292 140.333L117.709 106.166C117.431 103.575 115.112 101.698 112.514 101.958C109.915 102.237 108.03 104.568 108.289 107.157Z" fill="#3594DC"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M152.007 105.026L142.988 141.785C142.359 144.314 143.929 146.879 146.468 147.485C149.005 148.11 151.578 146.543 152.186 144.031L161.207 107.254C161.835 104.724 160.264 102.179 157.727 101.554C155.188 100.948 152.635 102.496 152.007 105.026Z" fill="#1D77C7"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M151.162 108.505L142.986 141.804C142.358 144.333 143.928 146.897 146.466 147.503C149.003 148.128 151.577 146.562 152.185 144.05L160.361 110.751C160.989 108.222 159.419 105.658 156.881 105.052C154.343 104.427 151.771 105.974 151.162 108.505Z" fill="#3594DC"/>
+                      <path d="M185.62 193.557C186.779 185.108 180.845 177.326 172.368 176.175C163.89 175.025 156.078 180.942 154.919 189.391C153.761 197.84 159.694 205.622 168.172 206.772C176.649 207.923 184.461 202.006 185.62 193.557Z" fill="#4FB4F3"/>
+                      <path d="M175.091 192.133C175.454 189.481 173.592 187.038 170.931 186.677C168.269 186.316 165.817 188.173 165.454 190.826C165.09 193.478 166.952 195.921 169.613 196.282C172.275 196.643 174.727 194.786 175.091 192.133Z" fill="white"/>
+                      <path d="M109.606 188.413C110.767 179.962 104.836 172.18 96.3599 171.031C87.8839 169.883 80.0721 175.802 78.9116 184.253C77.7512 192.704 83.6817 200.486 92.1577 201.635C100.634 202.783 108.446 196.864 109.606 188.413Z" fill="#4FB4F3"/>
+                      <path d="M99.0779 186.992C99.4422 184.339 97.5805 181.896 94.9199 181.535C92.2592 181.175 89.807 183.033 89.4427 185.686C89.0785 188.339 90.9401 190.781 93.6008 191.142C96.2615 191.502 98.7136 189.644 99.0779 186.992Z" fill="white"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M102.999 80.847C101.829 98.0129 89.0359 111.651 72.7927 114.636L69.2158 78.5615L102.999 80.847Z" fill="#3594DC"/>
+                      <path d="M64.5722 106.899C81.0047 106.899 94.326 93.6286 94.326 77.259C94.326 60.8893 81.0047 47.6191 64.5722 47.6191C48.1396 47.6191 34.8184 60.8893 34.8184 77.259C34.8184 93.6286 48.1396 106.899 64.5722 106.899Z" fill="#DB281C"/>
+                      <path d="M71.8959 79.5998C71.8959 76.4751 71.4186 74.0975 70.5321 72.3993C69.6457 70.7011 68.3501 69.818 66.6454 69.818C65.0088 69.818 63.7133 70.6332 62.8269 72.3993C61.9404 74.0975 61.5312 76.4751 61.5312 79.5998C61.5312 82.7245 61.9404 85.1019 62.8269 86.8681C63.7133 88.5663 64.9406 89.4494 66.6454 89.4494C68.2819 89.4494 69.5775 88.5663 70.5321 86.8681C71.4186 85.1019 71.8959 82.7245 71.8959 79.5998ZM80.9652 79.5998C80.9652 82.3169 80.6243 84.7623 79.8742 86.8681C79.1923 88.9738 78.1695 90.7399 76.942 92.2343C75.6464 93.6608 74.1462 94.7477 72.4415 95.4949C70.6685 96.2421 68.7593 96.5818 66.7136 96.5818C64.5997 96.5818 62.6904 96.2421 60.9175 95.4949C59.1446 94.7477 57.6444 93.6608 56.4169 92.2343C55.1895 90.8078 54.1667 89.0418 53.4848 86.8681C52.8029 84.7623 52.4619 82.3169 52.4619 79.5998C52.4619 76.8827 52.8029 74.4373 53.4848 72.3315C54.1667 70.2257 55.1895 68.4595 56.4169 67.0331C57.7125 65.6066 59.2128 64.5197 60.9175 63.7725C62.6904 63.0253 64.5997 62.6855 66.7136 62.6855C68.7593 62.6855 70.6685 63.0932 72.4415 63.7725C74.2144 64.5197 75.7146 65.6066 76.942 67.0331C78.1695 68.4595 79.1923 70.2257 79.8742 72.3315C80.6243 74.4373 80.9652 76.8827 80.9652 79.5998Z" fill="#ED3F07"/>
+                      <path d="M70.1108 76.5026C70.1108 73.3779 69.6334 71.0004 68.747 69.3022C67.8605 67.6039 66.5649 66.7208 64.8602 66.7208C63.2237 66.7208 61.9282 67.536 61.0417 69.3022C60.1552 71.0004 59.746 73.3779 59.746 76.5026C59.746 79.6273 60.1552 82.0048 61.0417 83.7709C61.9282 85.4691 63.1555 86.3522 64.8602 86.3522C66.4968 86.3522 67.7923 85.4691 68.747 83.7709C69.6334 82.0048 70.1108 79.6273 70.1108 76.5026ZM79.18 76.5026C79.18 79.2197 78.8392 81.6651 78.0891 83.7709C77.4072 85.8767 76.3843 87.6427 75.1569 89.1372C73.8613 90.5637 72.3611 91.6505 70.6563 92.3978C68.8834 93.145 66.9741 93.4847 64.9285 93.4847C62.8146 93.4847 60.9053 93.145 59.1324 92.3978C57.3594 91.6505 55.8592 90.5637 54.6318 89.1372C53.4044 87.7107 52.3815 85.9446 51.6996 83.7709C51.0177 81.6651 50.6768 79.2197 50.6768 76.5026C50.6768 73.7855 51.0177 71.3401 51.6996 69.2343C52.3815 67.1285 53.4044 65.3624 54.6318 63.9359C55.9274 62.5094 57.4276 61.4225 59.1324 60.6753C60.9053 59.9281 62.8146 59.5884 64.9285 59.5884C66.9741 59.5884 68.8834 59.996 70.6563 60.6753C72.4292 61.4225 73.9295 62.5094 75.1569 63.9359C76.3843 65.3624 77.4072 67.1285 78.0891 69.2343C78.8392 71.3401 79.18 73.7855 79.18 76.5026Z" fill="white"/>
+                      <path d="M23.6734 61.2409C23.585 61.2409 23.4789 61.2233 23.3905 61.2057L6.11596 57.0313C5.46175 56.8728 5.05506 56.2211 5.2142 55.5694C5.37333 54.9177 6.02754 54.5126 6.68175 54.6711L23.9563 58.8455C24.6105 59.004 25.0172 59.6557 24.8581 60.3074C24.7166 60.871 24.2215 61.2409 23.6734 61.2409Z" fill="#DB281C"/>
+                      <path d="M42.9474 41.525C42.4523 41.525 41.9926 41.2256 41.8158 40.75L36.5645 27.0995C36.317 26.4655 36.6352 25.7785 37.2717 25.5319C37.9083 25.2854 38.5978 25.6024 38.8454 26.2365L44.0967 39.8869C44.3442 40.521 44.0259 41.2079 43.3894 41.4545C43.248 41.4898 43.0888 41.525 42.9474 41.525Z" fill="#DB281C"/>
+                      <path d="M29.57 49.686C29.2518 49.686 28.9512 49.5627 28.7036 49.3337L12.3131 33.006C11.8357 32.5304 11.8357 31.7554 12.3131 31.2975C12.7905 30.8219 13.5685 30.8219 14.0282 31.2975L30.4187 47.6252C30.8961 48.1007 30.8961 48.8757 30.4187 49.3337C30.1889 49.5627 29.8883 49.686 29.57 49.686Z" fill="#DB281C"/>
+                      </g>
+                      <defs>
+                      <clipPath id="clip0_1936_9138">
+                      <rect width="261" height="260" fill="white"/>
+                      </clipPath>
+                      </defs>
+                      </svg>
                   </div>
                   <div className='font-semibold text-center mt-2 '>
                     <p className='text-xl'>{t("achat.emptycart")}</p>
-                    <p className="text-gray-500 text-center mt-2 text-xl dark:text-gray-400">
-                      {t("achat.checkout")}
+                    <p className="text-gray-500 text-center mt-2 text-base dark:text-gray-400">
+                    Looks like you haven't made your choice yet...
                     </p>
                     <Link to={`/menu/${slug}?table_id=${table_id}`}>
-                      <p className=" text-center mt-2 text-lg dark:text-gray-400 " style={{ color: customization?.selectedPrimaryColor }}>
+                      <p className=" text-center mt-2 text-lg dark:text-red-400 " style={{ color: 'red' }}>
                         <FaPlus size={15} className="inline-block mr-1" />  {t("achat.addmoreitems")}
                       </p>
                     </Link>
@@ -343,32 +375,50 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                   </div>
 
                 </div>
-                <div className="flex justify-between items-center mt-16 ">
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("achat.total")}:
-                    <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
-                  </p>
-                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg" disabled>
+                <div className="flex flex-col justify-between  mt-16 ">
+                  <div className='flex justify-between items-center'>
+                      <p className="text-gray-500 dark:text-gray-400 text-sm">
+                        {t("achat.total")}:
+                      </p>
+                      <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
+                  </div>
+                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: '#FFBBB6' }} className="py-2 px-4 rounded-lg my-4" size="lg" disabled>
                     {t("achat.checkoutBtn")}
                   </Button>
-                </div></div>
+                </div>
+                </div>
 
 
 
             ) : (
               <>
-                {filteredCartItems.map(item => (
-                  <CartItem key={item.id} item={item} infoRes={infoRes} />
-                ))}
-                <div className="flex justify-between items-center mb-12">
-                  <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    {t("achat.total")}:
-                    <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
-                  </p>
-                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: customization?.selectedPrimaryColor }} className="py-2 px-4 rounded-lg" size="lg">
-                    {t("achat.checkoutBtn")}
-                  </Button>
-                </div>
+                  <div className='mb-[100px]'>
+                    {filteredCartItems.map(item => (
+
+                        <CartItem key={item.id} item={item} infoRes={infoRes} />
+                    ))}
+                  
+                  </div>
+
+                  <div className="fixed bottom-[50px] left-0 right-0 bg-white p-4  z-45">
+                    <div className="flex flex-col justify-between mx-auto">
+                      <div className="flex justify-between items-center">
+                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                          {t("achat.total")}:
+                        </p>
+                        <span className="font-medium text-gray-900 dark:text-gray-50">
+                          {formattedTotalCostWithSpaces + " " + infoRes.currency}
+                        </span>
+                      </div>
+                      <Button
+                        onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)}
+                        className="py-2 px-4 rounded-lg my-4 bg-[red]"
+                        size="lg"
+                      >
+                        {t("achat.checkoutBtn")}
+                      </Button>
+                    </div>
+                  </div>
               </>
             )}
           </div>}
@@ -423,7 +473,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
+      {/* <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
         <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
           <div className="mt-10 md:mt-2 mb-1 text-center text-lg font-semibold text-black">
             Suggested Products
@@ -441,7 +491,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
             ))}
           </div>
         </CredenzaContent>
-      </Credenza>
+      </Credenza> */}
       <FeedBack 
          isModalOpen={isModalFeedOpen}
          setIsModalOpen={setIsModalFeedOpen}

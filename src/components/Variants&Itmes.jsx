@@ -82,8 +82,8 @@ export function CartItem({ item, infoRes }) {
 
   const subtotal = (price + selectedPrices) * quantity;
   return (
-    <div className="grid gap-4">
-      <div className=" bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+    <div className="grid gap-4 ">
+      <div className="   p-4  ">
         <div className='flex items-center gap-2'>
           <div className="w-16 h-16 rounded-md overflow-hidden">
             <Avatar className="h-full w-full  rounded-[10px]">
@@ -103,24 +103,26 @@ export function CartItem({ item, infoRes }) {
             <p className="text-gray-500 dark:text-gray-400 text-sm">{subtotal.toFixed(2) + " " + infoRes.currency}</p>
             <span className="text-[12px] font-medium text-gray-900 dark:text-gray-50">{item?.comment?.length > 15 ? item?.comment?.slice(0, 10) + '...' : item?.comment}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline">
-              <MinusIcon className="w-4 h-4" />
-            </Button>
-            <span className="text-base font-medium text-gray-900 dark:text-gray-50">{item.quantity}</span>
-            <Button onClick={() => dispatch(incrementQuantity(item.id))} size="icon" variant="outline">
-              <PlusIcon className="w-4 h-4" />
-            </Button>
+          <div className="flex flex-col justify-around gap-4">
+            <div className="flex justify-end items-center "
+                onClick={() => dispatch(removeItem(item.id))}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3.5 3.5L12.5 12.5" stroke="#A6ADB4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.5 12.5L12.5 3.5" stroke="#A6ADB4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div className="flex bg-[#FF9C96] border-2 border-[#DB281C] rounded-full items-center gap-2">
+              <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
+                <MinusIcon className="w-4 h-4" />
+              </Button>
+              <span className="text-base font-medium text-gray-900 dark:text-gray-50">{item.quantity}</span>
+              <Button onClick={() => dispatch(incrementQuantity(item.id))} size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
+                <PlusIcon className="w-4 h-4" />
+              </Button>
+            </div>
 
           </div>
-          <Button
-            size="icon"
-            variant="outline"
-            onClick={() => dispatch(removeItem(item.id))}
-            className="text-red-500"
-          >
-            <TrashIcon className="w-4 h-4" />
-          </Button>
+          
         </div>
 
         <ToppingOptions item={item} />
