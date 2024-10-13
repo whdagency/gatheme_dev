@@ -4,6 +4,11 @@ import { MinusIcon, PlusIcon, TrashIcon } from "../constant/page";
 import { Button } from '@/components/ui/button';
 import { APIURLS3 } from "../lib/ApiKey";
 import { incrementQuantity, decrementQuantity, removeItem } from '../lib/cartSlice';
+import { FaChevronRight } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa";
+import { useState } from "react";
+
+
 
 export const ToppingOptions = ({ item }) => {
     // Flatten all options into a single array
@@ -16,7 +21,7 @@ export const ToppingOptions = ({ item }) => {
     )
   
     return (
-      <div>
+      <div className="">
         {options?.length > 0 && (
           <div className="text-md mt-4">
             {options.map((opt, index) => (
@@ -40,7 +45,7 @@ export const ToppingOptions = ({ item }) => {
       }))
     );
     return (
-      <div>
+      <div className="">
         {options?.length > 0 && (
           <div className="text-md">
             {options.map((opt, index) => (
@@ -58,8 +63,9 @@ export const ToppingOptions = ({ item }) => {
 export const IngredientsOption = ({ item }) => {
   // Directly use the ingredients array
   const ingredients = item?.ingredients ?? [];
+  // console.log("ingredients == ", ingredients);
   return (
-    <div>
+    <div className="">
       {ingredients.length > 0 && (
         <div className="text-md">
           {ingredients.map((ingredient, index) => (
@@ -79,8 +85,12 @@ export function CartItem({ item, infoRes }) {
   const price = parseFloat(item.current_price);
   const selectedPrices = parseFloat(item.selectedPrices) || 0;
   const quantity = parseInt(item.quantity, 10);
+  const [showChevrondown, setshowChevrondown] = useState(false);
 
   const subtotal = (price + selectedPrices) * quantity;
+  // console.log("ingiridiant length ==== ", item.ingredients.length);
+  // console.log("extravariant length ==== ",item?.extravariants?.length);
+  // console.log("topping lenght ==== ",item?.toppings?.length);
   return (
     <div className="grid gap-4 ">
       <div className="   p-4  ">
@@ -113,21 +123,39 @@ export function CartItem({ item, infoRes }) {
             </div>
             <div className="flex bg-[#FF9C96] border-2 border-[#DB281C] rounded-full items-center gap-2">
               <Button onClick={() => dispatch(decrementQuantity(item.id))} size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
-                <MinusIcon className="w-4 h-4" />
+                <MinusIcon className="w-4 h-4" style={{color: "white"}}/>
               </Button>
               <span className="text-base font-medium text-gray-900 dark:text-gray-50">{item.quantity}</span>
               <Button onClick={() => dispatch(incrementQuantity(item.id))} size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
-                <PlusIcon className="w-4 h-4" />
+                <PlusIcon className="w-4 h-4" style={{color: "white"}} />
               </Button>
             </div>
 
           </div>
           
         </div>
+          
+          {item.ingredients.length > 0 && item?.extravariants?.length &&  item?.toppings?.length && (
 
-        <ToppingOptions item={item} />
-        <ExtraOptions item={item} />
-        <IngredientsOption item={item} />
+            <div className="flex flex-col mt-2  ">
+                <div className="flex justify-between items-center " onClick={() => setshowChevrondown(!showChevrondown)}>
+                  <h2>Order Details</h2>
+                  {showChevrondown ? (
+                      <FaChevronDown />
+                    ) : (
+                      <FaChevronRight />
+                    )}
+                </div>
+                  {showChevrondown && (
+                      <div>
+                          <ToppingOptions item={item} />
+                          <ExtraOptions item={item}  />
+                          <IngredientsOption item={item} />
+                      </div>
+                  )}
+            </div>
+          )
+          }
       </div>
     </div>
   );
