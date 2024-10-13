@@ -144,11 +144,12 @@ const useFetchRestoData = (restoSlug, selectedCat, searchTerm) => {
           ...prev,
           restos: resto,
           categories: sortedCategories,
-          products: searchTerm
-            ? combinedData?.filter((data) =>
-                data?.name?.toLowerCase().includes(searchTerm?.toLowerCase())
-              )
-            : combinedData,
+          products:
+            searchTerm !== ""
+              ? combinedData?.filter((data) =>
+                  data?.name?.toLowerCase().includes(searchTerm?.toLowerCase())
+                )
+              : combinedData,
           resInfo: infoData[0] || {},
           customization: customizationData[0] || defaultCustomization,
           qrCode: qrCodeData || [],

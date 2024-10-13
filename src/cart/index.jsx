@@ -167,7 +167,7 @@ const Cart = () => {
         </button>
 
         <h2
-          className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+          className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black -translate-x-1/2"
           style={{
             color: customization?.selectedTextColor,
           }}

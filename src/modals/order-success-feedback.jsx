@@ -73,12 +73,12 @@ const OrderSuccessFeedback = ({ open, setOpen }) => {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Emoji Feedback */}
-          <div className="flex justify-between gap-5">
+          <div className="flex items-center justify-between gap-5">
             {reactions.map((reaction, index) => (
               <button
                 key={index}
                 type="button"
-                className={`p-[6px_10px] flex items-center border border-[#B8B8B8] rounded-[10px] w-full whitespace-nowrap text-center gap-2 ${
+                className={`p-[6px_10px] flex items-center justify-center border border-[#B8B8B8] rounded-[10px] w-full whitespace-nowrap text-center gap-2 ${
                   selectedFeedback === reaction.value ? "bg-[#E5E5E5]" : ""
                 }`}
                 onClick={() => {

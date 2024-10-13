@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
 import ProductCard from "../products/ProductCard";
@@ -16,10 +16,23 @@ const Products = () => {
     restoSlug,
     table_id,
     customization,
+    setSelectedCat,
   } = useMenu();
   const { t } = useTranslation("global");
 
   const [seeAllProducts, setSeeAllProducts] = useState(false);
+  const [_, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const handleSeeAllProducts = () => {
+    setSelectedCat("All");
+    setSearchParams((prev) => {
+      prev.delete("cat");
+      return prev;
+    });
+
+    navigate(`/menu/${restoSlug}/products?table_id=${table_id}`);
+  };
 
   return (
     <div className="scrollbar-hide flex-1 px-4 mt-6 overflow-hidden">
@@ -34,9 +47,9 @@ const Products = () => {
             >
               {selectedCat === "All" ? t("home.products.title") : selectedCat}
             </h2>
-            <Link
-              to={`/menu/${restoSlug}/products?table_id=${table_id}`}
-              // onClick={() => setSeeAllProducts((prev) => !prev)}
+            <button
+              // to={`/menu/${restoSlug}/products?table_id=${table_id}`}
+              onClick={handleSeeAllProducts}
               className="text-sm text-orange-500"
               style={{
                 color: customization?.selectedPrimaryColor,
@@ -45,7 +58,7 @@ const Products = () => {
               {seeAllProducts
                 ? t("common.actions.seeLess")
                 : t("common.actions.seeAll")}
-            </Link>
+            </button>
           </>
         ) : (
           <p className="flex items-center gap-1">
@@ -68,7 +81,7 @@ const Products = () => {
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide flex flex-col items-center py-5 pb-32 mx-auto text-base text-center">
           {t("home.products.noResults")}
         </div>
-      ) : message ? (
+      ) : message || products.length === 0 ? (
         <div className="space-y-4 h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-hide flex flex-col items-center py-5 pb-32 mx-auto text-base text-center">
           {t("home.products.noProducts")}
         </div>

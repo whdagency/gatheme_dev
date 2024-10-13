@@ -25,7 +25,7 @@ const NoOrdersFound = ({ showFeedback = false }) => {
       </button>
 
       <h2
-        className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+        className="top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
         style={{
           color: customization?.selectedSecondaryColor,
         }}

@@ -40,7 +40,7 @@ export default Categories;
 
 const CategoryButton = ({ image, label, active = false, name }) => {
   const [_, setSearchParams] = useSearchParams();
-  const { setSelectedCat, customization } = useMenu();
+  const { setSelectedCat, customization, setSearchProductTerm } = useMenu();
 
   const handleCategoryClick = (category) => {
     setSelectedCat(category);
@@ -50,16 +50,18 @@ const CategoryButton = ({ image, label, active = false, name }) => {
       } else {
         prev.set("cat", category);
       }
+      prev.delete("search");
       return prev;
     });
+    setSearchProductTerm("");
   };
 
   return (
     <button
       onClick={() => handleCategoryClick(name)}
-      className={`flex w-auto items-center space-x-2 py-2 rounded-[20px] whitespace-nowrap ${
-        name === "All" ? "px-10" : "px-4"
-      } ${active ? "bg-orange-500 text-white" : "bg-[#E2E4EA] text-black"}`}
+      className={`flex w-auto items-center space-x-2 py-2 rounded-[20px] whitespace-nowrap px-4 ${
+        active ? "bg-orange-500 text-white" : "bg-[#E2E4EA] text-black"
+      }`}
       style={{
         background: active
           ? customization?.selectedPrimaryColor
@@ -78,7 +80,14 @@ const CategoryButton = ({ image, label, active = false, name }) => {
           />
         </div>
       )}
-      <span className="capitalize">{label}</span>
+      <span
+        className="whitespace-nowrap capitalize"
+        style={{
+          opacity: active ? 1 : 0.8,
+        }}
+      >
+        {label}
+      </span>
     </button>
   );
 };

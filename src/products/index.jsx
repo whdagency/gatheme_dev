@@ -91,7 +91,7 @@ const Products = () => {
           </button>
         )}
         <h2
-          className="font-[Poppins] top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black capitalize"
+          className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black capitalize -translate-x-1/2"
           style={{
             color: customization?.selectedTextColor,
           }}
@@ -132,7 +132,7 @@ const Products = () => {
           >
             {t("home.products.noResults")}
           </div>
-        ) : message ? (
+        ) : message || products.length === 0 ? (
           <div
             className="flex items-center justify-center h-64"
             style={{
