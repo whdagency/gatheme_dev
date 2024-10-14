@@ -19,7 +19,7 @@ function App() {
     restoSlug,
   } = useMenu();
 
-  console.log("The customization => ", customization);
+  // console.log("The customization => ", customization);
 
   const isActive = restos?.active_resto;
   const [loading, setLoading] = useState(true);

@@ -272,7 +272,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
         setIsModalOpen(false)
        }
   }, [filtredSuggest])
-  console.log("The Filtred Suggesttion => ", filtredSuggest);
+  // console.log("The Filtred Suggesttion => ", filtredSuggest);
   return (
     <>
       <div className={`bg-white snap-y scrollbar-hide dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>

@@ -58,6 +58,8 @@ export default function Footer({ slug, customization, resto_id }) {
     setisBill(false);
   }
 
+  // console.log("tableeee herrrrre ====  ", table_id);
+
 
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
   const totalQuantity = filteredCartItems.reduce((total, item) => total + item.quantity, 0);
@@ -173,10 +175,10 @@ export default function Footer({ slug, customization, resto_id }) {
             totalQuantity={totalQuantity}
           />
           <NavItem
-            // to={`/menu/${slug}/info?table_id=${table_id}`}
+            to={`/menu/${slug}/info?table_id=${table_id}`}
             icon={IoInformationCircleOutline}
             label={t("menu.info")}
-            // active={location.pathname === `/menu/${slug}/info`}
+            active={location.pathname === `/menu/${slug}/info`}
             customization={customization}
           />
         </div>

@@ -39,7 +39,7 @@ function Search({ infoRes, slug , categories , selectedDishes, customization, re
   };
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
   // console.log("restos id ============= ", customization.resto_id);
-  
+  console.log("table name  ====== ",tableName);
   
   const filtredSuggest = selectedDishes;
   

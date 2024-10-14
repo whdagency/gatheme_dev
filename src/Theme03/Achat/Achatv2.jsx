@@ -28,7 +28,8 @@ import {
 import { axiosInstance } from '../../axiosInstance';
 import { database, onValue, ref } from '../../firebaseConfig';
 import { useMenu } from '../../hooks/useMenu';
-import confirmorder from "./confirmorder.svg"
+import confirmorder from "./confirmorder.svg";
+// import {conf} from "./con.svg";
 import { CheckIcon } from 'lucide-react';
 
 import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
@@ -45,6 +46,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
     return cartItems.some(item => item.id === dishId);
   };
    
+  // console.log("inforeess ===  ", infoRes);
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
   const { tableName,
     submitBille, callWaiter } = useMenu();
@@ -77,10 +79,10 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       const itemTotal = (itemPrice + selectedPrices) * (item.quantity || 1);
     
       // Log the calculated total for debugging
-      console.log("Item price:", itemPrice);
-      console.log("Selected Prices:", selectedPrices);
-      console.log("Item quantity:", item.quantity || 1);
-      console.log("Item total:", itemTotal);
+      // console.log("Item price:", itemPrice);
+      // console.log("Selected Prices:", selectedPrices);
+      // console.log("Item quantity:", item.quantity || 1);
+      // console.log("Item total:", itemTotal);
     
       // Accumulate the total cost
       return total + itemTotal;
@@ -98,10 +100,14 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
   const [status, setStatus] = useState("")
   const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [orderSuccess, setorderSuccess] = useState(false);
   const {  google_buss } = infoRes;
   const hasTrustpilot = google_buss !== null && google_buss !== "";
 
   async function submitOrder(cartItems, totalCost) {
+    
+    setOrderSuccessModalOpen(false);
+    setorderSuccess(true);
     setIsLoading(true);
     setIsModalOpen(false)
     sessionStorage.setItem('modalOpened', '');
@@ -139,7 +145,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       }
 
       const responseData = await response.json();
-      console.log('Order submitted:', responseData?.order?.id);
+      // console.log('Order submitted:', responseData?.order?.id);
       localStorage.setItem('orderID', JSON.stringify(responseData?.order?.id))
       const id = JSON.stringify(responseData?.order?.id)
 
@@ -162,20 +168,22 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
           body: JSON.stringify(notification)
         });
 
-        console.log("Nice => ", responseNotification);
+        console.log("Niceeeee => ", responseNotification);
         setOrderSuccessModalOpen(false);
-        setIsModalOpen(false)
-        setOrderID(id)
-        dispatch(removeAll())
+        setIsModalOpen(false);
+        setOrderID(id);
+        dispatch(removeAll());
         setIsLoading(false);
       }
-
+      
     } catch (error) {
       console.error('Failed to submit order:', error.message);
     }
     // setOrderSubmitted(true);
   }
-
+  
+  console.log("Success orderiiiing here: " , orderSuccess);
+ 
   const [t, i18n] = useTranslation("global")
   const [activeIndex, setActiveIndex] = useState(0);
   const [complete, setComplete] = useState(false);
@@ -189,7 +197,7 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
       const res = localStorage.getItem('orderID');
       setOrderID(res)
       const result = await axiosInstance.get('/api/orders/' + res)
-      console.log("The Response of RestoInfo => ", resto_id);
+      // console.log("The Response of RestoInfo => ", resto_id);
       const data = result?.data?.order
       if (result) {
 
@@ -270,12 +278,12 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
         setIsModalOpen(false)
        }
   }, [filtredSuggest])
-  console.log("The Filtred Suggesttion => ", filtredSuggest);
+  // console.log("The Filtred Suggesttion => ", filtredSuggest);
   return (
     <>
       <div className={`bg-white snap-y scrollbar-hide overflow-y-auto dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
         <div className="flex flex-col justify-center ">
-          {/* {orderID != 'null' &&
+          {orderID != 'null' &&
             <StepsBar
               status={status}
               orderID={orderID}
@@ -286,7 +294,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
               totalCost={formattedTotalCostWithSpaces}
               canceled={canceled}
             />
-          } */}
+          }
           <div className='w-full h-[80px]  flex justify-center items-center'>
               <h1>My Cart</h1>
           </div>
@@ -463,16 +471,78 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
               <p className="text-center text-gray-500">Are you ready to place your order? Your selected items will be submitted.</p>
             </AlertDialogHeader>
             <div className="flex  gap-4 justify-center items-center">
-              <button className='text-[red] border-2 border-[#DB281C] rounded-md bg-[white] px-4 py-2' autoFocus onClick={() => submitOrder(filteredCartItems, totalCost)}>
+              <button className='text-[red] border-2 border-[#DB281C] rounded-md bg-[white] px-4 py-2' autoFocus onClick={() => setOrderSuccessModalOpen(false)}>
                 {t("menu.cancel")}
               </button>
-              <button className='text-[white] border-2 border-[#DB281C] rounded-md bg-[#DB281C] px-4 py-2' autoFocus onClick={() => setOrderSuccessModalOpen(false)} variant="outline" >
+              <button className='text-[white] border-2 border-[#DB281C] rounded-md bg-[#DB281C] px-4 py-2' autoFocus  onClick={() => submitOrder(filteredCartItems, totalCost)} variant="outline" >
                 {t("menu.ok")}
               </button>
 
             </div>
           </AlertDialogContent>
         </AlertDialog>
+
+        {orderSuccess && (
+         
+          
+         <AlertDialog
+         open={orderSuccess}
+         onOpenChange={setorderSuccess}
+         className={` !pl-0 !pr-0 ${isArabic === 'ar' ? 'text-right ' : 'text-left'}  `}
+         dir={direction}
+       >
+         <AlertDialogContent
+           className={`w-[80%] rounded-lg place-items-center ${isArabic === 'ar' ? 'sm:text-right ml-auto' : 'text-left'}`}
+           dir={direction}
+         >
+           <AlertDialogHeader
+             className={`w-[80%]  rounded-lg place-items-center ${infoRes.language === 'ar' ? 'flex flex-row-reverse sm:text-right' : ''
+               }`}
+             dir={direction}
+           >
+             <button
+               className="absolute top-2 right-2 p-2 rounded-full  text-gray-600"
+               onClick={() => setorderSuccess(false)} // Close the dialog
+             >
+               <svg
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 strokeWidth="2"
+                 strokeLinecap="round"
+                 strokeLinejoin="round"
+                 className="feather feather-x"
+               >
+                 <line x1="18" y1="6" x2="6" y2="18"></line>
+                 <line x1="6" y1="6" x2="18" y2="18"></line>
+               </svg>
+             </button>
+             <img src={confirmorder} alt="Order" />
+             <h1>Order Confirmed!</h1>
+             <p className="text-center text-gray-500">Your order has been placed. Enjoy your meal!</p>
+           </AlertDialogHeader>
+           <div className="flex  gap-4 justify-center items-center">
+     
+             <button className='text-[white] border-2 border-[#DB281C] rounded-md bg-[#DB281C] px-4 py-2' autoFocus onClick={() => setorderSuccess(false)}  variant="outline" >
+               {t("menu.ok")}
+             </button>
+
+           </div>
+         </AlertDialogContent>
+       </AlertDialog>
+         
+
+         
+        
+        
+        )}
+
+
+                
+
       </div>
       {/* <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
         <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
@@ -493,14 +563,14 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
           </div>
         </CredenzaContent>
       </Credenza> */}
-      <FeedBack 
+      {/* <FeedBack 
          isModalOpen={isModalFeedOpen}
          setIsModalOpen={setIsModalFeedOpen}
          slug={slug}
          table_id={table_id}
          hasTrustpilot={hasTrustpilot}
          trustpilot_link={google_buss}
-        />
+        /> */}
     </>
   );
 }

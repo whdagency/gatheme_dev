@@ -37,17 +37,17 @@ function PromoComponent  ({ promo })  {
                   <div
                     key={index}
                     onClick={() => handleCircleClick(index)}
-                    className={`relative flex items-center justify-center ${
-                      currentIndex === index ? 'w-4 h-4' : 'w-3 h-3' // w-4 (16px), w-3 (12px)
+                    className={`relative flex items-center justify-center  ${
+                      currentIndex === index ? 'w-6 h-6' : 'w-4 h-4' // w-4 (16px), w-3 (12px)
                     } mx-2`}
                   >
                     <div
                       className={`${
-                        currentIndex === index ? 'w-4 h-4 border-2 border-red-500' : 'w-3 h-3 bg-[#EF8800]'
+                        currentIndex === index ? 'w-6 h-6 border-2 border-red-500' : 'w-4 h-4 bg-[#EF8800]'
                       } rounded-full`}
                     >
                       {currentIndex === index && (
-                        <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
+                        <div className="absolute top-1/2 left-1/2 w-4 h-4 bg-red-500 rounded-full transform -translate-x-1/2 -translate-y-1/2"></div>
                       )}
                     </div>
                   </div>

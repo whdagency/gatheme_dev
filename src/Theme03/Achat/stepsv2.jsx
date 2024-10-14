@@ -50,7 +50,7 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <FaCheckCircle size={50} color="#198038" />
+                    <FaCheckCircle size={50} color="#DB281C" />
                     <div className="ml-4 w-full">
                         <p className="text-gray-800 text-xl font-semibold">100% Complete</p>
                         <motion.div
@@ -59,7 +59,7 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
                             animate={{ width: '100%' }}
                             transition={{ duration: 1 }}
                         >
-                            <motion.div className="h-3 bg-[#198038]" initial={{ width: '0%' }}
+                            <motion.div className="h-3 bg-[#DB281C]" initial={{ width: '0%' }}
                                 animate={{ width: '100%' }}
                                 transition={{ duration: 1.5 }}></motion.div>
                         </motion.div>
@@ -88,7 +88,7 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
                                     : step === 'New'
                                         ? 'bg-white border-2 border-gray-300'
                                         : index <= currentStep
-                                            ? 'bg-[#0162DD]'
+                                            ? 'bg-[#DB281C]'
                                             : 'bg-white border-2 border-gray-300'
                                     } dark:bg-[#3C48FC] dark:text-[#fff] ${index === currentStep ? 'dark:bg-[#E2E9F0] dark:text-[#A0B1C0]' : ''
                                     }`}
@@ -117,7 +117,7 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
                                 )}
                             </motion.span>
                             <div
-                                className={`absolute top-0 mt-10 text-xs font-sans text-center ${step === 'New' ? 'text-black' : step === 'Rejected' ? 'text-red-500' : index <= currentStep ? 'text-[#0162DD] font-bold' : ''}`}
+                                className={`absolute top-0 mt-10 text-xs font-sans text-center ${step === 'New' ? 'text-black' : step === 'Rejected' ? 'text-red-500' : index <= currentStep ? 'text-[#DB281C] font-bold' : ''}`}
                             >
                                 {step}
                             </div>
@@ -125,14 +125,14 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
 
                         {index < steps.length - 1 && (
                             <div
-                                className={`flex-auto mx-2 border-t-2 ${index < currentStep ? 'border-[#0162DD]' : 'border-[#E2E9F0]'
+                                className={`flex-auto mx-2 border-t-2 ${index < currentStep ? 'border-[#DB281C]' : 'border-[#E2E9F0]'
                                     } dark:border-[#A0B1C0]`}
                             ></div>
                         )}
                     </motion.li>
                 ))}
             </ol>
-            <ViewOrder orderID={orderID} resto_id={infoRes?.resto_id}/>
+            {/* <ViewOrder orderID={orderID} resto_id={infoRes?.resto_id}/> */}
             <Separator className="mb-4" />
         </div>
     );
