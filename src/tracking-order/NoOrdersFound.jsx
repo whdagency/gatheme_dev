@@ -5,12 +5,21 @@ import { ArrowLeft } from "lucide-react";
 import { hexToRgba } from "../lib/utils";
 import { useTranslation } from "react-i18next";
 
-const NoOrdersFound = ({ showFeedback = false }) => {
+const NoOrdersFound = ({
+  showFeedback = false,
+  showSuccess = false,
+  setShowSuccess = () => {},
+}) => {
   const { table_id, restoSlug, customization } = useMenu();
   const { t } = useTranslation("global");
+  const isFeedback = showFeedback || showSuccess;
 
   return (
-    <div className={`${showFeedback ? "pt-10" : "pt-28"} relative pb-32`}>
+    <div
+      className={`${
+        isFeedback ? "pt-10 pb-32" : "pt-28 pb-12"
+      } relative flex flex-col items-center justify-between h-screen`}
+    >
       {/* Title and Back Button */}
       <button
         style={{
@@ -18,59 +27,69 @@ const NoOrdersFound = ({ showFeedback = false }) => {
           borderRadius: "13.061px",
           background: "#FFF",
         }}
-        onClick={() => window.history.back()}
+        onClick={() => {
+          if (showSuccess) {
+            setShowSuccess(false);
+          } else {
+            window.history.back();
+          }
+        }}
         className="flex top-10 left-7 absolute z-50 w-fit items-center justify-center p-[8.163px] gap-[8.163px]"
       >
         <ArrowLeft size={25} color="black" />
       </button>
 
       <h2
-        className="top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+        className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black -translate-x-1/2"
         style={{
-          color: customization?.selectedSecondaryColor,
+          color: customization?.selectedTextColor,
         }}
       >
-        {!showFeedback
-          ? t("trackingOrder.title")
-          : t("trackingOrder.orderFeedback")}
+        {!isFeedback ? t("trackingOrder.title") : t("trackingOrder.process")}
       </h2>
 
-      <div className="flex flex-col items-center justify-center gap-3 px-12">
-        <div className="flex items-center justify-center gap-2 shrink-0 p-[24px_27px]">
+      <div className="md:-mt-14 flex flex-col items-center justify-center flex-1 gap-3 px-12">
+        <div className="flex items-center justify-center md:p-[24px_27px]">
           <img
             src={
-              showFeedback
+              isFeedback
                 ? "/assets/order-feedback.png"
                 : "/assets/cart-empty.png"
             }
-            alt={showFeedback ? "Order Feedback" : "Empty Cart"}
-            className={!showFeedback ? "w-[225px] h-[225px]" : "w-full h-full"}
+            alt={isFeedback ? "Order Feedback" : "Empty Cart"}
+            className={!isFeedback ? "w-[225px] h-[225px]" : "w-full h-full"}
           />
         </div>
 
-        {!showFeedback && (
+        <div
+          className={`flex flex-col items-center gap-3 text-center ${
+            isFeedback ? "-mt-8 md:-mt-16" : "-mt-0"
+          }`}
+        >
           <h3
             className="text-base font-semibold text-center text-black"
             style={{
               color: customization?.selectedTextColor,
             }}
           >
-            {t("trackingOrder.noOrdersFound")}
+            {isFeedback
+              ? t("trackingOrder.orderFeedbackSuccess")
+              : t("trackingOrder.noOrdersFound")}
           </h3>
-        )}
 
-        {!showFeedback && (
           <p
             className="text-[15px] px-10 text-center leading-[19.5px] font-medium text-[#A5A4A8]"
             style={{
               color: customization?.selectedSecondaryColor,
             }}
           >
-            {t("trackingOrder.noOrdersFoundDesc")}
+            {isFeedback
+              ? t("trackingOrder.orderFeedbackSuccessDesc")
+              : t("trackingOrder.noOrdersFoundDesc")}
           </p>
-        )}
+        </div>
 
-        {!showFeedback && (
+        {!isFeedback && (
           <div className="mt-7 flex flex-col items-center w-[186px] gap-4">
             <Link
               to={`/menu/${restoSlug}?table_id=${table_id}`}
@@ -92,6 +111,24 @@ const NoOrdersFound = ({ showFeedback = false }) => {
           </div>
         )}
       </div>
+
+      {isFeedback && (
+        <div className="bottom-6 absolute flex flex-col mt-auto">
+          <span
+            style={{
+              color: customization?.selectedSecondaryColor,
+            }}
+            className="-top-8 -left-16 absolute text-base font-light"
+          >
+            {t("trackingOrder.poweredBy")}
+          </span>
+          <img
+            src="/assets/garista.png"
+            alt="garista"
+            className="w-[120px] h-[26px] shrink-0 object-contain flex items-center justify-center"
+          />
+        </div>
+      )}
     </div>
   );
 };

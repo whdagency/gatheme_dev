@@ -141,7 +141,11 @@
     "noOrdersFound": "No se Encontraron Pedidos",
     "noOrdersFoundDesc": "Parece que no ha realizado ningún pedido",
     "startOrdering": "Realizar Pedido",
-    "stepNo": "Paso {{stepNo}}"
+    "stepNo": "Paso {{stepNo}}",
+    "orderFeedbackSuccess": "¡Comentarios enviados con éxito!",
+    "orderFeedbackSuccessDesc": "Tu comida está siendo servida. ¡Disfruta tu comida!",
+    "process": "Proceso",
+    "poweredBy": "Impulsado por"
   },
   "feedback": {
     "title": "Opinión",

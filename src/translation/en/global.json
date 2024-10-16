@@ -141,7 +141,11 @@
     "noOrdersFound": "No Orders Found",
     "noOrdersFoundDesc": "Looks like you haven't ordered anything yet",
     "startOrdering": "Start Ordering",
-    "stepNo": "Step {{stepNo}}"
+    "stepNo": "Step {{stepNo}}",
+    "orderFeedbackSuccess": "Feedback Successful!",
+    "orderFeedbackSuccessDesc": "Your meal is being served. Enjoy your meal!",
+    "process": "Process",
+    "poweredBy": "Powered by"
   },
   "feedback": {
     "title": "Feedback",

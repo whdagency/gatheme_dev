@@ -21,6 +21,8 @@ const TrackingOrder = () => {
   const [orders, setOrders] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [orderCanceledModal, setOrderCanceledModal] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
   const { t } = useTranslation("global");
 
   const fetchValues = useCallback(async () => {
@@ -47,18 +49,21 @@ const TrackingOrder = () => {
           setCanceled(false);
           setOrderCanceledModal(false);
           setShowFeedbackModal(false);
+          setFeedbackSubmitted(false);
         } else if (data?.status == "Preparing") {
           setCurrentStep(2);
           setComplete(false);
           setCanceled(false);
           setOrderCanceledModal(false);
           setShowFeedbackModal(false);
+          setFeedbackSubmitted(false);
         } else if (data?.status == "Ready") {
           setCurrentStep(3);
           setComplete(false);
           setCanceled(false);
           setOrderCanceledModal(false);
           setShowFeedbackModal(false);
+          setFeedbackSubmitted(false);
         } else if (data?.status == "Completed") {
           setCurrentStep(4);
           setComplete(false);
@@ -66,9 +71,10 @@ const TrackingOrder = () => {
             setComplete(true);
             setShowFeedbackModal(true);
             setOrderCanceledModal(false);
+            setFeedbackSubmitted(false);
             localStorage.setItem("orderID", null);
             setOrderID(null);
-          }, 1000);
+          }, 2000);
           setCanceled(false);
         } else if (data?.status == "Rejected") {
           setCurrentStep(1);
@@ -77,6 +83,7 @@ const TrackingOrder = () => {
           setTimeout(() => {
             setOrderCanceledModal(true);
             setShowFeedbackModal(false);
+            setFeedbackSubmitted(false);
             localStorage.setItem("orderID", null);
             setOrderID(null);
           }, 2000);
@@ -106,10 +113,20 @@ const TrackingOrder = () => {
     subscribeToFirebase();
   }, [fetchValues, subscribeToFirebase]);
 
-  if (!orders) {
+  if (!orders || !orderID) {
     return (
       <AnimatedLayout>
-        <NoOrdersFound showFeedback={showFeedbackModal} />
+        <NoOrdersFound
+          showFeedback={showFeedbackModal}
+          showSuccess={feedbackSubmitted}
+          setShowSuccess={setFeedbackSubmitted}
+        />
+
+        <OrderSuccessFeedback
+          open={showFeedbackModal}
+          setOpen={setShowFeedbackModal}
+          setFeedbackSubmitted={setFeedbackSubmitted}
+        />
       </AnimatedLayout>
     );
   }
@@ -123,8 +140,7 @@ const TrackingOrder = () => {
 
   return (
     <AnimatedLayout>
-      {!orderID && <NoOrdersFound showFeedback={showFeedbackModal} />}
-      <div className="pt-28 relative pb-32">
+      <div className={`pt-28 relative pb-32`}>
         {/* Title and Back Button */}
         {orderID && (
           <button
@@ -142,7 +158,7 @@ const TrackingOrder = () => {
 
         {orderID && (
           <h2
-            className="top-12 absolute z-50 left-1/2 -translate-x-1/2 text-xl font-semibold text-center text-black"
+            className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black -translate-x-1/2"
             style={{
               color: customization?.selectedTextColor,
             }}
@@ -246,10 +262,11 @@ const TrackingOrder = () => {
         )}
       </div>
 
-      <OrderSuccessFeedback
+      {/* <OrderSuccessFeedback
         open={showFeedbackModal}
         setOpen={setShowFeedbackModal}
-      />
+        setFeedbackSubmitted={setFeedbackSubmitted}
+      /> */}
 
       <OrderCancelled
         open={orderCanceledModal}

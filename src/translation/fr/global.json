@@ -141,7 +141,11 @@
     "noOrdersFound": "Aucune Commande Trouvée",
     "noOrdersFoundDesc": "Il semble que vous n'ayez passé aucune commande",
     "startOrdering": "Passer une Commande",
-    "stepNo": "Étape {{stepNo}}"
+    "stepNo": "Étape {{stepNo}}",
+    "orderFeedbackSuccess": "Retour d'information réussi !",
+    "orderFeedbackSuccessDesc": "Votre repas est en train d'être servi. Bon appétit !",
+    "process": "Processus",
+    "poweredBy": "Propulsé par"
   },
   "feedback": {
     "title": "Avis",

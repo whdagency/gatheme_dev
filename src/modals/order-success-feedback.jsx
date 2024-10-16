@@ -12,7 +12,7 @@ import { useMenu } from "../hooks/useMenu";
 import { useTranslation } from "react-i18next";
 import { hexToRgba } from "../lib/utils";
 
-const OrderSuccessFeedback = ({ open, setOpen }) => {
+const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
   // Feedback states
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [additionalComments, setAdditionalComments] = useState("");
@@ -40,6 +40,8 @@ const OrderSuccessFeedback = ({ open, setOpen }) => {
 
     // Redirect back to menu
     setOpen(false);
+
+    setFeedbackSubmitted(true);
   };
 
   const reactions = [

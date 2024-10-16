@@ -141,7 +141,11 @@
     "noOrdersFound": "Nessun Ordine Trovato",
     "noOrdersFoundDesc": "Sembra che non hai ordinato nulla",
     "startOrdering": "Inizia Ordinazione",
-    "stepNo": "Passo {{stepNo}}"
+    "stepNo": "Passo {{stepNo}}",
+    "orderFeedbackSuccess": "Feedback inviato con successo!",
+    "orderFeedbackSuccessDesc": "Il tuo pasto sta per essere servito. Buon appetito!",
+    "process": "Processo",
+    "poweredBy": "Offerto da"
   },
   "feedback": {
     "title": "Feedback",

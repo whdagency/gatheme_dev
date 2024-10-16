@@ -141,7 +141,11 @@
     "noOrdersFound": "لم يتم العثور على طلبات",
     "noOrdersFoundDesc": "يبدو أنك لم تقدم طلبًا بعد",
     "startOrdering": "ابدأ الطلب",
-    "stepNo": "الخطوة {{stepNo}}"
+    "stepNo": "الخطوة {{stepNo}}",
+    "orderFeedbackSuccess": "تم إرسال الملاحظات بنجاح!",
+    "orderFeedbackSuccessDesc": "يتم تقديم وجبتك. استمتع بوجبتك!",
+    "process": "عملية",
+    "poweredBy": "مدعوم من"
   },
   "feedback": {
     "title": "تقييم",
