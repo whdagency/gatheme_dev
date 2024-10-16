@@ -157,7 +157,7 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
                     </motion.li>
                 ))}
             </ol>
-            {/* <ViewOrder orderID={orderID} resto_id={infoRes?.resto_id}/> */}
+            <ViewOrder orderID={orderID} resto_id={infoRes?.resto_id}/>
             <Separator className="mb-4" />
             
         </div>

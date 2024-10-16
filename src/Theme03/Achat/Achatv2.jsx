@@ -327,14 +327,14 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
             { filteredCartItems.length === 0 && orderID == 'null' && (
               <>
-              <div className='fixed top-0 left-0 right-0 bg-[green] z-40'>
+              <div className='fixed top-0 left-0 right-0  z-40'>
 
                   <div className='flex justify-center items-center my-4 '>
                       <h1>My Cart</h1>
                   </div>
                   
                   <div className="flex items-center justify-between ">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50 mx-4" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
                     <button
                         onClick={() => {
                           if (filteredCartItems.length > 0) {
@@ -342,7 +342,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                             dispatch(removeAll());
                           }
                         }}
-                        className={`relative ${
+                        className={`relative mx-4 ${
                           filteredCartItems.length === 0
                             ? 'text-[#FFB3A4] cursor-not-allowed'
                             : 'text-[red] cursor-pointer'
@@ -370,13 +370,13 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
 { filteredCartItems.length !== 0 && orderID == 'null' && (
               <>
-              <div className='fixed top-0 left-0 right-0 bg-[blue] z-40'>
+              <div className='fixed top-0 left-0 right-0 bg-[white] z-40'>
 
                   <div className='flex justify-center items-center my-4 '>
                       <h1>My Cart</h1>
                   </div>
                   
-                  <div className="flex items-center justify-between ">
+                  <div className="flex items-center justify-between mx-4">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
                     <button
                         onClick={() => {
@@ -385,7 +385,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                             dispatch(removeAll());
                           }
                         }}
-                        className={`relative ${
+                        className={`relative mx-2 ${
                           filteredCartItems.length === 0
                             ? 'text-[#FFB3A4] cursor-not-allowed'
                             : 'text-[red] cursor-pointer'
@@ -423,7 +423,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
           <div className="flex flex-col gap-1  snap-y  scrollbar-visible overflow-auto mb-[150px]">
             
             {filteredCartItems.length === 0 ? (
-              <div className={filteredCartItems.length === 0 && orderID != 'null' ? 'mt-[30px] bg-[#4DCCBD]' : 'mt-[100px] bg-[#FF8484]'}>
+              <div className={filteredCartItems.length === 0 && orderID != 'null' ? 'mt-[5px] ' : 'mt-[100px] '}>
                 <div className="flex flex-col items-center ">
                   <div className="w-64 h-44 flex-shrink-0 relative flex flex-col items-center justify-center">
                       <svg width="261" height="260" viewBox="0 0 261 260" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -473,12 +473,12 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                 <div className='fixed bottom-[80px] left-0 right-0    z-45'>
                   <div className="flex flex-col justify-between  ">
                     <div className='flex justify-between items-center'>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                        <p className="text-gray-500 dark:text-gray-400 text-sm mx-4">
                           {t("achat.total")}:
                         </p>
-                        <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
+                        <span className="font-medium text-gray-900 dark:text-gray-50 mx-4"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
                     </div>
-                    <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: '#FFBBB6' }} className="py-2 px-4 rounded-lg my-2" size="lg" disabled>
+                    <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: '#FFBBB6' }} className="py-2 px-4 mx-4 rounded-lg my-2" size="lg" disabled>
                       {t("achat.checkoutBtn")}
                     </Button>
                   </div>
@@ -490,7 +490,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
             ) : (
               <>
-                  <div className={orderID === "null" ? 'mt-[80px] mb-[30px] bg-[black]' : 'mt-[0px]'}>
+                  <div className={orderID === "null" ? 'mt-[80px] mb-[30px] ' : 'mt-[0px]'}>
                     {filteredCartItems.map(item => (
 
                         <CartItem key={item.id} item={item} infoRes={infoRes} />

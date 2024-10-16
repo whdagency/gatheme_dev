@@ -63,46 +63,67 @@ export default function Info({ items, infoRes, customization }) {
         );
     }
 
+    // const socialMediaLinks = [
+    //     { icon: FaFacebook, link: infoRes.facebook },
+    //     { icon: FaInstagram, link: infoRes.instgram },
+    //     { icon: FaTiktok, link: infoRes.tiktok },
+    //     { icon: FaSnapchat, link: infoRes.snapshat },
+    //     { icon: FaYoutube, link: infoRes.youtube },
+    // ].filter(item => item.link);
+
     const socialMediaLinks = [
-        { icon: FaFacebook, link: infoRes.facebook },
-        { icon: FaInstagram, link: infoRes.instgram },
-        { icon: FaTiktok, link: infoRes.tiktok },
-        { icon: FaSnapchat, link: infoRes.snapshat },
-        { icon: FaYoutube, link: infoRes.youtube },
-    ].filter(item => item.link);
+    { icon: FaFacebook, link: "#" },
+    { icon: FaInstagram, link: "#" },
+    { icon: FaTiktok, link: "#" },
+    { icon: FaSnapchat, link: "#" },
+    { icon: FaYoutube, link: "#" },
+]; 
+
+    // console.log("info ====  ", infoRes);
 
     const [passwordCopied, setPasswordCopied] = useState(false);
     return (
         <>
-            <div className={`flex  flex-col items-center h-auto  p-6 ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
-                <div className="bg-white dark:bg-gray-800 mb-[100px] rounded-lg shadow-md w-full max-w-md p-8">
-                    <div className="flex flex-col items-center">
-                        {/* <img
-                            alt="Restaurant Logo"
-                            className="rounded-full mb-4"
-                            height={80}
-                            src={`${APIURLS3}/${infoRes.logo}`}
-                            style={{ aspectRatio: "80/80", objectFit: "cover" }}
-                            width={80}
-                        /> */}
-                        <Avatar className="h-32 w-32 rounded-full mb-2">
-                                <AvatarImage
-                                // src={`${APIURL}/storage/${ImageItem}`}
-                                src={`${APIURLS3}/${infoRes.logo}`}
-                                className="bg-white h-32 max-w-32  object-cover"
-                                />
-                                <AvatarFallback className="bg-slate-500 h-32 w-32 rounded-full"></AvatarFallback>
-                            </Avatar>
+            <div className={`flex  flex-col items-center h-auto  bg-[white]  ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
+            <img src={`${APIURLS3}/${infoRes.logo}`} alt="Resto" className='w-full h-64 cover fixed'  />
+                <div className=" dark:bg-gray-800 mb-[80px] mt-[250px] bg-white rounded-lg  w-full max-w-md p-8">
+                    <div className="flex flex-col ">
+                        
                         <h1 className="text-2xl font-bold mb-2 text-center">{items.name}</h1>
-                        <div className={`flex flex-wrap justify-center mb-6 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                            {socialMediaLinks.map((item, index) => (
-                                <div key={index} className="w-10 h-10 rounded-full border border-1 border-grey/50 grid text-[#28509E] place-content-center mx-2 mb-2">
-                                    <Link to={item.link} target="_blank">
-                                        <item.icon size={25} color={customization?.selectedIconColor} style={{ mixBlendMode: 'difference' }} />
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
+                        {
+                                    infoRes.address != null
+                                    && (
+                                        <div className={`flex items-center text-start space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                                            <span> {infoRes.address}</span>
+                                        </div>
+                                    )
+                        }
+
+                        {
+                                    infoRes.phone != null
+                                    && (
+                                        <div className={`flex justify-between space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                                            <div className='flex '>
+                                                <PhoneIcon className="w-5 h-5" />
+                                                <span> {infoRes.phone}</span>
+                                            </div>
+                                            <div>
+                                                <h1>timer</h1>
+                                            </div>
+                                        </div>
+
+                                    )
+                        }
+
+                        {
+                                    infoRes.description != null
+                                    && (
+                                        <div>
+                                            <p className="text-gray-500 text-center dark:text-gray-400 px-2">{infoRes.description}</p>
+                                        </div>
+                                    )
+                        }
+                      
                                 {
                                     infoRes.wifi_pass != null
                                     && (
@@ -130,73 +151,29 @@ export default function Info({ items, infoRes, customization }) {
                                         </div>
                                         )
                                     }
-                        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                       
 
-                            <DialogTrigger asChild >
-                                <div className="bg-gray-100 flex items-center gap-2 justify-around dark:bg-gray-700 rounded-lg p-4 w-full mb-6"
-                                >
-                                    <div >
-                                        <HiLanguage className='w-6 h-6' />
-
-                                    </div>
-                                    <h2 className="text-md flex-1 font-normal ">{t("info.changeLanguage")}</h2>
-                                    <FaChevronRight className='' />
-
+                         {/* <div className={`flex  bg-[green] justify-center mb-6 ${isArabic ? 'flex-row-reverse' : ''}`}> */}
+                         <h1>Follow US</h1>
+                         <div className=' flex justify-center items-center'>
+                            {socialMediaLinks.map((item, index) => (
+                                <div key={index} className="w-10 h-10 rounded-full border border-1 border-grey/50 grid text-[#28509E] place-content-center mx-2 mb-2">
+                                    <Link to={item.link} target="_blank">
+                                        <item.icon size={25} color={customization?.selectedIconColor} style={{ mixBlendMode: 'difference' }} />
+                                    </Link>
                                 </div>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-[80%] gap-0 px-[20px] py-[23px] rounded-lg">
-                                <DialogHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <DialogTitle className="text-lg tracking-wide font-bold text-gray-700">Select Language</DialogTitle>
-                                </DialogHeader>
+                            ))}
 
-                                <Card className="w-full max-w-md border-none mx-auto">
-                                    <ul className="divide-y">
-                                        {Object.keys(languageMap).map((code) => (
-                                            <li key={code}>
-                                                <button
-                                                    className={`flex items-center justify-between w-full px-4 py-4 text-md font-medium text-left hover:bg-muted/50 transition-colors ${selectedLanguageCode === code ? 'text-[' + customization?.selectedPrimaryColor + ']' : 'text-muted-foreground'}`}
-                                                    onClick={() => handleLanguageChange(code)}
-                                                >
-                                                    {languageMap[code]}
-                                                    <ChevronRight className="h-4 w-4" />
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </Card>
-
-                            </DialogContent>
-                        </Dialog>
-
-                        {
-                                    infoRes.phone != null
-                                    && (
-                                        <div className={`flex items-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                                            <PhoneIcon className="w-5 h-5" />
-                                            <span> {infoRes.phone}</span>
-                                        </div>
-
-                                    )}
-                                    {
-                                    infoRes.address != null
-                                    && (
-                                        <div className={`flex items-center text-center space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                                            <span>{t("info.Address")}: {infoRes.address}</span>
-                                        </div>
-                                    )}
-                                      {
-                                    infoRes.description != null
-                                    && (
-                                        <div>
-                                            <p className="text-gray-500 text-center dark:text-gray-400 px-2">{infoRes.description}</p>
-                                        </div>
-                                    )}
+                         </div>
+                        {/* </div> */}
+                                    
+                                    
                     </div>
                     <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400 pt-4 justify-center text-center"> © {new Date().getFullYear()} <a href="https://www.garista.com/" class="hover:underline"> {t("info.powered")}</a> </span>
 
                 </div>
             </div>
-            <AlertDialog>
+            {/* <AlertDialog>
                 <AlertDialogTrigger asChild className={`mb-1 fixed bottom-16 right-2 md:right-[25%] lg:right-[32%] xl:right-[35%] flex-col flex items-end justify-center `}>
                     <Button className="h-16 w-16 rounded-full  shadow-lg flex items-center justify-center" size="icon" style={{ backgroundColor: customization?.selectedPrimaryColor }}>
                         <img src={Logo} alt="Waiter Icon" className="h-12 w-11" />
@@ -207,7 +184,7 @@ export default function Info({ items, infoRes, customization }) {
                     <AlertDialogHeader className={`${infoRes.language === 'ar' ? ' ml-auto' : ''}`} dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}>
                         <img src={callWaiterSvg} alt="Call Waiter" />
                         {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle> */}
-                        <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
+                        {/* <AlertDialogTitle>{t("waiter.CallWaiter")}</AlertDialogTitle>
                         <AlertDialogDescription>{t("waiter.please")}</AlertDialogDescription>
 
                     </AlertDialogHeader>
@@ -234,8 +211,8 @@ export default function Info({ items, infoRes, customization }) {
                             </svg>
                         </AlertDialogCancel>
                     </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+                </AlertDialogContent> */}
+            {/* </AlertDialog> */} 
         </>
     );
 }
