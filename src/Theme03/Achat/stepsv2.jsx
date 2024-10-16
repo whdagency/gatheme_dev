@@ -9,12 +9,30 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
     const { customization } = useMenu();
     const [showCompleteMessage, setShowCompleteMessage] = useState(false);
 
+    // useEffect(() => {
+    //     if (status === 'Completed' && complete) {
+    //         const timer = setTimeout(() => setShowCompleteMessage(true), 1000);
+    //         return () => clearTimeout(timer);
+    //     } else {
+    //         setShowCompleteMessage(false);
+    //     }
+    // }, [status, complete]);
+
     useEffect(() => {
         if (status === 'Completed' && complete) {
-            const timer = setTimeout(() => setShowCompleteMessage(true), 3000);
-            return () => clearTimeout(timer);
+            // Affiche le message après 1 seconde
+            const timerShow = setTimeout(() => setShowCompleteMessage(true), 1000);
+    
+            // Cache le message après 4 secondes (après 3 secondes d'affichage)
+            const timerHide = setTimeout(() => setShowCompleteMessage(false), 4000);
+    
+            // Nettoyage des timers quand le composant se démonte ou que les dépendances changent
+            return () => {
+                clearTimeout(timerShow);
+                clearTimeout(timerHide);
+            };
         } else {
-            setShowCompleteMessage(false);
+            setShowCompleteMessage(false); // Masquer le message si les conditions ne sont pas remplies
         }
     }, [status, complete]);
 
@@ -71,6 +89,13 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
     }
 
     return (
+        <>
+        
+        
+        <div className='w-full  flex justify-center items-center'>
+        <h1>My Cart</h1>
+        </div>
+
         <div className="flex flex-col gap-1">
             <ol className="flex w-full max-w-lg mx-auto px-5 mb-9 mt-4 items-center justify-center">
                 {steps.map((step, index) => (
@@ -134,6 +159,8 @@ export default function StepsBar({ status, complete, orderID, infoRes }) {
             </ol>
             {/* <ViewOrder orderID={orderID} resto_id={infoRes?.resto_id}/> */}
             <Separator className="mb-4" />
+            
         </div>
+        </>
     );
 }

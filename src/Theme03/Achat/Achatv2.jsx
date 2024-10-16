@@ -29,7 +29,7 @@ import { axiosInstance } from '../../axiosInstance';
 import { database, onValue, ref } from '../../firebaseConfig';
 import { useMenu } from '../../hooks/useMenu';
 import confirmorder from "./confirmorder.svg";
-// import {conf} from "./con.svg";
+// import { panier } from "./panier.svg";
 import { CheckIcon } from 'lucide-react';
 
 import callWaiterSvg from "@/Theme01/MenuItems/callWaiter.svg"
@@ -281,9 +281,10 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
   // console.log("The Filtred Suggesttion => ", filtredSuggest);
   return (
     <>
-      <div className={`bg-white snap-y scrollbar-hide overflow-y-auto dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
+      <div className={`bg-white snap-y scrollbar-hide overflow-y-auto dark:bg-gray-950 p-2 pt-4 rounded-lg  max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
         <div className="flex flex-col justify-center ">
-          {orderID != 'null' &&
+          {orderID != 'null' && 
+          <>
             <StepsBar
               status={status}
               orderID={orderID}
@@ -294,10 +295,122 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
               totalCost={formattedTotalCostWithSpaces}
               canceled={canceled}
             />
-          }
-          <div className='w-full h-[80px]  flex justify-center items-center'>
-              <h1>My Cart</h1>
+            <div className="flex items-center justify-between ">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
+            <button
+                onClick={() => {
+                  if (filteredCartItems.length > 0) {
+                    sessionStorage.setItem('modalOpened', '');
+                    dispatch(removeAll());
+                  }
+                }}
+                className={`relative ${
+                  filteredCartItems.length === 0
+                    ? 'text-[#FFB3A4] cursor-not-allowed'
+                    : 'text-[red] cursor-pointer'
+                }`}
+                disabled={filteredCartItems.length === 0}
+              >
+                <span className="relative">
+                  {t("achat.clearBtn")}
+                  <span
+                    className={`absolute left-0 bottom-[-2px] h-[2px] w-full ${
+                      filteredCartItems.length === 0 ? 'bg-[#FFB3A4]' : 'bg-[red]'
+                    }`}
+                  />
+                </span>
+              </button>
+
           </div>
+          </>
+          }
+
+            { filteredCartItems.length === 0 && orderID == 'null' && (
+              <>
+              <div className='fixed top-0 left-0 right-0 bg-[green] z-40'>
+
+                  <div className='flex justify-center items-center my-4 '>
+                      <h1>My Cart</h1>
+                  </div>
+                  
+                  <div className="flex items-center justify-between ">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
+                    <button
+                        onClick={() => {
+                          if (filteredCartItems.length > 0) {
+                            sessionStorage.setItem('modalOpened', '');
+                            dispatch(removeAll());
+                          }
+                        }}
+                        className={`relative ${
+                          filteredCartItems.length === 0
+                            ? 'text-[#FFB3A4] cursor-not-allowed'
+                            : 'text-[red] cursor-pointer'
+                        }`}
+                        disabled={filteredCartItems.length === 0}
+                      >
+                        <span className="relative">
+                          {t("achat.clearBtn")}
+                          <span
+                            className={`absolute left-0 bottom-[-2px] h-[2px] w-full ${
+                              filteredCartItems.length === 0 ? 'bg-[#FFB3A4]' : 'bg-[red]'
+                            }`}
+                          />
+                        </span>
+                      </button>
+
+                  </div>
+              
+              </div>
+              
+              </>
+            )
+
+            }
+
+{ filteredCartItems.length !== 0 && orderID == 'null' && (
+              <>
+              <div className='fixed top-0 left-0 right-0 bg-[blue] z-40'>
+
+                  <div className='flex justify-center items-center my-4 '>
+                      <h1>My Cart</h1>
+                  </div>
+                  
+                  <div className="flex items-center justify-between ">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
+                    <button
+                        onClick={() => {
+                          if (filteredCartItems.length > 0) {
+                            sessionStorage.setItem('modalOpened', '');
+                            dispatch(removeAll());
+                          }
+                        }}
+                        className={`relative ${
+                          filteredCartItems.length === 0
+                            ? 'text-[#FFB3A4] cursor-not-allowed'
+                            : 'text-[red] cursor-pointer'
+                        }`}
+                        disabled={filteredCartItems.length === 0}
+                      >
+                        <span className="relative">
+                          {t("achat.clearBtn")}
+                          <span
+                            className={`absolute left-0 bottom-[-2px] h-[2px] w-full ${
+                              filteredCartItems.length === 0 ? 'bg-[#FFB3A4]' : 'bg-[red]'
+                            }`}
+                          />
+                        </span>
+                      </button>
+
+                  </div>
+              
+              </div>
+              
+              </>
+            )
+
+            }
+         
         </div>
 
 
@@ -307,37 +420,11 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
             <Lottie animationData={loaderAnimation} loop={true} style={{ width: 400, height: 400 }} />
           </div>
           :
-          <div className="flex flex-col gap-4  snap-y  scrollbar-hide overflow-auto mb-[100px]">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50" >Table : <span className="text-xs text-black capitalize font-normal">{tableName}</span></h2>
-              <button
-                  onClick={() => {
-                    if (filteredCartItems.length > 0) {
-                      sessionStorage.setItem('modalOpened', '');
-                      dispatch(removeAll());
-                    }
-                  }}
-                  className={`relative ${
-                    filteredCartItems.length === 0
-                      ? 'text-[#FFB3A4] cursor-not-allowed'
-                      : 'text-[red] cursor-pointer'
-                  }`}
-                  disabled={filteredCartItems.length === 0}
-                >
-                  <span className="relative">
-                    {t("achat.clearBtn")}
-                    <span
-                      className={`absolute left-0 bottom-[-2px] h-[2px] w-full ${
-                        filteredCartItems.length === 0 ? 'bg-[#FFB3A4]' : 'bg-[red]'
-                      }`}
-                    />
-                  </span>
-                </button>
-
-            </div>
+          <div className="flex flex-col gap-1  snap-y  scrollbar-visible overflow-auto mb-[150px]">
+            
             {filteredCartItems.length === 0 ? (
-              <div>
-                <div className="flex flex-col items-center justify-center">
+              <div className={filteredCartItems.length === 0 && orderID != 'null' ? 'mt-[30px] bg-[#4DCCBD]' : 'mt-[100px] bg-[#FF8484]'}>
+                <div className="flex flex-col items-center ">
                   <div className="w-64 h-44 flex-shrink-0 relative flex flex-col items-center justify-center">
                       <svg width="261" height="260" viewBox="0 0 261 260" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_1936_9138)">
@@ -383,16 +470,19 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                   </div>
 
                 </div>
-                <div className="flex flex-col justify-between  mt-16 ">
-                  <div className='flex justify-between items-center'>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        {t("achat.total")}:
-                      </p>
-                      <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
+                <div className='fixed bottom-[80px] left-0 right-0    z-45'>
+                  <div className="flex flex-col justify-between  ">
+                    <div className='flex justify-between items-center'>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm">
+                          {t("achat.total")}:
+                        </p>
+                        <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
+                    </div>
+                    <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: '#FFBBB6' }} className="py-2 px-4 rounded-lg my-2" size="lg" disabled>
+                      {t("achat.checkoutBtn")}
+                    </Button>
                   </div>
-                  <Button onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)} style={{ backgroundColor: '#FFBBB6' }} className="py-2 px-4 rounded-lg my-4" size="lg" disabled>
-                    {t("achat.checkoutBtn")}
-                  </Button>
+
                 </div>
                 </div>
 
@@ -400,7 +490,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
             ) : (
               <>
-                  <div className='mb-[100px]'>
+                  <div className={orderID === "null" ? 'mt-[80px] mb-[30px] bg-[black]' : 'mt-[0px]'}>
                     {filteredCartItems.map(item => (
 
                         <CartItem key={item.id} item={item} infoRes={infoRes} />
@@ -408,29 +498,29 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                   
                   </div>
 
-                  <div className="fixed bottom-[50px] left-0 right-0 bg-white p-4  z-45">
-                    <div className="flex flex-col justify-between mx-auto">
-                      <div className="flex justify-between items-center">
+                  <div className='fixed bottom-[50px] left-0 right-0 bg-[white] p-4  z-45'>
+                  <div className="flex flex-col justify-between  ">
+                    <div className='flex justify-between items-center'>
                         <p className="text-gray-500 dark:text-gray-400 text-sm">
                           {t("achat.total")}:
                         </p>
-                        <span className="font-medium text-gray-900 dark:text-gray-50">
-                          {formattedTotalCostWithSpaces + " " + infoRes.currency}
-                        </span>
-                      </div>
-                      <Button
+                        <span className="font-medium text-gray-900 dark:text-gray-50"> {formattedTotalCostWithSpaces + " " + infoRes.currency}</span>
+                    </div>
+                    <Button
                         onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)}
                         className="py-2 px-4 rounded-lg my-4 bg-[red]"
                         size="lg"
                       >
                         {t("achat.checkoutBtn")}
                       </Button>
-                    </div>
                   </div>
+
+                </div>
               </>
             )}
-          </div>}
-
+          </div>
+          }
+</div>
         <AlertDialog
           open={orderSuccessModalOpen}
           onOpenChange={setOrderSuccessModalOpen}
@@ -543,36 +633,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
 
                 
 
-      </div>
-      {/* <Credenza className="!bg-white  !py-0" open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <CredenzaContent className="flex max-h-[70%]  md:w-[50rem] bg-white md:flex-col md:justify-center md:items-center">
-          <div className="mt-10 md:mt-2 mb-1 text-center text-lg font-semibold text-black">
-            Suggested Products
-          </div>
-          <div className="grid grid-cols-2 gap-0 p-2 mb-3 ">
-            {filtredSuggest?.slice(0, 4).map((item, index) => (
-              <CartItemSuggestion
-                key={index}
-                item={item}
-                infoRes={infoRes}
-                customization={customization}
-                resto_id={resto_id}
-                isDishInCart={isDishInCart}
-              />
-            ))}
-          </div>
-        </CredenzaContent>
-      </Credenza> */}
-      {/* <FeedBack 
-         isModalOpen={isModalFeedOpen}
-         setIsModalOpen={setIsModalFeedOpen}
-         slug={slug}
-         table_id={table_id}
-         hasTrustpilot={hasTrustpilot}
-         trustpilot_link={google_buss}
-        /> */}
+  
     </>
   );
 }
-
-
