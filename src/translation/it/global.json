@@ -71,7 +71,7 @@
       "title": "Prodotti",
       "rating": "Valutazione",
       "minutes": "Minuti",
-      "allProducts": "Tutti i Prodotti",
+      "allProducts": "Tutti i Prodotti ({{productName}})",
       "searchResults": "Risultati della Ricerca",
       "yourSearchTerm": "Il tuo termine di ricerca",
       "noResults": "Nessun risultato trovato",
@@ -135,6 +135,7 @@
     "title": "Dettagli di Tracciamento",
     "orderFeedback": "Feedback Ordine",
     "newOrder": "Nuovo Ordine",
+    "orderAccepted": "Ordine Accettato",
     "preparingFood": "Preparazione Cibo",
     "orderReady": "Ordine Pronto",
     "orderCompleted": "Ordine Completato",
@@ -155,5 +156,13 @@
     "feedbackDesc": "Aiutaci a migliorare la tua esperienza condividendo i tuoi pensieri.",
     "placeholder": "Scrivi il tuo feedback qui...",
     "sendFeedback": "Invia Feedback"
+  },
+  "rating": {
+    "leaveReview": "Lascia una recensione!",
+    "btnReview": "Tocca il pulsante qui sotto per condividere la tua esperienza",
+    "trustPilot": "Fidati delle recensioni dei clienti",
+    "googlereview": "recensioni di Google",
+    "or": "o",
+    "desc": "Stiamo lavorando per aggiungere presto la funzionalità di recensione. Rimani sintonizato!"
   }
 }

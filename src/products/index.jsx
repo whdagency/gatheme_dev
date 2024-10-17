@@ -16,6 +16,7 @@ const Products = () => {
     searchProductTerm,
     setSearchProductTerm,
     customization,
+    selectedCat,
   } = useMenu();
   const pathname = useLocation().pathname;
   const [visibleProducts, setVisibleProducts] = useState(10);
@@ -97,7 +98,9 @@ const Products = () => {
           }}
         >
           {searchProductTerm.length === 0
-            ? t("home.products.allProducts")
+            ? t("home.products.allProducts", {
+                productName: selectedCat === "All" ? "" : selectedCat,
+              }).replace(selectedCat === "All" ? "()" : "", "")
             : t("home.products.searchResults")}
         </h2>
         <div

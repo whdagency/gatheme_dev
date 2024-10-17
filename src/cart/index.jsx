@@ -13,6 +13,7 @@ import SuggestedProducts from "../products/SuggestedProducts";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { hexToRgba } from "../lib/utils";
 import { useTranslation } from "react-i18next";
+import CartItemDetails from "./CartItemDetails";
 
 const Cart = () => {
   const {
@@ -27,7 +28,6 @@ const Cart = () => {
   } = useMenu();
   const { t } = useTranslation("global");
   const { items, removeItem } = useCart();
-  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [orderPending, setOrderPending] = useState(false);
   const currency = resInfo?.currency || "MAD";
@@ -206,231 +206,47 @@ const Cart = () => {
         {!isRestoCartEmpty && (
           <div className="px-7 pb-28 mt-9">
             <div className="flex flex-col gap-5">
-              {restocartItems.map((item) => (
-                <CartItem
-                  key={item.id}
-                  title={item.name}
-                  price={getItemTotalPrice(item).toFixed(2)}
-                  currency={resInfo.currency || "MAD"}
-                  id={item.id}
-                  removeItem={() => deleteItem(item.id)}
-                  quantity={item.quantity}
-                  image={item.image1}
-                  item={item}
-                  customization={customization}
-                />
-              ))}
-            </div>
+              {restocartItems.map((item, index) => {
+                const extravariants = item.extravariants;
+                const toppings = item.toppings;
+                const ingredients = item?.ingredients;
+                const comment = item.comment;
 
-            <div className="pt-4 mt-4 border-t">
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-                className="flex items-center justify-between w-full mb-2 text-gray-600"
-              >
-                <span
-                  className="font-semibold text-sm text-[#8C8C8C]"
-                  style={{
-                    color: customization?.selectedSecondaryColor,
-                  }}
-                >
-                  {t("cart.orderDetails")}
-                </span>
-                {isDetailsOpen ? (
-                  <ChevronUp
-                    size={20}
-                    color={customization?.selectedSecondaryColor ?? "#8C8C8C"}
-                  />
-                ) : (
-                  <ChevronDown
-                    size={20}
-                    color={customization?.selectedSecondaryColor ?? "#8C8C8C"}
-                  />
-                )}
-              </motion.button>
+                const isEmpty =
+                  !extravariants?.length &&
+                  !toppings?.length &&
+                  !ingredients?.length &&
+                  !comment;
 
-              <AnimatePresence initial={false}>
-                {isDetailsOpen && (
-                  <motion.div
-                    key="details"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="flex flex-col gap-4 overflow-hidden text-sm font-medium"
+                return (
+                  <div
+                    key={item.id}
+                    className={`last:border-b-0 flex flex-col gap-4 mb-4 pb-4 border-b ${
+                      isEmpty ? "-mt-4" : ""
+                    }`}
                   >
-                    {restocartItems.map((item, index) => {
-                      const extravariants = item.extravariants;
-                      const toppings = item.toppings;
-                      const ingredients = item.ingredients;
-                      const comment = item.comment;
+                    <CartItem
+                      key={item.id}
+                      title={item.name}
+                      price={getItemTotalPrice(item).toFixed(2)}
+                      currency={resInfo.currency || "MAD"}
+                      id={item.id}
+                      removeItem={() => deleteItem(item.id)}
+                      quantity={item.quantity}
+                      image={item.image1}
+                      item={item}
+                      customization={customization}
+                    />
 
-                      return (
-                        <div key={index} className="flex flex-col gap-1">
-                          <h3
-                            className="text-base font-semibold text-[#545454]"
-                            style={{
-                              color: hexToRgba(
-                                customization?.selectedTextColor,
-                                0.7
-                              ),
-                            }}
-                          >
-                            {t("cart.orderNo")} #{index + 1}
-                          </h3>
-
-                          {toppings ? (
-                            toppings.map((top, index) => (
-                              <p key={index}>
-                                <span
-                                  className="text-[#545454] capitalize"
-                                  style={{
-                                    color: hexToRgba(
-                                      customization?.selectedTextColor,
-                                      0.7
-                                    ),
-                                  }}
-                                >
-                                  {top.name} :
-                                </span>{" "}
-                                <span
-                                  className="text-[#A9A9A9] capitalize"
-                                  style={{
-                                    color:
-                                      customization?.selectedSecondaryColor,
-                                  }}
-                                >
-                                  {top.options
-                                    ?.map((op) => op.name)
-                                    .join(", ") || t("cart.none")}
-                                </span>
-                              </p>
-                            ))
-                          ) : (
-                            <p>
-                              <span
-                                className="text-[#545454]"
-                                style={{
-                                  color: hexToRgba(
-                                    customization?.selectedTextColor,
-                                    0.7
-                                  ),
-                                }}
-                              >
-                                {t("cart.toppings")}
-                              </span>{" "}
-                              <span
-                                className="text-[#A9A9A9]"
-                                style={{
-                                  color: customization?.selectedSecondaryColor,
-                                }}
-                              >
-                                {t("cart.none")}
-                              </span>
-                            </p>
-                          )}
-
-                          {extravariants ? (
-                            extravariants.map((extra, index) => (
-                              <p key={index}>
-                                <span
-                                  className="text-[#545454] capitalize"
-                                  style={{
-                                    color: hexToRgba(
-                                      customization?.selectedTextColor,
-                                      0.7
-                                    ),
-                                  }}
-                                >
-                                  {extra.name} :
-                                </span>{" "}
-                                <span
-                                  className="text-[#A9A9A9] capitalize"
-                                  style={{
-                                    color:
-                                      customization?.selectedSecondaryColor,
-                                  }}
-                                >
-                                  {extra.options
-                                    ?.map((op) => op.name)
-                                    .join(", ") || t("cart.none")}
-                                </span>
-                              </p>
-                            ))
-                          ) : (
-                            <p>
-                              <span
-                                className="text-[#545454]"
-                                style={{
-                                  color: hexToRgba(
-                                    customization?.selectedTextColor,
-                                    0.7
-                                  ),
-                                }}
-                              >
-                                {t("cart.extras")}
-                              </span>{" "}
-                              <span
-                                className="text-[#A9A9A9]"
-                                style={{
-                                  color: customization?.selectedSecondaryColor,
-                                }}
-                              >
-                                {t("cart.none")}
-                              </span>
-                            </p>
-                          )}
-
-                          <p>
-                            <span
-                              className="text-[#545454]"
-                              style={{
-                                color: hexToRgba(
-                                  customization?.selectedTextColor,
-                                  0.7
-                                ),
-                              }}
-                            >
-                              {t("cart.ingredients")}
-                            </span>{" "}
-                            <span
-                              className="text-[#A9A9A9] capitalize"
-                              style={{
-                                color: customization?.selectedSecondaryColor,
-                              }}
-                            >
-                              {ingredients
-                                ?.map((ingredient) => ingredient.name)
-                                .join(", ") || t("cart.none")}
-                            </span>
-                          </p>
-                          <p>
-                            <span
-                              className="text-[#545454]"
-                              style={{
-                                color: hexToRgba(
-                                  customization?.selectedTextColor,
-                                  0.7
-                                ),
-                              }}
-                            >
-                              {t("cart.comment")}
-                            </span>{" "}
-                            <span
-                              className="text-[#A9A9A9]"
-                              style={{
-                                color: customization?.selectedSecondaryColor,
-                              }}
-                            >
-                              {comment || t("cart.noComment")}
-                            </span>
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    <CartItemDetails
+                      item={item}
+                      customization={customization}
+                      initiallyOpened={index === 0}
+                      index={index}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -439,7 +255,7 @@ const Cart = () => {
           <div className="flex flex-col items-center justify-center gap-3 px-12">
             <div className="flex items-center justify-center gap-2 shrink-0 p-[24px_27px]">
               <img
-                src="/assets/cart-empty.png"
+                src="/assets/cart-empty.svg"
                 alt="Empty Cart"
                 className="w-[225px] h-[225px]"
               />
@@ -504,7 +320,7 @@ const Cart = () => {
 
         {!isRestoCartEmpty && (
           <div
-            className="px-7 bottom-[105px] fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
+            className="px-7 bottom-[94px] fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-4 mx-auto mt-4 -mb-5 bg-white border-t border-gray-200"
             style={{
               background: customization?.selectedBgColor,
               borderColor: hexToRgba(

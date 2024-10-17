@@ -132,7 +132,14 @@ const TrackingOrder = () => {
   }
 
   const statusSteps = [
-    { step: 1, label: t("trackingOrder.newOrder"), status: "New" },
+    {
+      step: 1,
+      label:
+        status === "Accepted"
+          ? t("trackingOrder.orderAccepted")
+          : t("trackingOrder.newOrder"),
+      status: status === "Accepted" ? "Accepted" : "New",
+    },
     { step: 2, label: t("trackingOrder.preparingFood"), status: "Preparing" },
     { step: 3, label: t("trackingOrder.orderReady"), status: "Ready" },
     { step: 4, label: t("trackingOrder.orderCompleted"), status: "Completed" },
@@ -321,6 +328,11 @@ const OrderTrackingTimeline = ({
                     />
                   ) : canceled ? (
                     <XIcon
+                      size={20}
+                      color={customization?.selectedIconColor ?? "#FFFFFF"}
+                    />
+                  ) : status === "Accepted" ? (
+                    <CheckIcon
                       size={20}
                       color={customization?.selectedIconColor ?? "#FFFFFF"}
                     />

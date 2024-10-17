@@ -25,13 +25,14 @@ const Products = () => {
   const navigate = useNavigate();
 
   const handleSeeAllProducts = () => {
-    setSelectedCat("All");
-    setSearchParams((prev) => {
-      prev.delete("cat");
-      return prev;
-    });
-
-    navigate(`/menu/${restoSlug}/products?table_id=${table_id}`);
+    // setSelectedCat("All");
+    // setSearchParams((prev) => {
+    //   prev.delete("cat");
+    //   return prev;
+    // });
+    navigate(
+      `/menu/${restoSlug}/products?table_id=${table_id}&cat=${selectedCat}`
+    );
   };
 
   return (

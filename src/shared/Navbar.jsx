@@ -150,16 +150,22 @@ const ToggleNavActionButton = ({ customization }) => {
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
   return (
-    <div className="-top-16 right-5 absolute">
+    <div className="right-5 -top-16 absolute">
       <AnimatePresence>
         {isExpanded && (
-          <>
+          <motion.div
+            className="top-10 absolute right-0 flex flex-col items-center justify-center gap-2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
             <CallWaiter />
-
             <RequestBill />
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
+
       <motion.button
         className="flex items-center justify-center rounded-full shadow-lg w-[52px] h-[52px] p-3"
         onClick={toggleExpand}

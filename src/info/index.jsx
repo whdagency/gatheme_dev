@@ -17,13 +17,13 @@ import { TelephoneIcon, Timer } from "../components/icons";
 import AnimatedLayout from "../shared/AnimateLayout";
 import { hexToRgba } from "../lib/utils";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerTrigger,
+  DrawerTitle,
+  DrawerHeader,
+} from "@/components/ui/drawer";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 import { HiLanguage } from "react-icons/hi2";
@@ -230,8 +230,8 @@ const Info = () => {
             </p>
           </div>
 
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger asChild>
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerTrigger asChild>
               <div
                 className="dark:bg-gray-700 flex items-center justify-around w-full gap-2 p-4 mb-6 bg-gray-100 rounded-lg cursor-pointer"
                 style={{
@@ -249,19 +249,19 @@ const Info = () => {
                 </h2>
                 <FaChevronRight className="" />
               </div>
-            </DialogTrigger>
-            <DialogDescription className="sr-only"></DialogDescription>
-            <DialogContent className="max-w-xl gap-0 px-[20px] py-[23px] rounded-lg">
-              <DialogHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <DialogTitle
-                  className="text-lg font-bold tracking-wide text-gray-700"
+            </DrawerTrigger>
+            <DrawerDescription className="sr-only"></DrawerDescription>
+            <DrawerContent className="max-w-xl mx-auto gap-0 px-[20px] py-[23px] rounded-lg">
+              <DrawerHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+                <DrawerTitle
+                  className="pt-2 text-lg font-bold tracking-wide text-gray-700"
                   style={{
                     color: hexToRgba(customization?.selectedTextColor, 0.7),
                   }}
                 >
                   {t("info.selectLanguage")}
-                </DialogTitle>
-              </DialogHeader>
+                </DrawerTitle>
+              </DrawerHeader>
 
               <Card className="w-full max-w-xl mx-auto border-none">
                 <ul className="divide-y">
@@ -284,8 +284,8 @@ const Info = () => {
                   ))}
                 </ul>
               </Card>
-            </DialogContent>
-          </Dialog>
+            </DrawerContent>
+          </Drawer>
 
           {/* Social Icons */}
           {socialMediaLinks.length > 0 && (

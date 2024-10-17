@@ -50,9 +50,9 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
             <div className="flex items-center gap-1">
               <Timer fill={customization?.selectedPrimaryColor} />
               <span
-                className="font-semibold text-black"
+                className="font-semibold text-[#A6ADB4]"
                 style={{
-                  color: customization?.selectedTextColor,
+                  color: customization?.selectedSecondaryColor,
                 }}
               >
                 {time}
@@ -64,7 +64,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
         <div className="shrink-0 flex flex-col items-end self-end justify-end gap-5">
           <X
             color={customization?.selectedSecondaryColor ?? "#A6ADB4"}
-            className="w-4 h-4 cursor-pointer"
+            className="hidden w-4 h-4 cursor-pointer"
           />
 
           <span

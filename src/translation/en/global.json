@@ -71,7 +71,7 @@
       "title": "Products",
       "rating": "Rating",
       "minutes": "Minutes",
-      "allProducts": "All Products",
+      "allProducts": "All Products ({{productName}})",
       "searchResults": "Search Results",
       "yourSearchTerm": "Your search term",
       "noResults": "No search results found for your search term",
@@ -135,6 +135,7 @@
     "title": "Tracking Details",
     "orderFeedback": "Order Feedback",
     "newOrder": "New Order",
+    "orderAccepted": "Order Accepted",
     "preparingFood": "Preparing Food",
     "orderReady": "Order Ready",
     "orderCompleted": "Order Completed",
@@ -155,5 +156,13 @@
     "feedbackDesc": "Help us improve your experience by sharing your thoughts.",
     "placeholder": "Type your feedback here...",
     "sendFeedback": "Send Feedback"
+  },
+  "rating": {
+    "leaveReview": "Leave us a review!",
+    "btnReview": "Tap the button below to share your experience.",
+    "trustPilot": "Trustpilot Reviews",
+    "googlereview": "Google Reviews",
+    "or": "or",
+    "desc": "We're working on adding review functionality soon. Stay tuned!"
   }
 }

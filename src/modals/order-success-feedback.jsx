@@ -11,16 +11,26 @@ import { toast } from "sonner";
 import { useMenu } from "../hooks/useMenu";
 import { useTranslation } from "react-i18next";
 import { hexToRgba } from "../lib/utils";
+import { submitNotification } from "../lib/notification";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
   // Feedback states
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [additionalComments, setAdditionalComments] = useState("");
-  const { customization } = useMenu();
+  const { customization, table_id, restos } = useMenu();
+  const [pending, setPending] = useState(false);
   const { t } = useTranslation("global");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setPending(true);
+
+    if (!table_id) {
+      toast.info(t("common.modals.noTableSelected"));
+      return;
+    }
 
     // Validate feedback input
     if (!selectedFeedback) {
@@ -33,15 +43,28 @@ const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
       comments: additionalComments || "",
     };
 
-    console.log("Submitted Feedback:", feedbackData);
+    const isSubmitted = await submitNotification({
+      type: feedbackData.comments,
+      title: `New Order Feedback: ${feedbackData.rating}`,
+      resto_id: restos.id,
+      table_id: table_id,
+    });
 
-    setSelectedFeedback(null);
-    setAdditionalComments("");
+    setPending(false);
 
-    // Redirect back to menu
-    setOpen(false);
+    if (isSubmitted) {
+      console.log("Submitted Feedback:", feedbackData);
 
-    setFeedbackSubmitted(true);
+      setSelectedFeedback(null);
+      setAdditionalComments("");
+
+      // Redirect back to menu
+      setOpen(false);
+
+      setFeedbackSubmitted(true);
+    } else {
+      toast.error("Could not submit feedback");
+    }
   };
 
   const reactions = [
@@ -118,13 +141,17 @@ const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
           {/* Submit Button */}
           <DrawerFooter className="-mt-2">
             <Button
+              disabled={pending}
               type="submit"
-              className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full"
+              className="hover:bg-orange-600 px-10 py-6 text-white bg-[#F86A2E] rounded-full w-full flex items-center gap-2"
               style={{
                 background: customization?.selectedPrimaryColor,
                 color: customization?.selectedIconColor,
               }}
             >
+              {pending && (
+                <ClipLoader size={20} loading={pending} color={"#ffffff"} />
+              )}{" "}
               {t("common.modals.orderSuccess.submitFeedback")}
             </Button>
           </DrawerFooter>

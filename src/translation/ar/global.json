@@ -71,7 +71,7 @@
       "title": "المنتجات",
       "rating": "التقييم",
       "minutes": "الدقائق",
-      "allProducts": "جميع المنتجات",
+      "allProducts": "({{productName}}) جميع  المنتجات",
       "searchResults": "نتيجة البحث",
       "yourSearchTerm": "مصطلح البحث الخاص بك",
       "noResults": "لم يتم العثور على نتائج",
@@ -135,6 +135,7 @@
     "title": "تفاصيل الطلب",
     "orderFeedback": "تقييم الطلب",
     "newOrder": "طلب جديد",
+    "orderAccepted": "تم قبول الطلب",
     "preparingFood": "تحضير الطعام",
     "orderReady": "الطلب جاهز",
     "orderCompleted": "الطلب مكتمل",
@@ -155,5 +156,13 @@
     "feedbackDesc": "ساعدنا في تحسين تجربتك من خلال مشاركة آرائك.",
     "placeholder": "اكتب ملاحظاتك هنا...",
     "sendFeedback": "إرسال الملاحظات"
+  },
+  "rating": {
+    "leaveReview": "اترك لنا تقييمًا",
+    "btnReview": "اضغط على الزر أدناه لمشاركة تجربتك",
+    "trustPilot": "تقييمات تراست بايلوت",
+    "googlereview": "تقييمات جوجل",
+    "or": "أو",
+    "desc": "نعمل على إضافة وظيفة المراجعة قريبًا "
   }
 }

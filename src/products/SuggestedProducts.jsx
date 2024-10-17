@@ -108,17 +108,17 @@ const SuggestedProducts = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DrawerContent
-        className={`flex flex-col max-w-xl gap-4 p-10 mx-auto -mb-10 text-center rounded-t-[30px] ${
+        className={`flex flex-col max-w-xl gap-4 py-5 pe-7 md:mx-auto md:p-10 -mb-12 text-center rounded-t-[30px] ${
           suggestedProducts?.length === 0 ? "hidden" : ""
         }`}
       >
-        <DrawerTitle className="text-lg font-semibold text-center text-black">
+        <DrawerTitle className="pt-1 text-lg font-semibold text-center text-black">
           {t("home.products.suggestedProducts")}
         </DrawerTitle>
 
         <DrawerDescription className="sr-only"></DrawerDescription>
 
-        <div className="grid grid-cols-2 gap-0 p-2 mb-3">
+        <div className="gap-x-5 gap-y-0 grid grid-cols-2 p-1 mb-5 -mt-3">
           {suggestedProducts?.slice(0, 4).map((item, index) => (
             <CartItemSuggestion
               key={index}

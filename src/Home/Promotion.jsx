@@ -61,7 +61,7 @@ const Promotion = () => {
       </div>
 
       <div className="scrollbar-hide flex px-4 pb-4 -mx-4 space-x-4 overflow-x-auto">
-        {promos?.slice(0, seeAllPromos ? promos?.length : 3)?.map((promo) => (
+        {promos?.slice(0, seeAllPromos ? promos?.length : 4)?.map((promo) => (
           <PromotionCard
             key={promo?.id}
             image={`${STORAGE_URL}/${promo?.image}`}
@@ -88,20 +88,20 @@ const PromotionCard = ({
   customization,
 }) => {
   return (
-    <div className="relative flex-shrink-0 w-[194px]">
-      <div className="rounded-[30px] relative h-[245px] overflow-hidden">
+    <div className="relative shrink-0 w-[180px]">
+      <div className="rounded-[23.271px] relative h-[225px] overflow-hidden">
         <img src={image} alt={title} className="object-cover w-full h-full" />
         <div className="bg-gradient-to-t from-black/50 to-transparent absolute inset-0" />
       </div>
 
-      <div className="absolute inset-0 flex flex-col justify-end p-3">
+      <div className="absolute inset-0 flex flex-col justify-end p-2.5">
         <div
           style={{
             border: "1px solid rgba(64, 53, 53, 0.01)",
             background: "rgba(64, 53, 53, 0.51)",
             backdropFilter: "blur(5.099px)",
           }}
-          className="rounded-[15px] p-2 shrink-0"
+          className="rounded-[11.876px] p-2 shrink-0"
         >
           <div className="flex items-start justify-between gap-2">
             <h3 className="line-clamp-2 text-xs font-semibold text-white capitalize">
@@ -118,8 +118,9 @@ const PromotionCard = ({
           </div>
 
           <div className="flex items-center mt-2">
-            <span className="font-semibold text-[13px] text-white">
-              {price.toFixed(2)}{" "}
+            <span className="font-semibold text-xs text-white whitespace-nowrap flex items-center gap-0.5">
+              {price.toFixed(2)}
+              {"  "}
               <span
                 className="text-xs text-orange-500"
                 style={{
@@ -129,9 +130,10 @@ const PromotionCard = ({
                 {currency}
               </span>
             </span>
-            <span className="ml-2 text-white text-[13px] font-medium opacity-60 line-through">
+
+            <span className="ml-2 text-white text-[8.5px] font-medium opacity-60 whitespace-nowrap line-through flex items-center gap-0.5">
               {originalPrice.toFixed(2)}{" "}
-              <span className="text-xs">{currency}</span>
+              <span className="text-[8.5px]">{currency}</span>
             </span>
           </div>
         </div>

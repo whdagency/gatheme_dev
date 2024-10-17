@@ -71,7 +71,7 @@
       "title": "Produits",
       "rating": "Note",
       "minutes": "Minutes",
-      "allProducts": "Tous les produits",
+      "allProducts": "Tous les produits ({{productName}})",
       "searchResults": "Recherche de résultats",
       "yourSearchTerm": "Votre terme de recherche",
       "noResults": "Aucun résultat trouvé",
@@ -135,6 +135,7 @@
     "title": "Suivi de la Commande",
     "orderFeedback": "Retour sur la Commande",
     "newOrder": "Nouvelle Commande",
+    "orderAccepted": "Commande Acceptée",
     "preparingFood": "Préparation en cours",
     "orderReady": "Commande Prête",
     "orderCompleted": "Commande Terminée",
@@ -155,5 +156,11 @@
     "feedbackDesc": "Aidez-nous à améliorer votre expérience en partageant vos commentaires.",
     "placeholder": "Tapez vos commentaires ici...",
     "sendFeedback": "Envoyer Avis"
+  },
+  "rating": {
+    "leaveReview": "Laissez-nous un avis !",
+    "btnReview": "Appuyez sur le bouton ci-dessous pour partager votre expérience.",
+    "trustPilot": "Avis Trustpilot",
+    "desc": "Nous travaillons sur l'ajout de la fonctionnalité de révision bientôt. !"
   }
 }
