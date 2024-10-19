@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { TbMessage2Question } from "react-icons/tb";
 import { FaRegStar } from "react-icons/fa";
@@ -18,6 +18,7 @@ import { MdOutlineStarPurple500 } from "react-icons/md";
 import call from "../Footer/call2.svg";
 import bill from "../Footer/bill.svg";
 import Popup from './Popup';
+import "./menu.css";
 
 
 
@@ -56,9 +57,11 @@ export default function Footer({ slug, customization, resto_id }) {
   const closeCall = () => {
     setisCall(false);
     setisBill(false);
+
   }
 
   // console.log("tableeee herrrrre ====  ", table_id);
+
 
 
   const filteredCartItems = cartItems.filter(item => item.resto_id === resto_id);
@@ -84,86 +87,82 @@ export default function Footer({ slug, customization, resto_id }) {
           />
 
           {/* Icone centrer */}
+
+
+
+      
+
           <div className={`absolute -top-6 p-2 rounded-full border border-4 border-[#FFF8EB] ${isOpen ? 'bg-[white]' : 'bg-[red]'} shadow-md`}>
-            <div onClick={togglePopup} style={{ cursor: 'pointer' }}>
-              <NavItem
-                icon={isOpen ? IoCloseSharp : BiDish} 
-                label={t("")}
-                customization={customization}
-                isCentered={true}
-              />
+              <div onClick={togglePopup} style={{ cursor: 'pointer' }}>
+                
+                <NavItem
+                  icon={isOpen ? IoCloseSharp : BiDish}
+                  label={t("")}
+                  customization={customization}
+                  isCentered={true}
+                />
+              </div>
+
+  
+              <div className={`popup-container  ${isOpen ? 'popup-show' : 'popup-hide'} absolute bottom-12 left-1/2 transform -translate-x-1/2 h-32 mt-2 z-50`}>
+                <div className="bg-opacity-30 rounded-lg p-4 w-52 h-36 flex flex-col items-center">
+                  
+                
+                  <button className="menu-item bg-[red] text-white p-2 w-12 h-12"
+                    onClick={demandebill}>
+                    <NavItem
+                      icon={HiNewspaper}
+                      label={t("")}
+                      customization={customization}
+                      isCount={true}
+                      totalQuantity={totalQuantity}
+                    />
+                  </button>
+
+                  
+                  <button className="menu-item bg-[red] text-white p-2 w-12 h-12"
+                    onClick={callserver}>
+                    <NavItem
+                      icon={LuPhoneCall}
+                      label={t("")}
+                      customization={customization}
+                      isCount={true}
+                      totalQuantity={totalQuantity}
+                    />
+                  </button>
+
+                  
+                  <button className="menu-item bg-[red] text-white p-2 w-12 h-12">
+                    <NavItem
+                      icon={MdOutlineStarPurple500}
+                      label={t("")}
+                      customization={customization}
+                      isCount={true}
+                      totalQuantity={totalQuantity}
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
-            
 
-            {isOpen && (
-                  <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 h-32 mt-2 z-50">
-                    <div className="bg-opacity-30 rounded-lg p-4 w-52 h-36 flex flex-col items-center">
-                      <div className="w-full mb-2 flex justify-center">
-
-
-                        <button className="bg-[red] text-white rounded-full p-2 w-12 h-12"
-                          onClick={demandebill}
-                        >
-                          <NavItem
-                            icon={HiNewspaper}
-                            label={t("")}
-                            customization={customization}
-                            isCount={true}
-                            totalQuantity={totalQuantity}
-                          />
-                        </button>
-                      </div>
-
-                      <div className="flex justify-between w-full">
-                      <button className="bg-[red] text-white rounded-full p-2 w-12 h-12"
-                          onClick={callserver}
-                        >
-                          <NavItem
-                            icon={LuPhoneCall}
-                            label={t("")}
-                            customization={customization}
-                            isCount={true}
-                            totalQuantity={totalQuantity}
-                          />
-                        </button>
-                        <button className="bg-[red] text-white rounded-full p-2 w-12 h-12">
-                          <NavItem
-                            icon={MdOutlineStarPurple500}
-                            label={t("")}
-                            customization={customization}
-                            isCount={true}
-                            totalQuantity={totalQuantity}
-                          />
-                        </button>
-                        
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-            
             {isCall && (
-                        <Popup 
-                            onClose={closeCall} 
-                            imgSrc={call} 
-                            title="Confirm Call Waiter" 
-                            message="Are you sure you want to call a waiter? They will come to your table shortly." 
-                            confirmText="Confirm" 
-                          />
-
-                      )}
-
-                    {isBill && (
-                        <Popup 
-                        onClose={closeCall}
-                        imgSrc={bill}
-                        title="Request Bill"
-                        message="Do you want to request the bill? The waiter will bring it to your table shortly."
-                        confirmText="Confirm"
-                        />
-                      )}
-
-          </div>
+                                <Popup 
+                      onClose={closeCall} 
+                      imgSrc={call} 
+                      title="Confirm Call Waiter" 
+                      message="Are you sure you want to call a waiter? They will come to your table shortly." 
+                      confirmText="Confirm" 
+                    />
+                )}
+              {isBill && (
+                  <Popup 
+                  onClose={closeCall}
+                  imgSrc={bill}
+                  title="Request Bill"
+                  message="Do you want to request the bill? The waiter will bring it to your table shortly."
+                  confirmText="Confirm"
+                  />
+                )}
 
           <NavItem
             to={`/menu/${slug}/Cart?table_id=${table_id}`}

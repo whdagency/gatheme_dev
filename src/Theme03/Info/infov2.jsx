@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Spinner from 'react-spinner-material';
+import facebook from './facebook.svg';
+import instagram from './instagram.svg';
+import tiktok from './tiktok.svg';
+import snap from './snap.svg';
+import youtube from './youtube.svg';
 import { Button } from "@/components/ui/button";
+import { MdOutlineAccessTime } from "react-icons/md";
 import { APIURL, APIURLS3 } from '../../lib/ApiKey';
-import { FaFacebook, FaInstagram, FaTiktok, FaSnapchat, FaYoutube } from "react-icons/fa";
+// import { FaFacebook, FaInstagram, FaTiktok, FaSnapchat, FaYoutube } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
 import { FaChevronRight } from "react-icons/fa";
 import { HiLanguage } from "react-icons/hi2";
@@ -72,11 +78,11 @@ export default function Info({ items, infoRes, customization }) {
     // ].filter(item => item.link);
 
     const socialMediaLinks = [
-    { icon: FaFacebook, link: "#" },
-    { icon: FaInstagram, link: "#" },
-    { icon: FaTiktok, link: "#" },
-    { icon: FaSnapchat, link: "#" },
-    { icon: FaYoutube, link: "#" },
+    { icon: facebook, link: "#" },
+    { icon: instagram, link: "#" },
+    { icon: tiktok, link: "#" },
+    { icon: snap, link: "#" },
+    { icon: youtube, link: "#" },
 ]; 
 
     // console.log("info ====  ", infoRes);
@@ -85,49 +91,55 @@ export default function Info({ items, infoRes, customization }) {
     return (
         <>
             <div className={`flex  flex-col items-center h-auto  bg-[white]  ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
-            <img src={`${APIURLS3}/${infoRes.logo}`} alt="Resto" className='w-full h-64 cover fixed'  />
-                <div className=" dark:bg-gray-800 mb-[80px] mt-[250px] bg-white rounded-lg  w-full max-w-md p-8">
+            <div className="relative w-full h-64">
+                <img src={`${APIURLS3}/${infoRes.logo}`} alt="Resto" className="w-full h-full object-cover" />
+                <div className="absolute bottom-[-25px] right-6 w-16 h-16 bg-red-500 text-white flex justify-center items-center rounded-tl-[20px] rounded-br-[20px] rounded-tr-none rounded-bl-none">
+                    4.2
+                </div>
+            </div>
+
+                <div className=" dark:bg-gray-800    rounded-lg  w-full max-w-md p-8">
                     <div className="flex flex-col ">
                         
-                        <h1 className="text-2xl font-bold mb-2 text-center">{items.name}</h1>
+                        <h1 className="text-2xl font-bold mb-2 text-start">{items.name}</h1>
                         {
-                                    infoRes.address != null
-                                    && (
-                                        <div className={`flex items-center text-start space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                                            <span> {infoRes.address}</span>
-                                        </div>
-                                    )
+                            infoRes.address != null
+                            && (
+                                <div className={`flex items-center text-start space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                                    <span> {infoRes.address}</span>
+                                </div>
+                            )
                         }
 
                         {
-                                    infoRes.phone != null
-                                    && (
-                                        <div className={`flex justify-between space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                                            <div className='flex '>
-                                                <PhoneIcon className="w-5 h-5" />
-                                                <span> {infoRes.phone}</span>
-                                            </div>
-                                            <div>
-                                                <h1>timer</h1>
-                                            </div>
-                                        </div>
-
-                                    )
+                          infoRes.phone != null
+                          && (
+                              <div className={`flex justify-between space-x-2 text-gray-700 dark:text-gray-300 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                                  <div className='flex justify-center items-center gap-1'>
+                                      <PhoneIcon className="w-5 h-5 " />
+                                      <span> {infoRes.phone}</span>
+                                  </div>
+                                  <div className='flex justify-center items-center gap-1'>
+                                      <MdOutlineAccessTime />
+                                      <h1>10AM-11PM</h1>
+                                  </div>
+                              </div>
+                          )
                         }
 
                         {
-                                    infoRes.description != null
-                                    && (
-                                        <div>
-                                            <p className="text-gray-500 text-center dark:text-gray-400 px-2">{infoRes.description}</p>
-                                        </div>
-                                    )
+                            infoRes.description != null
+                            && (
+                                <div>
+                                    <p className="text-gray-500 text-start dark:text-gray-400 ">{infoRes.description}</p>
+                                </div>
+                            )
                         }
                       
                                 {
                                     infoRes.wifi_pass != null
                                     && (
-                                        <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 w-full mb-3">
+                                        <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 w-full mb-3 my-4">
                                             <h2 className="text-lg font-bold mb-2">{t("info.WiFiPassword")}</h2>
                                             <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
                                                 <span className="text-gray-700 dark:text-gray-300 font-medium">{infoRes.wifi_pass}</span>
@@ -155,16 +167,16 @@ export default function Info({ items, infoRes, customization }) {
 
                          {/* <div className={`flex  bg-[green] justify-center mb-6 ${isArabic ? 'flex-row-reverse' : ''}`}> */}
                          <h1>Follow US</h1>
-                         <div className=' flex justify-center items-center'>
+                         <div className='flex justify-center items-center'>
                             {socialMediaLinks.map((item, index) => (
-                                <div key={index} className="w-10 h-10 rounded-full border border-1 border-grey/50 grid text-[#28509E] place-content-center mx-2 mb-2">
-                                    <Link to={item.link} target="_blank">
-                                        <item.icon size={25} color={customization?.selectedIconColor} style={{ mixBlendMode: 'difference' }} />
-                                    </Link>
+                                <div key={index} className="w-10 h-10 rounded-full  grid text-[#28509E] place-content-center mx-2 mb-2">
+                                <Link to={item.link} target="_blank">
+                                    <img src={item.icon} alt={`icon-${index}`} className="w-8 h-8" />
+                                </Link>
                                 </div>
                             ))}
+                            </div>
 
-                         </div>
                         {/* </div> */}
                                     
                                     
