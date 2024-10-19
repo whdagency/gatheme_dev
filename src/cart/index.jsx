@@ -152,7 +152,11 @@ const Cart = () => {
 
   return (
     <AnimatedLayout>
-      <div className="pt-28 relative pb-32">
+      <div
+        className={`pt-28 relative ${
+          isRestoCartEmpty && !orderID ? "overflow-y-hidden" : "pb-32"
+        }`}
+      >
         {/* Title and Back Button */}
         <button
           style={{
@@ -175,7 +179,11 @@ const Cart = () => {
           {t("common.navigation.myCart")}
         </h2>
 
-        <div className="px-7 flex items-center justify-between mt-5 mb-6">
+        <div
+          className={`px-7 flex items-center justify-between ${
+            isRestoCartEmpty ? "mt-3 md:-mt-3" : "mt-5"
+          } mb-6`}
+        >
           <p
             className="text-sm font-semibold text-black"
             style={{
@@ -210,12 +218,14 @@ const Cart = () => {
                 const extravariants = item.extravariants;
                 const toppings = item.toppings;
                 const ingredients = item?.ingredients;
+                const isIngredientsEmpty =
+                  ingredients?.map((ing) => ing.name).join(", ")?.length === 0;
                 const comment = item.comment;
 
                 const isEmpty =
                   !extravariants?.length &&
                   !toppings?.length &&
-                  !ingredients?.length &&
+                  isIngredientsEmpty &&
                   !comment;
 
                 return (
@@ -252,7 +262,7 @@ const Cart = () => {
         )}
 
         {isRestoCartEmpty && (
-          <div className="flex flex-col items-center justify-center gap-3 px-12">
+          <div className="-mt-7 md:-mt-10 flex flex-col items-center justify-center gap-2 px-12">
             <div className="flex items-center justify-center gap-2 shrink-0 p-[24px_27px]">
               <img
                 src="/assets/cart-empty.svg"
@@ -262,7 +272,7 @@ const Cart = () => {
             </div>
 
             <h3
-              className="text-base font-semibold text-center text-black"
+              className="-mt-3 text-base font-semibold text-center text-black"
               style={{
                 color: customization?.selectedTextColor,
               }}
@@ -279,7 +289,7 @@ const Cart = () => {
               {t("cart.empytCartDesc")}
             </p>
 
-            <div className="mt-7 flex flex-col items-center w-[186px] gap-4">
+            <div className="mt-3 flex flex-col items-center w-[186px] gap-4">
               {orderID && (
                 <Link
                   to={`/menu/${restoSlug}/tracking-order?table_id=${table_id}`}

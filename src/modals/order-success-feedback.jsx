@@ -18,9 +18,12 @@ const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
   // Feedback states
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const [additionalComments, setAdditionalComments] = useState("");
-  const { customization, table_id, restos } = useMenu();
+  const { customization, table_id, restos, resInfo } = useMenu();
   const [pending, setPending] = useState(false);
   const { t } = useTranslation("global");
+  const { google_buss, trustpilot_link } = resInfo;
+  const hasGoogle = google_buss !== null && google_buss !== "";
+  const hasTrustpilot = trustpilot_link !== null && trustpilot_link !== "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,28 +46,46 @@ const OrderSuccessFeedback = ({ open, setOpen, setFeedbackSubmitted }) => {
       comments: additionalComments || "",
     };
 
-    const isSubmitted = await submitNotification({
-      type: feedbackData.comments,
-      title: `New Order Feedback: ${feedbackData.rating}`,
-      resto_id: restos.id,
-      table_id: table_id,
-    });
+    if (selectedFeedback === "Love It!") {
+      if (hasGoogle) {
+        window.open(google_buss, "_blank");
+      } else if (hasTrustpilot) {
+        window.open(trustpilot_link, "_blank");
+      }
+    }
+
+    // const isSubmitted = await submitNotification({
+    //   type: feedbackData.comments,
+    //   title: `New Order Feedback: ${feedbackData.rating}`,
+    //   resto_id: restos.id,
+    //   table_id: table_id,
+    // });
 
     setPending(false);
 
-    if (isSubmitted) {
-      console.log("Submitted Feedback:", feedbackData);
+    // if (isSubmitted) {
+    //   console.log("Submitted Feedback:", feedbackData);
 
-      setSelectedFeedback(null);
-      setAdditionalComments("");
+    //   setSelectedFeedback(null);
+    //   setAdditionalComments("");
 
-      // Redirect back to menu
-      setOpen(false);
+    //   // Redirect back to menu
+    //   setOpen(false);
 
-      setFeedbackSubmitted(true);
-    } else {
-      toast.error("Could not submit feedback");
-    }
+    //   setFeedbackSubmitted(true);
+    // } else {
+    //   toast.error("Could not submit feedback");
+    // }
+
+    console.log("Submitted Feedback:", feedbackData);
+
+    setSelectedFeedback(null);
+    setAdditionalComments("");
+
+    // Redirect back to menu
+    setOpen(false);
+
+    setFeedbackSubmitted(true);
   };
 
   const reactions = [

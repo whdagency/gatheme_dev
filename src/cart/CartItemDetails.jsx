@@ -17,7 +17,7 @@ const CartItemDetails = ({ item, customization, initiallyOpened, index }) => {
   const isEmpty =
     !extravariants?.length &&
     !toppings?.length &&
-    !ingredients?.length &&
+    isIngredientsEmpty &&
     !comment;
 
   return (

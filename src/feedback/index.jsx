@@ -19,8 +19,6 @@ const Feedback = () => {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { t } = useTranslation("global");
-  const [showFeedbackForm, setShowFeedbackForm] = useState(false);
-  const [selectedReviewType, setSelectedReviewType] = useState(null);
   const { google_buss, trustpilot_link } = resInfo;
   const hasGoogle = google_buss !== null && google_buss !== "";
   const hasTrustpilot = trustpilot_link !== null && trustpilot_link !== "";
@@ -39,9 +37,7 @@ const Feedback = () => {
   };
 
   const clearFeedback = (showModal = false) => {
-    setShowFeedbackForm(false);
     setFeedback("");
-    setSelectedReviewType(null);
     setSelectedEmoji(null);
     setShowSuccessModal(showModal);
   };
@@ -66,13 +62,13 @@ const Feedback = () => {
     if (selectedEmoji <= 3) {
       clearFeedback(true);
     } else {
-      if (selectedReviewType === "google" && hasGoogle) {
+      if (hasGoogle) {
         window.open(google_buss, "_blank");
         clearFeedback(false);
         return;
       }
 
-      if (selectedReviewType === "trustpilot" && hasTrustpilot) {
+      if (hasTrustpilot) {
         window.open(trustpilot_link, "_blank");
         clearFeedback(false);
         return;
@@ -107,102 +103,91 @@ const Feedback = () => {
           className="w-[369px] h-auto"
         />
 
-        {!showFeedbackForm && (
-          <LeaveReview
-            hasGoogle={hasGoogle}
-            hasTrustpilot={hasTrustpilot}
-            setShowFeedbackForm={setShowFeedbackForm}
-            setSelectedReviewType={setSelectedReviewType}
-          />
-        )}
-
         {/* Feedback Form Section */}
-        {showFeedbackForm && (
-          <form className="md:px-10 px-3" onSubmit={handleSubmit}>
-            <div
-              className="flex flex-col items-center justify-center p-6 -mt-16"
+        <form className="md:px-10 px-3" onSubmit={handleSubmit}>
+          <div
+            className="flex flex-col items-center justify-center p-6 -mt-16"
+            style={{
+              borderRadius: "10px",
+              background: "#FFF",
+              boxShadow: "0px 4px 15.1px 0px rgba(0, 0, 0, 0.15)",
+            }}
+          >
+            <h3
+              className="text-2xl font-semibold text-center text-gray-900"
               style={{
-                borderRadius: "10px",
-                background: "#FFF",
-                boxShadow: "0px 4px 15.1px 0px rgba(0, 0, 0, 0.15)",
+                color: customization?.selectedTextColor,
               }}
             >
-              <h3
-                className="text-2xl font-semibold text-center text-gray-900"
+              {t("feedback.giveUsYour")}{" "}
+              <span
+                className="text-[#F86A2E]"
                 style={{
-                  color: customization?.selectedTextColor,
+                  color: customization?.selectedPrimaryColor,
                 }}
               >
-                {t("feedback.giveUsYour")}{" "}
-                <span
-                  className="text-[#F86A2E]"
-                  style={{
-                    color: customization?.selectedPrimaryColor,
-                  }}
-                >
-                  {t("feedback.feedback")}
-                </span>
-              </h3>
+                {t("feedback.feedback")}
+              </span>
+            </h3>
 
-              <p
-                className="mt-2 text-center text-base text-[#C2C2C2] font-medium"
-                style={{
-                  color: customization?.selectedSecondaryColor,
-                  opacity: 0.6,
-                }}
-              >
-                {t("feedback.feedbackDesc")}
-              </p>
+            <p
+              className="mt-2 text-center text-base text-[#C2C2C2] font-medium"
+              style={{
+                color: customization?.selectedSecondaryColor,
+                opacity: 0.6,
+              }}
+            >
+              {t("feedback.feedbackDesc")}
+            </p>
 
-              {/* Emoji Reaction Section */}
-              <div className="flex justify-center my-4">
-                <div className="flex items-center justify-center gap-4">
-                  {emojis.map((emoji) => (
-                    <span
-                      key={emoji.id}
-                      className={`text-3xl cursor-pointer`}
-                      onClick={() => handleEmojiSelect(emoji.id)}
-                    >
-                      <emoji.symbol
-                        strokeColor={
-                          selectedEmoji === emoji.id
-                            ? customization?.selectedPrimaryColor
-                            : hexToRgba(
-                                customization?.selectedSecondaryColor,
-                                0.4
-                              )
-                        }
-                        className={`${
-                          selectedEmoji === emoji.id ? "scale-110" : "scale-100"
-                        }`}
-                      />
-                    </span>
-                  ))}
-                </div>
+            {/* Emoji Reaction Section */}
+            <div className="flex justify-center my-4">
+              <div className="flex items-center justify-center gap-4">
+                {emojis.map((emoji) => (
+                  <span
+                    key={emoji.id}
+                    className={`text-3xl cursor-pointer`}
+                    onClick={() => handleEmojiSelect(emoji.id)}
+                  >
+                    <emoji.symbol
+                      strokeColor={
+                        selectedEmoji === emoji.id
+                          ? customization?.selectedPrimaryColor
+                          : hexToRgba(
+                              customization?.selectedSecondaryColor,
+                              0.4
+                            )
+                      }
+                      className={`${
+                        selectedEmoji === emoji.id ? "scale-110" : "scale-100"
+                      }`}
+                    />
+                  </span>
+                ))}
               </div>
-
-              {/* Feedback Input */}
-              <textarea
-                className="focus:outline-none focus:border-[#EFEFF0] w-full h-24 p-3 mt-4 border border-[#EFEFF0] bg-[#EFEFF0] rounded-lg placeholder:text-[#A0A5BA] text-[#535353]"
-                placeholder={t("feedback.placeholder")}
-                value={feedback}
-                onChange={handleFeedbackChange}
-                rows={10}
-              ></textarea>
             </div>
 
-            {/* Send Button */}
-            <button
-              className="hover:bg-orange-500 mt-7 w-full py-4 font-semibold text-white bg-[#F86A2E] rounded-full"
-              style={{
-                background: customization?.selectedPrimaryColor,
-                color: customization?.selectedIconColor,
-              }}
-            >
-              {t("feedback.sendFeedback")}
-            </button>
-          </form>
-        )}
+            {/* Feedback Input */}
+            <textarea
+              className="focus:outline-none focus:border-[#EFEFF0] w-full h-24 p-3 mt-4 border border-[#EFEFF0] bg-[#EFEFF0] rounded-lg placeholder:text-[#A0A5BA] text-[#535353]"
+              placeholder={t("feedback.placeholder")}
+              value={feedback}
+              onChange={handleFeedbackChange}
+              rows={10}
+            ></textarea>
+          </div>
+
+          {/* Send Button */}
+          <button
+            className="hover:bg-orange-500 mt-7 w-full py-4 font-semibold text-white bg-[#F86A2E] rounded-full"
+            style={{
+              background: customization?.selectedPrimaryColor,
+              color: customization?.selectedIconColor,
+            }}
+          >
+            {t("feedback.sendFeedback")}
+          </button>
+        </form>
       </div>
 
       <FeedbackSuccess open={showSuccessModal} setOpen={setShowSuccessModal} />
