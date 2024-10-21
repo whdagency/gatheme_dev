@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useState, useEffect, useCallback } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useMenu } from "../hooks/useMenu";
 import ClipLoader from "react-spinners/ClipLoader";
 import AnimatedLayout from "../shared/AnimateLayout";
@@ -11,6 +11,8 @@ const Products = () => {
   const {
     products,
     resInfo,
+    restoSlug,
+    table_id,
     message,
     loading,
     searchProductTerm,
@@ -23,13 +25,19 @@ const Products = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [_, setSearchParams] = useSearchParams();
   const { t } = useTranslation("global");
+  const navigate = useNavigate();
 
-  const clearSearch = () => {
-    setSearchProductTerm("");
+  const clearSearchAndGoBack = () => {
     setSearchParams((prev) => {
       prev.delete("search");
       return prev;
     });
+    setSearchProductTerm("");
+    const url =
+      selectedCat !== "All"
+        ? `/menu/${restoSlug}?table_id=${table_id}&cat=${selectedCat}`
+        : `/menu/${restoSlug}?table_id=${table_id}`;
+    navigate(url);
   };
 
   // Infinite scrolling logic
@@ -75,7 +83,7 @@ const Products = () => {
             borderRadius: "13.061px",
             background: "#FFF",
           }}
-          onClick={() => window.history.back()}
+          onClick={clearSearchAndGoBack}
           className="flex top-10 left-7 absolute z-50 w-fit items-center justify-center p-[8.163px] gap-[8.163px]"
         >
           <ArrowLeft size={25} color="black" />
@@ -93,12 +101,7 @@ const Products = () => {
               }).replace(selectedCat === "All" ? "()" : "", "")
             : t("home.products.searchResults")}
         </h2>
-        <div
-          className="mt-28 flex items-center justify-between mb-3"
-          // style={{
-          //   color: customization?.selectedTextColor,
-          // }}
-        >
+        <div className="mt-28 flex items-center justify-between mb-3">
           {searchProductTerm.length !== 0 && (
             <p className="flex items-center gap-1 text-xs text-[#999999]">
               {t("home.products.yourSearchTerm")} ({`"${searchProductTerm}"`}){" "}
