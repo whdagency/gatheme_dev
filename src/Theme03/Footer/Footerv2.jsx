@@ -105,7 +105,7 @@ export default function Footer({ slug, customization, resto_id }) {
 
   
               <div className={`popup-container  ${isOpen ? 'popup-show' : 'popup-hide'} absolute bottom-12 left-1/2 transform -translate-x-1/2 h-32 mt-2 z-50`}>
-                <div className="bg-opacity-30 rounded-lg p-4 w-52 h-36 flex flex-col items-center">
+                {/* <div className="bg-opacity-30 rounded-lg p-4 w-52 h-36 flex flex-col items-center"> */}
                   
                 
                   <button className="menu-item bg-[red] text-white p-2 w-12 h-12"
@@ -142,7 +142,7 @@ export default function Footer({ slug, customization, resto_id }) {
                     />
                   </button>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
 
             {isCall && (

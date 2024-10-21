@@ -498,9 +498,9 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                   
                   </div>
 
-                  <div className='fixed bottom-[50px] left-0 right-0 bg-[white] p-4  z-45'>
+                  <div className='fixed bottom-[50px] left-0 right-0  p-4  z-45'>
                   <div className="flex flex-col justify-between  ">
-                    <div className='flex justify-between items-center'>
+                    <div className='flex justify-between items-center '>
                         <p className="text-gray-500 dark:text-gray-400 text-sm">
                           {t("achat.total")}:
                         </p>
@@ -508,7 +508,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
                     </div>
                     <Button
                         onClick={() => setOrderSuccessModalOpen(!orderSuccessModalOpen)}
-                        className="py-2 px-4 rounded-lg my-4 bg-[red]"
+                        className=" py-2 px-4 rounded-lg my-4 bg-[red]"
                         size="lg"
                       >
                         {t("achat.checkoutBtn")}

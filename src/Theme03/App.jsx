@@ -122,6 +122,7 @@ function Theme03() {
                         setSelectedTab={setSelectedTab}
                         promo={promo}
                         resto_id={restos?.id}
+                        selectedDishes={selectedDishes}
                       />
                     </>
                   }
@@ -135,7 +136,7 @@ function Theme03() {
                 } />
                 <Route path="/menu/:restoSlug/ProductDetail" element={
                   <>
-                    <ProductDetail infoRes={resInfo} slug={restoSlug}  categories={categories} selectedDishes={selectedDishes} resto_id={restos?.id} restoId={restos?.id} customization={customization}/>
+                    <ProductDetail />
                     {/* <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/> */}
                   </>
                 } />

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { tabAchat } from '../constant/page';
+import { useNavigate } from 'react-router-dom';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar,  AvatarImage, AvatarFallback} from "@/components/ui/avatar"
 import {
@@ -49,7 +50,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 import callWaiterSvg from "./callWaiter.svg"
 import { MinusIcon, PlusIcon } from '../../constant/page';
 
-function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization }) {
+function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customization, slug }) {
   const { toast } = useToast()
   const [selectedProp, setSelectedProp] = useState(0); // initialisation de l'état avec 0
   const [searchTerm, setSearchTerm] = useState(""); // état pour stocker la valeur de la recherche
@@ -67,6 +68,30 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   const [selectedPrices, setSelectedPrices] = useState(0);
   const isArabic = infoRes.language === 'ar';
   const direction = isArabic ? 'rtl' : 'ltr';
+
+//  console.log("iteeeeeem is ===  ", selectedItem);
+  // console.log("item Id ==  ",item.id);
+
+  const navigate = useNavigate(); 
+
+  const handleButtonClick = (item) => {
+    console.log("Événement de clic déclenché");
+    console.log("Item sélectionné:", item);
+  
+    if (slug) {
+      if (item) {
+        navigate(`/menu/${slug}/ProductDetail`, {
+          state: { item: item }
+        });
+      } else {
+        console.error("L'item est nul.");
+      }
+    } else {
+      console.error('Le slug du restaurant est manquant');
+    }
+  };
+  
+
   // Initial quantity
   const getQuantity = (itemId) => quantities[itemId] || 1;
   const updateSelectedPrices = (price) => {
@@ -593,10 +618,10 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
 
                   return (
-                    <div className="tabs-container overflow-x-auto" key={index}>
+                    <div className="tabs-container overflow-x-auto " key={index}>
                       <div className={`flex gap-4 ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
                         <Button onClick={() => setIsModalOpen(!isModalOpen)} style={{ backgroundColor: customization?.selectedBgColor }} className="h-auto w-full !py-0 px-0">
-                          <div key={item.id} className="relative shadow-md rounded-[10px] w-full border-gray-300 border inline-block">
+                          <div key={item.id} className="relative shadow-md  rounded-[10px] w-full border-gray-300 border inline-block">
                             <div
                               onClick={() => setSelectedItem(item)}
                               className="tab items-center justify-between flex flex-row h-full w-full overflow-hidden  pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
@@ -649,18 +674,18 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                   // const imageUrl = `${APIURL}/storage/${image}`;
                   const imageUrl = `${APIURLS3}/${image}`
                   return (
-                    <div className="tabs-container  overflow-x-auto" key={index}>
+                    <div className="tabs-container  overflow-x-auto bg-[blue]" key={index}>
                       <div className="flex gap-4">
-                        <Button onClick={() => setIsModalOpen(!isModalOpen)} style={{ backgroundColor: !customization?.selectedBgColor, }} className="h-auto w-full !py-0 px-0 bg-transparent hover:bg-transparent">
+                        <Button  onClick={() => handleButtonClick(item)} style={{ backgroundColor: !customization?.selectedBgColor, }} className="h-auto w-full !py-0 px-0 bg-transparent hover:bg-transparent">
                           <div key={item.id} className="relative rounded-[10px] w-full border-gray-300 border inline-block">
                             <div
                               onClick={() => setSelectedItem(item)}
                               className="tab items-center justify-center h-full w-full overflow-hidden p-1.5 pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
                             >
-                              {/* <img src={imageUrl} alt="Menu Icon" className="w-full object-cover rounded-[10px] h-32" /> */}
+                              
                               <Avatar className="h-32 w-full !rounded-[10px]  ">
                               <AvatarImage
-                                // src={`${APIURL}/storage/${ImageItem}`}
+                              
                                 src={imageUrl}
                                 className="bg-white w-full h-full object-cover "
                               />
@@ -741,267 +766,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
         </div>
 
       </div>
-      <Credenza className={"!bg-white !py-0"} open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <CredenzaContent className="flex flex-col max-h-full md:w-[50rem] bg-white md:justify-center">
-          <ScrollArea className="h-[568px] w-full rounded-md p-0 overflow-y-auto">
-            {selectedItem != null && (
-              <>
-                <CredenzaHeader>
-                  <Carousel
-                    carouselOptions={{
-                      loop: true,
-                    }}
-                  >
-                    {/* <CarouselNext className="top-1/3 -translate-y-1/3" />
-      <CarouselPrevious className="top-1/3 -translate-y-1/3" /> */}
-                    <CarouselMainContainer className="h-60 !p-0">
-                      {selectedItem.video && (
-                        <SliderMainItem className="bg-transparent !p-0">
-                          <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            <video
-                              // src={`${APIURL}/storage/${selectedItem.video}`}
-                              src={`${APIURLS3}/${selectedItem.video}`}
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              autoPlay
-                              muted
-                              playsInline
-                              loop
-                              alt="Video slide"
-                            />
-                          </div>
-                        </SliderMainItem>
-                      )}
-
-                      {selectedItem.image1 && (
-                        <SliderMainItem key={selectedItem.video ? 1 : 2} index={selectedItem.video ? 1 : 2} className="bg-transparent !p-0">
-                          <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            {/* <img
-                              // src={`${APIURL}/storage/${selectedItem.image1}`}
-                              src={`${APIURLS3}/${selectedItem.image1}`}
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              alt="Slide 1"
-                            /> */}
-                             <Avatar className="h-full w-full rounded-[10px]">
-                              <AvatarImage
-                                // src={`${APIURL}/storage/${ImageItem}`}
-                                src={`${APIURLS3}/${selectedItem.image1}`}
-                                className="bg-white w-full h-auto rounded-md  object-cover"
-                              />
-                              <AvatarFallback className="bg-slate-200 rounded-[10px]"></AvatarFallback>
-                            </Avatar>
-                          </div>
-                        </SliderMainItem>
-                      )}
-
-                      {selectedItem.image2 && (
-                        <SliderMainItem key={selectedItem.video ? 2 : 3} index={selectedItem.video ? 2 : 3} className="bg-transparent !p-0">
-                          <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image2}`}
-                              src={`${APIURLS3}/${selectedItem.image2}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              alt="Slide 2"
-                            />
-                          </div>
-                        </SliderMainItem>
-                      )}
-
-                      {selectedItem.image3 && (
-                        <SliderMainItem key={selectedItem.video ? 3 : 4} index={selectedItem.video ? 3 : 4} className="bg-transparent !p-0">
-                          <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image3}`}
-                              src={`${APIURLS3}/${selectedItem.image3}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              alt="Slide 3"
-                            />
-                          </div>
-                        </SliderMainItem>
-                      )}
-
-                      {selectedItem.image4 && (
-                        <SliderMainItem key={selectedItem.video ? 4 : 5} index={selectedItem.video ? 4 : 5} className="bg-transparent !p-0">
-                          <div className="outline outline-1 overflow-hidden outline-border size-full flex items-center justify-center rounded-xl bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image4}`}
-                              src={selectedItem.image4?.includes("default") ? `${APIURL}/storage/${selectedItem.image4}` : `${APIURLS3}/${selectedItem.image4}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '300px', width: '100%' }}
-                              alt="Slide 4"
-                            />
-                          </div>
-                        </SliderMainItem>
-                      )}
-
-
-                    </CarouselMainContainer>
-                    <CarouselThumbsContainer className='justify-center'>
-                      {selectedItem.video && (
-                        <SliderThumbItem index={0} className="bg-transparent ">
-                          <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            <img
-                              src={Thumbnail} // Using the video thumbnail
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            />
-                          </div>
-                        </SliderThumbItem>
-                      )}
-                      {selectedItem.image1 && (
-                        <SliderThumbItem key={(selectedItem.video ? 1 : 0)} index={(selectedItem.video ? 1 : 0)} className="bg-transparent ">
-                          <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            {/* <img
-                              // src={`${APIURL}/storage/${selectedItem.image1}`} // Using the video thumbnail
-                              src={`${APIURLS3}/${selectedItem.image1}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            /> */}
-                             <Avatar className="h-full w-full rounded-[10px]">
-                              <AvatarImage
-                                // src={`${APIURL}/storage/${ImageItem}`}
-                                src={`${APIURLS3}/${selectedItem.image1}`}
-                                className="bg-white w-full h-auto rounded-md  object-cover"
-                              />
-                              <AvatarFallback className="bg-slate-200 rounded-[10px]"></AvatarFallback>
-                            </Avatar>
-                          </div>
-                        </SliderThumbItem>
-                      )}
-                      {selectedItem.image2 && (
-                        <SliderThumbItem key={(selectedItem.video ? 2 : 1)} index={(selectedItem.video ? 2 : 1)} className="bg-transparent ">
-                          <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image2}`} // Using the video thumbnail
-                              src={selectedItem.image2?.includes("default") ? `${APIURL}/storage/${selectedItem.image2}` : `${APIURLS3}/${selectedItem.image2}`}
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            />
-                          </div>
-                        </SliderThumbItem>
-                      )}
-                      {selectedItem.image3 && (
-                        <SliderThumbItem key={(selectedItem.video ? 3 : 2)} index={(selectedItem.video ? 3 : 2)} className="bg-transparent ">
-                          <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image3}`} // Using the video thumbnail
-                              src={selectedItem.image3?.includes("default") ? `${APIURL}/storage/${selectedItem.image3}` : `${APIURLS3}/${selectedItem.image3}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            />
-                          </div>
-                        </SliderThumbItem>
-                      )}
-                      {selectedItem.image4 && (
-                        <SliderThumbItem key={(selectedItem.video ? 4 : 3)} index={(selectedItem.video ? 4 : 3)} className="bg-transparent ">
-                          <div className="outline outline-1 outline-border overflow-hidden size-full h-full flex items-center justify-center rounded-md bg-background">
-                            <img
-                              // src={`${APIURL}/storage/${selectedItem.image4}`} // Using the video thumbnail
-                              src={selectedItem.image4?.includes("default") ? `${APIURL}/storage/${selectedItem.image4}` : `${APIURLS3}/${selectedItem.image4}`}
-
-                              className="w-full md:h-auto rounded-md object-cover"
-                              style={{ height: '100%', width: '100%' }}
-                              alt="Video thumbnail"
-                            />
-                          </div>
-                        </SliderThumbItem>
-                      )}
-
-                    </CarouselThumbsContainer>
-                  </Carousel>
-                </CredenzaHeader>
-                <CredenzaBody className="space-y-4 text-center mt-2 sm:pb-0">
-                  <CredenzaTitle>{selectedItem.name}</CredenzaTitle>
-                  <span className="m-0 text-neutral-400 w-full !px-2 text-center flex justify-center items-center !mt-1">
-                    {selectedItem?.desc?.length > 50 && !isExpanded
-                      ? selectedItem?.desc?.slice(0, 50) + '...'
-                      : selectedItem?.desc}
-                  </span>
-                  {selectedItem?.desc?.length > 50 && (
-                    <span
-                      onClick={handleToggle}
-                      className="text-muted-foreground  text-xs hover:underline "
-                      style={{ color: customization.selectedPrimaryColor }}
-                    >
-                      {isExpanded ? 'View Less' : 'View More'}
-                    </span>
-                  )}
-                  <div className='flex items-center mb-6 justify-center'>
-                    <div className="flex items-center gap-2">
-                      <Button size="icon" variant="outline" onClick={() => setQuantity(selectedItem.id, getQuantity(selectedItem.id) - 1)}>
-                        <MinusIcon className="w-4 h-4" />
-                      </Button>
-                      <span className="text-base font-medium text-gray-900 dark:text-gray-50">
-                        {getQuantity(selectedItem.id)}
-                      </span>
-                      <Button size="icon" variant="outline" onClick={() => setQuantity(selectedItem.id, getQuantity(selectedItem.id) + 1)}>
-                        <PlusIcon className="w-4 h-4" />
-                      </Button>
-                    </div>
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-dot mx-1" viewBox="0 0 16 16" style={{ color: customization?.selectedPrimaryColor }}>
-                      <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
-                    </svg>
-                    <span>{selectedItem.price + " " + infoRes?.currency}</span>
-                  </div>
-                  <div className='px-5'>
-                    {/* renderExtraToppings */}
-                    {(selectedItem.toppings && selectedItem.isVariant == 1) && renderToppings(selectedItem.toppings, selectedItem.id)}
-                    {selectedItem.extravariants && renderExtraToppings(selectedItem.extravariants, selectedItem.id)}
-                    {(selectedItem?.ingredients?.length > 0 && selectedItem?.ingredients != "null") && renderIngrediant(selectedItem.ingredients, selectedItem.id)}
-                  </div>
-
-                  <div className='px-3'>
-                    {
-                      selectedItem.isComment == 1
-                        ?
-                        <Textarea
-                          className={`min-h-[90px] mb-3 ${infoRes.language === 'ar' ? 'text-right' : 'text-left'}`}
-                          dir={infoRes.language === 'ar' ? 'rtl' : 'ltr'}
-                          placeholder={t("menuAddItem.commentPlaceholder")}
-                          onChange={(e) => {
-                            setComment(e.target.value);
-                            console.log(e.target.value);
-                          }}
-                        ></Textarea>
-                        :
-                        <></>
-                    }
-                  </div>
-                </CredenzaBody>
-                <CredenzaFooter className='grid md:justify-center items-center'>
-                  <button
-                    type="button"
-                    onClick={() => handleAddItem(selectedItem, getQuantity(selectedItem.id), selectedToppings, selectedIngrediant, selectedExtraToppings, selectedPrices)}
-                    className={`rounded-[1rem] p-2 transition-all duration-300 border font-medium text-xs md:text-sm flex items-center justify-center gap-1 md:w-[300px]`}
-                    style={{ backgroundColor: customization?.selectedPrimaryColor }}
-                  >
-                    <div className={`text-lg font-semibold text-white flex-nowrap ${infoRes.language === "ar" ? "flex-row-reverse" : "flex-row"} gap-1 ${isClicked ? "text-[#28509E]" : "text-white"} `}>
-                      {t("menu.addToSelected")}
-                      {(selectedItem.price * getQuantity(selectedItem.id) + selectedPrices).toFixed(2) + " " + infoRes?.currency}
-                    </div>
-                  </button>
-                  <CredenzaClose asChild>
-                    <Button variant="outline bg-black text-white">{t("menu.cancel")}</Button>
-                  </CredenzaClose>
-                </CredenzaFooter>
-              </>
-            )}
-          </ScrollArea>
-        </CredenzaContent>
-      </Credenza>
+     
       
 
 

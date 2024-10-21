@@ -4,7 +4,7 @@ import MenuItems from '../MenuItems/MenuItems';
 import { useTranslation } from 'react-i18next';
 import PromoItem from '../MenuItems/PromoItems';
 
-function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto, infoRes, tabel_id, customization, promo }) {
+function CatandProduct({ slug , categories, dishes, setSelectedTab, selectedTab, resto, infoRes, tabel_id, customization, promo }) {
   const [t, i18n] = useTranslation('global');
   console.log("The Category With Order => ", categories.some(category => category === 'No visible categories found'));
 
@@ -62,6 +62,7 @@ function CatandProduct({ categories, dishes, setSelectedTab, selectedTab, resto,
           selectedTab={selectedTab}
           tabel_id={tabel_id}
           customization={customization}
+          slug={slug}
         />
   </div>
   );
