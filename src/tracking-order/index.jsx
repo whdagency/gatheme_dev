@@ -147,38 +147,42 @@ const TrackingOrder = () => {
 
   return (
     <AnimatedLayout>
-      <div className={`pt-28 relative pb-32`}>
+      <div className="pt-28 relative h-full pb-32">
         {/* Title and Back Button */}
-        {orderID && (
-          <button
-            style={{
-              boxShadow: "0px 1.633px 1.633px 0px rgba(0, 0, 0, 0.25)",
-              borderRadius: "13.061px",
-              background: "#FFF",
-            }}
-            onClick={() => window.history.back()}
-            className="flex top-10 left-7 absolute z-50 w-fit items-center justify-center p-[8.163px] gap-[8.163px]"
-          >
-            <ArrowLeft size={25} color="black" />
-          </button>
-        )}
+        <div className="fixed top-0 left-0 z-40 flex items-center justify-between w-full px-5 pt-5 pb-3 bg-white border-b">
+          {orderID && (
+            <button
+              style={{
+                boxShadow: "0px 1.633px 1.633px 0px rgba(0, 0, 0, 0.25)",
+                borderRadius: "13.061px",
+                background: "#FFF",
+              }}
+              onClick={() => window.history.back()}
+              className="w-fit items-center justify-center p-[8.163px] gap-[8.163px]"
+            >
+              <ArrowLeft size={25} color="black" />
+            </button>
+          )}
 
-        {orderID && (
-          <h2
-            className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black -translate-x-1/2"
-            style={{
-              color: customization?.selectedTextColor,
-            }}
-          >
-            {!showFeedbackModal
-              ? t("trackingOrder.title")
-              : t("trackingOrder.orderFeedback")}
-          </h2>
-        )}
+          {orderID && (
+            <h2
+              className="text-xl font-semibold text-center text-black -translate-x-1/2"
+              style={{
+                color: customization?.selectedTextColor,
+              }}
+            >
+              {!showFeedbackModal
+                ? t("trackingOrder.title")
+                : t("trackingOrder.orderFeedback")}
+            </h2>
+          )}
+        </div>
 
+        {/* Scrollable Order Dishes Section */}
         {orderID && (
-          <div>
-            <div className="pb-48 my-4">
+          <div className="px-7 flex-1 overflow-y-auto">
+            {/* Adding margin-top here to avoid overlap with the header */}
+            <div className="pb-52 my-4">
               <h3
                 className="px-7 md:text-lg pb-2 text-base font-semibold border-b"
                 style={{
@@ -252,28 +256,25 @@ const TrackingOrder = () => {
                 )}
               </div>
             </div>
+          </div>
+        )}
 
-            <div className="bottom-5 fixed left-0 right-0 flex items-center justify-between w-full max-w-xl py-0 mx-auto mt-2 -mb-5 bg-white border-t border-gray-200">
-              <div className="px-7">
-                <OrderTrackingTimeline
-                  steps={statusSteps}
-                  status={status}
-                  currentStep={currentStep}
-                  complete={complete}
-                  canceled={canceled}
-                  customization={customization}
-                />
-              </div>
+        {/* Fixed Order Tracking Timeline */}
+        {orderID && (
+          <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between w-full max-w-xl py-2 mx-auto bg-white border-t border-gray-200">
+            <div className="px-7">
+              <OrderTrackingTimeline
+                steps={statusSteps}
+                status={status}
+                currentStep={currentStep}
+                complete={complete}
+                canceled={canceled}
+                customization={customization}
+              />
             </div>
           </div>
         )}
       </div>
-
-      {/* <OrderSuccessFeedback
-        open={showFeedbackModal}
-        setOpen={setShowFeedbackModal}
-        setFeedbackSubmitted={setFeedbackSubmitted}
-      /> */}
 
       <OrderCancelled
         open={orderCanceledModal}

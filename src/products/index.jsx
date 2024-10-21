@@ -80,17 +80,7 @@ const Products = () => {
         >
           <ArrowLeft size={25} color="black" />
         </button>
-        {searchProductTerm.length !== 0 && (
-          <button
-            onClick={clearSearch}
-            className="flex top-11 right-3 absolute z-50 w-fit items-center justify-center p-[8.163px] text-sm gap-[8.163px] hover:underline text-orange-500 font-medium"
-            style={{
-              color: customization?.selectedPrimaryColor,
-            }}
-          >
-            {t("home.products.clearSearch")}
-          </button>
-        )}
+
         <h2
           className="top-12 left-1/2 absolute z-50 text-xl font-semibold text-center text-black capitalize -translate-x-1/2"
           style={{
@@ -105,13 +95,13 @@ const Products = () => {
         </h2>
         <div
           className="mt-28 flex items-center justify-between mb-3"
-          style={{
-            color: customization?.selectedTextColor,
-          }}
+          // style={{
+          //   color: customization?.selectedTextColor,
+          // }}
         >
           {searchProductTerm.length !== 0 && (
-            <p className="flex items-center gap-1">
-              {t("home.products.yourSearchTerm")} ({`"${searchProductTerm}"`})
+            <p className="flex items-center gap-1 text-xs text-[#999999]">
+              {t("home.products.yourSearchTerm")} ({`"${searchProductTerm}"`}){" "}
               {t("home.products.yielded")} {products.length}{" "}
               {t("home.products.results")}{" "}
             </p>

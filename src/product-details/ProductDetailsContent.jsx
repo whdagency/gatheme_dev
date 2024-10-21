@@ -445,19 +445,18 @@ const ProductDetailsContent = ({ product, productId }) => {
                     key={topping.id}
                   >
                     <h4
-                      className="mb-0.5 overflow-hidden whitespace-nowrap font-semibold flex items-center gap-1"
+                      className="mb-0.5 font-semibold capitalize flex items-center gap-1"
                       style={{
                         color: customization?.selectedTextColor,
                       }}
                     >
-                      {t("productDetails.select")}{" "}
-                      <span className="capitalize">
-                        {toppingName?.split(" ")[0]}
-                      </span>{" "}
-                      {t("productDetails.forYour")}{" "}
-                      <span className="capitalize">
-                        {product?.categorie?.name}
-                      </span>
+                      {toppingName?.startsWith("Sélectionnez")
+                        ? toppingName
+                        : t("productDetails.selectProduct", {
+                            type: toppingName?.split(" ")[0],
+                            product: product?.categorie?.name,
+                          })}
+
                       {isRequired && (
                         <span
                           style={{
@@ -594,7 +593,7 @@ const ProductDetailsContent = ({ product, productId }) => {
                       </span>
                       {isRequired && (
                         <span
-                          className="px-2 py-1 ml-1 text-xs font-normal text-white bg-orange-500 rounded-full"
+                          className="whitespace-nowrap px-2 py-1 ml-1 text-xs font-normal text-white bg-orange-500 rounded-full"
                           style={{
                             background: customization?.selectedPrimaryColor,
                             color: customization?.selectedIconColor,

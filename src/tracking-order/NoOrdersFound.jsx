@@ -67,7 +67,7 @@ const NoOrdersFound = ({
           }`}
         >
           <h3
-            className="text-base font-semibold text-center text-black"
+            className={`text-2xl font-semibold text-center text-black`}
             style={{
               color: customization?.selectedTextColor,
             }}
@@ -78,7 +78,7 @@ const NoOrdersFound = ({
           </h3>
 
           <p
-            className="text-[15px] px-10 text-center leading-[19.5px] font-medium text-[#A5A4A8]"
+            className="text-[15px] px-5 text-center leading-[19.5px] font-medium text-[#A5A4A8]"
             style={{
               color: customization?.selectedSecondaryColor,
             }}
