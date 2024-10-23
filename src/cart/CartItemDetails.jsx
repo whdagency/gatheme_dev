@@ -79,16 +79,20 @@ const CartItemDetails = ({ item, customization, initiallyOpened, index }) => {
                     >
                       {top.name} :
                     </span>{" "}
-                    <span
-                      className="text-[#A9A9A9] capitalize"
-                      style={{
-                        color: customization?.selectedSecondaryColor,
-                        display: top.options?.length ? "block" : "none",
-                      }}
-                    >
-                      {top.options?.map((op) => op.name).join(", ") ||
-                        t("cart.none")}
-                    </span>
+                    {top?.options && (
+                      <span
+                        className="text-[#A9A9A9] capitalize"
+                        style={{
+                          color: customization?.selectedSecondaryColor,
+                          display: top?.options?.length ? "block" : "none",
+                        }}
+                      >
+                        {!top?.options?.length
+                          ? t("cart.none")
+                          : top?.options?.map((op) => op?.name).join(", ") ||
+                            t("cart.none")}
+                      </span>
+                    )}
                   </p>
                 ))}
 
@@ -107,10 +111,10 @@ const CartItemDetails = ({ item, customization, initiallyOpened, index }) => {
                       className="text-[#A9A9A9] capitalize"
                       style={{
                         color: customization?.selectedSecondaryColor,
-                        display: extra.options?.length ? "block" : "none",
+                        display: extra?.options?.length ? "block" : "none",
                       }}
                     >
-                      {extra.options?.map((op) => op.name).join(", ") ||
+                      {extra?.options?.map((op) => op?.name).join(", ") ||
                         t("cart.none")}
                     </span>
                   </p>

@@ -24,17 +24,18 @@ const Products = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [_, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const pageProductLength = products.length > 20 ? 20 : products.length;
 
   // Infinite scrolling logic
   const handleScroll = useCallback(() => {
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
       !isFetching &&
-      visibleProducts < products.length // Check if there are more products to fetch
+      visibleProducts < pageProductLength // Check if there are more products to fetch
     ) {
       setIsFetching(true);
     }
-  }, [isFetching, visibleProducts, products.length]);
+  }, [isFetching, visibleProducts, pageProductLength]);
 
   const fetchMoreProducts = () => {
     setTimeout(() => {
@@ -44,10 +45,10 @@ const Products = () => {
   };
 
   useEffect(() => {
-    if (isFetching && visibleProducts < products.length) {
+    if (isFetching && visibleProducts < pageProductLength) {
       fetchMoreProducts();
     }
-  }, [isFetching, visibleProducts, products.length]);
+  }, [isFetching, visibleProducts, pageProductLength]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -110,24 +111,26 @@ const Products = () => {
         </div>
       ) : (
         <div className="scrollbar-hide pb-32 pr-2 space-y-4 overflow-y-auto">
-          {products.slice(0, visibleProducts).map((product) => (
-            <ProductCard
-              key={product?.name}
-              image={
-                product?.image1?.startsWith("default_images")
-                  ? ""
-                  : product?.image1
-              }
-              title={product.name}
-              rating={product?.rating || 4.5}
-              time={product?.time || `${12} ${t("home.products.minutes")}`}
-              price={parseFloat(product?.price)}
-              currency={resInfo?.currency || "MAD"}
-              id={product?.id}
-            />
-          ))}
+          {products
+            .slice(0, visibleProducts > 20 ? 20 : visibleProducts)
+            .map((product) => (
+              <ProductCard
+                key={product?.name}
+                image={
+                  product?.image1?.startsWith("default_images")
+                    ? ""
+                    : product?.image1
+                }
+                title={product.name}
+                rating={product?.rating || 4.5}
+                time={product?.time || `${12} ${t("home.products.minutes")}`}
+                price={parseFloat(product?.price)}
+                currency={resInfo?.currency || "MAD"}
+                id={product?.id}
+              />
+            ))}
 
-          {isFetching && visibleProducts < products.length && (
+          {isFetching && visibleProducts < pageProductLength && (
             <div className="flex justify-center mt-4">
               <ClipLoader
                 size={30}

@@ -51,7 +51,7 @@ const Navbar = ({ hideCallToActionBtn }) => {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0">
+    <div className="fixed bottom-0 left-0 right-0 z-50">
       {/* Navigation */}
       <div className="fixed bottom-0 left-0 right-0 flex items-center justify-around max-w-xl px-4 py-3 mx-auto bg-white border-t">
         {navLinks.map((link) => (

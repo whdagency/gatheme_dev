@@ -24,7 +24,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
         onError={(e) => (e.target.src = "/assets/placeholder-image.png")}
       />
 
-      <div className="flex items-center justify-between flex-1">
+      <div className="flex items-center justify-between flex-1 gap-2">
         <div className="flex flex-col items-start justify-between gap-5">
           <h3
             className="font-semibold text-black capitalize"
@@ -36,7 +36,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
           </h3>
 
           <div className="flex items-center gap-3 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
+            <div className="whitespace-nowrap flex items-center gap-1">
               <Star className="w-4 h-4 text-[#F5A816] fill-current" />
               <span
                 className="font-semibold text-black"
@@ -47,7 +47,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
                 {rating}
               </span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="whitespace-nowrap flex items-center gap-1">
               <Timer fill={customization?.selectedPrimaryColor} />
               <span
                 className="font-semibold text-[#A6ADB4]"
@@ -61,12 +61,7 @@ const ProductCard = ({ image, title, rating, time, price, currency, id }) => {
           </div>
         </div>
 
-        <div className="shrink-0 flex flex-col items-end self-end justify-end gap-5">
-          <X
-            color={customization?.selectedSecondaryColor ?? "#A6ADB4"}
-            className="hidden w-4 h-4 cursor-pointer"
-          />
-
+        <div className="shrink-0 flex flex-col items-center gap-5">
           <span
             className="text-base font-semibold text-black"
             style={{

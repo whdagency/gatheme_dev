@@ -10,7 +10,7 @@ const Categories = () => {
   const { t } = useTranslation("global");
 
   return (
-    <div className="px-8 mt-4 -mx-4">
+    <div className="top-[60px] sticky z-10 px-4 pt-4 bg-white">
       <div className="scrollbar-hide flex pb-2 space-x-3 overflow-x-auto">
         {categories?.map((category, index) => (
           <CategoryButton

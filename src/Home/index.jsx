@@ -8,7 +8,7 @@ import AnimatedLayout from "../shared/AnimateLayout";
 
 const Home = () => {
   return (
-    <>
+    <div className="scrollbar-hide ">
       {/* Header */}
       <Banner />
 
@@ -20,12 +20,16 @@ const Home = () => {
         <Promotion />
       </AnimatedLayout>
 
-      {/* Categories */}
-      <Categories />
+      {/* Main Content */}
+      <div className="scrollbar-hide relative">
+        <Categories />
 
-      {/* Products */}
-      <Products />
-    </>
+        {/* Products - scrollable */}
+        <div className="h-[calc(100vh-60px)] overflow-y-auto scrollbar-hide">
+          <Products />
+        </div>
+      </div>
+    </div>
   );
 };
 
