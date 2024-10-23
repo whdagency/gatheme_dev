@@ -30,7 +30,7 @@ function App() {
   return (
     <>
       {isActive ? (
-        customization?.selectedTheme == 2 ? (
+        customization?.selectedTheme == 1 ? (
           <Theme01 />
         ) : (
           <Theme02 />
