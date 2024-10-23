@@ -49,40 +49,26 @@ export default function Achat({ resto_id, infoRes, customization, slug, selected
   const { tableName,
     submitBille, callWaiter, subscriptionPlan } = useMenu();
     const totalCost = filteredCartItems.reduce((total, item) => {
-      // Convert item.price to a number, defaulting to 0 if it's not a valid number
-      const itemPrice = parseFloat(item.current_price) || 0;
-    
-      // Initialize selectedPrices to 0 by default
+      const itemPrice = item.current_price ? (parseFloat(item.current_price) || 0) : (parseFloat(item.price) || 0);
       let selectedPrices = 0;
-    
-      // Check if item.selectedPrices is defined and process accordingly
+      console.log("Item price:", item.price ? true : false);
+
       if (Array.isArray(item.selectedPrices)) {
-        // Sum up all prices if it's an array
         selectedPrices = item.selectedPrices.reduce((sum, price) => {
           const parsedPrice = parseFloat(price);
           return sum + (isNaN(parsedPrice) ? 0 : parsedPrice);
         }, 0);
       } else if (typeof item.selectedPrices === 'string') {
-        // Convert it to a number if it's a string
         selectedPrices = parseFloat(item.selectedPrices) || 0;
       } else if (typeof item.selectedPrices === 'number') {
-        // Directly assign the number if it's already a number
         selectedPrices = item.selectedPrices;
       } else if (item.selectedPrices !== undefined) {
-        // Handle other cases, like objects, null, etc.
         console.warn('Unexpected value for selectedPrices:', item.selectedPrices);
       }
-    
-      // Calculate the total cost for this item, defaulting item.quantity to 1 if not defined
       const itemTotal = (itemPrice + selectedPrices) * (item.quantity || 1);
-    
-      // Log the calculated total for debugging
-      console.log("Item price:", itemPrice);
       console.log("Selected Prices:", selectedPrices);
       console.log("Item quantity:", item.quantity || 1);
       console.log("Item total:", itemTotal);
-    
-      // Accumulate the total cost
       return total + itemTotal;
     }, 0);
   const dispatch = useDispatch();
@@ -272,7 +258,7 @@ const formattedTotalCostWithSpaces = formattedTotalCost.replace(/,/g, ' ');
         setIsModalOpen(false)
        }
   }, [filtredSuggest])
-  console.log("The Filtred Suggesttion => ", filtredSuggest);
+  console.log("The Filtred Suggesttion => ", filteredCartItems);
   return (
     <>
       <div className={`bg-white snap-y scrollbar-hide dark:bg-gray-950 p-2 pt-4 rounded-lg shadow-lg max-w-[620px] mx-auto ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>

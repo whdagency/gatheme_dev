@@ -9,12 +9,6 @@ function App() {
   const {
     customization,
     restos,
-    resInfo,
-    dishes,
-    categories,
-    selectedTab,
-    setSelectedTab,
-    restoSlug,
   } = useMenu();
 
   console.log("The customization => ", customization);
