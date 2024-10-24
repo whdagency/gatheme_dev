@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { FaPlus } from "react-icons/fa6";
 import { SiVerizon } from "react-icons/si";
 import { IoMdClose } from "react-icons/io";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector  } from "react-redux";
 import { incrementQuantity, decrementQuantity } from '../../lib/cartSlice';
 
 
@@ -17,12 +17,30 @@ import { incrementQuantity, decrementQuantity } from '../../lib/cartSlice';
 
 
 
+
+
 const ProductDetail = () => {
-    const location = useLocation();
-    const { item } = location.state || {}; // Récupère l'élément sélectionné
-    const dispatch = useDispatch();
-    const quantity = parseInt(item.quantity, 10);
+  const location = useLocation();
+  const dispatch = useDispatch();
   
+  // Récupère l'item passé via la navigation
+  const item = location.state?.item;
+
+    // Quantité gérée localement dans le composant
+    const [localQuantity, setLocalQuantity] = useState(1); // Quantité initiale à 1
+
+    // Fonction pour incrémenter la quantité
+    const incrementQuantity = () => {
+      setLocalQuantity((prevQuantity) => prevQuantity + 1);
+    };
+
+    // Fonction pour décrémenter la quantité
+    const decrementQuantity = () => {
+      if (localQuantity > 1) {
+        setLocalQuantity((prevQuantity) => prevQuantity - 1);
+      }
+    };
+
 
     const [selectedIndex, setSelectedIndex] = useState(null); // Gérer l'index sélectionné
     const [selectedIndicesExtra, setSelectedIndicesExtra] = useState([]);
@@ -65,8 +83,10 @@ const ProductDetail = () => {
         }
       }, [item]);
 
-      console.log("item id =====  ", item.id);
-      console.log("item quantity ====  ", item.quantity);
+      // console.log("item id =====  ", item.id);
+      // console.log("item quantity ====  ", item.quantity);
+       // Calcul du total (quantité * prix)
+  const totalPrice = localQuantity * item.price;
 
     return (
       <div className='w-full h-full bg-[white]'>
@@ -109,13 +129,13 @@ const ProductDetail = () => {
               <div className=' flex justify-center items-center '>
               <div className="flex border-2 border-[#DB281C] rounded-full items-center gap-2">
                   <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1"
-                    onClick={() => dispatch(decrementQuantity(item.id))}
+                    onClick={decrementQuantity}
                   >
                     <MinusIcon className="w-4 h-4" style={{color: "white"}}/>
                   </Button>
-                  <span className="text-base font-medium text-red-900 dark:text-gray-50 ">{item.quantity}</span>
+                  <span className="text-base font-medium text-red-900 dark:text-gray-50 ">{localQuantity}</span>
                   <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1"
-                    onClick={() => dispatch(incrementQuantity(item.id))}
+                    onClick={incrementQuantity}
                   >
                     <PlusIcon className="w-4 h-4" style={{color: "white"}} />
                   </Button>
@@ -240,7 +260,7 @@ const ProductDetail = () => {
               <div className='flex flex-col gap-2'>
                 <div className='flex justify-between items-center'>
                     <h2 className='ml-6'>Totale</h2>
-                    <h4 className='mr-6'>22$</h4>
+                    <h4 className='mr-6'>{totalPrice} MAD</h4>
                 </div>
                 <button className='w-full mb-4 rounded-lg h-[45px] text-[white] bg-[red]'>
                     Add to cart
@@ -258,3 +278,5 @@ const ProductDetail = () => {
   
   export default ProductDetail;
   
+
+

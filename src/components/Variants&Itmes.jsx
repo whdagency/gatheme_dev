@@ -88,9 +88,13 @@ import { useState } from "react";
    const [showChevrondown, setshowChevrondown] = useState(false);
 
 
-  //  console.log("item =============  ", item);
-  //  console.log("item quantity =============  ", item.quantity);
-   const subtotal = (price + selectedPrices) * quantity;
+   console.log("selectedPrices =  ", selectedPrices);
+    console.log("quantity ==  ", quantity);
+    
+    console.log("item =============  ", item);
+    //  console.log("item quantity =============  ", item.quantity);
+    const subtotal = (price + selectedPrices) * quantity;
+    console.log("subtotal ==  ", infoRes.currency);
    // console.log("ingiridiant length ==== ", item.ingredients.length);
    // console.log("extravariant length ==== ",item?.extravariants?.length);
    // console.log("topping lenght ==== ",item?.toppings?.length);

@@ -3,6 +3,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { tabAchat } from '../constant/page';
 import { useNavigate } from 'react-router-dom';
+import Test from "../ProductDetail/test";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar,  AvatarImage, AvatarFallback} from "@/components/ui/avatar"
 import {
@@ -76,8 +77,10 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
   const handleButtonClick = (item) => {
     console.log("Événement de clic déclenché");
-    console.log("Item sélectionné:", item);
+    // console.log("Item sélectionné:", item);
+    console.log("la ===  ", item);
   
+    // setSelectedItem(item);
     if (slug) {
       if (item) {
         navigate(`/menu/${slug}/ProductDetail`, {
@@ -94,6 +97,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
 
   // Initial quantity
   const getQuantity = (itemId) => quantities[itemId] || 1;
+  // console.log("getquantity ==  ",getQuantity);
   const updateSelectedPrices = (price) => {
     const floatPrice = parseFloat(price);
 
@@ -690,7 +694,11 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
                                 onClick={() => setSelectedItem(item)}
                                 className="tab items-center justify-center h-full w-full overflow-hidden p-1.5 pb-0 text-lg font-semibold rounded-[8px] cursor-pointer transition-colors"
                               >
-                                
+                                {/* {selectedItem && (
+                                  <div className='bg-[red] w-full h-full'>
+                                  <Test item={selectedItem} />
+                                  </div>
+                                )} */}
                                 <Avatar className="h-32 w-full !rounded-[10px]  ">
                                 <AvatarImage
                                 
