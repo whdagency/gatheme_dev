@@ -1,18 +1,62 @@
 import { Link,useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FaChevronLeft } from "react-icons/fa";
 import { APIURL, APIURLS3 } from '../../lib/ApiKey';
 import { color } from 'framer-motion';
 import { MinusIcon, PlusIcon } from "../../constant/page";
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { FaPlus } from "react-icons/fa6";
+import { SiVerizon } from "react-icons/si";
+import { IoMdClose } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import { incrementQuantity, decrementQuantity } from '../../lib/cartSlice';
+
+
+
+
 
 
 const ProductDetail = () => {
     const location = useLocation();
     const { item } = location.state || {}; // Récupère l'élément sélectionné
+    const dispatch = useDispatch();
+    const quantity = parseInt(item.quantity, 10);
   
-    console.log("item = ",item);
+
+    const [selectedIndex, setSelectedIndex] = useState(null); // Gérer l'index sélectionné
+    const [selectedIndicesExtra, setSelectedIndicesExtra] = useState([]);
+
+    const handleRadioClick = (index) => {
+      setSelectedIndex(index); // Mettre à jour l'index sélectionné
+    };
+
+    const handleButtonextra = (index) => {
+      if (selectedIndicesExtra.includes(index)) {
+        // Si l'élément est déjà sélectionné, on le retire
+        setSelectedIndicesExtra(selectedIndicesExtra.filter(i => i !== index));
+      } else {
+        // Sinon, on l'ajoute
+        setSelectedIndicesExtra([...selectedIndicesExtra, index]);
+      }
+    };
+
+
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+  // Gestion de la sélection des ingrédients
+  const handleIngredientClick = (index) => {
+    if (selectedIngredients.includes(index)) {
+      // Si l'élément est déjà sélectionné, on le retire
+      setSelectedIngredients(selectedIngredients.filter(i => i !== index));
+    } else {
+      // Sinon, on l'ajoute
+      setSelectedIngredients([...selectedIngredients, index]);
+    }
+  };
+
+
+    // console.log("item = ",item);
     useEffect(() => {
         if (item) {
           console.log("Détails du produit sélectionné:", item);
@@ -21,6 +65,8 @@ const ProductDetail = () => {
         }
       }, [item]);
 
+      console.log("item id =====  ", item.id);
+      console.log("item quantity ====  ", item.quantity);
 
     return (
       <div className='w-full h-full bg-[white]'>
@@ -57,15 +103,20 @@ const ProductDetail = () => {
             <div className='h-[61px]  flex  justify-between'>
               <div className=' flex flex-col justify-between'>
                 <h1>{item.name}</h1>
-                <h3>{item.price} MAD</h3>
+                  <h3>{item.price} MAD</h3>
+               
               </div>
               <div className=' flex justify-center items-center '>
               <div className="flex border-2 border-[#DB281C] rounded-full items-center gap-2">
-                  <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
+                  <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1"
+                    onClick={() => dispatch(decrementQuantity(item.id))}
+                  >
                     <MinusIcon className="w-4 h-4" style={{color: "white"}}/>
                   </Button>
-                  <span className="text-base font-medium text-gray-900 dark:text-gray-50">8</span>
-                  <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1">
+                  <span className="text-base font-medium text-red-900 dark:text-gray-50 ">{item.quantity}</span>
+                  <Button  size="icon" variant="outline" className="rounded-full w-[21px] h-[21px] bg-[#DB281C] mx-1"
+                    onClick={() => dispatch(incrementQuantity(item.id))}
+                  >
                     <PlusIcon className="w-4 h-4" style={{color: "white"}} />
                   </Button>
               </div>
@@ -94,7 +145,17 @@ const ProductDetail = () => {
                         className="flex justify-between items-center py-2"
                       >
                         <span>{option.name}</span>
-                        <span>{option.price} $</span>
+                        <div className='flex  gap-4'>
+                          <span className='text-[#F86A2E]'>{option.price},00 MAD</span>
+                            <button
+                              className="rounded-full border-2 border-[#F86A2E] w-[24px] h-[24px] flex justify-center items-center"
+                              onClick={() => handleRadioClick(optIndex)}
+                            >
+                              {selectedIndex === optIndex && (
+                                <div className="bg-[#F86A2E] rounded-full w-[14px] h-[14px]"></div>
+                              )}
+                            </button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -120,7 +181,17 @@ const ProductDetail = () => {
                               className="flex justify-between items-center py-2"
                             >
                               <span>{option.name}</span>
-                              <span>{option.price} $</span>
+
+                               <div className='flex  gap-4'>
+                                  <span className='text-[#F86A2E]'>{option.price} MAD</span>
+                                  <button
+                                      className={`rounded-full w-[24px] h-[24px] flex justify-center items-center 
+                                        ${selectedIndicesExtra.includes(optIndex) ? 'bg-green-500' : 'bg-orange-500'}`}
+                                      onClick={() => handleButtonextra(optIndex)}
+                                    >
+                                      {selectedIndicesExtra.includes(optIndex) ? <SiVerizon color='white' size={12} /> : <FaPlus color='white' />}
+                                    </button>
+                                </div>
                             </div>
                           ))}
                         </div>
@@ -128,6 +199,32 @@ const ProductDetail = () => {
                     })}
                   </div>
                 )}
+            </div>
+
+
+            <span className='w-full border-2 border-[#EBEBEB] my-4'></span>
+
+
+            <div>
+              {item.ingredients && item.ingredients.length > 0 && (
+                <div>
+                  {/* <h1 className="text-lg font-bold">{ingredients.name}</h1> */}
+                  <h1 className='text-lg font-bold'>Customise  Your burger</h1>
+                    {item.ingredients.map((ingredient, ingIndex) => (
+                      <div key={ingIndex} className="flex justify-between items-center py-2">
+                        <h3 className="text-lg ">{ingredient.name}</h3>
+                        <button
+                          className={`rounded-full w-[24px] h-[24px] flex justify-center items-center 
+                            ${selectedIngredients.includes(ingIndex) ? 'bg-red-500' : 'bg-orange-500'}`}
+                          onClick={() => handleIngredientClick(ingIndex)}
+                        >
+                          {selectedIngredients.includes(ingIndex) ? <IoMdClose color='white'  /> : <FaPlus color='white' />}
+                        </button>
+                      </div>
+                    ))}
+
+                </div>
+              )}
             </div>
 
 

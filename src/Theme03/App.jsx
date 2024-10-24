@@ -136,8 +136,8 @@ function Theme03() {
                 } />
                 <Route path="/menu/:restoSlug/ProductDetail" element={
                   <>
-                    <ProductDetail />
-                    {/* <Footer slug={restoSlug} customization={customization} resto_id={restos?.id}/> */}
+                    <ProductDetail  />
+                    
                   </>
                 } />
                 <Route path={`/menu/:restoSlug/info`} element={

@@ -87,6 +87,9 @@ import { useState } from "react";
    const quantity = parseInt(item.quantity, 10);
    const [showChevrondown, setshowChevrondown] = useState(false);
 
+
+  //  console.log("item =============  ", item);
+  //  console.log("item quantity =============  ", item.quantity);
    const subtotal = (price + selectedPrices) * quantity;
    // console.log("ingiridiant length ==== ", item.ingredients.length);
    // console.log("extravariant length ==== ",item?.extravariants?.length);
