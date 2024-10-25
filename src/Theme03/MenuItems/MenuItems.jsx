@@ -78,7 +78,7 @@ function MenuItems({ dishes, selectedTab, restoId, infoRes, tabel_id, customizat
   const handleButtonClick = (item) => {
     console.log("Événement de clic déclenché");
     // console.log("Item sélectionné:", item);
-    console.log("la ===  ", item);
+    // console.log("la ===  ", item);
   
     // setSelectedItem(item);
     if (slug) {

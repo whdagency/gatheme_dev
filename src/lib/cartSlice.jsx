@@ -1,17 +1,42 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// const transformIngredients = (ingredients) => {
+//   return Object.values(ingredients || {}).flat().map(name => ({ name }));
+// };
+
+
+
 const transformIngredients = (ingredients) => {
-  return Object.values(ingredients || {}).flat().map(name => ({ name }));
+  const values = Object.values(ingredients || {}).flat();
+  return values.length ? values.map(name => ({ name })) : [];
 };
+
+
+// const transformtoppings = (toppings) => {
+//   return Object.values(toppings || {}).flat().map(topping => ({
+//     id: topping.id,
+//     name: topping.name,
+//     option: topping.option.map(opt => ({
+//       name: opt.name,
+//       price: opt.price
+//     }))
+//   }));
+// };
+
+
 const transformtoppings = (toppings) => {
   return Object.values(toppings || {}).flat().map(topping => ({
     id: topping.id,
     name: topping.name,
-    option: topping.option.map(opt => ({
-      name: opt.name,
-      price: opt.price
-    }))
+    option: Array.isArray(topping.option)
+      ? topping.option.map(opt => ({
+          name: opt.name,
+          price: opt.price
+        }))
+      : [] // Retourne un tableau vide si `topping.option` est `undefined`
   }));
 };
+
+
 const initialState = {
   items: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
@@ -19,12 +44,22 @@ const initialState = {
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null
 };
+// const transformPrices = (selectedPrices) => {
+//   return Object.values(selectedPrices || {}).map(price => parseFloat(price));
+// };
+
 const transformPrices = (selectedPrices) => {
-  return Object.values(selectedPrices || {}).map(price => parseFloat(price));
+  const values = Object.values(selectedPrices || {});
+  return values.length ? values.map(price => parseFloat(price)) : [];
 };
+
+
 const updateLocalStorage = (items) => {
   localStorage.setItem("cartItems", JSON.stringify(items));
 };
+
+
+
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -37,6 +72,18 @@ export const cartSlice = createSlice({
       const transformedToppings = transformtoppings(toppings);
       const transformedExtraToppings = transformtoppings(extravariants);
       const transformedPrices = transformPrices(selectedPrices);
+
+     
+console.log("transformedIngredients:", transformedIngredients);
+
+
+console.log("transformedToppings:", transformedToppings);
+
+
+console.log("transformedExtraToppings:", transformedExtraToppings);
+
+
+console.log("transformedPrices:", transformedPrices);
 
       if (existingIndex >= 0) {
         if (comment != "") {

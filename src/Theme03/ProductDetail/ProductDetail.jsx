@@ -11,7 +11,9 @@ import { SiVerizon } from "react-icons/si";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector  } from "react-redux";
 import { incrementQuantity, decrementQuantity } from '../../lib/cartSlice';
-
+import { addItem } from '../../lib/cartSlice';
+import { comment } from 'postcss';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -22,6 +24,7 @@ import { incrementQuantity, decrementQuantity } from '../../lib/cartSlice';
 const ProductDetail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   // Récupère l'item passé via la navigation
   const item = location.state?.item;
@@ -45,48 +48,149 @@ const ProductDetail = () => {
     const [selectedIndex, setSelectedIndex] = useState(null); // Gérer l'index sélectionné
     const [selectedIndicesExtra, setSelectedIndicesExtra] = useState([]);
 
+
     const handleRadioClick = (index) => {
       setSelectedIndex(index); // Mettre à jour l'index sélectionné
     };
 
-    const handleButtonextra = (index) => {
-      if (selectedIndicesExtra.includes(index)) {
-        // Si l'élément est déjà sélectionné, on le retire
-        setSelectedIndicesExtra(selectedIndicesExtra.filter(i => i !== index));
-      } else {
-        // Sinon, on l'ajoute
-        setSelectedIndicesExtra([...selectedIndicesExtra, index]);
-      }
+    const handleButtonExtra = (extravariantIndex, optIndex) => {
+      const selectedIndex = `${extravariantIndex}-${optIndex}`;
+      setSelectedIndicesExtra((prev) => {
+        if (prev.includes(selectedIndex)) {
+          // Si l'option est déjà sélectionnée, la désélectionner
+          return prev.filter(index => index !== selectedIndex);
+        } else {
+          // Sinon, l'ajouter aux sélectionnés
+          return [...prev, selectedIndex];
+        }
+      });
     };
+    
 
 
     const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  // Gestion de la sélection des ingrédients
-  const handleIngredientClick = (index) => {
-    if (selectedIngredients.includes(index)) {
-      // Si l'élément est déjà sélectionné, on le retire
-      setSelectedIngredients(selectedIngredients.filter(i => i !== index));
-    } else {
-      // Sinon, on l'ajoute
-      setSelectedIngredients([...selectedIngredients, index]);
-    }
-  };
-
-
-    // console.log("item = ",item);
-    useEffect(() => {
-        if (item) {
-          console.log("Détails du produit sélectionné:", item);
+    const handleIngredientClick = (ingIndex) => {
+      setSelectedIngredients((prevSelected) => {
+        if (prevSelected.includes(ingIndex)) {
+          // Si l'ingrédient est déjà sélectionné, le désélectionner
+          return prevSelected.filter((index) => index !== ingIndex);
         } else {
-          console.error("Aucun item trouvé dans l'état.");
+          // Sinon, l'ajouter à la sélection
+          return [...prevSelected, ingIndex];
         }
-      }, [item]);
+      });
+    };
 
-      // console.log("item id =====  ", item.id);
-      // console.log("item quantity ====  ", item.quantity);
-       // Calcul du total (quantité * prix)
   const totalPrice = localQuantity * item.price;
+
+  const size = selectedIndex !== null 
+  ? (() => {
+      // On récupère le topping sélectionné
+      const topping = item.toppings[0]; // Comme il semble que vous n'ayez qu'un seul `topping`
+      
+      // On parse les options (stockées en JSON dans `topping.options`)
+      const options = JSON.parse(topping.options);
+      
+      // On retourne l'option correspondant à `selectedIndex`
+      return {
+        id: `option-${selectedIndex}`,  // Vous pouvez définir un id custom
+        name: options[selectedIndex].name,  // Accès au nom de l'option
+        price: options[selectedIndex].price  // Accès au prix de l'option
+      };
+    })()
+  : { 
+      id: "default-small", 
+      name: "Small", 
+      price: 0 
+    }; // Si aucune taille sélectionnée
+
+
+   
+    const selectedExtras = item.extravariants
+    .map((extravariant, extravariantIndex) => {
+      const options = JSON.parse(extravariant.options); 
+      
+      return options.map((option, optIndex) => {
+        // Vérifiez si cette option est sélectionnée
+        const isSelected = selectedIndicesExtra.includes(`${extravariantIndex}-${optIndex}`);
+        
+        // console.log(`Option ${optIndex} sélectionnée:`, isSelected);
+  
+        if (isSelected) {
+          return {
+            id: optIndex + 1, // L'index + 1 pour que ça commence à 1 au lieu de 0
+            name: option.name,
+            price: option.price
+          };
+        }
+        return null; // Retourne null si l'option n'est pas sélectionnée
+      }).filter(option => option !== null); // Filtre les options non sélectionnées
+    })
+    .flat();
+
+
+    const getSelectedIngredients = () => {
+      return selectedIngredients.map((index) => ({
+        id: index, // ou tout autre identifiant que tu souhaites utiliser
+        name: item.ingredients[index].name, // Récupération du nom de l'ingrédient
+      }));
+    };
+
+    const selectedIngredientsList = getSelectedIngredients();
+
+    const [comment, setComment] = useState(''); // State pour stocker le commentaire
+
+    const handleCommentChange = (e) => {
+      setComment(e.target.value);
+    };
+
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    
+    // const tableId = new URLSearchParams(location.search).get('table_id'); // Récupère le paramètre table_id de l'URL
+    // const handleRedirect = () => {
+    //   navigate(`/menu/gitex/Cart?table_id=${tableId}`); // Redirection vers le nouveau chemin
+    // };
+    // console.log("tableid ===  ", tableId);
+
+    const addToCartHandler = () => {
+
+      // const selectedPrices = size.price + selectedExtras.reduce((acc, extra) => acc + extra.price, 0);
+
+      console.log("ingredients:", selectedIngredientsList);
+  console.log("toppings:", [size]);
+  console.log("extravariants:", selectedExtras);
+  console.log("selectedPrices:", totalPrice);
+      const itemToAdd = {
+        product: item, // L'item sélectionné
+        quantity: localQuantity, // Quantité sélectionnée
+        resto_id: item.resto_id, // ID du restaurant si nécessaire
+        comment: comment, // Commentaire par défaut (peut être modifié plus tard)
+        toppings: [size], // Vous avez déjà géré la taille comme un topping
+        ingredients: selectedIngredientsList, // Liste des ingrédients sélectionnés
+        extravariants: selectedExtras, // Les extras sélectionnés
+        selectedPrices: totalPrice, // Prix total des options sélectionnées
+      };
+      
+      // Appel de l'action `addItem` dans votre slice
+      dispatch(addItem(itemToAdd));
+      setShowSuccessPopup(true);
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        navigate(`/menu/gitex?table_id=null`);
+      }, 2000); 
+    };
+    
+    
+    // console.log("product =  ",item);
+    // console.log("quantity =  ",localQuantity);
+    // console.log("resto_id =  ",item.resto_id);
+    // console.log("comment =  ",comment);
+    // console.log("topping =  ",[size]);
+    // console.log("ingridient =  ",selectedIngredientsList);
+    // console.log("extravarients =  ",selectedExtras);
+    // console.log("selectedPrices =  ",totalPrice);
+    
 
     return (
       <div className='w-full h-full bg-[white]'>
@@ -147,7 +251,8 @@ const ProductDetail = () => {
               {item.desc}
             </div>
 
-            <div className='my-4'>
+
+             <div className='my-4'>
             {item.toppings && item.toppings.length > 0 && (
               <div>
               {item.toppings.map((topping, index) => {
@@ -155,10 +260,9 @@ const ProductDetail = () => {
                 const options = JSON.parse(topping.options);
                 return (
                   <div key={index}>
-                    {/* Affichage du nom du topping */}
+           
                     <h1 className="text-lg font-bold">{topping.name}</h1>
-
-                    {/* Mapping sur les options */}
+             
                     {options.map((option, optIndex) => (
                       <div
                         key={optIndex}
@@ -183,52 +287,53 @@ const ProductDetail = () => {
               })}
             </div>
           )}
-            </div>
+            </div> 
             
             <span className='w-full border-2 border-[#EBEBEB] my-2'></span>
 
-            <div className='my-2'>
-              {item.extravariants && item.extravariants.length > 0 && (
-                  <div>
-                    {item.extravariants.map((extravariant, index) => {
-                      const options = JSON.parse(extravariant.options);
-                      return (
-                        <div key={index}>
-                          <h1 className="text-lg font-bold">{extravariant.name}</h1>
-                          {options.map((option, optIndex) => (
-                            <div
-                              key={optIndex}
-                              className="flex justify-between items-center py-2"
-                            >
-                              <span>{option.name}</span>
+        
 
-                               <div className='flex  gap-4'>
-                                  <span className='text-[#F86A2E]'>{option.price} MAD</span>
-                                  <button
+                <div className='my-2'>
+                  {item.extravariants && item.extravariants.length > 0 && (
+                    <div>
+                      {item.extravariants.map((extravariant, extravariantIndex) => {
+                        const options = JSON.parse(extravariant.options);
+                        return (
+                          <div key={extravariantIndex}>
+                            <h1 className="text-lg font-bold">{extravariant.name}</h1>
+                            {options.map((option, optIndex) => {
+                              const isSelected = selectedIndicesExtra.includes(`${extravariantIndex}-${optIndex}`);
+
+                              return (
+                                <div key={optIndex} className="flex justify-between items-center py-2">
+                                  <span>{option.name}</span>
+
+                                  <div className='flex gap-4'>
+                                    <span className='text-[#F86A2E]'>{option.price} MAD</span>
+                                    <button
                                       className={`rounded-full w-[24px] h-[24px] flex justify-center items-center 
-                                        ${selectedIndicesExtra.includes(optIndex) ? 'bg-green-500' : 'bg-orange-500'}`}
-                                      onClick={() => handleButtonextra(optIndex)}
+                                        ${isSelected ? 'bg-green-500' : 'bg-orange-500'}`}
+                                      onClick={() => handleButtonExtra(extravariantIndex, optIndex)}
                                     >
-                                      {selectedIndicesExtra.includes(optIndex) ? <SiVerizon color='white' size={12} /> : <FaPlus color='white' />}
+                                      {isSelected ? <SiVerizon color='white' size={12} /> : <FaPlus color='white' />}
                                     </button>
+                                  </div>
                                 </div>
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-            </div>
-
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
 
             <span className='w-full border-2 border-[#EBEBEB] my-4'></span>
 
 
-            <div>
+            {/* <div>
               {item.ingredients && item.ingredients.length > 0 && (
                 <div>
-                  {/* <h1 className="text-lg font-bold">{ingredients.name}</h1> */}
                   <h1 className='text-lg font-bold'>Customise  Your burger</h1>
                     {item.ingredients.map((ingredient, ingIndex) => (
                       <div key={ingIndex} className="flex justify-between items-center py-2">
@@ -245,7 +350,28 @@ const ProductDetail = () => {
 
                 </div>
               )}
-            </div>
+            </div> */}
+
+<div>
+{item.ingredients && item.ingredients.length > 0 && (
+  <div>
+    <h1 className='text-lg font-bold'>Customize Your Burger</h1>
+    {item.ingredients.map((ingredient, ingIndex) => (
+      <div key={ingIndex} className="flex justify-between items-center py-2">
+        <h3 className="text-lg">{ingredient.name}</h3>
+        <button
+          className={`rounded-full w-[24px] h-[24px] flex justify-center items-center 
+            ${selectedIngredients.includes(ingIndex) ? 'bg-red-500' : 'bg-orange-500'}`}
+          onClick={() => handleIngredientClick(ingIndex)}
+        >
+          {selectedIngredients.includes(ingIndex) ? <IoMdClose color='white' /> : <FaPlus color='white' />}
+        </button>
+      </div>
+    ))}
+   
+  </div>
+)}
+</div>
 
 
             <span className='w-full border-2 border-[#EBEBEB] my-4'></span>
@@ -253,7 +379,10 @@ const ProductDetail = () => {
 
             <div className='mb-4'>
                 <h1 className='mb-2'>Note</h1>
-                <Textarea placeholder="Write your note here." />
+                <Textarea placeholder="Write your note here." 
+                value={comment} // Lier le state à Textarea
+                onChange={handleCommentChange} //
+                />
             </div>
 
             <span className='w-full border-2 border-[#EBEBEB] my-4'></span>
@@ -262,13 +391,28 @@ const ProductDetail = () => {
                     <h2 className='ml-6'>Totale</h2>
                     <h4 className='mr-6'>{totalPrice} MAD</h4>
                 </div>
-                <button className='w-full mb-4 rounded-lg h-[45px] text-[white] bg-[red]'>
+                <button className='w-full mb-4 rounded-lg h-[45px] text-[white] bg-[red]'
+                onClick={addToCartHandler}
+                >
                     Add to cart
                 </button>
               </div>
 
             
-            
+              {showSuccessPopup && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-5 rounded-lg">
+            <h2 className="text-lg font-bold">Succès !</h2>
+            <p>L'article a été ajouté au panier.</p>
+            <button
+              onClick={() => setShowSuccessPopup(false)}
+              className="mt-4 p-2 bg-red-500 text-white rounded-lg"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
                
             
         </div>
